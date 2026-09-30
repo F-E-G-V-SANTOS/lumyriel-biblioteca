@@ -34,7 +34,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <section class="hero shell">
 <div class="eyebrow">Ferramenta alpha</div>
 <h1>Criador de Personagens de Lumyriel</h1>
-<p>Construa uma pessoa, não uma barra de atributos. Em Lumyriel, competência nasce de corpo, origem, experiência, treinamento, proficiências, equipamentos, cultura e escolhas. Não existem níveis.</p>
+<p>Construa um personagem, não uma barra de atributos. Em Lumyriel, competência nasce de corpo, origem, experiência, treinamento, proficiências, equipamentos, cultura e escolhas. Não existem níveis.</p>
 <div class="notice"><strong>Importante:</strong> criar ou enviar um personagem não o torna canônico automaticamente. Personagens enviados futuramente ao acervo entram como <b>candidatos à avaliação autoral</b>.</div>
 </section>
 <section class="shell creator">
@@ -85,8 +85,8 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 
 <div class="field full conditional" id="mutariWrap">
 <div class="grid">
-<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
-<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
+<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Dragão primordial — somente progenitor NPC</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
+<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Dragão primordial — somente progenitor NPC</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
 </div>
 <div id="mutariResult" class="info-box">Escolha duas ancestralidades. Combinações ainda não confirmadas serão tratadas como candidatas, não como biologia canônica.</div>
 </div>
@@ -598,6 +598,7 @@ function mutariStatus(a,b){
  if(a===b)return {label:'Não é Mutari',text:'As duas ancestralidades são iguais; isso descreve uma linhagem única, não um Mutari.'};
  var pair=[a,b].sort().join('|');
  if(pair===['Humano','Nareth'].sort().join('|'))return {label:'Compatibilidade confirmada',text:'Descendência humano–dracônica após Nareth é confirmada e nasce humanoide. Helior é precedente canônico.'};
+ if([a,b].includes('Dragão primordial — somente progenitor NPC'))return {label:'Compatibilidade em aberto',text:'Dragão primordial pode aparecer aqui apenas como progenitor NPC para testar a ideia autoral. As regras reprodutivas dessa combinação ainda não estão fechadas, então o descendente permanece candidato até validação.'};
  return {label:'Compatibilidade em aberto',text:'Esta combinação ainda não possui compatibilidade reprodutiva confirmada na autoridade vigente. A ficha pode ser testada, mas permanece candidata.'};
 }
 function updateMutariHeight(){
