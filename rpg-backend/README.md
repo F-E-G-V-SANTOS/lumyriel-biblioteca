@@ -1,66 +1,84 @@
 # Lumyriel RPG — Backend MVP + Frontend Alpha
 
-Linha integrada de desenvolvimento do RPG: backend transacional das Fases 1–3, fundação isolada do Narrador GPT e frontend alpha em `rpg.html`. O fluxo de submissão canônica do Criador continua separado em `apps-script/Code.gs`.
+Esta branch reúne o frontend alpha do RPG, o backend transacional e o piloto controlado do Narrador GPT. O fluxo canônico de submissão do Criador de Personagens continua separado em `apps-script/Code.gs`.
 
-## Escopo desta branch
+## Estado atual
 
-Implementa:
+Implementado:
 
-- persistência PostgreSQL com JSONB + event log;
-- importação explícita de um personagem do Criador para a área do RPG;
-- validação da criação mecânica inicial: 6 atributos, 7 pontos adicionais, 2 competências nível 2, 4 nível 1 e 2 especialidades nível 1;
-- snapshot imutável do personagem ao iniciar campanha;
-- `CampaignState` serializável com `state_version`;
-- criação, listagem e carregamento de campanhas;
-- endpoint único de turno;
-- rolagem oficial no servidor;
-- optimistic concurrency;
+- `rpg.html` integrado ao site e ao Criador de Personagens;
+- importação explícita de ficha narrativa + camada mecânica;
+- seis atributos com total inicial 13 e limite comum 3;
+- 2 competências no nível 2, 4 no nível 1 e 2 especialidades;
+- PostgreSQL com `CampaignState`, event log, checkpoints e snapshots;
+- `state_version` com concorrência otimista;
 - idempotência por `campaign_id + idempotency_key`;
-- event log e checkpoint manual;
-- situação e narrativa **mockadas** no endpoint de turno enquanto a orquestração GPT não é ativada;\n- `rpg.html` integrado ao contrato real de importação, campanhas, turnos, `state_version`, idempotência e checkpoints;\n- configuração mecânica temporária no frontend alpha, sem inferir atributos/competências da biografia;\n- modo demonstração local explicitamente não autoritativo quando nenhum backend estiver configurado.
+- rolagens oficiais no servidor;
+- Valdren como pacote regional do MVP;
+- cinco dificuldades: História, Fácil, Médio, Difícil e Lumyriel;
+- durações 30/60/90/120/240 minutos ou campanha contínua;
+- modo local de demonstração, explicitamente não autoritativo;
+- fundação do Narrador via Responses API, Function Calling estrito e Structured Output;
+- persistência dos passos de ferramenta em `rpg_turn_steps`;
+- recuperação de turno sem rerrolar uma operação mecânica já confirmada;
+- piloto GPT ativável somente para as ações mecânicas já registradas pelo motor.
 
-Não implementa ainda:
+Ainda não implementado por completo:
 
-- OpenAI Responses API;
-- Pacote Canônico compilado de produção;
+- gateway semântico geral para qualquer ação livre;
 - gerador real de `SituationSeed`;
+- Pacote Canônico compilado de produção;
 - combate completo;
 - Mana/Aura completas;
-- autenticação de produção;
-- frontend `/jogar`;
-- integração do Criador com estes endpoints.
+- autenticação pública de produção;
+- migração da preparação mecânica temporária de `rpg.html` para o Criador.
 
-## Regra de segurança
+## Regra de autoridade
 
-A chave da OpenAI não existe nesta fase e nunca deve ser colocada no HTML, JavaScript público, `localStorage` ou repositório.
+> GPT narra e interpreta. O motor calcula, valida e persiste.
 
-O modo de autenticação desta branch é apenas local:
+O modelo não escolhe CD, dado, ferimento, inventário, reputação, relógio ou alteração canônica como autoridade. Toda mutação persistente precisa passar pelo motor.
+
+A dificuldade de uma ação pertence à situação. Ela não muda porque o jogador escolheu História, Fácil, Médio, Difícil ou Lumyriel.
+
+## Segurança
+
+Credenciais do Narrador existem somente no ambiente do backend. Nunca coloque credenciais no HTML, JavaScript público, `localStorage` ou repositório.
+
+Desenvolvimento local pode usar:
 
 ```env
 RPG_ALLOW_DEV_AUTH=true
 RPG_DEV_USER_ID=local-dev
+RPG_ENABLE_NARRATOR=false
 ```
 
-Com `RPG_ALLOW_DEV_AUTH=false`, o servidor recusa endpoints protegidos até uma autenticação real ser integrada.
+Com `RPG_ALLOW_DEV_AUTH=false`, os endpoints protegidos recusam acesso até existir autenticação de produção.
+
+`RPG_ENABLE_NARRATOR=false` é o padrão seguro. Quando `true`, somente as ações-piloto `mock:observe` e `mock:force-passage` entram no orquestrador GPT nesta etapa; as demais continuam no caminho mock.
 
 ## Banco
 
-Crie um PostgreSQL vazio e aplique:
+Crie um PostgreSQL vazio e aplique as migrações em ordem:
 
 ```bash
 psql "$DATABASE_URL" -f sql/001_init.sql
+psql "$DATABASE_URL" -f sql/002_narrator_turn_steps.sql
 ```
 
-A estrutura usa:
+Tabelas principais:
 
-- `rpg_characters`
-- `rpg_campaigns`
-- `rpg_character_snapshots`
-- `rpg_campaign_states`
-- `rpg_campaign_events`
-- `rpg_campaign_checkpoints`
-- `rpg_situations`
-- `rpg_turns`
+- `rpg_characters`;
+- `rpg_campaigns`;
+- `rpg_character_snapshots`;
+- `rpg_campaign_states`;
+- `rpg_campaign_events`;
+- `rpg_campaign_checkpoints`;
+- `rpg_situations`;
+- `rpg_turns`;
+- `rpg_turn_steps`.
+
+A migração 002 também cria uma trava para impedir dois turnos ativos simultâneos na mesma campanha.
 
 ## Execução
 
@@ -72,41 +90,51 @@ npm test
 npm start
 ```
 
-> O Node não carrega `.env` automaticamente neste esqueleto. Exporte as variáveis pelo ambiente da plataforma ou shell antes de iniciar.
+O Node não carrega `.env` automaticamente neste esqueleto. Exporte as variáveis pelo shell ou configure-as na plataforma de execução.
 
-## Endpoints MVP
+## Endpoints
 
-### Importar personagem para o RPG
+### Importar personagem
 
 `POST /api/rpg/characters/import`
 
-O payload separa a ficha autoral do Criador (`creator_payload`) da camada mecânica do RPG (`mechanics`). A importação **não** envia o personagem para avaliação canônica e não usa o Apps Script existente.
+O payload separa:
 
-Exemplo reduzido de `mechanics`:
+- `creator_payload`: ficha narrativa do Criador;
+- `mechanics`: ficha mecânica do RPG.
+
+A importação para o RPG não envia o personagem para avaliação canônica.
+
+Exemplo reduzido:
 
 ```json
 {
-  "attributes": {
-    "potencia": 2,
-    "agilidade": 2,
-    "vigor": 3,
-    "intelecto": 2,
-    "percepcao": 3,
-    "presenca": 1
+  "creator_payload": {
+    "name": "Personagem de teste"
   },
-  "competencies": [
-    {"id":"percepcao_de_campo","level":2,"specialties":[{"id":"rotas_regionais","level":1}]},
-    {"id":"atletismo","level":2,"specialties":[{"id":"carga","level":1}]},
-    {"id":"sobrevivencia","level":1,"specialties":[]},
-    {"id":"navegacao","level":1,"specialties":[]},
-    {"id":"oficios","level":1,"specialties":[]},
-    {"id":"influencia","level":1,"specialties":[]}
-  ],
-  "resources": {
-    "mana": {"applicable": false},
-    "aura": {"applicable": false}
-  },
-  "techniques": []
+  "mechanics": {
+    "attributes": {
+      "potencia": 2,
+      "agilidade": 2,
+      "vigor": 3,
+      "intelecto": 2,
+      "percepcao": 3,
+      "presenca": 1
+    },
+    "competencies": [
+      {"id":"percepcao_de_campo","level":2,"specialties":[{"id":"rotas_regionais","level":1}]},
+      {"id":"atletismo","level":2,"specialties":[{"id":"carga","level":1}]},
+      {"id":"sobrevivencia","level":1,"specialties":[]},
+      {"id":"navegacao","level":1,"specialties":[]},
+      {"id":"oficios","level":1,"specialties":[]},
+      {"id":"influencia","level":1,"specialties":[]}
+    ],
+    "resources": {
+      "mana": {"applicable": false},
+      "aura": {"applicable": false}
+    },
+    "techniques": []
+  }
 }
 ```
 
@@ -114,7 +142,7 @@ Exemplo reduzido de `mechanics`:
 
 `POST /api/rpg/campaigns`
 
-Segue `CampaignInitRequest`: `character_id`, `character_revision`, dificuldade, duração, seleção regional, preferência de aventura e nome opcional.
+Segue `CampaignInitRequest` com personagem, revisão, dificuldade, duração, seleção regional, preferência de aventura e nome opcional.
 
 ### Listar campanhas
 
@@ -128,54 +156,76 @@ Segue `CampaignInitRequest`: `character_id`, `character_revision`, dificuldade, 
 
 `POST /api/rpg/campaigns/{campaign_id}/turns`
 
-Exemplo:
-
 ```json
 {
   "idempotency_key": "browser-generated-uuid",
   "expected_state_version": 1,
   "player_input": {
     "source": "suggested_action",
-    "raw_text": "",
+    "raw_text": "Observar o entorno",
     "selected_action_id": "mock:observe"
   }
 }
 ```
 
-Ações mockadas disponíveis:
+Ações mecânicas registradas no piloto:
 
-- `mock:observe` — Percepção + Percepção de Campo, dificuldade 10;
-- `mock:force-passage` — Potência + Atletismo, dificuldade 12;
-- `mock:wait` — avança 10 minutos do estado de mundo.
+- `mock:observe` — Percepção + Percepção de Campo, CD 10;
+- `mock:force-passage` — Potência + Atletismo, CD 12;
+- `mock:wait` — avança 10 minutos, ainda no caminho mock.
 
-A dificuldade é definida pelo servidor; o jogador não envia CD nem resultado de dado.
+A CD é definida pelo motor. O cliente e o Narrador não fornecem o valor final.
 
 ### Checkpoint manual
 
 `POST /api/rpg/campaigns/{campaign_id}/checkpoints`
 
-Checkpoint não altera o mundo; apenas captura o último estado confirmado.
+Checkpoint apenas captura o último estado confirmado.
 
-## Integração futura com o site
+## Fase 4 — Narrador GPT piloto
 
-O site público e `apps-script/Code.gs` permanecem intocados nesta fase. A integração posterior deverá:
+Arquivos:
 
-1. acrescentar ao Criador a distribuição dos atributos/competências do RPG;
-2. importar a ficha para `/api/rpg/characters/import` somente quando o jogador escolher jogar;
-3. criar a rota visual `/jogar`;
-4. manter a submissão canônica atual como fluxo separado;
-5. integrar o Narrador GPT somente depois de Fases 1–3 passarem nos testes de banco, versão e idempotência.
+- `src/context.js`: monta o `NarratorTurnContext` autorizado;
+- `src/narrator.js`: integra Responses API, ferramentas estritas e saída estruturada;
+- `src/narrated-turn.js`: orquestra persistência, ferramenta, recuperação e finalização;
+- `sql/002_narrator_turn_steps.sql`: registra chamadas/resultados de ferramenta.
 
-## Fase 4 — fundação do Narrador (não ativada no endpoint)
+Fluxo de uma ação-piloto com Narrador habilitado:
 
-A branch também contém a camada isolada de integração do Narrador:
+1. o backend valida a intenção e cria o turno;
+2. a transação é encerrada;
+3. o modelo recebe contexto autorizado;
+4. a primeira chamada é forçada para `realizar_teste` nas duas ações-piloto;
+5. o motor ignora qualquer tentativa do modelo de escolher CD e usa a regra registrada da ação;
+6. dado, resultado e novo `CampaignState` são persistidos atomicamente;
+7. o resultado persistido é devolvido ao modelo;
+8. o modelo produz a narrativa estruturada;
+9. o backend persiste a finalização e devolve a resposta ao frontend.
 
-- `src/context.js` monta `NarratorTurnContext` sem enviar o `CampaignState` inteiro;
-- `src/narrator.js` implementa Responses API por HTTP, Function Calling estrito e Structured Output;
-- somente `consultar_estado` e `realizar_teste` estão expostos nesta fundação;
-- `parallel_tool_calls=false`;
-- `OPENAI_API_KEY` e `OPENAI_MODEL` existem apenas no ambiente do servidor;
-- o endpoint de turno continua na implementação mockada da Fase 3.
+Nenhuma chamada externa ao modelo fica esperando dentro de uma transação PostgreSQL.
 
-Essa separação continua deliberada: a próxima etapa do backend é refatorar o endpoint de turno para que chamadas ao modelo ocorram **fora de transações PostgreSQL abertas**. Só depois disso `RPG_ENABLE_NARRATOR` poderá ligar o Narrador real com recuperação idempotente.
-\n\n## Correção de integridade\n\nO arquivo `src/validators.js` originalmente entrou no commit das Fases 1–3 com bytes corrompidos a partir de `validateCampaignInit`. A branch integrada reparou o arquivo, restaurando os validadores de `CampaignInitRequest`, `TurnRequest` e `getCompetencyLevel`. A sintaxe do validador e do JavaScript de `rpg.html` foi verificada após a correção.\n
+Se a chamada ao modelo falha depois de uma rolagem confirmada, o turno passa a `recoverable_error`. Ao repetir a mesma `idempotency_key`, o backend continua a partir de `response_id + tool_call_id + tool_result` persistidos. O dado não é rolado novamente.
+
+As continuações que usam `previous_response_id` reenviam as instruções do Narrador em cada request.
+
+## Integração com o site
+
+`rpg.html` já:
+
+1. lê a ficha narrativa salva pelo Criador;
+2. pede a camada mecânica temporariamente dentro do RPG;
+3. importa a ficha para o backend;
+4. cria campanha;
+5. envia turnos com `expected_state_version` e `idempotency_key`;
+6. cria checkpoints;
+7. retoma campanha pelo estado oficial;
+8. mantém a submissão canônica em fluxo separado.
+
+A preparação mecânica deverá migrar para o Criador quando a outra frente estiver pronta, sem mudar o contrato do backend.
+
+## Correções de integridade registradas
+
+O `src/validators.js` original da linha Fases 1–3 continha bytes corrompidos a partir de `validateCampaignInit`. O arquivo foi reconstruído com os contratos vigentes e voltou a passar na validação sintática.
+
+A integração atual também corrige a continuidade de `instructions` nas chamadas da Responses API: ao usar `previous_response_id`, o contrato do Narrador é reenviado explicitamente.
