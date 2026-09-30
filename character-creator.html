@@ -659,8 +659,8 @@ function fcePersonalName(raw,slot){
  // a forma final é uma naturalização onomástica, sem etimologia inventada.
  var h=hashString(s+'|FCE-PERSONAL|'+String(slot||0));
  var endingsBySlot=[
-   ['ran','ven','dor','len','mir','sar','rel','ren'],
-   ['ar','ir','or','el','an','en','var','is'],
+   ['ran','ven','dor','len','mir','ren','rel','sar'],
+   ['ar','en','or','el','an','ir','var','is'],
    ['ar','en','or','al','is','er','an','n']
  ];
  var endings=endingsBySlot[Math.min(2,Math.max(0,slot||0))];
