@@ -3,8 +3,7 @@ import { pool, withTransaction } from './db.js';
 import { resolveMockTurn } from './engine.js';
 import { buildNarratorTurnContext, queryStateSlice } from './context.js';
 import { runNarratorTurn } from './narrator.js';
-
-const PILOT_TEST_ACTIONS = new Set(['mock:observe', 'mock:force-passage']);
+import { isRegisteredUncertainAction } from './action-gateway.js';
 
 function domainError(status, code, message) {
   const error = new Error(message);
@@ -15,7 +14,7 @@ function domainError(status, code, message) {
 
 export function isNarratorPilotAction(playerInput) {
   return playerInput?.source === 'suggested_action'
-    && PILOT_TEST_ACTIONS.has(playerInput.selected_action_id);
+    && isRegisteredUncertainAction(playerInput);
 }
 
 async function loadMechanics(client, snapshotId) {
