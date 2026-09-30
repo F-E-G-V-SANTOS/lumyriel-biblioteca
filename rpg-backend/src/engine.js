@@ -1,5 +1,6 @@
 import { randomInt, randomUUID } from 'node:crypto';
 import { getCompetencyLevel } from './validators.js';
+import { classifyAction, listRegisteredActions } from './action-gateway.js';
 
 const DEGREE_ORDER = ['falha_grave', 'falha_com_consequencia', 'sucesso', 'sucesso_forte', 'sucesso_excepcional'];
 
@@ -119,38 +120,30 @@ function clone(value) {
 
 export function resolveMockTurn({ state, mechanics, playerInput }) {
   const next = clone(state);
-  const selected = playerInput.selected_action_id;
+  const gateway = classifyAction(playerInput);
   let test = null;
   let narrative;
 
-  if (selected === 'mock:observe') {
+  if (gateway.classification === 'INCERTO') {
     test = rollTest({
       state: next,
       mechanics,
-      attribute: 'percepcao',
-      competency: 'percepcao_de_campo',
-      difficulty: 10,
-      intent: 'Observar o entorno imediato de Valdren',
+      attribute: gateway.test.attribute,
+      competency: gateway.test.competency,
+      difficulty: gateway.test.difficulty,
+      intent: gateway.test.intent,
     });
-    narrative = `Teste de observação resolvido pelo motor: ${test.degree}.`;
-  } else if (selected === 'mock:force-passage') {
-    test = rollTest({
-      state: next,
-      mechanics,
-      attribute: 'potencia',
-      competency: 'atletismo',
-      difficulty: 12,
-      intent: 'Forçar uma passagem obstruída durante o protótipo',
-    });
-    narrative = `Teste físico resolvido pelo motor: ${test.degree}.`;
-  } else if (selected === 'mock:wait') {
-    next.world_time.epoch_minutes = (next.world_time.epoch_minutes ?? 0) + 10;
-    narrative = 'Dez minutos de tempo de mundo foram registrados pelo motor.';
+    narrative = `Teste autoritativo resolvido pelo motor: ${test.degree}.`;
+  } else if (gateway.classification === 'CERTO' && gateway.effect?.type === 'advance_time') {
+    next.world_time.epoch_minutes = (next.world_time.epoch_minutes ?? 0) + gateway.effect.minutes;
+    narrative = `${gateway.effect.minutes} minutos de tempo de mundo foram registrados pelo motor.`;
+  } else if (gateway.classification === 'IMPOSSIVEL') {
+    narrative = gateway.reason || 'A ação não pode ocorrer nas condições atuais.';
   } else {
     const described = String(playerInput.raw_text || '').trim();
     narrative = described
-      ? `A intenção "${described}" foi registrada. O gateway mecânico geral ainda não resolve esta ação no protótipo.`
-      : 'A intenção foi registrada. O gateway mecânico geral ainda não resolve esta ação no protótipo.';
+      ? `A intenção "${described}" foi registrada, mas exige contexto mecânico adicional antes de qualquer rolagem.`
+      : (gateway.reason || 'A ação exige contexto mecânico adicional antes de qualquer rolagem.');
   }
 
   next.scene_summary = narrative;
@@ -159,14 +152,18 @@ export function resolveMockTurn({ state, mechanics, playerInput }) {
   return {
     nextState: next,
     operationId: test?.operation_id ?? `op_${randomUUID()}`,
+    gateway: {
+      classification: gateway.classification,
+      action_id: gateway.action_id ?? null,
+      reason: gateway.reason ?? null,
+    },
     narratorOutput: {
       mode: 'mock_no_gpt',
       narrative,
-      suggested_actions: [
-        { id: 'mock:observe', label: 'Observar o entorno' },
-        { id: 'mock:force-passage', label: 'Testar uma ação física' },
-        { id: 'mock:wait', label: 'Esperar dez minutos' },
-      ],
+      suggested_actions: listRegisteredActions().map((action) => ({
+        id: action.id,
+        label: action.label,
+      })),
       free_action_allowed: true,
     },
     mechanicalEventsVisible: test ? [test] : [],
