@@ -18,6 +18,28 @@ main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;g
 .side{display:grid;gap:12px;position:sticky;top:88px}.side-card{border:1px solid #2c2e31;border-radius:15px;background:#101214;padding:15px}.side-card h3{font:500 1.2rem Georgia,serif;margin:0 0 10px}.meter{height:8px;border-radius:999px;background:#25272a;overflow:hidden}.meter span{display:block;height:100%;background:linear-gradient(90deg,#8f774e,#cfb77d);width:0}.kv{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #232529;color:#aaa49b}.kv:last-child{border:0}.kv strong{color:#ddd5ca;text-align:right}.dice{font:500 1.55rem Georgia,serif;color:var(--gold2)}.fine{font-size:.8rem;color:#77736c;line-height:1.45}.ending{border:1px solid #554b3b;background:#171611;border-radius:15px;padding:17px;margin-top:15px}
 @media(max-width:900px){.hero,.setup,.game-grid{grid-template-columns:1fr}.side{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.chronicle{min-height:0}.log{max-height:none}}
 @media(max-width:620px){.shell{width:min(100% - 20px,1180px)}.top{min-height:62px}.brand{font-size:.78rem}.sigil{width:33px;height:33px}.back{font-size:.78rem;padding:7px 10px}.hero{margin-bottom:18px}.hero h1{font-size:2.65rem}.card{padding:16px}.stat-grid{grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr}.action-row{grid-template-columns:1fr}.action-row .btn{min-height:48px}.entry.player{margin-left:0}.btns .btn{flex:1 1 150px;text-align:center}}
+
+.mechanics-card,.launch-card{grid-column:1/-1}
+.mechanics-intro{color:var(--muted);margin:0 0 18px}
+.attr-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.attr-box,.comp-row,.resource-row,.api-box{border:1px solid #30302d;border-radius:13px;background:#101213;padding:12px}
+.attr-box label{display:block;font-size:.73rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gold2);margin-bottom:7px}
+.attr-box input{width:100%;background:#17191b;border:1px solid #393a37;color:#eee7dc;border-radius:9px;padding:9px}
+.mechanics-summary{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 18px}
+.comp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.comp-row{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,.8fr);gap:9px;align-items:end}
+.comp-row small{display:block;color:var(--muted);margin-top:5px}
+.comp-level{color:var(--gold2);font-weight:700;padding:10px 0}
+.resource-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.resource-row{display:grid;grid-template-columns:1fr auto 110px;gap:10px;align-items:center}
+.resource-row input[type=number]{width:100%;background:#17191b;border:1px solid #393a37;color:#eee7dc;border-radius:9px;padding:9px}
+.api-box{margin-top:12px}.api-box summary{cursor:pointer;color:#d9d2c6}.api-row{display:flex;gap:10px;margin-top:12px}.api-row input{flex:1;background:#17191b;border:1px solid #393a37;color:#eee7dc;border-radius:9px;padding:10px}
+.connection-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #393a37;border-radius:999px;padding:7px 10px;margin-bottom:12px;color:#c9c2b7}
+.connection-dot{width:8px;height:8px;border-radius:50%;background:#777}.connection-badge.online .connection-dot{background:#9bb77d}.connection-badge.demo .connection-dot{background:#c59a58}
+.quick-actions:empty{display:none}
+@media(max-width:850px){.attr-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.comp-grid{grid-template-columns:1fr}.comp-row{grid-template-columns:minmax(0,1fr) 90px}.comp-row .specialty-field{grid-column:1/-1}.resource-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.attr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.comp-row{grid-template-columns:1fr}.comp-row .comp-level{padding:0}.api-row{flex-direction:column}.resource-row{grid-template-columns:1fr auto}.resource-row .resource-max{grid-column:1/-1}}
+
 </style>
 </head>
 <body>
@@ -29,7 +51,7 @@ main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;g
     <h1>O mundo responde ao que você faz.</h1>
     <p>Uma aventura single-player baseada no personagem criado em Lumyriel. Não há níveis: treinamento, equipamento, limitações, contexto e consequências sustentam cada ação.</p>
   </div>
-  <div class="alpha-note"><strong>Alpha jogável:</strong> esta versão já resolve ações, mantém estado da sessão e salva a campanha no navegador. O narrador local é provisório; a arquitetura já separa a futura conexão com GPT por um backend próprio. Sessões do RPG não alteram o cânone de Lumyriel.</div>
+  <div class="alpha-note"><strong>Alpha técnico:</strong> o frontend já conhece o contrato de campanhas, turnos, versões e checkpoints do backend. Sem servidor configurado, ele entra em demonstração local claramente separada do estado oficial. Sessões do RPG não alteram o cânone de Lumyriel.</div>
 </section>
 
 <section class="setup" id="setup">
@@ -45,27 +67,77 @@ main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;g
   </div>
 
   <div class="card">
-    <div class="eyebrow">2 · Sessão</div>
+    <div class="eyebrow">2 · Campanha</div>
     <h2>Defina o ritmo da aventura.</h2>
     <div class="field"><label for="difficulty">Dificuldade</label>
       <select id="difficulty">
-        <option value="story">História — foco narrativo, falha sempre move a cena</option>
-        <option value="easy">Fácil — margem maior para erro</option>
-        <option value="medium" selected>Médio — consequências equilibradas</option>
-        <option value="hard">Difícil — recursos e riscos pesam mais</option>
-        <option value="lumyriel">Lumyriel — causalidade rigorosa, sem proteção narrativa</option>
+        <option value="historia">História — mais proteção contra azar casual</option>
+        <option value="facil">Fácil — margem maior para recuperação</option>
+        <option value="medio" selected>Médio — consequências equilibradas</option>
+        <option value="dificil">Difícil — preparação e recursos pesam mais</option>
+        <option value="lumyriel">Lumyriel — consequências integrais, sem proteção abstrata</option>
+      </select>
+      <small>A dificuldade não muda a realidade do mundo nem a CD de uma mesma ação.</small>
+    </div>
+    <div class="field"><label for="duration">Duração-alvo</label>
+      <select id="duration">
+        <option value="30">30 minutos</option>
+        <option value="60" selected>1 hora</option>
+        <option value="90">1h30</option>
+        <option value="120">2 horas</option>
+        <option value="240">4 horas</option>
+        <option value="continua">Campanha contínua</option>
+      </select>
+      <small>É uma meta de ritmo para o narrador, não um cronômetro que corta a cena.</small>
+    </div>
+    <div class="field"><label for="regionMode">Ponto de partida do MVP</label>
+      <select id="regionMode">
+        <option value="auto">Gerar para mim dentro do pacote de Valdren</option>
+        <option value="selected">Valdren</option>
+      </select>
+      <small>O alpha está deliberadamente restrito a Valdren e arredores documentados.</small>
+    </div>
+    <div class="field"><label for="adventurePreference">Preferência de aventura</label>
+      <select id="adventurePreference">
+        <option value="auto" selected>Gerar conforme personagem e contexto</option>
+        <option value="social">Social</option>
+        <option value="investigacao">Investigação</option>
+        <option value="exploracao">Exploração</option>
+        <option value="viagem">Viagem</option>
+        <option value="sobrevivencia">Sobrevivência</option>
+        <option value="combate">Combate</option>
+        <option value="mista">Mista</option>
       </select>
     </div>
-    <div class="field"><label for="duration">Duração aproximada</label>
-      <select id="duration"><option value="30">30 minutos</option><option value="45">45 minutos</option><option value="60" selected>1 hora</option><option value="90">1h30</option><option value="120">2 horas</option></select>
-      <small>A duração controla o número de batidas narrativas; não é um cronômetro rígido.</small>
+    <div class="field"><label for="campaignName">Nome da campanha <span class="fine">(opcional)</span></label>
+      <input id="campaignName" placeholder="Ex.: As Rotas de Valdren">
     </div>
-    <div class="field"><label for="region">Ponto de partida</label>
-      <select id="region"><option>Valdren</option><option>Elaris</option><option>Brumamata</option><option>Thalassia</option><option>Estrada entre assentamentos</option></select>
+  </div>
+
+  <div class="card mechanics-card">
+    <div class="eyebrow">3 · Preparação mecânica</div>
+    <h2>Transforme a ficha narrativa em ficha jogável.</h2>
+    <p class="mechanics-intro">Esta etapa é temporária enquanto o Criador de Personagens recebe a camada mecânica própria. Nada aqui é inferido silenciosamente da biografia: você escolhe 13 pontos de atributos, 2 competências em nível 2, 4 em nível 1 e exatamente 2 especialidades.</p>
+    <div id="mechanicsSetup"></div>
+    <div class="btns" style="margin-top:12px"><button class="btn ghost" id="fillMechanicsExample">Preencher exemplo de teste</button></div>
+    <div id="mechanicsStatus" class="status"></div>
+  </div>
+
+  <div class="card launch-card">
+    <div class="eyebrow">4 · Iniciar</div>
+    <h2>Entre em Lumyriel.</h2>
+    <div id="connectionBadge" class="connection-badge demo"><span class="connection-dot"></span><span id="connectionText">Demonstração local</span></div>
+    <p class="fine" id="connectionHelp">Sem um backend configurado, a interface usa uma demonstração local. Rolagens desse modo não são oficiais nem persistidas no servidor.</p>
+    <details class="api-box">
+      <summary>Configuração técnica do backend alpha</summary>
+      <div class="api-row"><input id="apiUrl" placeholder="http://localhost:8787"><button class="btn" id="saveApiUrl">Salvar URL</button></div>
+      <p class="fine">A chave da OpenAI nunca é colocada aqui; o navegador fala apenas com o backend de Lumyriel.</p>
+    </details>
+    <div class="btns" style="margin-top:18px">
+      <button class="btn primary" id="startGame">Iniciar aventura →</button>
+      <button class="btn" id="resumeFromSetup" style="display:none">Retomar campanha salva</button>
     </div>
-    <div class="field"><label for="premise">Intenção da sessão</label><textarea id="premise" placeholder="Ex.: investigar um desaparecimento, atravessar uma rota perigosa, entregar um objeto, sobreviver a uma expedição..."></textarea></div>
-    <button class="btn primary" id="startGame">Iniciar aventura →</button>
-    <div class="status">Motor alpha: 2d10 + competência contextual. Sem classes, XP ou nível.</div>
+    <div id="launchStatus" class="status"></div>
   </div>
 </section>
 
@@ -76,13 +148,7 @@ main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;g
       <h2 id="gameTitle">Aventura em Lumyriel</h2>
       <div class="log" id="log" aria-live="polite"></div>
       <div class="action-box" id="actionBox">
-        <div class="quick-actions">
-          <button data-action="Observo o ambiente com cuidado antes de agir.">Observar</button>
-          <button data-action="Tento conversar e descobrir o que a outra pessoa sabe.">Conversar</button>
-          <button data-action="Procuro uma rota mais segura e avalio os riscos.">Planejar rota</button>
-          <button data-action="Uso meu treinamento e equipamento para superar o obstáculo.">Agir</button>
-        </div>
-        <div class="action-row">
+        <div class="quick-actions" id="quickActions"></div>\n        <div class="action-row">
           <textarea id="playerAction" placeholder="O que seu personagem faz? Você pode escrever qualquer ação."></textarea>
           <button class="btn primary" id="sendAction">Agir</button>
         </div>
@@ -91,10 +157,24 @@ main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;g
     </div>
 
     <aside class="side">
-      <div class="side-card"><h3>Campanha</h3><div class="kv"><span>Dificuldade</span><strong id="sideDifficulty">—</strong></div><div class="kv"><span>Região</span><strong id="sideRegion">—</strong></div><div class="kv"><span>Progresso</span><strong id="sideProgress">0 / 0</strong></div><div class="meter" aria-label="Progresso da campanha"><span id="progressBar"></span></div></div>
-      <div class="side-card"><h3>Estado</h3><div class="kv"><span>Pressão</span><strong id="pressure">0</strong></div><div class="kv"><span>Ferimentos</span><strong id="wounds">0</strong></div><div class="kv"><span>Último teste</span><strong class="dice" id="lastRoll">—</strong></div><p class="fine">Pressão representa desgaste, tempo perdido, exposição e recursos comprometidos. Ferimentos persistem na sessão.</p></div>
+      <div class="side-card"><h3>Campanha</h3>
+        <div class="kv"><span>Dificuldade</span><strong id="sideDifficulty">—</strong></div>
+        <div class="kv"><span>Região</span><strong id="sideRegion">Valdren</strong></div>
+        <div class="kv"><span>Duração</span><strong id="sideDuration">—</strong></div>
+        <div class="kv"><span>Versão do estado</span><strong id="sideVersion">—</strong></div>
+      </div>
+      <div class="side-card"><h3>Estado</h3>
+        <div class="kv"><span>Vitalidade</span><strong id="vitality">—</strong></div>
+        <div class="kv"><span>Fôlego</span><strong id="stamina">—</strong></div>
+        <div class="kv"><span>Ferimentos</span><strong id="wounds">0</strong></div>
+        <div class="kv"><span>Último teste</span><strong class="dice" id="lastRoll">—</strong></div>
+        <p class="fine">No modo backend, estes valores vêm do estado persistido e o navegador não pode alterá-los como autoridade.</p>
+      </div>
       <div class="side-card"><h3>Personagem</h3><div id="sideCharacter" class="fine">—</div></div>
-      <div class="side-card"><h3>Sessão local</h3><div class="btns"><button class="btn" id="saveGame">Salvar</button><button class="btn" id="resumeGame">Retomar</button><button class="btn danger" id="resetGame">Encerrar</button></div><p class="fine">O estado fica apenas neste navegador nesta alpha.</p></div>
+      <div class="side-card"><h3>Persistência</h3>
+        <div class="btns"><button class="btn" id="saveGame">Criar checkpoint</button><button class="btn" id="resumeGame">Recarregar</button><button class="btn danger" id="resetGame">Sair</button></div>
+        <p class="fine" id="persistenceHelp">Demonstração local: o navegador guarda apenas este protótipo.</p>
+      </div>
     </aside>
   </div>
 </section>
@@ -103,172 +183,504 @@ main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;g
 <script>
 var CHARACTER_KEY='lumyriel-character-draft';
 var SESSION_KEY='lumyriel-rpg-session-alpha';
-var RPG_API_URL=''; // Futuro backend seguro do narrador GPT. Nunca inserir chave de API no HTML.
+var MECHANICS_KEY='lumyriel-rpg-mechanics-alpha';
+var API_URL_KEY='lumyriel-rpg-api-url';
+
 var character=null;
 var state=null;
+var mechanics=null;
+var RPG_API_URL=normalizeApiUrl(window.LUMYRIEL_RPG_API_URL||localStorage.getItem(API_URL_KEY)||'');
 
 var DIFFICULTIES={
- story:{label:'História',target:9,pressureFail:0,woundThreshold:99},
- easy:{label:'Fácil',target:10,pressureFail:1,woundThreshold:5},
- medium:{label:'Médio',target:11,pressureFail:1,woundThreshold:4},
- hard:{label:'Difícil',target:12,pressureFail:2,woundThreshold:3},
- lumyriel:{label:'Lumyriel',target:13,pressureFail:2,woundThreshold:2}
+  historia:'História',
+  facil:'Fácil',
+  medio:'Médio',
+  dificil:'Difícil',
+  lumyriel:'Lumyriel'
 };
-var BEATS={30:5,45:6,60:8,90:11,120:14};
-var SKILL_VALUE={'Sem experiência':-2,'Familiar':0,'Treinado':2,'Experiente':4,'Especialista':5,'Mestre':6};
+var DURATIONS={
+  '30':'30 min',
+  '60':'1 h',
+  '90':'1h30',
+  '120':'2 h',
+  '240':'4 h',
+  continua:'Contínua'
+};
+var ATTRIBUTES=[
+  ['potencia','Potência'],['agilidade','Agilidade'],['vigor','Vigor'],
+  ['intelecto','Intelecto'],['percepcao','Percepção'],['presenca','Presença']
+];
+var COMPETENCIES=[
+  ['atletismo','Atletismo'],['mobilidade','Mobilidade'],
+  ['combate_corpo_a_corpo','Combate corpo a corpo'],['combate_a_distancia','Combate à distância'],
+  ['defesa','Defesa'],['furtividade','Furtividade'],['sobrevivencia','Sobrevivência'],
+  ['rastreamento','Rastreamento'],['percepcao_de_campo','Percepção de campo'],
+  ['investigacao','Investigação'],['conhecimentos','Conhecimentos'],['medicina','Medicina'],
+  ['oficios','Ofícios'],['comercio','Comércio'],['influencia','Influência'],
+  ['enganacao','Enganação'],['navegacao','Navegação'],['artes_magicas','Artes Mágicas'],
+  ['runologia','Runologia'],['praticas_auricas','Práticas Áuricas']
+];
 
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
 function txt(v){return Array.isArray(v)?v.join(', '):(v||'')}
+function normalizeApiUrl(v){return String(v||'').trim().replace(/\/+$/,'')}
+function backendEnabled(){return !!RPG_API_URL}
+function uuid(){
+  if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
+  return 'web-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+}
+function slugId(v){
+  return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+    .replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
+}
+function setStatus(id,text,kind){
+  var el=document.getElementById(id);if(!el)return;
+  el.textContent=text||'';el.className='status'+(kind?' '+kind:'');
+}
+function setBusy(busy){
+  ['startGame','sendAction','saveGame','resumeGame','resumeFromSetup'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.disabled=!!busy;
+  });
+}
+function enterGame(){
+  document.getElementById('setup').style.display='none';
+  document.getElementById('game').classList.add('active');
+  document.getElementById('ending').innerHTML='';
+  document.getElementById('actionBox').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function leaveGame(){
+  document.getElementById('game').classList.remove('active');
+  document.getElementById('setup').style.display='grid';
+}
 function loadCharacter(){
   var status=document.getElementById('characterStatus');
   try{
     var raw=localStorage.getItem(CHARACTER_KEY);
-    if(!raw){character=null;renderCharacter();status.textContent='Nenhuma ficha salva encontrada neste navegador. Você ainda pode testar a alpha com um viajante provisório.';status.className='status warn';return}
-    var parsed=JSON.parse(raw);character=parsed.data||parsed;renderCharacter();status.textContent='Ficha carregada do Criador de Personagens.';status.className='status ok';
-  }catch(e){character=null;renderCharacter();status.textContent='Não foi possível ler a ficha salva.';status.className='status warn'}
+    if(!raw){
+      character=null;renderCharacter();
+      status.textContent='Nenhuma ficha salva encontrada. A demonstração pode usar um viajante provisório; o backend alpha também aceita esse perfil somente para QA.';
+      status.className='status warn';return;
+    }
+    var parsed=JSON.parse(raw);character=parsed.data||parsed;renderCharacter();
+    status.textContent='Ficha carregada do Criador de Personagens.';status.className='status ok';
+  }catch(e){
+    character=null;renderCharacter();status.textContent='Não foi possível ler a ficha salva.';status.className='status warn';
+  }
 }
 function activeCharacter(){
-  return character||{name:'Viajante provisório',people:'Não definido',originPlace:'Não definido',profession:'Sem ocupação definida',archetype:'Perfil aberto',skillMelee:'Familiar',skillRanged:'Familiar',skillAura:'Sem experiência',skillMana:'Sem experiência',skillRunes:'Sem experiência',skillSurvival:'Familiar',skillCraft:'Familiar',skillKnowledge:'Familiar',skillSocial:'Familiar',limitations:'Sem ficha completa',bio:'Personagem provisório para testar o RPG.'};
+  return character||{
+    name:'Viajante provisório',people:'Não definido',originPlace:'Valdren',
+    profession:'Sem ocupação definida',archetype:'Perfil aberto',
+    limitations:'Perfil provisório de QA',bio:'Personagem provisório para testar a integração do RPG.',
+    _meta:{creator_version:'rpg-qa-provisional'}
+  };
 }
 function renderCharacter(){
   var c=activeCharacter();
   var skills=[['Combate',c.skillMelee],['Distância',c.skillRanged],['Aura',c.skillAura],['Mana',c.skillMana],['Runas',c.skillRunes],['Sobrevivência',c.skillSurvival],['Ofício',c.skillCraft],['Conhecimento',c.skillKnowledge],['Social',c.skillSocial]];
   document.getElementById('characterCard').innerHTML=
-    '<div class="char-head"><div><div class="char-name">'+esc(c.name||'Personagem sem nome')+'</div><div class="char-meta">'+esc([c.people,c.originPlace,c.profession].filter(Boolean).join(' · '))+'</div></div><span class="tag">'+(character?'Ficha salva':'Provisório')+'</span></div>'+
+    '<div class="char-head"><div><div class="char-name">'+esc(c.name||'Personagem sem nome')+'</div><div class="char-meta">'+esc([c.people,c.originPlace,c.profession].filter(Boolean).join(' · '))+'</div></div><span class="tag">'+(character?'Ficha salva':'Provisório QA')+'</span></div>'+
     '<div class="tags">'+[c.archetype,c.role,c.trainingSource].filter(Boolean).map(function(x){return '<span class="tag">'+esc(txt(x))+'</span>'}).join('')+'</div>'+
-    '<div class="stat-grid">'+skills.map(function(x){return '<div class="stat"><b>'+x[0]+'</b><span>'+esc(txt(x[1])||'—')+'</span></div>'}).join('')+'</div>';
+    '<div class="stat-grid">'+skills.filter(function(x){return txt(x[1])}).map(function(x){return '<div class="stat"><b>'+x[0]+'</b><span>'+esc(txt(x[1]))+'</span></div>'}).join('')+'</div>';
 }
-function skillForAction(action){
-  var s=action.toLowerCase();
-  if(/arco|tiro|atir|distância|distancia|projétil|projetil/.test(s))return ['Distância','skillRanged'];
-  if(/mana|magia|feiti|manatr/.test(s))return ['Mana','skillMana'];
-  if(/aura|reforç|reforc/.test(s))return ['Aura','skillAura'];
-  if(/runa|selo|matriz|runol/.test(s))return ['Runologia','skillRunes'];
-  if(/sobreviv|rastre|trilha|rota|abrigo|forrage|caça|caca|ambiente/.test(s))return ['Sobrevivência','skillSurvival'];
-  if(/forja|repar|constru|fabric|ofício|oficio|ferrament/.test(s))return ['Ofício','skillCraft'];
-  if(/investig|estud|lembr|conhec|analis|examino|pesquis|observo/.test(s))return ['Conhecimento','skillKnowledge'];
-  if(/convers|negoci|persu|pergunt|mentir|intimid|social|convencer/.test(s))return ['Social','skillSocial'];
-  return ['Corpo a corpo','skillMelee'];
+
+function competencyOptions(selected){
+  return '<option value="">Selecione</option>'+COMPETENCIES.map(function(c){
+    return '<option value="'+c[0]+'"'+(selected===c[0]?' selected':'')+'>'+esc(c[1])+'</option>';
+  }).join('');
 }
-function modifierFor(c,key){
-  var v=txt(c[key]);return SKILL_VALUE[v]!==undefined?SKILL_VALUE[v]:0;
-}
-function roll2d10(){return 1+Math.floor(Math.random()*10)+1+Math.floor(Math.random()*10)}
-function resolveAction(action){
-  var c=activeCharacter(),sk=skillForAction(action),mod=modifierFor(c,sk[1]),raw=roll2d10(),cfg=DIFFICULTIES[state.difficulty],total=raw+mod,target=cfg.target;
-  var delta=total-target,result=delta>=4?'yesAnd':delta>=0?'yes':delta>=-3?'noBut':'noAnd';
-  var pressure=0,wound=0;
-  if(result==='noBut')pressure=cfg.pressureFail;
-  if(result==='noAnd'){pressure=cfg.pressureFail+1;if(state.pressure+pressure>=cfg.woundThreshold)wound=1}
-  if(state.difficulty==='story'&&result==='noAnd')result='noBut';
-  return {skill:sk[0],skillKey:sk[1],skillLabel:txt(c[sk[1]])||'Não definido',raw:raw,modifier:mod,total:total,target:target,result:result,pressure:pressure,wound:wound};
-}
-function resultLabel(r){return {yesAnd:'Sucesso com vantagem',yes:'Sucesso',noBut:'Falha com abertura',noAnd:'Falha com consequência'}[r]}
-function beatTone(){
-  var p=state.beat/state.maxBeats;
-  if(p<.34)return 'início';
-  if(p<.72)return 'desenvolvimento';
-  return 'desfecho';
-}
-function localNarration(action,res){
-  var c=activeCharacter(),place=state.region,phase=beatTone();
-  var openings={
-    Valdren:'Valdren não se apresenta como cenário vazio: oficinas, rotas, vigilância e gente ocupada continuam existindo enquanto você decide o próximo passo.',
-    Elaris:'Em Elaris, estudo, ofício e circulação de informação criam oportunidades, mas também testemunhas, protocolos e consequências sociais.',
-    Brumamata:'Na Brumamata, distância, visibilidade, terreno e orientação importam antes de qualquer heroísmo.',
-    Thalassia:'Em Thalassia, infraestrutura, acesso e riscos materiais tornam decisões simples em problemas de logística.',
-    'Estrada entre assentamentos':'Na estrada, cada escolha consome luz, tempo, água, atenção ou distância.'
-  };
-  var outcomes={
-    yesAnd:'A ação funciona e produz uma vantagem adicional. Você não controla o mundo, mas desta vez leitura do contexto e execução caminham juntas.',
-    yes:'A ação funciona dentro do que seu treinamento e as condições permitem. O resultado resolve o problema imediato sem apagar os custos do caminho.',
-    noBut:'A tentativa não entrega o que você queria, porém revela uma saída concreta. A cena avança: você pode insistir por outro método, aceitar um custo ou explorar a nova informação.',
-    noAnd:'A tentativa falha e o mundo cobra a diferença. Tempo, posição ou segurança pioram; ainda existe caminho adiante, mas ele agora exige uma decisão mais cara.'
-  };
-  var phaseText=phase==='início'?'O problema ainda está se definindo e pequenas escolhas começam a fechar possibilidades.':phase==='desenvolvimento'?'As consequências anteriores já alteraram o espaço de decisão; personagens e condições reagem ao que aconteceu.':'A sessão se aproxima do ponto em que será preciso escolher o que vale preservar, abandonar ou arriscar.';
-  return openings[place]+'\n\n'+c.name+' tenta: “'+action+'”\n\n'+outcomes[res.result]+' '+phaseText;
-}
-var Narrator={
-  async turn(action,res){
-    if(RPG_API_URL){
-      try{
-        var reply=await fetch(RPG_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'turn',session:state,character:activeCharacter(),action:action,resolution:res})});
-        if(reply.ok){var data=await reply.json();if(data&&data.narration)return data.narration}
-      }catch(e){}
-    }
-    return localNarration(action,res);
-  },
-  async opening(){
-    if(RPG_API_URL){
-      try{
-        var reply=await fetch(RPG_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'opening',session:state,character:activeCharacter()})});
-        if(reply.ok){var data=await reply.json();if(data&&data.narration)return data.narration}
-      }catch(e){}
-    }
-    var c=activeCharacter(),goal=state.premise||'descobrir por que algo aparentemente simples saiu do curso esperado';
-    return 'A sessão começa em '+state.region+'. '+c.name+' entra na cena com um objetivo claro: '+goal+'.\n\nNada foi preparado para garantir sua vitória. O mundo já possui rotinas, limites materiais e pessoas com interesses próprios. A primeira coisa que chama sua atenção é uma pequena incompatibilidade entre o que deveria estar acontecendo e o que está acontecendo de fato. Você ainda pode observar antes de se comprometer.';
+function renderMechanics(saved){
+  saved=saved||{};
+  var attrs=saved.attributes||{};
+  var comps=saved.competencies||[];
+  var html='<h3>Atributos</h3><div class="attr-grid">';
+  ATTRIBUTES.forEach(function(a){
+    var val=Number.isInteger(attrs[a[0]])?attrs[a[0]]:1;
+    html+='<div class="attr-box"><label for="attr_'+a[0]+'">'+a[1]+'</label><input class="attr-input" id="attr_'+a[0]+'" type="number" min="1" max="3" step="1" value="'+val+'"></div>';
+  });
+  html+='</div><div class="mechanics-summary"><span class="tag" id="attributeTotal">Atributos: 6 / 13</span><span class="tag" id="competencyTotal">Competências: 0 / 6</span><span class="tag" id="specialtyTotal">Especialidades: 0 / 2</span></div>';
+  html+='<h3>Competências iniciais</h3><div class="comp-grid">';
+  for(var i=0;i<6;i++){
+    var level=i<2?2:1;
+    var item=comps[i]||{};
+    var spec=item.specialties&&item.specialties[0]?item.specialties[0].id:'';
+    html+='<div class="comp-row"><div class="field" style="margin:0"><label>Competência '+(i+1)+'</label><select class="comp-select" data-index="'+i+'">'+competencyOptions(item.id||'')+'</select></div>'+
+      '<div><span class="fine">Nível</span><div class="comp-level">'+level+'</div></div>'+
+      '<div class="field specialty-field" style="margin:0"><label>Especialidade <span class="fine">(2 no total)</span></label><input class="spec-input" data-index="'+i+'" value="'+esc(spec)+'" placeholder="Ex.: rotas regionais"></div></div>';
   }
-};
-function addEntry(type,who,text){
-  var el=document.createElement('div');el.className='entry '+type;el.innerHTML='<span class="who">'+esc(who)+'</span><p>'+esc(text)+'</p>';document.getElementById('log').appendChild(el);el.scrollIntoView({behavior:'smooth',block:'end'});
-  if(state)state.log.push({type:type,who:who,text:text});
+  html+='</div><h3 style="margin-top:18px">Recursos especiais</h3><p class="fine">Mana e Aura não são concedidas automaticamente por povo, aparência ou biografia. Marque somente quando a ficha realmente possuir essa capacidade.</p>';
+  var mana=saved.resources&&saved.resources.mana||{applicable:false};
+  var aura=saved.resources&&saved.resources.aura||{applicable:false};
+  html+='<div class="resource-grid">'+resourceHtml('mana','Mana',mana)+resourceHtml('aura','Aura',aura)+'</div>';
+  document.getElementById('mechanicsSetup').innerHTML=html;
+  document.querySelectorAll('.attr-input,.comp-select,.spec-input,.resource-toggle,.resource-max input').forEach(function(el){el.addEventListener('input',updateMechanicsStatus);el.addEventListener('change',updateMechanicsStatus)});
+  updateMechanicsStatus();
+}
+function resourceHtml(id,label,res){
+  var checked=res.applicable?' checked':'';
+  var max=Number.isInteger(res.maximum)?res.maximum:0;
+  return '<div class="resource-row"><strong>'+label+'</strong><label class="fine"><input class="resource-toggle" id="'+id+'Applicable" type="checkbox"'+checked+'> aplicável</label><div class="resource-max"><input id="'+id+'Maximum" type="number" min="0" step="1" value="'+max+'" aria-label="Máximo de '+label+'"></div></div>';
+}
+function mechanicsSnapshot(validate){
+  var attrs={},total=0;
+  ATTRIBUTES.forEach(function(a){
+    var n=Number(document.getElementById('attr_'+a[0]).value);
+    if(!Number.isInteger(n)||n<1||n>3){if(validate)throw new Error(a[1]+' deve ficar entre 1 e 3.');n=1}
+    attrs[a[0]]=n;total+=n;
+  });
+  if(validate&&total!==13)throw new Error('Os seis atributos devem totalizar exatamente 13 pontos.');
+
+  var comps=[],seen={},specialties=0;
+  document.querySelectorAll('.comp-select').forEach(function(sel,i){
+    var id=sel.value,level=i<2?2:1,specInput=document.querySelector('.spec-input[data-index="'+i+'"]');
+    var spec=slugId(specInput.value);
+    if(id){
+      if(validate&&seen[id])throw new Error('A competência "'+sel.options[sel.selectedIndex].text+'" foi escolhida mais de uma vez.');
+      seen[id]=true;
+      var specs=[];
+      if(spec){specs.push({id:spec,level:1});specialties++}
+      comps.push({id:id,level:level,specialties:specs});
+    }else if(spec&&validate){
+      throw new Error('Escolha a competência antes de registrar sua especialidade.');
+    }
+  });
+  if(validate&&comps.length!==6)throw new Error('Escolha as 6 competências iniciais.');
+  if(validate&&specialties!==2)throw new Error('Preencha exatamente 2 especialidades.');
+
+  function resource(id){
+    var applicable=document.getElementById(id+'Applicable').checked;
+    var maximum=Number(document.getElementById(id+'Maximum').value);
+    if(applicable){
+      if(!Number.isInteger(maximum)||maximum<0){if(validate)throw new Error('O máximo de '+id+' deve ser um inteiro não negativo.');maximum=0}
+      return {applicable:true,maximum:maximum};
+    }
+    return {applicable:false};
+  }
+  return {attributes:attrs,competencies:comps,resources:{mana:resource('mana'),aura:resource('aura')},techniques:[]};
+}
+function updateMechanicsStatus(){
+  var total=0;ATTRIBUTES.forEach(function(a){total+=Number(document.getElementById('attr_'+a[0]).value)||0});
+  var comps=Array.from(document.querySelectorAll('.comp-select')).filter(function(x){return x.value}).length;
+  var specs=Array.from(document.querySelectorAll('.spec-input')).filter(function(x){return slugId(x.value)}).length;
+  document.getElementById('attributeTotal').textContent='Atributos: '+total+' / 13';
+  document.getElementById('competencyTotal').textContent='Competências: '+comps+' / 6';
+  document.getElementById('specialtyTotal').textContent='Especialidades: '+specs+' / 2';
+  var ok=total===13&&comps===6&&specs===2;
+  setStatus('mechanicsStatus',ok?'Configuração inicial válida.':'Complete a distribuição antes de iniciar.',ok?'ok':'warn');
+}
+function fillMechanicsExample(){
+  renderMechanics({
+    attributes:{potencia:2,agilidade:2,vigor:3,intelecto:2,percepcao:3,presenca:1},
+    competencies:[
+      {id:'percepcao_de_campo',level:2,specialties:[{id:'rotas_regionais',level:1}]},
+      {id:'atletismo',level:2,specialties:[{id:'carga',level:1}]},
+      {id:'sobrevivencia',level:1,specialties:[]},
+      {id:'navegacao',level:1,specialties:[]},
+      {id:'oficios',level:1,specialties:[]},
+      {id:'influencia',level:1,specialties:[]}
+    ],
+    resources:{mana:{applicable:false},aura:{applicable:false}}
+  });
+  setStatus('mechanicsStatus','Exemplo técnico preenchido. Revise antes de jogar.','ok');
+}
+
+function updateConnectionUi(){
+  var badge=document.getElementById('connectionBadge'),textEl=document.getElementById('connectionText'),help=document.getElementById('connectionHelp'),input=document.getElementById('apiUrl');
+  if(input)input.value=RPG_API_URL;
+  if(backendEnabled()){
+    badge.className='connection-badge online';textEl.textContent='Backend configurado';
+    help.textContent='Campanhas, rolagens, versões e checkpoints serão controlados pelo servidor.';
+  }else{
+    badge.className='connection-badge demo';textEl.textContent='Demonstração local';
+    help.textContent='Sem backend configurado, a interface usa uma demonstração local. Rolagens desse modo não são oficiais nem persistidas no servidor.';
+  }
+}
+async function apiFetch(path,options){
+  if(!backendEnabled())throw new Error('Backend do RPG não configurado.');
+  options=options||{};
+  var init={method:options.method||'GET',headers:{'Content-Type':'application/json'}};
+  if(options.body!==undefined)init.body=JSON.stringify(options.body);
+  var response;
+  try{response=await fetch(RPG_API_URL+path,init)}catch(e){var net=new Error('Não foi possível alcançar o backend do RPG.');net.code='NETWORK_ERROR';throw net}
+  var data=null;try{data=await response.json()}catch(e){}
+  if(!response.ok){
+    var err=new Error(data&&data.message?data.message:'Erro '+response.status+' no backend.');
+    err.code=data&&data.error?data.error:'HTTP_'+response.status;err.status=response.status;throw err;
+  }
+  return data;
+}
+
+function addEntry(type,who,text,persist){
+  var el=document.createElement('div');el.className='entry '+type;
+  el.innerHTML='<span class="who">'+esc(who)+'</span><p>'+esc(text)+'</p>';
+  document.getElementById('log').appendChild(el);
+  if(persist!==false&&state){state.log=state.log||[];state.log.push({type:type,who:who,text:text})}
+  el.scrollIntoView({behavior:'smooth',block:'end'});
+}
+function renderLog(){
+  document.getElementById('log').innerHTML='';
+  (state&&state.log||[]).forEach(function(e){addEntry(e.type,e.who,e.text,false)});
+}
+function updateQuickActions(actions){
+  var box=document.getElementById('quickActions');box.innerHTML='';
+  (actions||[]).forEach(function(a){
+    var b=document.createElement('button');b.textContent=a.label;b.dataset.id=a.id;
+    b.addEventListener('click',function(){playSuggested(a.id,a.label)});
+    box.appendChild(b);
+  });
+}
+function stateCharacter(){
+  return state&&state.visibleState&&state.visibleState.character?state.visibleState.character:null;
 }
 function renderState(){
   if(!state)return;
-  document.getElementById('sideDifficulty').textContent=DIFFICULTIES[state.difficulty].label;
-  document.getElementById('sideRegion').textContent=state.region;
-  document.getElementById('sideProgress').textContent=state.beat+' / '+state.maxBeats;
-  document.getElementById('progressBar').style.width=Math.min(100,(state.beat/state.maxBeats)*100)+'%';
-  document.getElementById('pressure').textContent=state.pressure;
-  document.getElementById('wounds').textContent=state.wounds;
+  document.getElementById('sideDifficulty').textContent=DIFFICULTIES[state.difficulty]||state.difficulty||'—';
+  document.getElementById('sideRegion').textContent='Valdren';
+  document.getElementById('sideDuration').textContent=DURATIONS[state.duration]||state.duration||'—';
+  document.getElementById('sideVersion').textContent=state.stateVersion||'—';
+  var sc=stateCharacter();
+  var vitality=sc&&sc.vitality!=null?String(sc.vitality)+(sc.vitality_max!=null?' / '+sc.vitality_max:''):'—';
+  var stamina=sc&&sc.resources&&sc.resources.folego;
+  document.getElementById('vitality').textContent=vitality;
+  document.getElementById('stamina').textContent=stamina&&stamina.current!=null?stamina.current+' / '+stamina.maximum:'—';
+  document.getElementById('wounds').textContent=state.visibleState&&Array.isArray(state.visibleState.injuries)?state.visibleState.injuries.length:0;
   document.getElementById('lastRoll').textContent=state.lastRoll||'—';
-  var c=activeCharacter();document.getElementById('sideCharacter').innerHTML='<strong>'+esc(c.name)+'</strong><br>'+esc([c.people,c.profession,c.archetype].filter(Boolean).join(' · '));
+  var c=activeCharacter();
+  document.getElementById('sideCharacter').innerHTML='<strong>'+esc(c.name||'Personagem')+'</strong><br>'+esc([c.people,c.profession].filter(Boolean).join(' · '));
+  document.getElementById('persistenceHelp').textContent=state.mode==='backend'?'O servidor é a autoridade. Este navegador guarda apenas o ponteiro da campanha e o diário de interface.':'Demonstração local: o estado existe somente neste navegador e não é uma campanha oficial.';
+  updateQuickActions(state.suggestedActions||[]);
 }
-function saveSession(show){
-  if(!state)return;localStorage.setItem(SESSION_KEY,JSON.stringify(state));
-  if(show)addEntry('system','Sistema','Sessão salva neste navegador.');
+function cacheState(){if(state)localStorage.setItem(SESSION_KEY,JSON.stringify(state))}
+function mergeVisiblePatch(patch){
+  if(!patch)return;
+  state.visibleState=state.visibleState||{};
+  Object.keys(patch).forEach(function(k){
+    if(k==='character'&&patch.character)state.visibleState.character=patch.character;
+    else state.visibleState[k]=patch[k];
+  });
 }
+function degreeLabel(v){
+  return {falha_grave:'Falha grave',falha_com_consequencia:'Falha com consequência',sucesso:'Sucesso',sucesso_forte:'Sucesso forte',sucesso_excepcional:'Sucesso excepcional'}[v]||v;
+}
+function mechanicalEventText(e){
+  if(!e)return '';
+  if(e.kind==='test'){
+    var attr=e.attribute||'atributo',comp=e.competency||'competência';
+    return attr+' + '+comp+' · d20 '+e.die_raw+' + '+e.modifier_total+' = '+e.total+' · CD '+e.difficulty+' · '+degreeLabel(e.degree);
+  }
+  return e.kind||'Evento mecânico';
+}
+function applyTurnOutput(data){
+  state.stateVersion=data.state_version||state.stateVersion;
+  mergeVisiblePatch(data.visible_state_patch);
+  var events=data.mechanical_events_visible||[];
+  events.forEach(function(e){state.lastRoll=mechanicalEventText(e);addEntry('system','Motor',state.lastRoll)});
+  var out=data.narrator_output||{};
+  if(out.narrative)addEntry('narrator','Narrador',out.narrative);
+  state.suggestedActions=out.suggested_actions||[];
+  renderState();cacheState();
+}
+
 async function startGame(){
-  var duration=document.getElementById('duration').value;
-  state={version:'alpha-0.1',difficulty:document.getElementById('difficulty').value,duration:Number(duration),maxBeats:BEATS[duration]||8,beat:0,region:document.getElementById('region').value,premise:document.getElementById('premise').value.trim(),pressure:0,wounds:0,lastRoll:'—',startedAt:new Date().toISOString(),log:[]};
-  document.getElementById('setup').style.display='none';document.getElementById('game').classList.add('active');document.getElementById('log').innerHTML='';document.getElementById('ending').innerHTML='';document.getElementById('actionBox').style.display='block';
-  renderState();var opening=await Narrator.opening();addEntry('narrator','Narrador',opening);saveSession(false);
-}
-async function playAction(){
-  if(!state)return;var box=document.getElementById('playerAction'),action=box.value.trim();if(!action)return;
-  box.value='';addEntry('player',activeCharacter().name||'Personagem',action);
-  var res=resolveAction(action);state.beat++;state.pressure+=res.pressure;state.wounds+=res.wound;state.lastRoll=res.total+' ('+res.raw+(res.modifier>=0?' + ':' - ')+Math.abs(res.modifier)+')';
-  addEntry('system','Resolução',res.skill+' · '+res.skillLabel+' · alvo '+res.target+' · '+resultLabel(res.result)+(res.wound?' · ferimento adquirido':''));
-  var narration=await Narrator.turn(action,res);addEntry('narrator','Narrador',narration);renderState();
-  if(state.beat>=state.maxBeats)finishGame(res);else saveSession(false);
-}
-function finishGame(last){
-  document.getElementById('actionBox').style.display='none';
-  var tone=state.wounds>=2?'Você chega ao fim marcado por consequências físicas que não desaparecem porque a sessão acabou.':state.pressure>=5?'Você conclui a sessão sob forte desgaste: houve progresso, mas o custo acumulado importa.':'A sessão fecha com espaço para continuidade; nem todo fio precisa ser resolvido para que a aventura tenha consequência.';
-  document.getElementById('ending').innerHTML='<div class="ending"><div class="eyebrow">Fim desta sessão</div><h3 style="margin:6px 0 8px;font:500 1.5rem Georgia,serif">A crônica fecha por enquanto.</h3><p>'+esc(tone)+'</p><div class="btns"><button class="btn primary" onclick="newSession()">Nova sessão</button><button class="btn" onclick="saveSession(true)">Salvar registro</button></div></div>';
-  saveSession(false);
-}
-function newSession(){state=null;document.getElementById('game').classList.remove('active');document.getElementById('setup').style.display='grid';window.scrollTo({top:0,behavior:'smooth'})}
-function resumeSession(){
+  setBusy(true);setStatus('launchStatus','Preparando campanha...','');
   try{
-    var raw=localStorage.getItem(SESSION_KEY);if(!raw)return;
-    state=JSON.parse(raw);document.getElementById('setup').style.display='none';document.getElementById('game').classList.add('active');document.getElementById('log').innerHTML='';
-    (state.log||[]).forEach(function(e){var el=document.createElement('div');el.className='entry '+e.type;el.innerHTML='<span class="who">'+esc(e.who)+'</span><p>'+esc(e.text)+'</p>';document.getElementById('log').appendChild(el)});
-    document.getElementById('actionBox').style.display=state.beat>=state.maxBeats?'none':'block';renderState();
-    if(state.beat>=state.maxBeats)finishGame({result:'yes'});
-  }catch(e){}
+    mechanics=mechanicsSnapshot(true);
+    localStorage.setItem(MECHANICS_KEY,JSON.stringify(mechanics));
+    var difficulty=document.getElementById('difficulty').value;
+    var duration=document.getElementById('duration').value;
+    var regionSelection=document.getElementById('regionMode').value;
+    var preference=document.getElementById('adventurePreference').value;
+    var campaignName=document.getElementById('campaignName').value.trim()||null;
+
+    if(backendEnabled()){
+      var imported=await apiFetch('/api/rpg/characters/import',{method:'POST',body:{creator_payload:activeCharacter(),mechanics:mechanics}});
+      var created=await apiFetch('/api/rpg/campaigns',{method:'POST',body:{
+        character_id:imported.character_id,
+        character_revision:imported.revision,
+        difficulty_mode:difficulty,
+        duration_mode:duration,
+        region_selection:regionSelection,
+        region_id:regionSelection==='selected'?'valdren':null,
+        adventure_preference:preference,
+        campaign_name:campaignName
+      }});
+      state={
+        mode:'backend',campaignId:created.campaign_id,stateVersion:created.state_version,
+        characterId:imported.character_id,characterRevision:imported.revision,
+        difficulty:difficulty,duration:duration,region:'Valdren',
+        visibleState:created.visible_state||{},suggestedActions:created.opening_output&&created.opening_output.suggested_actions||[],
+        lastRoll:'—',log:[],startedAt:new Date().toISOString()
+      };
+      enterGame();renderState();
+      addEntry('system','Sistema','Campanha criada no backend. Estado oficial v'+state.stateVersion+'.');
+      if(created.opening_output&&created.opening_output.narrative)addEntry('narrator','Narrador',created.opening_output.narrative);
+      renderState();cacheState();
+    }else{
+      startDemo(difficulty,duration);
+    }
+    setStatus('launchStatus','','');
+  }catch(e){
+    setStatus('launchStatus','Não foi possível iniciar: '+e.message,'warn');
+  }finally{setBusy(false)}
 }
-function resetSession(){localStorage.removeItem(SESSION_KEY);newSession()}
+function startDemo(difficulty,duration){
+  var attrs=mechanics.attributes;
+  var vit=8+attrs.vigor*2,folego=5+attrs.vigor+attrs.agilidade;
+  state={
+    mode:'demo',campaignId:null,stateVersion:1,difficulty:difficulty,duration:duration,region:'Valdren',
+    mechanics:mechanics,
+    visibleState:{character:{attributes:attrs,vitality:vit,vitality_max:vit,resources:{folego:{current:folego,maximum:folego}}},injuries:[]},
+    suggestedActions:[
+      {id:'mock:observe',label:'Observar o entorno'},
+      {id:'mock:force-passage',label:'Testar uma ação física'},
+      {id:'mock:wait',label:'Esperar dez minutos'}
+    ],
+    lastRoll:'—',log:[],startedAt:new Date().toISOString()
+  };
+  enterGame();renderState();
+  addEntry('system','Demonstração','Modo local não autoritativo: use-o apenas para testar a interface. CDs não mudam com a dificuldade.');
+  addEntry('narrator','Narrador','Valdren segue sua rotina enquanto '+(activeCharacter().name||'o personagem')+' entra na cena. Algo simples saiu do curso esperado; você pode observar antes de se comprometer.');
+  cacheState();
+}
+function getCompLevel(id){
+  var list=mechanics&&mechanics.competencies||[];
+  for(var i=0;i<list.length;i++)if(list[i].id===id)return list[i].level||0;
+  return 0;
+}
+function demoTest(attribute,competency,difficulty){
+  var die=1+Math.floor(Math.random()*20),mod=(mechanics.attributes[attribute]||0)+getCompLevel(competency),total=die+mod,margin=total-difficulty;
+  var degree=margin>=10?'sucesso_excepcional':margin>=5?'sucesso_forte':margin>=0?'sucesso':margin>=-4?'falha_com_consequencia':'falha_grave';
+  if(die===20)degree={falha_grave:'falha_com_consequencia',falha_com_consequencia:'sucesso',sucesso:'sucesso_forte',sucesso_forte:'sucesso_excepcional',sucesso_excepcional:'sucesso_excepcional'}[degree];
+  if(die===1)degree={sucesso_excepcional:'sucesso_forte',sucesso_forte:'sucesso',sucesso:'falha_com_consequencia',falha_com_consequencia:'falha_grave',falha_grave:'falha_grave'}[degree];
+  return {kind:'test',attribute:attribute,competency:competency,die_raw:die,modifier_total:mod,difficulty:difficulty,total:total,margin:margin,degree:degree};
+}
+function demoTurn(input){
+  var event=null,narrative='';
+  if(input.selected_action_id==='mock:observe'){
+    event=demoTest('percepcao','percepcao_de_campo',10);
+    narrative='A observação produz um resultado de demonstração: '+degreeLabel(event.degree)+'.';
+  }else if(input.selected_action_id==='mock:force-passage'){
+    event=demoTest('potencia','atletismo',12);
+    narrative='A tentativa física produz um resultado de demonstração: '+degreeLabel(event.degree)+'.';
+  }else if(input.selected_action_id==='mock:wait'){
+    narrative='Dez minutos passam na demonstração local.';
+  }else{
+    narrative='A ação livre foi registrada. Sem o Narrador GPT ativo no backend, a demonstração não inventa uma resolução mecânica para texto livre.';
+  }
+  state.stateVersion++;
+  return {state_version:state.stateVersion,narrator_output:{narrative:narrative,suggested_actions:state.suggestedActions,free_action_allowed:true},mechanical_events_visible:event?[event]:[],visible_state_patch:{state_version:state.stateVersion}};
+}
+async function performTurn(input,displayText){
+  if(!state)return;
+  setBusy(true);
+  try{
+    addEntry('player',activeCharacter().name||'Personagem',displayText);
+    var data;
+    if(state.mode==='backend'){
+      data=await apiFetch('/api/rpg/campaigns/'+encodeURIComponent(state.campaignId)+'/turns',{method:'POST',body:{
+        idempotency_key:uuid(),
+        expected_state_version:state.stateVersion,
+        player_input:input
+      }});
+    }else{
+      data=demoTurn(input);
+    }
+    applyTurnOutput(data);
+  }catch(e){
+    addEntry('system','Sistema','A ação não foi confirmada: '+e.message);
+    if(e.code==='STATE_VERSION_CONFLICT'&&state.mode==='backend'){
+      addEntry('system','Sistema','O estado mudou em outro fluxo. Recarregando a versão confirmada...');
+      await resumeBackend(false);
+    }
+  }finally{setBusy(false)}
+}
+function playAction(){
+  var box=document.getElementById('playerAction'),action=box.value.trim();if(!action)return;
+  box.value='';
+  performTurn({source:'free_action',raw_text:action,selected_action_id:null},action);
+}
+function playSuggested(id,label){
+  performTurn({source:'suggested_action',raw_text:'',selected_action_id:id},label);
+}
+
+async function saveGame(){
+  if(!state)return;
+  setBusy(true);
+  try{
+    if(state.mode==='backend'){
+      var data=await apiFetch('/api/rpg/campaigns/'+encodeURIComponent(state.campaignId)+'/checkpoints',{method:'POST',body:{}});
+      addEntry('system','Sistema','Checkpoint criado no estado v'+data.state_version+'.');
+    }else{
+      addEntry('system','Demonstração','Estado local salvo neste navegador.');
+    }
+    cacheState();
+  }catch(e){addEntry('system','Sistema','Não foi possível criar checkpoint: '+e.message)}
+  finally{setBusy(false)}
+}
+async function resumeBackend(showEntry){
+  var data=await apiFetch('/api/rpg/campaigns/'+encodeURIComponent(state.campaignId));
+  state.stateVersion=data.state_version;
+  state.difficulty=data.difficulty||state.difficulty;
+  state.duration=data.duration||state.duration;
+  state.visibleState=data.visible_state||state.visibleState||{};
+  state.suggestedActions=data.narrator_output&&data.narrator_output.suggested_actions||state.suggestedActions||[];
+  if(showEntry!==false&&data.narrator_output&&data.narrator_output.narrative)addEntry('narrator','Narrador',data.narrator_output.narrative);
+  renderState();cacheState();
+}
+async function resumeSession(){
+  var raw=localStorage.getItem(SESSION_KEY);
+  if(!raw){setStatus('launchStatus','Não há campanha salva neste navegador.','warn');return}
+  setBusy(true);
+  try{
+    state=JSON.parse(raw);
+    mechanics=state.mechanics||loadSavedMechanics();
+    if(state.mode==='backend'){
+      if(!backendEnabled())throw new Error('Esta campanha pertence ao backend, mas a URL do servidor não está configurada.');
+      await resumeBackend(false);
+    }
+    enterGame();renderLog();renderState();
+    if(state.mode==='backend')addEntry('system','Sistema','Campanha recarregada do estado oficial v'+state.stateVersion+'.');
+    else addEntry('system','Demonstração','Sessão local retomada.');
+  }catch(e){leaveGame();setStatus('launchStatus','Não foi possível retomar: '+e.message,'warn')}
+  finally{setBusy(false)}
+}
+function resetSession(){
+  if(!state){leaveGame();return}
+  var backend=state.mode==='backend';
+  localStorage.removeItem(SESSION_KEY);state=null;
+  document.getElementById('log').innerHTML='';document.getElementById('quickActions').innerHTML='';
+  leaveGame();
+  setStatus('launchStatus',backend?'Você saiu da campanha. O estado permanece no backend; somente o ponteiro local foi removido.':'Demonstração local encerrada.','ok');
+  refreshResumeButton();
+}
+function loadSavedMechanics(){
+  try{return JSON.parse(localStorage.getItem(MECHANICS_KEY)||'null')}catch(e){return null}
+}
+function refreshResumeButton(){
+  var b=document.getElementById('resumeFromSetup');
+  if(b)b.style.display=localStorage.getItem(SESSION_KEY)?'inline-flex':'none';
+}
+
 document.getElementById('reloadCharacter').addEventListener('click',loadCharacter);
+document.getElementById('fillMechanicsExample').addEventListener('click',fillMechanicsExample);
 document.getElementById('startGame').addEventListener('click',startGame);
 document.getElementById('sendAction').addEventListener('click',playAction);
-document.getElementById('playerAction').addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter')playAction()});
-document.querySelectorAll('.quick-actions button').forEach(function(b){b.addEventListener('click',function(){document.getElementById('playerAction').value=b.dataset.action;document.getElementById('playerAction').focus()})});
-document.getElementById('saveGame').addEventListener('click',function(){saveSession(true)});
+document.getElementById('playerAction').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();playAction()}});
+document.getElementById('saveGame').addEventListener('click',saveGame);
 document.getElementById('resumeGame').addEventListener('click',resumeSession);
+document.getElementById('resumeFromSetup').addEventListener('click',resumeSession);
 document.getElementById('resetGame').addEventListener('click',resetSession);
+document.getElementById('saveApiUrl').addEventListener('click',function(){
+  RPG_API_URL=normalizeApiUrl(document.getElementById('apiUrl').value);
+  if(RPG_API_URL)localStorage.setItem(API_URL_KEY,RPG_API_URL);else localStorage.removeItem(API_URL_KEY);
+  updateConnectionUi();setStatus('launchStatus',RPG_API_URL?'URL do backend salva neste navegador.':'URL removida; demonstração local ativada.','ok');
+});
+
 loadCharacter();
-if(localStorage.getItem(SESSION_KEY))document.getElementById('characterStatus').insertAdjacentHTML('beforeend',' Há uma sessão salva que pode ser retomada no painel do jogo.');
+renderMechanics(loadSavedMechanics());
+updateConnectionUi();
+refreshResumeButton();
 </script>
 </body>
 </html>
