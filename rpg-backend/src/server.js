@@ -9,6 +9,7 @@ import {
 } from './validators.js';
 import { buildInitialState, resolveMockTurn } from './engine.js';
 import { isNarratorPilotAction, runNarratedPilotTurn } from './narrated-turn.js';
+import { generateSituationSeed } from './situation-generator.js';
 
 const PORT = Number(process.env.PORT || 8787);
 const ALLOWED_ORIGIN = process.env.RPG_ALLOWED_ORIGIN || '';
@@ -73,37 +74,6 @@ function durationModeToName(durationMode) {
   return durationMode === 'continua' ? 'Campanha contínua' : `${durationMode} min`;
 }
 
-function createMockSituation(campaignId, body) {
-  return {
-    situation_id: `sit_${randomUUID()}`,
-    origin: 'SESSION',
-    region_id: body.region_selection === 'selected' ? body.region_id : 'valdren',
-    start_location_id: 'session:valdren:mvp-start',
-    situation_type: body.adventure_preference === 'auto' ? 'mista' : body.adventure_preference,
-    premise_visible: 'Situação provisória de infraestrutura usada somente para validar o motor sem Narrador GPT.',
-    normal_state: 'Rotina regional de Valdren.',
-    change: 'Um problema local simples exige observação, decisão e registro de estado.',
-    forces: [],
-    clocks: [],
-    information_nodes: [],
-    hidden_truth_ids: [],
-    allowed_canonical_entity_ids: [],
-    generated_session_entity_ids: [],
-    end_conditions: ['Infraestrutura validada.'],
-    failure_endings: ['A sessão de teste pode ser encerrada sem consequência canônica.'],
-    duration_blueprint: {
-      target_minutes: body.duration_mode === 'continua' ? null : Number(body.duration_mode),
-      opening_weight: 1,
-      development_weight: 1,
-      convergence_weight: 1,
-      climax_weight: 1,
-      epilogue_weight: 1,
-    },
-    no_single_solution: true,
-    campaign_id: campaignId,
-  };
-}
-
 async function importCharacter(req, res) {
   const userId = userIdForRequest(req);
   const body = validateCharacterImport(await readJson(req));
@@ -142,13 +112,20 @@ async function createCampaign(req, res) {
     const campaignId = `camp_${randomUUID()}`;
     const snapshotId = `snap_${randomUUID()}`;
     const checkpointId = `chk_${randomUUID()}`;
-    const situation = createMockSituation(campaignId, body);
+    const generatedSituation = generateSituationSeed({
+      request: body,
+      mechanics: character.mechanics_json,
+    });
+    const situation = generatedSituation.public_seed;
     const state = buildInitialState({
       campaignId,
       characterId: body.character_id,
       mechanics: character.mechanics_json,
       difficultyMode: body.difficulty_mode,
       durationMode: body.duration_mode,
+      startLocationId: situation.start_location_id,
+      openingSummary: situation.premise_visible,
+      situationId: situation.situation_id,
     });
     const campaignName = body.campaign_name || character.character_json?.name || 'Campanha de Lumyriel';
 
@@ -178,8 +155,13 @@ async function createCampaign(req, res) {
     await client.query(
       `INSERT INTO rpg_situations
         (situation_id, campaign_id, version, public_seed_json, private_truth_json, status)
-       VALUES ($1,$2,1,$3::jsonb,'{}'::jsonb,'active')`,
-      [situation.situation_id, campaignId, JSON.stringify(situation)],
+       VALUES ($1,$2,1,$3::jsonb,$4::jsonb,'active')`,
+      [
+        situation.situation_id,
+        campaignId,
+        JSON.stringify(situation),
+        JSON.stringify(generatedSituation.private_truth),
+      ],
     );
 
     await client.query(
