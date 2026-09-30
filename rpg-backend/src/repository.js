@@ -161,13 +161,13 @@ export class PostgresRepository {
         VALUES ($1,$2,1,$3,$4,'placeholder')
       `, [bundle.situationId,bundle.campaignId,bundle.publicSeed,bundle.privateTruth]);
       await client.query('COMMIT');
-      return this.getCampaign(bundle.userId, bundle.campaignId);
     } catch (error) {
       await client.query('ROLLBACK');
       throw error;
     } finally {
       client.release();
     }
+    return this.getCampaign(bundle.userId, bundle.campaignId);
   }
 
   async listCampaigns(userId) {
@@ -195,15 +195,6 @@ export class PostgresRepository {
     try {
       await client.query('BEGIN');
 
-      const existing = await client.query(`
-        SELECT final_output_json FROM rpg_turns
-        WHERE campaign_id=$1 AND idempotency_key=$2 AND status='completed'
-      `, [campaignId,idempotencyKey]);
-      if (existing.rows[0]) {
-        await client.query('COMMIT');
-        return { status: 200, body: existing.rows[0].final_output_json };
-      }
-
       const locked = await client.query(`
         SELECT c.*, s.state_json
         FROM rpg_campaigns c
@@ -216,6 +207,27 @@ export class PostgresRepository {
         await client.query('ROLLBACK');
         return { status: 404, body: { error: 'campaign_not_found' } };
       }
+
+      const existing = await client.query(`
+        SELECT status, final_output_json, error_json
+        FROM rpg_turns
+        WHERE campaign_id=$1 AND idempotency_key=$2
+      `, [campaignId,idempotencyKey]);
+      if (existing.rows[0]?.status === 'completed') {
+        await client.query('COMMIT');
+        return { status: 200, body: existing.rows[0].final_output_json };
+      }
+      if (existing.rows[0]) {
+        await client.query('ROLLBACK');
+        return {
+          status: 409,
+          body: {
+            error: 'idempotency_key_not_replayable',
+            turn_status: existing.rows[0].status
+          }
+        };
+      }
+
       if (Number(campaign.latest_state_version) !== Number(expectedStateVersion)) {
         await client.query('ROLLBACK');
         return { status: 409, body: { error: 'state_version_conflict', latest_state_version: Number(campaign.latest_state_version) } };
@@ -225,7 +237,6 @@ export class PostgresRepository {
       await client.query(`
         INSERT INTO rpg_turns (turn_id,campaign_id,idempotency_key,request_state_version,player_input_json,status)
         VALUES ($1,$2,$3,$4,$5,'processing')
-        ON CONFLICT (campaign_id,idempotency_key) DO NOTHING
       `, [turnId,campaignId,idempotencyKey,expectedStateVersion,playerInput]);
 
       const resolved = resolveMockTurn({ state: campaign.state_json, playerInput, rng: this.rng });
