@@ -21,7 +21,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-f
 .profile{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}.card{border:1px solid #32322f;border-radius:16px;padding:18px;background:#0f1112}.card h3{font:500 1.35rem Georgia,serif;margin:0 0 10px}.card p{color:#aaa59b;margin:6px 0}.tag{display:inline-block;border:1px solid #403b31;border-radius:999px;padding:5px 9px;margin:3px;color:#cfc3ae;font-size:.78rem}.meter-row{margin:12px 0}.meter-row strong{display:block;color:#ddd5c8;font-size:.86rem}.meter-row span{color:#9e998f;font-size:.82rem}
 .summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.summary-item{border:1px solid #30302d;border-radius:13px;padding:13px;background:#101213}.summary-item b{display:block;color:var(--gold2);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}.summary-item span{color:#d4cec4}
 .toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 0}.status{font-size:.83rem;color:#8f8a82;margin-top:10px}.status.ok{color:#aebd9e}.status.warn{color:#d0b27a}
-.info-box{margin-top:9px;border:1px solid #33322e;border-radius:12px;background:#101214;padding:12px 13px;color:#aaa59b;font-size:.86rem;line-height:1.55}.info-box strong{color:var(--gold2)}.info-box.warn{border-color:#5b4931;color:#c6b59a}
+.info-box{margin-top:9px;border:1px solid #33322e;border-radius:12px;background:#101214;padding:12px 13px;color:#aaa59b;font-size:.86rem;line-height:1.55}.info-box strong{color:var(--gold2)}.info-box.warn{border-color:#5b4931;color:#c6b59a}.bio-coherence{margin-top:14px}.bio-coherence.coherent{border-color:#405044;background:#111714}.bio-coherence.coherent strong{color:#b8c8ae}.bio-coherence.exceptional{border-color:#655235;background:#18140f}.bio-coherence.exceptional strong{color:#dcc08d}.bio-coherence.unknown{border-color:#454d62;background:#11141b}.bio-coherence.unknown strong{color:#b5bfd9}.bio-coherence.inviable{border-color:#704341;background:#1b1111;color:#d2aaa5}.bio-coherence.inviable strong{color:#e0a39c}.bio-principle{margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.08);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#8f887c}.bio-detail-list{margin:8px 0 0;padding-left:18px}.bio-detail-list li{margin:5px 0}
 .readonly{background:#171612!important;color:var(--gold2)!important;border-color:#4b4437!important;font-weight:700}.custom-field{display:none;margin-top:8px}.custom-field.show{display:block}.quick-grid{display:flex;gap:8px;flex-wrap:wrap}.quick-check{position:relative}.quick-check input{position:absolute;opacity:0;pointer-events:none}.quick-check label{display:block;border:1px solid #343431;background:#0f1112;border-radius:999px;padding:8px 11px;color:#bcb6ac;cursor:pointer;font-size:.84rem}.quick-check input:checked+label{border-color:#79694e;background:#211f1a;color:#f0e7d8}.subtle{color:#817d75;font-size:.8rem}.field select option:disabled{color:#777}.name-pair{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.conditional{display:none}.conditional.show{display:block}.recommend{color:#d0bd98}.recommend-list{margin:7px 0 0;padding-left:18px}.recommend-list li{margin:5px 0}.mini-title{font:500 1.05rem Georgia,serif;color:#ddd4c5;margin:14px 0 8px}
 footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media(max-width:900px){.creator{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto;gap:6px;padding:8px}.step-btn{min-width:max-content;width:auto}.step-btn span{display:none}.profile{grid-template-columns:1fr}}
@@ -173,6 +173,28 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 </div>
 </div>
 <div id="identityRecommendation" class="info-box"><strong>Coerência automática:</strong> conforme você escolhe espécie, ancestralidade, lugar e aparência, o criador explica o que é comum, raro ou precisa de uma justificativa biológica.</div>
+<div id="biologicalCoherence" class="info-box bio-coherence coherent"><strong>Coerência biológica:</strong> escolha a anatomia do personagem para iniciar a validação corporal.</div>
+<div id="biologyOriginWrap" class="field full conditional" style="margin-top:12px">
+<label for="biologyOrigin">Origem da exceção corporal</label>
+<select id="biologyOrigin" name="biologyOrigin">
+<option value="">Selecione uma origem plausível</option>
+<option>Linhagem natural documentada</option>
+<option>Herança familiar rara</option>
+<option>Ancestralidade mista confirmada</option>
+<option>Mutação de desenvolvimento</option>
+<option>Alteração corporal</option>
+<option>Metamorfismo</option>
+<option>Intervenção médica</option>
+<option>Intervenção rúnica</option>
+<option>Parasitismo / organismo associado</option>
+<option>Corrupção / processo patológico</option>
+<option value="__other__">Outra / detalhar</option>
+</select>
+<div id="biologyOriginCustomWrap" class="custom-field"><input id="biologyOriginCustom" placeholder="Defina a origem corporal"></div>
+<label for="biologyNotes" style="margin-top:9px">Observação biológica <span class="subtle">(recomendada)</span></label>
+<textarea id="biologyNotes" name="biologyNotes" placeholder="Explique como essa anatomia se desenvolveu e quais custos, limites ou adaptações a sustentam."></textarea>
+<small>Uma explicação torna a exceção plausível; ela não promove automaticamente uma nova biologia a cânone.</small>
+</div>
 
 <div class="section-title">Olhos</div>
 <div class="grid three">
@@ -428,11 +450,12 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 </div>
 <div class="card"><h3>Resumo da ficha</h3><div class="summary-grid" id="summaryGrid"></div><div class="section-title">Biografia</div><p id="summaryBio" style="white-space:pre-wrap;color:#c8c1b5"></p></div>
 </div>
+<div id="finalBiologicalCoherence" class="info-box bio-coherence coherent"><strong>Coerência biológica:</strong> a validação corporal aparecerá aqui.</div>
 <div class="toolbar">
 <button type="button" class="btn primary" onclick="saveLocal()">Salvar rascunho neste navegador</button>
-<button type="button" class="btn" onclick="downloadJson()">Baixar JSON</button>
-<button type="button" class="btn" onclick="downloadText()">Baixar dossiê</button>
-<button type="button" class="btn" onclick="submitToLumyriel()">Enviar personagem para Lumyriel</button>
+<button id="downloadJsonBtn" type="button" class="btn" onclick="downloadJson()">Baixar JSON</button>
+<button id="downloadTextBtn" type="button" class="btn" onclick="downloadText()">Baixar dossiê</button>
+<button id="submitCharacterBtn" type="button" class="btn" onclick="submitToLumyriel()">Enviar personagem para Lumyriel</button>
 </div>
 <div id="saveStatus" class="status warn">O canal de submissão está preparado, mas ainda precisa da URL pública do serviço de recebimento. O rascunho local e as exportações já funcionam.</div><input name="website" id="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(7)">← Editar biografia</button><button type="button" class="btn ghost" onclick="randomizeCharacter();goStep(0)">Criar outro personagem</button></div>
@@ -448,6 +471,14 @@ var currentStep=0;
 var panels=[].slice.call(document.querySelectorAll('.panel'));
 var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
 var form=document.getElementById('creatorForm');
+var BIOLOGY_PRINCIPLE='FORMA EXIGE FUNÇÃO · FUNÇÃO EXIGE ESTRUTURA · ESTRUTURA EXIGE CUSTO.';
+var ACQUIRED_OCULAR=['Coroa Parasita','Sangue Rúnico','Olho da Aparição','Brasa Profana','Vazio Corrompido'];
+var SELVARI_EXPECTATIONS={
+ 'Lupran — morfologia Selvari lupina estável':{kind:'lupino',ear:'Lupinas altas e móveis',tails:['Cauda lupina funcional']},
+ 'Selvari felino — traços felinos funcionais':{kind:'felino',ear:'Felinas altas e móveis',tails:['','Cauda felina funcional']},
+ 'Selvari lupino não-Lupran — traços lupinos funcionais':{kind:'lupino',ear:'Lupinas altas e móveis',tails:['','Cauda lupina funcional']},
+ 'Selvari ursino — traços ursinos funcionais':{kind:'ursino',ear:'Ursinas arredondadas',tails:['','Cauda ursina curta']}
+};
 
 var PEOPLE_INFO={
 'Humano':'Espécie humanoide amplamente distribuída, com grande variação populacional contínua. Pigmentação, cabelo, proporções e traços oculares variam com ambiente, ancestralidade, migração e fluxo gênico; não existem “raças humanas” biológicas discretas no cânone.',
@@ -560,7 +591,7 @@ stepButtons.forEach(function(b){b.addEventListener('click',function(){goStep(Num
 function textify(v){return Array.isArray(v)?v.join(', '):(v||'')}
 
 var CUSTOM_MAP={
-people:'peopleCustom',specialMorphology:'specialMorphologyCustom',originPlace:'originPlaceCustom',socialOrigin:'socialOriginCustom',
+people:'peopleCustom',specialMorphology:'specialMorphologyCustom',originPlace:'originPlaceCustom',socialOrigin:'socialOriginCustom',biologyOrigin:'biologyOriginCustom',
 age:'ageCustom',height:'heightCustom',build:'buildCustom',posture:'postureCustom',headShape:'headShapeCustom',faceShape:'faceShapeCustom',brows:'browsCustom',
 skin:'skinCustom',eyeLeft:'eyeLeftCustom',eyeRight:'eyeRightCustom',eyeShape:'eyeShapeCustom',ocular:'ocularCustom',
 hairColor:'hairColorCustom',hairType:'hairTypeCustom',hairLength:'hairLengthCustom',hairDensity:'hairDensityCustom',hairstyle:'hairstyleCustom',
@@ -594,6 +625,7 @@ function formData(){
    o.people=ma&&mb?'Mutari — '+ma+' + '+mb:'Mutari — ancestralidade incompleta';
    o.mutariStatus=mutariStatus(ma,mb).label;
  }
+ o.biologicalCoherence=biologicalCoherencePayload();
  return o;
 }
 
@@ -677,22 +709,183 @@ function updateMutariResult(){
  var a=document.getElementById('parentA').value,b=document.getElementById('parentB').value,s=mutariStatus(a,b),box=document.getElementById('mutariResult');
  box.innerHTML='<strong>'+escapeHtml(s.label)+':</strong> '+escapeHtml(s.text);
  updateMutariHeight();
+ updateBiologicalCoherence();
 }
 function hasDraconicAncestry(){
  if(document.getElementById('ancestryMode').value==='mutari')return [document.getElementById('parentA').value,document.getElementById('parentB').value].includes('Nareth');
  return document.getElementById('people').value==='Nareth';
 }
+function parseHeightCm(raw){
+ var s=String(raw||'').trim().toLowerCase().replace(',','.');
+ var m=s.match(/([0-9]+(?:\.[0-9]+)?)/);if(!m)return null;
+ var n=parseFloat(m[1]);if(!isFinite(n)||n<=0)return null;
+ if(s.indexOf('cm')>=0)return n;
+ if(s.indexOf('m')>=0||n<10)return n*100;
+ return n;
+}
+function currentHeightCm(){
+ var h=document.getElementById('height');
+ if(!h||!h.value)return null;
+ if(h.value==='__other__')return parseHeightCm(document.getElementById('heightCustom').value);
+ return parseHeightCm(h.value);
+}
+function selectedChecks(name){return [].slice.call(document.querySelectorAll('input[name="'+name+'"]:checked')).map(function(x){return x.value})}
+function syncMorphologyAnatomy(){
+ var sp=selectedText('people'),sm=selectedText('specialMorphology'),ears=document.getElementById('ears'),tail=document.getElementById('tail'),morph=document.getElementById('specialMorphology');
+ if(sp==='Lupran'){
+   if(!sm)morph.value='Lupran — morfologia Selvari lupina estável';
+   if(!ears.value)ears.value='Lupinas altas e móveis';
+   if(!tail.value)tail.value='Cauda lupina funcional';
+   sm=morph.value;
+ }
+ var rule=SELVARI_EXPECTATIONS[sm];
+ if(rule&&rule.ear&&!ears.value)ears.value=rule.ear;
+}
+function biologicalCoherenceState(){
+ var blockers=[],warnings=[],unknowns=[],infos=[];
+ var mode=selectedText('ancestryMode'),sp=mode==='mutari'?'Mutari':selectedText('people');
+ var sm=selectedText('specialMorphology'),ear=selectedText('ears'),tail=selectedText('tail'),ocular=selectedText('ocular');
+ var origin=selectedText('biologyOrigin'),originCustom=document.getElementById('biologyOriginCustom').value.trim(),notes=document.getElementById('biologyNotes').value.trim();
+ var requiresOrigin=false;
+
+ if(mode==='mutari'){
+   var a=selectedText('parentA'),b=selectedText('parentB');
+   if(a&&b&&a===b)blockers.push('As duas ancestralidades são iguais. Isso descreve uma linhagem única, não um Mutari; altere a classificação biológica.');
+   if(a&&b&&a!==b){
+     var ms=mutariStatus(a,b);
+     if(ms.label==='Compatibilidade em aberto')unknowns.push('A compatibilidade reprodutiva entre '+a+' e '+b+' ainda não foi confirmada pela autoridade biológica vigente.');
+     else infos.push(ms.text);
+   }
+ }
+
+ if(sp==='__other__')unknowns.push('A espécie personalizada não possui biologia validada automaticamente pelo criador.');
+
+ if(sm){
+   var sr=SELVARI_EXPECTATIONS[sm];
+   if(sm==='Lupran — morfologia Selvari lupina estável'&&sp!=='Lupran'){
+     blockers.push('A morfologia Lupran estável pertence à espécie Lupran. Para outra espécie, use a opção Selvari lupino não-Lupran e explique sua origem corporal.');
+   }
+   if(sr){
+     if(ear&&ear!==sr.ear)blockers.push('A morfologia '+sr.kind+' escolhida não é compatível com o formato de orelhas selecionado. Um plano Selvari usa um único sistema auricular funcional.');
+     if(tail&&!sr.tails.includes(tail))blockers.push('A morfologia '+sr.kind+' escolhida não é compatível com a cauda selecionada. Misturar planos animais independentes não produz uma anatomia funcional por simples soma estética.');
+   }
+   if(sm!=='Lupran — morfologia Selvari lupina estável'){
+     warnings.push('A morfologia especial precisa de uma origem corporal que explique como esqueleto, musculatura, nervos, circulação e sentidos sustentam o fenótipo.');
+     requiresOrigin=true;
+   }
+   if(sm==='__other__'){
+     warnings.push('Morfologia personalizada não é presumida biologicamente compatível; descreva sua origem e seus custos.');
+     requiresOrigin=true;
+   }
+ }
+
+ var animalEar=/Felinas|Lupinas|Ursinas/.test(ear),animalTail=/lupina|felina|ursina/i.test(tail);
+ if(animalEar&&sp!=='Lupran'&&!sm){
+   warnings.push('Orelhas animais funcionais configuram um traço Selvari ou outra alteração anatômica. Elas precisam de uma origem corporal e substituem o pavilhão auricular humanoide correspondente.');
+   requiresOrigin=true;
+ }
+ if(animalTail&&sp!=='Lupran'&&!sm){
+   warnings.push('Uma cauda funcional exige integração com coluna, pelve, musculatura, circulação e sistema nervoso; ela precisa de uma origem corporal coerente.');
+   requiresOrigin=true;
+ }
+ if(sp==='Lupran'){
+   if(ear&&ear!=='Lupinas altas e móveis')blockers.push('Lupran possui sistema auricular lupino funcional. O formato selecionado contradiz o plano corporal Lupran.');
+   if(tail&&tail!=='Cauda lupina funcional')blockers.push('Lupran possui cauda lupina funcional. A cauda selecionada contradiz o plano corporal Lupran.');
+ }
+
+ if(ocular==='Vaelir (H4)'&&!hasDraconicAncestry())blockers.push('Vaelir natural exige ascendência dracônica. Sem ela, a arquitetura selecionada não possui suporte biológico no cânone vigente.');
+ if(ocular==='Arquitetura Nethra (A5)')blockers.push('A arquitetura A5 é específica de Nethras, que não são uma espécie jogável fechada neste criador. Ela não pode ser transplantada como característica natural de outro corpo.');
+ if(ACQUIRED_OCULAR.includes(ocular)){
+   warnings.push('A arquitetura ocular '+ocular+' é adquirida ou patológica e possui custos corporais próprios; registre sua origem e manutenção.');
+   requiresOrigin=true;
+ }
+
+ var hcm=currentHeightCm(),baseSpecies=mode==='single'?selectedText('people'):'';
+ var hr=HEIGHT_RULES[baseSpecies];
+ if(hcm&&hr){
+   if(hcm<hr[0]*0.4||hcm>hr[1]*1.5)blockers.push('A altura informada ('+Math.round(hcm)+' cm) ultrapassa de forma extrema o plano corporal conhecido de '+baseSpecies+' e não é tratada como uma variação individual sustentável pelo criador.');
+   else if(hcm<hr[0]||hcm>hr[1]){
+     warnings.push('A altura informada está fora da faixa típica registrada para '+baseSpecies+'. Uma exceção desse porte precisa de desenvolvimento, condição corporal ou mutação plausível.');
+     requiresOrigin=true;
+   }
+ }
+
+ var originResolved=!!origin&&(origin!=='__other__'||!!originCustom);
+ if(blockers.length){
+   return {code:'INVIAVEL',label:'Estrutura biologicamente inviável',css:'inviable',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:requiresOrigin,originResolved:originResolved,finalizable:false,validated:false,notes:notes};
+ }
+ if(warnings.length){
+   var ok=originResolved;
+   return {code:'EXCEPCIONAL',label:ok?'Configuração excepcional justificada':'Configuração biologicamente excepcional',css:'exceptional',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:true,originResolved:ok,finalizable:ok,validated:ok&&unknowns.length===0,notes:notes};
+ }
+ if(unknowns.length){
+   return {code:'DESCONHECIDA',label:'Compatibilidade biológica ainda desconhecida',css:'unknown',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:false,originResolved:originResolved,finalizable:true,validated:false,notes:notes};
+ }
+ return {code:'COERENTE',label:'Coerência biológica estável',css:'coherent',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:false,originResolved:originResolved,finalizable:true,validated:true,notes:notes};
+}
+function biologicalCoherencePayload(){
+ var s=biologicalCoherenceState(),origin=selectedText('biologyOrigin');
+ if(origin==='__other__')origin=document.getElementById('biologyOriginCustom').value.trim()||'Outra origem não detalhada';
+ return {
+   status:s.code,
+   label:s.label,
+   validated:s.validated,
+   finalizable:s.finalizable,
+   origin:origin||null,
+   notes:document.getElementById('biologyNotes').value.trim()||null,
+   blockers:s.blockers.slice(),
+   warnings:s.warnings.slice(),
+   unknowns:s.unknowns.slice(),
+   principle:BIOLOGY_PRINCIPLE
+ };
+}
+function biologicalCoherenceHtml(s){
+ var intro='';
+ if(s.code==='COERENTE')intro='As estruturas escolhidas formam um plano corporal compatível com a biologia conhecida nesta etapa do criador.';
+ else if(s.code==='EXCEPCIONAL')intro=s.originResolved?'A configuração é incomum, mas possui uma origem corporal declarada. Ela continua sujeita à avaliação autoral e aos custos descritos.':'A combinação pode ser possível, mas precisa de uma origem corporal capaz de sustentar as estruturas escolhidas antes de ser finalizada.';
+ else if(s.code==='DESCONHECIDA')intro='O projeto ainda não possui evidência suficiente para declarar esta combinação possível ou impossível. Ela pode ser salva como candidata, mas permanece não validada.';
+ else intro='No plano corporal escolhido, há estruturas que entram em conflito ou não possuem suporte suficiente para formar um organismo funcional.';
+ var parts=[s.blockers,s.warnings,s.unknowns].filter(function(a){return a&&a.length}).reduce(function(acc,a){return acc.concat(a)},[]);
+ var list=parts.length?'<ul class="bio-detail-list">'+parts.map(function(x){return '<li>'+escapeHtml(x)+'</li>'}).join('')+'</ul>':'';
+ return '<strong>'+escapeHtml(s.label)+'</strong><br>'+escapeHtml(intro)+list+'<div class="bio-principle">'+escapeHtml(BIOLOGY_PRINCIPLE)+'</div>';
+}
+function updateBiologicalCoherence(){
+ syncMorphologyAnatomy();
+ var s=biologicalCoherenceState(),box=document.getElementById('biologicalCoherence'),finalBox=document.getElementById('finalBiologicalCoherence');
+ [box,finalBox].forEach(function(el){if(el){el.className='info-box bio-coherence '+s.css;el.innerHTML=biologicalCoherenceHtml(s)}});
+ var wrap=document.getElementById('biologyOriginWrap');
+ if(wrap)wrap.classList.toggle('show',s.requiresOrigin||s.code==='DESCONHECIDA'||!!selectedText('biologyOrigin'));
+ ['downloadJsonBtn','downloadTextBtn','submitCharacterBtn'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=!s.finalizable});
+ return s;
+}
+function ensureBiologicalFinalization(){
+ var s=updateBiologicalCoherence();
+ if(s.finalizable)return true;
+ var status=document.getElementById('saveStatus');
+ if(status){
+   status.textContent=s.code==='INVIAVEL'?'O personagem não pode ser finalizado enquanto houver uma incompatibilidade estrutural. Revise os itens destacados em Coerência biológica.':'Explique a origem corporal da exceção antes de finalizar o personagem.';
+   status.className='status warn';
+ }
+ return false;
+}
+
 function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
  box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.');
- var morph=document.getElementById('specialMorphology');
+ var morph=document.getElementById('specialMorphology'),ears=document.getElementById('ears'),tail=document.getElementById('tail');
  if(v==='Lupran'&&!morph.value)morph.value='Lupran — morfologia Selvari lupina estável';
- if(v!=='Lupran'&&morph.value==='Lupran — morfologia Selvari lupina estável')morph.value='';
+ if(v!=='Lupran'&&morph.value==='Lupran — morfologia Selvari lupina estável'){
+   morph.value='';
+   if(ears.value==='Lupinas altas e móveis')ears.value='';
+   if(tail.value==='Cauda lupina funcional')tail.value='';
+ }
  populateHeightForSpecies(v);
+ syncMorphologyAnatomy();
  updateMorphologyDescription();
  updateSkinRecommendation();
  updateOcularDescription();
  updateIdentityRecommendations();
+ updateBiologicalCoherence();
 }
 function updateMorphologyDescription(){
  var v=document.getElementById('specialMorphology').value,box=document.getElementById('morphologyDescription'),sp=document.getElementById('people').value;
@@ -700,6 +893,7 @@ function updateMorphologyDescription(){
  if(v==='Lupran — morfologia Selvari lupina estável'&&sp&&sp!=='Lupran')msg+=' Para uma espécie que não seja Lupran, essa aparência precisa de outra origem corporal e não deve ser tratada como Lupran automático.';
  if(v&&v.indexOf('Selvari')>=0&&v!=='Lupran — morfologia Selvari lupina estável')msg+=' A ficha deve registrar a origem plausível desse fenótipo: linhagem, alteração, metamorfismo ou outro mecanismo já sustentado pelo projeto.';
  box.innerHTML='<strong>Morfologia:</strong> '+escapeHtml(msg);
+ updateBiologicalCoherence();
 }
 function updatePlaceDescription(){
  var v=document.getElementById('originPlace').value, box=document.getElementById('placeDescription');
@@ -735,6 +929,7 @@ function toggleCustom(select){
  if(wrap)wrap.classList.toggle('show',select.value==='__other__');
  if(select.name==='age')document.getElementById('ageCustomWrap').classList.toggle('show',select.value==='__other__');
  if(select.name==='height')document.getElementById('heightCustomWrap').classList.toggle('show',select.value==='__other__');
+ if(select.name==='biologyOrigin')document.getElementById('biologyOriginCustomWrap').classList.toggle('show',select.value==='__other__');
 }
 Object.keys(CUSTOM_MAP).forEach(function(name){
  var el=form.elements[name];if(el&&el.tagName==='SELECT')el.addEventListener('change',function(){toggleCustom(el)});
@@ -747,7 +942,10 @@ document.getElementById('parentB').addEventListener('change',function(){updateMu
 document.getElementById('originPlace').addEventListener('change',updatePlaceDescription);
 document.getElementById('originPlaceCustom').addEventListener('input',function(){updateCustomPlace();updateIdentityRecommendations()});
 document.getElementById('skin').addEventListener('change',function(){updateSkinRecommendation();updateIdentityRecommendations()});
-document.getElementById('ocular').addEventListener('change',function(){updateOcularDescription();updateIdentityRecommendations()});
+document.getElementById('ocular').addEventListener('change',function(){updateOcularDescription();updateIdentityRecommendations();updateBiologicalCoherence()});
+document.getElementById('biologyOrigin').addEventListener('change',function(){toggleCustom(this);updateBiologicalCoherence()});
+document.getElementById('biologyOriginCustom').addEventListener('input',updateBiologicalCoherence);
+document.getElementById('biologyNotes').addEventListener('input',updateBiologicalCoherence);
 ['firstName','middleName','surname'].forEach(function(id){document.getElementById(id).addEventListener('input',updateLumName)});
 
 function selectedText(id){var el=document.getElementById(id);return el&&el.value?el.value:''}
@@ -806,12 +1004,13 @@ function updateIdentityRecommendations(){
  if(marks.length)items.push('Marcas: '+marks.join(', ')+' devem ter uma causa compatível — trabalho, acidente, doença, ritual, conflito, cuidado corporal ou história pessoal. Se a marca for congênita e rara, herança ou mutação podem ser registradas.');
  if(!items.length)items.push('Comece pela espécie/ancestralidade e pelo lugar de origem. O sistema passará a explicar o que é comum, raro ou precisa de justificativa.');
  box.innerHTML='<strong>Coerência automática:</strong><ul class="recommend-list">'+items.map(function(x){return '<li>'+escapeHtml(x)+'</li>'}).join('')+'</ul>';
+ updateBiologicalCoherence();
 }
 ['age','gender','socialOrigin','height','build','posture','headShape','faceShape','brows','skin','eyeLeft','eyeRight','eyeShape','ocular','hairColor','hairType','hairLength','hairDensity','hairstyle','ears','nose','mouth','teeth','tail','nails','voice','specialMorphology'].forEach(function(id){
  var el=document.getElementById(id);if(el)el.addEventListener('change',updateIdentityRecommendations);
 });
 [].slice.call(document.querySelectorAll('input[name="voiceTraits"],input[name="markChoices"]')).forEach(function(el){el.addEventListener('change',updateIdentityRecommendations)});
-[].slice.call(document.querySelectorAll('.custom-field input')).forEach(function(el){el.addEventListener('input',updateIdentityRecommendations)});
+[].slice.call(document.querySelectorAll('.custom-field input')).forEach(function(el){el.addEventListener('input',function(){updateIdentityRecommendations();updateBiologicalCoherence()})});
 function populateNumericSelects(){
  var age=document.getElementById('age');
  for(var i=6;i<=120;i++){var o=document.createElement('option');o.value=String(i);o.textContent=i+' anos';age.appendChild(o)}
@@ -906,7 +1105,8 @@ function randomizeCharacter(){
  setValue('temperament',pick(['Reservado e observador','Expansivo e curioso','Metódico e paciente','Impulsivo, mas leal','Sereno e desconfiado','Pragmático e bem-humorado']));
  checkRandom('markChoices',Math.random()<.5?1:0);checkRandom('customChoices',2);checkRandom('pastChoices',2);checkRandom('masteryChoices',2);checkRandom('limitationChoices',2);checkRandom('goalChoices',2);checkRandom('valueChoices',3);
  document.getElementById('bio').value='';
- updateLumName();updatePeopleDescription();updateMorphologyDescription();updatePlaceDescription();updateOcularDescription();
+ setValue('biologyOrigin','');document.getElementById('biologyOriginCustom').value='';document.getElementById('biologyNotes').value='';
+ updateLumName();updatePeopleDescription();updateMorphologyDescription();updatePlaceDescription();updateOcularDescription();updateBiologicalCoherence();
  var s=document.getElementById('saveStatus');s.textContent='Personagem randomizado de forma coerente o bastante para servir de ponto de partida. Revise as escolhas raras antes de enviar.';s.className='status ok';
 }
 
@@ -939,9 +1139,11 @@ function renderDossier(){
  var ancestry=d.ancestryMode==='mutari'?[d.parentA,d.parentB,d.mutariStatus].filter(Boolean).join(' + '):'Linhagem única';
  var face=[d.headShape,d.faceShape,d.brows,d.nose,d.mouth,d.ears].filter(Boolean).join(' · ');
  var voiceProfile=[d.voice,textify(d.voiceTraits)].filter(Boolean).join(' · ');
- var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Ancestralidade',ancestry],['Traço animaliforme',d.specialMorphology],['Aparência',appearance],['Rosto',face],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Voz e fala',voiceProfile],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
+ var bioState=biologicalCoherenceState();
+ var entries=[['Coerência biológica',bioState.label],['Origem da exceção',d.biologyOrigin],['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Ancestralidade',ancestry],['Traço animaliforme',d.specialMorphology],['Aparência',appearance],['Rosto',face],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Voz e fala',voiceProfile],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
  document.getElementById('summaryGrid').innerHTML=entries.map(function(x){return '<div class="summary-item"><b>'+x[0]+'</b><span>'+escapeHtml(textify(x[1])||'Não definido')+'</span></div>'}).join('');
  document.getElementById('summaryBio').textContent=d.bio||'Biografia ainda não escrita.';
+ updateBiologicalCoherence();
 }
 
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
@@ -969,16 +1171,17 @@ function loadLocal(){
      if(Array.isArray(d[k])){d[k].forEach(function(v){var q=document.querySelector('input[name="'+k+'"][value="'+CSS.escape(v)+'"]');if(q)q.checked=true})}
      else if(form.elements[k])setValue(k,d[k]);
    });
-   updateLumName();updatePeopleDescription();updatePlaceDescription();updateOcularDescription();
+   updateLumName();updatePeopleDescription();updatePlaceDescription();updateOcularDescription();updateBiologicalCoherence();
  }catch(e){}
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.4',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.5',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
+ if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.4',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.5',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
@@ -988,14 +1191,15 @@ async function submitToLumyriel(){
  }
 }
 function downloadText(){
- var d=formData(), master=[textify(d.masteryChoices),d.masteries].filter(Boolean).join(', '), lim=[textify(d.limitationChoices),d.limitations].filter(Boolean).join(', ');
- var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','','Nome lumyrieliano: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem biológica: '+(d.ancestryMode==='mutari'?'Mutari':'Linhagem única'),'Ancestralidade 1: '+(d.parentA||'Não aplicável'),'Ancestralidade 2: '+(d.parentB||'Não aplicável'),'Status Mutari: '+(d.mutariStatus||'Não aplicável'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Gênero: '+(d.gender||'Não definido'),'Papel narrativo: '+(d.role||'Não definido'),'Perfil de atuação: '+(d.archetype||'Não definido'),'','APARÊNCIA',[d.height,d.build,d.skin].filter(Boolean).join(' · '),'Rosto: '+[d.headShape,d.faceShape,d.brows,d.nose,d.mouth,d.ears].filter(Boolean).join(' · '),'Olhos: '+[d.eyeLeft,d.eyeRight,d.ocular].filter(Boolean).join(' · '),'Cabelo: '+[d.hairColor,d.hairType,d.hairLength,d.hairDensity,d.hairstyle].filter(Boolean).join(' · '),'Voz: '+[d.voice,textify(d.voiceTraits)].filter(Boolean).join(' · '),'','ESPECIALIZAÇÕES',master||'Não definidas.','','LIMITAÇÕES',lim||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.tools,d.specialItems].filter(Boolean).join(' · ')||'Não definido.','','BIOGRAFIA',d.bio||'Não escrita.'];
+ if(!ensureBiologicalFinalization())return;
+ var d=formData(), master=[textify(d.masteryChoices),d.masteries].filter(Boolean).join(', '), lim=[textify(d.limitationChoices),d.limitations].filter(Boolean).join(', '),bioState=biologicalCoherenceState();
+ var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','COERÊNCIA BIOLÓGICA: '+bioState.label,'PRINCÍPIO: '+BIOLOGY_PRINCIPLE,'ORIGEM DA EXCEÇÃO: '+(d.biologyOrigin||'Não aplicável'),'OBSERVAÇÃO BIOLÓGICA: '+(d.biologyNotes||'Não definida'),'','Nome lumyrieliano: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem biológica: '+(d.ancestryMode==='mutari'?'Mutari':'Linhagem única'),'Ancestralidade 1: '+(d.parentA||'Não aplicável'),'Ancestralidade 2: '+(d.parentB||'Não aplicável'),'Status Mutari: '+(d.mutariStatus||'Não aplicável'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Gênero: '+(d.gender||'Não definido'),'Papel narrativo: '+(d.role||'Não definido'),'Perfil de atuação: '+(d.archetype||'Não definido'),'','APARÊNCIA',[d.height,d.build,d.skin].filter(Boolean).join(' · '),'Rosto: '+[d.headShape,d.faceShape,d.brows,d.nose,d.mouth,d.ears].filter(Boolean).join(' · '),'Olhos: '+[d.eyeLeft,d.eyeRight,d.ocular].filter(Boolean).join(' · '),'Cabelo: '+[d.hairColor,d.hairType,d.hairLength,d.hairDensity,d.hairstyle].filter(Boolean).join(' · '),'Voz: '+[d.voice,textify(d.voiceTraits)].filter(Boolean).join(' · '),'','ESPECIALIZAÇÕES',master||'Não definidas.','','LIMITAÇÕES',lim||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.tools,d.specialItems].filter(Boolean).join(' · ')||'Não definido.','','BIOGRAFIA',d.bio||'Não escrita.'];
  download(lines.join('\n'),filename(d,'txt'),'text/plain;charset=utf-8');
 }
 
 populateNumericSelects();
 loadLocal();
-updateLumName();updateCustomPlace();updateAncestryMode();updatePeopleDescription();updatePlaceDescription();updateSkinRecommendation();updateOcularDescription();updateIdentityRecommendations();
+updateLumName();updateCustomPlace();updateAncestryMode();updatePeopleDescription();updatePlaceDescription();updateSkinRecommendation();updateOcularDescription();updateIdentityRecommendations();updateBiologicalCoherence();
 </script>
 </body>
 </html>
