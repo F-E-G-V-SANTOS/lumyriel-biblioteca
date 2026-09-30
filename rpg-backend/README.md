@@ -1,6 +1,6 @@
-# Lumyriel RPG Backend MVP — Fases 1–3
+# Lumyriel RPG — Backend MVP + Frontend Alpha
 
-Esqueleto de backend isolado para provar a arquitetura aprovada do RPG **antes** de integrar o Narrador GPT ou alterar o site público.
+Linha integrada de desenvolvimento do RPG: backend transacional das Fases 1–3, fundação isolada do Narrador GPT e frontend alpha em `rpg.html`. O fluxo de submissão canônica do Criador continua separado em `apps-script/Code.gs`.
 
 ## Escopo desta branch
 
@@ -17,7 +17,7 @@ Implementa:
 - optimistic concurrency;
 - idempotência por `campaign_id + idempotency_key`;
 - event log e checkpoint manual;
-- situação e narrativa **mockadas**, deliberadamente sem GPT.
+- situação e narrativa **mockadas** no endpoint de turno enquanto a orquestração GPT não é ativada;\n- `rpg.html` integrado ao contrato real de importação, campanhas, turnos, `state_version`, idempotência e checkpoints;\n- configuração mecânica temporária no frontend alpha, sem inferir atributos/competências da biografia;\n- modo demonstração local explicitamente não autoritativo quando nenhum backend estiver configurado.
 
 Não implementa ainda:
 
@@ -177,4 +177,5 @@ A branch também contém a camada isolada de integração do Narrador:
 - `OPENAI_API_KEY` e `OPENAI_MODEL` existem apenas no ambiente do servidor;
 - o endpoint de turno continua na implementação mockada da Fase 3.
 
-Essa separação é deliberada: a próxima mudança deve refatorar o orquestrador para **não manter transação PostgreSQL aberta durante chamadas ao modelo**. Só depois disso `RPG_ENABLE_NARRATOR` poderá ligar o Narrador real ao endpoint de turno.
+Essa separação continua deliberada: a próxima etapa do backend é refatorar o endpoint de turno para que chamadas ao modelo ocorram **fora de transações PostgreSQL abertas**. Só depois disso `RPG_ENABLE_NARRATOR` poderá ligar o Narrador real com recuperação idempotente.
+\n\n## Correção de integridade\n\nO arquivo `src/validators.js` originalmente entrou no commit das Fases 1–3 com bytes corrompidos a partir de `validateCampaignInit`. A branch integrada reparou o arquivo, restaurando os validadores de `CampaignInitRequest`, `TurnRequest` e `getCompetencyLevel`. A sintaxe do validador e do JavaScript de `rpg.html` foi verificada após a correção.\n
