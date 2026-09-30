@@ -153,7 +153,12 @@ async function emitHook(hook, payload) {
   if (typeof hook === 'function') await hook(payload);
 }
 
-function continuationPayload(previousResponseId, callId, result) {
+function toolsForContext(context) {
+  const allowed = new Set(context.allowed_tools ?? []);
+  return narratorTools.filter((tool) => allowed.has(tool.name));
+}
+
+function continuationPayload(previousResponseId, callId, result, tools) {
   return {
     instructions: narratorInstructions,
     previous_response_id: previousResponseId,
@@ -162,8 +167,8 @@ function continuationPayload(previousResponseId, callId, result) {
       call_id: callId,
       output: JSON.stringify(result ?? null),
     }],
-    tools: narratorTools,
-    tool_choice: 'auto',
+    tools,
+    tool_choice: tools.length ? 'auto' : 'none',
     parallel_tool_calls: false,
     text: { format: narratorOutputFormat },
     store: true,
@@ -176,6 +181,7 @@ export async function runNarratorTurn({
   fetchImpl = fetch,
   apiKey = process.env.OPENAI_API_KEY,
   model = process.env.OPENAI_MODEL,
+  initialToolChoice = 'auto',
   maxToolCycles = 6,
   onResponse = null,
   onToolCall = null,
@@ -184,6 +190,7 @@ export async function runNarratorTurn({
 }) {
   let cycles = Number.isInteger(resume?.tool_cycles) ? resume.tool_cycles : 0;
   let response;
+  const tools = toolsForContext(context);
 
   if (resume) {
     if (!resume.previous_response_id || !resume.tool_call_id) {
@@ -193,7 +200,7 @@ export async function runNarratorTurn({
       throw new Error('Narrator resume requires the persisted tool_result');
     }
     response = await createResponse(
-      continuationPayload(resume.previous_response_id, resume.tool_call_id, resume.tool_result),
+      continuationPayload(resume.previous_response_id, resume.tool_call_id, resume.tool_result, tools),
       fetchImpl,
       { apiKey, model },
     );
@@ -201,8 +208,8 @@ export async function runNarratorTurn({
     response = await createResponse({
       instructions: narratorInstructions,
       input: [{ role: 'user', content: JSON.stringify(context) }],
-      tools: narratorTools,
-      tool_choice: 'auto',
+      tools,
+      tool_choice: tools.length ? initialToolChoice : 'none',
       parallel_tool_calls: false,
       text: { format: narratorOutputFormat },
       store: true,
@@ -269,7 +276,7 @@ export async function runNarratorTurn({
     cycles += 1;
 
     response = await createResponse(
-      continuationPayload(response.id, call.call_id, result),
+      continuationPayload(response.id, call.call_id, result, tools),
       fetchImpl,
       { apiKey, model },
     );
