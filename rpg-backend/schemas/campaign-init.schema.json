@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "properties": {
+    "character_id": {
+      "type": "string"
+    },
+    "character_revision": {
+      "type": "integer"
+    },
+    "difficulty_mode": {
+      "type": "string",
+      "enum": [
+        "historia",
+        "facil",
+        "medio",
+        "dificil",
+        "lumyriel"
+      ]
+    },
+    "duration_mode": {
+      "type": "string",
+      "enum": [
+        "30",
+        "60",
+        "90",
+        "120",
+        "240",
+        "continua"
+      ]
+    },
+    "region_selection": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "selected"
+      ]
+    },
+    "region_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "adventure_preference": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "social",
+        "investigacao",
+        "exploracao",
+        "viagem",
+        "sobrevivencia",
+        "combate",
+        "mista"
+      ]
+    },
+    "campaign_name": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "character_id",
+    "character_revision",
+    "difficulty_mode",
+    "duration_mode",
+    "region_selection",
+    "region_id",
+    "adventure_preference",
+    "campaign_name"
+  ],
+  "additionalProperties": false
+}
