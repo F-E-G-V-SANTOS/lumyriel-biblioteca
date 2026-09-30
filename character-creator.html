@@ -9,7 +9,7 @@
 :root{--bg:#0b0c0d;--bg2:#111316;--panel:#151719;--panel2:#1a1c1f;--line:#2d2c29;--gold:#b79a61;--gold2:#d3bc87;--ink:#ece7dc;--muted:#aaa59b;--soft:#c8c1b5;--ok:#98aa91;--warn:#c5a36d;--r:18px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 15% 0%,rgba(183,154,97,.08),transparent 30%),var(--bg);color:var(--ink);font:15px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
 a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{width:min(1180px,calc(100% - 36px));margin:auto}
-header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-filter:blur(14px);border-bottom:1px solid #242527}.top{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px;font-weight:760;letter-spacing:.08em;text-transform:uppercase}.sigil{width:40px;height:40px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font:600 1.35rem Georgia,serif}.back{border:1px solid #383733;border-radius:999px;padding:9px 14px;color:#d7d0c4}
+header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-filter:blur(14px);border-bottom:1px solid #242527}.top{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px;font-weight:760;letter-spacing:.08em;text-transform:uppercase}.sigil{width:40px;height:40px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font:600 1.35rem Georgia,serif}.back{border:1px solid #383733;border-radius:14px;padding:9px 14px;color:#d7d0c4;display:inline-flex;align-items:center;justify-content:center;line-height:1.15}.back-short{display:none}
 .hero{padding:64px 0 32px}.eyebrow{color:var(--gold2);text-transform:uppercase;letter-spacing:.19em;font-size:.73rem;font-weight:750}.hero h1{font:500 clamp(2.6rem,6vw,5.2rem)/1.02 Georgia,serif;letter-spacing:-.035em;margin:12px 0 18px;max-width:900px}.hero p{max-width:780px;color:#c5c0b6;font-size:1.02rem}.notice{margin-top:24px;border:1px solid #34322d;background:#121416;border-radius:15px;padding:14px 16px;color:#b9b3a8}.notice strong{color:var(--gold2)}
 .creator{display:grid;grid-template-columns:260px minmax(0,1fr);gap:22px;padding:24px 0 80px}.steps{position:sticky;top:94px;align-self:start;border:1px solid var(--line);border-radius:20px;background:#111315;padding:14px}.step-btn{width:100%;display:flex;align-items:center;gap:11px;text-align:left;border:0;background:transparent;color:#a9a49a;border-radius:12px;padding:10px 11px;margin:2px 0}.step-btn span{width:27px;height:27px;border:1px solid #3a3935;border-radius:50%;display:grid;place-items:center;font-size:.77rem;flex:0 0 auto}.step-btn.active{background:#211f1b;color:#f0e7d8}.step-btn.active span{border-color:var(--gold);color:var(--gold2)}.step-btn.done span{background:#26271f;color:#cbd2b2}
 .workspace{min-width:0}.panel{display:none;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#151719,#111315);padding:clamp(22px,4vw,40px)}.panel.active{display:block}.panel-head{display:flex;justify-content:space-between;gap:20px;align-items:start;margin-bottom:26px}.panel-head h2{font:500 clamp(2rem,4vw,3rem)/1.08 Georgia,serif;margin:7px 0 0}.panel-head p{max-width:520px;color:var(--muted);margin:0}
@@ -25,11 +25,11 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-f
 .readonly{background:#171612!important;color:var(--gold2)!important;border-color:#4b4437!important;font-weight:700}.custom-field{display:none;margin-top:8px}.custom-field.show{display:block}.quick-grid{display:flex;gap:8px;flex-wrap:wrap}.quick-check{position:relative}.quick-check input{position:absolute;opacity:0;pointer-events:none}.quick-check label{display:block;border:1px solid #343431;background:#0f1112;border-radius:999px;padding:8px 11px;color:#bcb6ac;cursor:pointer;font-size:.84rem}.quick-check input:checked+label{border-color:#79694e;background:#211f1a;color:#f0e7d8}.subtle{color:#817d75;font-size:.8rem}.field select option:disabled{color:#777}.name-pair{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.conditional{display:none}.conditional.show{display:block}.recommend{color:#d0bd98}.recommend-list{margin:7px 0 0;padding-left:18px}.recommend-list li{margin:5px 0}.mini-title{font:500 1.05rem Georgia,serif;color:#ddd4c5;margin:14px 0 8px}
 footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media(max-width:900px){.creator{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto;gap:6px;padding:8px}.step-btn{min-width:max-content;width:auto}.step-btn span{display:none}.profile{grid-template-columns:1fr}}
-@media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px}.brand{font-size:.82rem}.sigil{width:34px;height:34px}.hero{padding:36px 0 18px}.hero h1{font-size:2.65rem}.creator{padding-top:12px}.panel{padding:20px 14px;border-radius:16px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid,.name-pair{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#111315 28%);padding-top:28px;padding-bottom:4px}.btn{padding:10px 13px}.back{font-size:.8rem;padding:8px 11px}}
+@media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px;gap:8px}.brand{font-size:.82rem;min-width:0}.sigil{width:34px;height:34px}.hero{padding:36px 0 18px}.hero h1{font-size:2.65rem}.creator{padding-top:12px}.panel{padding:20px 14px;border-radius:16px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid,.name-pair{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#111315 28%);padding-top:28px;padding-bottom:4px}.btn{padding:10px 13px}.back{flex:0 0 auto;height:38px;border-radius:11px;font-size:.76rem;padding:7px 10px;white-space:nowrap}.back-full{display:none}.back-short{display:inline}}
 </style>
 </head>
 <body>
-<header><div class="shell top"><a class="brand" href="index.html"><span class="sigil">L</span><span>Biblioteca de Lumyriel</span></a><a class="back" href="index.html">← Voltar à biblioteca</a></div></header>
+<header><div class="shell top"><a class="brand" href="index.html"><span class="sigil">L</span><span>Biblioteca de Lumyriel</span></a><a class="back" href="index.html" aria-label="Voltar à biblioteca"><span class="back-full">← Voltar à biblioteca</span><span class="back-short">← Biblioteca</span></a></div></header>
 <main>
 <section class="hero shell">
 <div class="eyebrow">Ferramenta alpha</div>
@@ -60,7 +60,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="middleName">Segundo nome <span class="subtle">(opcional)</span></label><input id="middleName" placeholder="Ex.: Eduardo" autocomplete="off"></div>
 <div class="field"><label for="surname">Sobrenome <span class="subtle">(opcional)</span></label><input id="surname" placeholder="Ex.: Gomes" autocomplete="off"></div>
 </div>
-<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são a referência do nome original. O dossiê e a submissão usam a adaptação lumyrieliana gerada pela Fala Comercial de Elaris.</small></div>
+<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são a referência do nome original. O criador gera uma naturalização onomástica compatível com a Fala Comercial de Elaris: não é tradução literal nem torna a forma cânone automaticamente.</small></div>
 
 <div class="section-title">Identidade e origem</div>
 <div class="grid">
@@ -639,30 +639,65 @@ function hashString(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCod
 function cleanName(s){
  return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-zçÇ]/g,'').toLowerCase();
 }
-function fceAdapt(raw){
+function fcePhonologicalAdapt(raw){
  var s=cleanName(raw);
  if(!s)return '';
- // Adaptação ortográfica aproximada ao inventário canônico da FCE.
+ // Adaptação ortográfica ao núcleo canônico da FCE.
  s=s.replace(/nh/g,'ny').replace(/lh/g,'l').replace(/ch/g,'sh').replace(/rr/g,'r').replace(/ss/g,'s');
  s=s.replace(/qu/g,'k').replace(/gu(?=[ei])/g,'g');
  s=s.replace(/g(?=[ei])/g,'sh').replace(/j/g,'sh').replace(/x/g,'sh');
  s=s.replace(/c(?=[ei])/g,'s').replace(/c/g,'k').replace(/q/g,'k');
- s=s.replace(/ç/g,'s');
- // Letras/sinais fora do núcleo são acomodados por equivalentes próximos.
- s=s.replace(/w/g,'v');
- // Evita encontros iniciais não produtivos usando vogal epentética simples.
- var allowed=['br','dr','gr','kr','pr','tr','vr','bl','gl','kl','pl','fl','sl'];
- if(s.length>2 && !'aeiou'.includes(s[0]) && !'aeiou'.includes(s[1]) && !allowed.includes(s.slice(0,2))){
-   s=s[0]+'e'+s.slice(1);
- }
- // Codas nativas produtivas: n, r, l, s, t, k. Outras recebem vogal final.
- if(s && !'aeiounrlstk'.includes(s.slice(-1)))s+='a';
+ s=s.replace(/ç/g,'s').replace(/w/g,'v');
  s=s.replace(/(.)\1\1+/g,'$1$1');
- return s.charAt(0).toUpperCase()+s.slice(1);
+ return s;
+}
+function fcePersonalName(raw,slot){
+ var s=fcePhonologicalAdapt(raw);
+ if(!s)return '';
+
+ // O nome de entrada é referência, não empréstimo preservado:
+ // a forma final é uma naturalização onomástica, sem etimologia inventada.
+ var h=hashString(s+'|FCE-PERSONAL|'+String(slot||0));
+ var endingsBySlot=[
+   ['ran','ven','dor','len','mir','ren','rel','sar'],
+   ['ar','en','or','el','an','ir','var','is'],
+   ['ar','en','or','al','is','er','an','n']
+ ];
+ var endings=endingsBySlot[Math.min(2,Math.max(0,slot||0))];
+ var ending=endings[h%endings.length];
+
+ var stem=s;
+ // Remove finais muito transparentes do nome de origem antes da naturalização.
+ if(stem.length>3 && /[aeiou]$/.test(stem))stem=stem.slice(0,-1);
+ if(stem.length>3 && /[^aeiounrlstk]$/.test(stem))stem=stem.slice(0,-1);
+ if((slot||0)===2 && stem.length>3 && /s$/.test(stem))stem=stem.slice(0,-1);
+
+ // Mantém parentesco visual com o nome original sem apenas copiá-lo.
+ if(stem.length>6)stem=stem.slice(0,Math.max(4,Math.ceil(stem.length*.72)));
+ if(!stem)stem=s.slice(0,Math.min(3,s.length));
+
+ // Evita encontros artificiais na junção.
+ if(/[aeiou]$/.test(stem)&&/^[aeiou]/.test(ending)){
+   if(stem.slice(-1)===ending[0])ending=ending.slice(1);
+   else stem=stem.slice(0,-1);
+ }
+ if(stem.slice(-1)===ending[0])ending=ending.slice(1);
+
+ var out=(stem+ending).replace(/(.)\1\1+/g,'$1$1');
+
+ // Garantia de que a naturalização não devolva exatamente o nome de entrada.
+ if(out===s){
+   out=stem+(slot===2?'en':'ar');
+ }
+ return out.charAt(0).toUpperCase()+out.slice(1);
 }
 function updateLumName(){
- var parts=['firstName','middleName','surname'].map(function(id){return document.getElementById(id).value.trim()}).filter(Boolean);
- document.getElementById('name').value=parts.map(fceAdapt).filter(Boolean).join(' ');
+ var ids=['firstName','middleName','surname'],parts=[];
+ ids.forEach(function(id,slot){
+   var raw=document.getElementById(id).value.trim();
+   if(raw)parts.push(fcePersonalName(raw,slot));
+ });
+ document.getElementById('name').value=parts.join(' ');
 }
 function lumPlaceAdaptOne(base){
  base=(base||'').trim();if(!base)return '';
@@ -1176,12 +1211,12 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.5',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.6',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.5',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.6',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
