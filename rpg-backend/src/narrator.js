@@ -149,42 +149,132 @@ async function createResponse(payload, fetchImpl) {
   return body;
 }
 
-export async function runNarratorTurn({ context, executeTool, fetchImpl = fetch, maxToolCycles = 6 }) {
-  let response = await createResponse({
+async function emitHook(hook, payload) {
+  if (typeof hook === 'function') await hook(payload);
+}
+
+function continuationPayload(previousResponseId, callId, result) {
+  return {
     instructions: narratorInstructions,
-    input: [{ role: 'user', content: JSON.stringify(context) }],
+    previous_response_id: previousResponseId,
+    input: [{
+      type: 'function_call_output',
+      call_id: callId,
+      output: JSON.stringify(result ?? null),
+    }],
     tools: narratorTools,
     tool_choice: 'auto',
     parallel_tool_calls: false,
     text: { format: narratorOutputFormat },
     store: true,
-  }, fetchImpl);
+  };
+}
 
-  let cycles = 0;
-  while (true) {
-    const calls = (response.output ?? []).filter((item) => item.type === 'function_call');
-    if (!calls.length) {
-      const raw = parseOutputText(response);
-      if (!raw) throw new Error('Narrator response did not contain structured output text');
-      return { response_id: response.id, output: JSON.parse(raw), tool_cycles: cycles };
+export async function runNarratorTurn({
+  context,
+  executeTool,
+  fetchImpl = fetch,
+  maxToolCycles = 6,
+  onResponse = null,
+  onToolCall = null,
+  onToolResult = null,
+  resume = null,
+}) {
+  let cycles = Number.isInteger(resume?.tool_cycles) ? resume.tool_cycles : 0;
+  let response;
+
+  if (resume) {
+    if (!resume.previous_response_id || !resume.tool_call_id) {
+      throw new Error('Narrator resume requires previous_response_id and tool_call_id');
     }
-    if (calls.length !== 1) throw new Error(`Narrator returned ${calls.length} tool calls despite parallel_tool_calls=false`);
-    if (cycles >= maxToolCycles) throw new Error('Narrator tool loop exceeded the configured safety limit');
-
-    const call = calls[0];
-    if (!context.allowed_tools.includes(call.name)) throw new Error(`Narrator requested disallowed tool: ${call.name}`);
-    const args = JSON.parse(call.arguments);
-    const result = await executeTool(call.name, args);
-    cycles += 1;
-
+    if (!Object.prototype.hasOwnProperty.call(resume, 'tool_result')) {
+      throw new Error('Narrator resume requires the persisted tool_result');
+    }
+    response = await createResponse(
+      continuationPayload(resume.previous_response_id, resume.tool_call_id, resume.tool_result),
+      fetchImpl,
+    );
+  } else {
     response = await createResponse({
-      previous_response_id: response.id,
-      input: [{ type: 'function_call_output', call_id: call.call_id, output: JSON.stringify(result) }],
+      instructions: narratorInstructions,
+      input: [{ role: 'user', content: JSON.stringify(context) }],
       tools: narratorTools,
       tool_choice: 'auto',
       parallel_tool_calls: false,
       text: { format: narratorOutputFormat },
       store: true,
     }, fetchImpl);
+  }
+
+  await emitHook(onResponse, {
+    response_id: response.id,
+    response,
+    tool_cycles: cycles,
+    resumed: Boolean(resume),
+  });
+
+  while (true) {
+    const calls = (response.output ?? []).filter((item) => item.type === 'function_call');
+    if (!calls.length) {
+      const raw = parseOutputText(response);
+      if (!raw) throw new Error('Narrator response did not contain structured output text');
+      return {
+        response_id: response.id,
+        output: JSON.parse(raw),
+        tool_cycles: cycles,
+      };
+    }
+
+    if (calls.length !== 1) {
+      throw new Error(`Narrator returned ${calls.length} tool calls despite parallel_tool_calls=false`);
+    }
+    if (cycles >= maxToolCycles) {
+      throw new Error('Narrator tool loop exceeded the configured safety limit');
+    }
+
+    const call = calls[0];
+    if (!context.allowed_tools.includes(call.name)) {
+      throw new Error(`Narrator requested disallowed tool: ${call.name}`);
+    }
+
+    const args = JSON.parse(call.arguments);
+    const stepIndex = cycles;
+
+    await emitHook(onToolCall, {
+      step_index: stepIndex,
+      response_id: response.id,
+      call_id: call.call_id,
+      tool_name: call.name,
+      arguments: args,
+    });
+
+    const result = await executeTool(call.name, args, {
+      step_index: stepIndex,
+      response_id: response.id,
+      call_id: call.call_id,
+    });
+
+    await emitHook(onToolResult, {
+      step_index: stepIndex,
+      response_id: response.id,
+      call_id: call.call_id,
+      tool_name: call.name,
+      arguments: args,
+      result,
+    });
+
+    cycles += 1;
+
+    response = await createResponse(
+      continuationPayload(response.id, call.call_id, result),
+      fetchImpl,
+    );
+
+    await emitHook(onResponse, {
+      response_id: response.id,
+      response,
+      tool_cycles: cycles,
+      resumed: false,
+    });
   }
 }
