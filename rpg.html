@@ -426,7 +426,7 @@ function updateQuickActions(actions){
   var box=document.getElementById('quickActions');box.innerHTML='';
   (actions||[]).forEach(function(a){
     var b=document.createElement('button');b.textContent=a.label;b.dataset.id=a.id;
-    b.addEventListener('click',function(){playSuggested(a.id,a.label)});
+    b.addEventListener('click',function(){playSuggested(a.id,a.label,a.intention)});
     box.appendChild(b);
   });
 }
@@ -600,8 +600,9 @@ function playAction(){
   box.value='';
   performTurn({source:'free_action',raw_text:action,selected_action_id:null},action);
 }
-function playSuggested(id,label){
-  performTurn({source:'suggested_action',raw_text:'',selected_action_id:id},label);
+function playSuggested(id,label,intention){
+  var raw=intention||label||'';
+  performTurn({source:'suggested_action',raw_text:raw,selected_action_id:id},label||raw);
 }
 
 async function saveGame(){
