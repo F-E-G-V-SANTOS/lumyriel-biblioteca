@@ -124,18 +124,18 @@ function parseOutputText(response) {
   return text.join('');
 }
 
-async function createResponse(payload, fetchImpl) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_MODEL;
-  if (!apiKey) throw new Error('OPENAI_API_KEY is required when narrator integration is enabled');
+async function createResponse(payload, fetchImpl, { apiKey, model }) {
   if (!model) throw new Error('OPENAI_MODEL is required when narrator integration is enabled');
+  if (!apiKey && fetchImpl === globalThis.fetch) {
+    throw new Error('OPENAI_API_KEY is required when narrator integration is enabled');
+  }
+
+  const headers = { 'Content-Type': 'application/json' };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
   const response = await fetchImpl('https://api.openai.com/v1/responses', {
     method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify({ model, ...payload }),
   });
   const body = await response.json();
@@ -174,6 +174,8 @@ export async function runNarratorTurn({
   context,
   executeTool,
   fetchImpl = fetch,
+  apiKey = process.env.OPENAI_API_KEY,
+  model = process.env.OPENAI_MODEL,
   maxToolCycles = 6,
   onResponse = null,
   onToolCall = null,
@@ -193,6 +195,7 @@ export async function runNarratorTurn({
     response = await createResponse(
       continuationPayload(resume.previous_response_id, resume.tool_call_id, resume.tool_result),
       fetchImpl,
+      { apiKey, model },
     );
   } else {
     response = await createResponse({
@@ -203,7 +206,7 @@ export async function runNarratorTurn({
       parallel_tool_calls: false,
       text: { format: narratorOutputFormat },
       store: true,
-    }, fetchImpl);
+    }, fetchImpl, { apiKey, model });
   }
 
   await emitHook(onResponse, {
@@ -268,6 +271,7 @@ export async function runNarratorTurn({
     response = await createResponse(
       continuationPayload(response.id, call.call_id, result),
       fetchImpl,
+      { apiKey, model },
     );
 
     await emitHook(onResponse, {
