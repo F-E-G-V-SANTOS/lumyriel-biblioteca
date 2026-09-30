@@ -10,6 +10,7 @@ Fase 1 do plano técnico:
 - CampaignInitRequest formalizado em JSON Schema;
 - CampaignManifest formalizado em JSON Schema;
 - persistência relacional inicial em PostgreSQL;
+- armazenamento separado de personagens jogáveis por usuário;
 - concorrência otimista preparada por `state_version`;
 - idempotência preparada por `campaign_id + idempotency_key`;
 - event log e checkpoints separados do estado corrente;
@@ -25,8 +26,11 @@ Ele não deve receber turnos, rolar dados, guardar campanhas nem armazenar chave
 
 O RPG terá backend próprio. O navegador enviará intenções de jogo ao backend do RPG; somente o servidor poderá alterar o estado oficial da campanha.
 
+Salvar um personagem para jogar também não o submete automaticamente à avaliação autoral.
+
 ## Arquivos
 
+- `docs/ADR-001-character-source.md` — separa personagem jogável de submissão autoral.
 - `schemas/campaign-state.schema.json` — fonte serializável do estado da campanha.
 - `schemas/campaign-init.schema.json` — contrato de criação de campanha.
 - `schemas/campaign-manifest.schema.json` — cabeçalho estável do save.
@@ -35,5 +39,7 @@ O RPG terá backend próprio. O navegador enviará intenções de jogo ao backen
 ## Próxima fase
 
 Fase 2: implementar criação e carregamento de campanha sobre esta persistência, incluindo snapshot imutável do personagem e criação atômica do primeiro checkpoint.
+
+Antes disso, o adaptador Criador → ficha mecânica precisa ser definido: o `CampaignState` exige atributos e competências numéricos, enquanto o Criador atual é majoritariamente descritivo.
 
 Nenhuma credencial deve ser versionada neste repositório público.
