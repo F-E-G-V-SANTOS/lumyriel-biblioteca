@@ -22,10 +22,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-f
 .summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.summary-item{border:1px solid #30302d;border-radius:13px;padding:13px;background:#101213}.summary-item b{display:block;color:var(--gold2);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}.summary-item span{color:#d4cec4}
 .toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 0}.status{font-size:.83rem;color:#8f8a82;margin-top:10px}.status.ok{color:#aebd9e}.status.warn{color:#d0b27a}
 .info-box{margin-top:9px;border:1px solid #33322e;border-radius:12px;background:#101214;padding:12px 13px;color:#aaa59b;font-size:.86rem;line-height:1.55}.info-box strong{color:var(--gold2)}.info-box.warn{border-color:#5b4931;color:#c6b59a}
-.readonly{background:#171612!important;color:var(--gold2)!important;border-color:#4b4437!important;font-weight:700}.custom-field{display:none;margin-top:8px}.custom-field.show{display:block}.quick-grid{display:flex;gap:8px;flex-wrap:wrap}.quick-check{position:relative}.quick-check input{position:absolute;opacity:0;pointer-events:none}.quick-check label{display:block;border:1px solid #343431;background:#0f1112;border-radius:999px;padding:8px 11px;color:#bcb6ac;cursor:pointer;font-size:.84rem}.quick-check input:checked+label{border-color:#79694e;background:#211f1a;color:#f0e7d8}.subtle{color:#817d75;font-size:.8rem}.field select option:disabled{color:#777}.name-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}.recommend{color:#d0bd98}.mini-title{font:500 1.05rem Georgia,serif;color:#ddd4c5;margin:14px 0 8px}
+.readonly{background:#171612!important;color:var(--gold2)!important;border-color:#4b4437!important;font-weight:700}.custom-field{display:none;margin-top:8px}.custom-field.show{display:block}.quick-grid{display:flex;gap:8px;flex-wrap:wrap}.quick-check{position:relative}.quick-check input{position:absolute;opacity:0;pointer-events:none}.quick-check label{display:block;border:1px solid #343431;background:#0f1112;border-radius:999px;padding:8px 11px;color:#bcb6ac;cursor:pointer;font-size:.84rem}.quick-check input:checked+label{border-color:#79694e;background:#211f1a;color:#f0e7d8}.subtle{color:#817d75;font-size:.8rem}.field select option:disabled{color:#777}.name-pair{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.conditional{display:none}.conditional.show{display:block}.recommend{color:#d0bd98}.recommend-list{margin:7px 0 0;padding-left:18px}.recommend-list li{margin:5px 0}.mini-title{font:500 1.05rem Georgia,serif;color:#ddd4c5;margin:14px 0 8px}
 footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media(max-width:900px){.creator{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto;gap:6px;padding:8px}.step-btn{min-width:max-content;width:auto}.step-btn span{display:none}.profile{grid-template-columns:1fr}}
-@media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px}.brand{font-size:.82rem}.sigil{width:34px;height:34px}.hero{padding:36px 0 18px}.hero h1{font-size:2.65rem}.creator{padding-top:12px}.panel{padding:20px 14px;border-radius:16px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#111315 28%);padding-top:28px;padding-bottom:4px}.btn{padding:10px 13px}.back{font-size:.8rem;padding:8px 11px}}
+@media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px}.brand{font-size:.82rem}.sigil{width:34px;height:34px}.hero{padding:36px 0 18px}.hero h1{font-size:2.65rem}.creator{padding-top:12px}.panel{padding:20px 14px;border-radius:16px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid,.name-pair{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#111315 28%);padding-top:28px;padding-bottom:4px}.btn{padding:10px 13px}.back{font-size:.8rem;padding:8px 11px}}
 </style>
 </head>
 <body>
@@ -56,25 +56,39 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 
 <div class="section-title first">Nome</div>
 <div class="name-pair">
-<div class="field"><label for="realName">Seu nome / nome de referência</label><input id="realName" placeholder="Digite um nome normal" autocomplete="off"><small>Usado somente para criar o nome do personagem. Não entra no dossiê nem na submissão.</small></div>
-<div class="field"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Adaptação fonológica automática pela Fala Comercial de Elaris (FCE), usada como língua franca. O nome de referência não entra no dossiê nem na submissão.</small></div>
+<div class="field"><label for="firstName">Primeiro nome</label><input id="firstName" placeholder="Ex.: Filipe" autocomplete="off"></div>
+<div class="field"><label for="middleName">Segundo nome <span class="subtle">(opcional)</span></label><input id="middleName" placeholder="Ex.: Eduardo" autocomplete="off"></div>
+<div class="field"><label for="surname">Sobrenome <span class="subtle">(opcional)</span></label><input id="surname" placeholder="Ex.: Gomes" autocomplete="off"></div>
 </div>
+<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são apenas referência. O dossiê e a submissão usam somente esta adaptação pela Fala Comercial de Elaris.</small></div>
 
 <div class="section-title">Identidade e origem</div>
 <div class="grid">
 <div class="field"><label for="age">Idade</label><select id="age" name="age"><option value="">Selecione</option></select><div id="ageCustomWrap" class="custom-field"><input id="ageCustom" type="number" min="0" max="5000" placeholder="Idade personalizada"></div></div>
 <div class="field"><label for="gender">Gênero</label><select id="gender" name="gender"><option value="">Selecione</option><option>Homem</option><option>Mulher</option><option>Não definir</option></select></div>
 
-<div class="field full"><label for="people">Povo / espécie</label>
+<div class="field full"><label for="ancestryMode">Origem biológica</label>
+<select id="ancestryMode" name="ancestryMode"><option value="single" selected>Espécie / linhagem única</option><option value="mutari">Mutari — combinar duas ancestralidades</option></select>
+<small>Mutari é uma categoria genealógica. O criador mostra se a combinação está confirmada ou ainda em aberto.</small>
+</div>
+
+<div class="field full" id="singleSpeciesWrap"><label for="people">Povo / espécie</label>
 <select id="people" name="people">
 <option value="">Selecione</option>
-<option>Humano</option><option>Elfo</option><option>Anão</option>
-<option>Dragão primordial (original)</option><option>Nareth</option><option>Mutari humano-dragão</option>
-<option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option>
+<option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option>
+<option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option>
 <option value="__other__">Outro / personalizar</option>
 </select>
 <div id="peopleCustomWrap" class="custom-field"><input id="peopleCustom" placeholder="Defina o povo ou espécie"></div>
-<div id="peopleDescription" class="info-box">Escolha uma opção para ver uma descrição curta baseada no cânone atual.</div>
+<div id="peopleDescription" class="info-box">Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.</div>
+</div>
+
+<div class="field full conditional" id="mutariWrap">
+<div class="grid">
+<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
+<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
+</div>
+<div id="mutariResult" class="info-box">Escolha duas ancestralidades. Combinações ainda não confirmadas serão tratadas como candidatas, não como biologia canônica.</div>
 </div>
 
 <div class="field"><label for="originStatus">Relação com Lumyriel</label>
@@ -97,7 +111,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 </optgroup>
 <option value="__other__">Outro local / personalizar</option>
 </select>
-<div id="originPlaceCustomWrap" class="custom-field"><input id="originPlaceCustom" placeholder="Nome do lugar"></div>
+<div id="originPlaceCustomWrap" class="custom-field"><label for="originPlaceCustom">Lugar de referência</label><input id="originPlaceCustom" placeholder="Ex.: Brasil, São Paulo"><label for="originPlaceLum" style="margin-top:9px">Forma plausível em Lumyriel</label><input id="originPlaceLum" class="readonly" readonly placeholder="Será gerada automaticamente"><small>É um nome de trabalho para o personagem; não cria um lugar canônico no mapa.</small></div>
 <div id="placeDescription" class="info-box">Escolha um lugar para ver o contexto regional.</div>
 </div>
 
@@ -121,6 +135,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="posture">Postura</label><select id="posture" name="posture"><option value="">Selecione</option><option>Relaxada</option><option>Formal</option><option>Vigilante</option><option>Curvada</option><option>Marcial</option><option>Elegante</option><option>Assimétrica</option><option value="__other__">Outra / personalizar</option></select><div id="postureCustomWrap" class="custom-field"><input id="postureCustom" placeholder="Postura"></div></div>
 <div class="field"><label for="headShape">Formato da cabeça</label><select id="headShape" name="headShape"><option value="">Selecione</option><option>Oval</option><option>Redonda</option><option>Alongada</option><option>Quadrada</option><option>Triangular</option><option>Angular</option><option value="__other__">Outro / personalizar</option></select><div id="headShapeCustomWrap" class="custom-field"><input id="headShapeCustom" placeholder="Formato"></div></div>
 <div class="field"><label for="faceShape">Formato do rosto</label><select id="faceShape" name="faceShape"><option value="">Selecione</option><option>Oval</option><option>Redondo</option><option>Quadrado</option><option>Longo</option><option>Coração</option><option>Diamante</option><option>Angular</option><option value="__other__">Outro / personalizar</option></select><div id="faceShapeCustomWrap" class="custom-field"><input id="faceShapeCustom" placeholder="Formato"></div></div>
+<div class="field"><label for="brows">Formato das sobrancelhas</label><select id="brows" name="brows"><option value="">Selecione</option><option>Retas</option><option>Levemente arqueadas</option><option>Arqueadas</option><option>Angulares</option><option>Grossas</option><option>Finas</option><option>Baixas e marcadas</option><option>Altas e abertas</option><option>Assimétricas</option><option value="__other__">Outro / personalizar</option></select><div id="browsCustomWrap" class="custom-field"><input id="browsCustom" placeholder="Formato das sobrancelhas"></div></div>
 
 <div class="field"><label for="skin">Tonalidade da pele</label>
 <select id="skin" name="skin">
@@ -131,6 +146,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div id="skinRecommendation" class="info-box"><strong>Recomendação:</strong> escolha o lugar de origem primeiro. A recomendação é uma faixa plausível, nunca uma regra de povo ou identidade.</div>
 </div>
 </div>
+<div id="identityRecommendation" class="info-box"><strong>Coerência automática:</strong> conforme você escolhe espécie, ancestralidade, lugar e aparência, o criador explica o que é comum, raro ou precisa de uma justificativa biológica.</div>
 
 <div class="section-title">Olhos</div>
 <div class="grid three">
@@ -173,6 +189,8 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <option>Marca Áurea Varyth-Kaelorn</option>
 <option>Olhos de Sangue — linhagem de Seavor</option>
 <option>Vaelir (H4)</option>
+<option>Arquitetura Nethra (A5)</option>
+<option>Convergência ocular rara (A8)</option>
 <optgroup label="Alterações adquiridas / alto risco">
 <option>Coroa Parasita</option><option>Sangue Rúnico</option><option>Olho da Aparição</option><option>Brasa Profana</option><option>Vazio Corrompido</option>
 </optgroup>
@@ -201,9 +219,23 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="nose">Nariz</label><select id="nose" name="nose"><option value="">Selecione</option><option>Reto e estreito</option><option>Reto e largo</option><option>Curto</option><option>Longo</option><option>Arredondado</option><option>Aquilino</option><option>Levemente desviado</option><option value="__other__">Outro / personalizar</option></select><div id="noseCustomWrap" class="custom-field"><input id="noseCustom" placeholder="Nariz"></div></div>
 <div class="field"><label for="mouth">Boca / lábios</label><select id="mouth" name="mouth"><option value="">Selecione</option><option>Finos</option><option>Médios</option><option>Cheios</option><option>Arco marcado</option><option>Assimétricos</option><option value="__other__">Outro / personalizar</option></select><div id="mouthCustomWrap" class="custom-field"><input id="mouthCustom" placeholder="Boca / lábios"></div></div>
 <div class="field"><label for="teeth">Dentes</label><select id="teeth" name="teeth"><option value="">Selecione</option><option>Regulares</option><option>Levemente irregulares</option><option>Desgastados</option><option>Com falhas visíveis</option><option>Caninos marcados</option><option>Cuidados profissionalmente</option><option value="__other__">Outro / personalizar</option></select><div id="teethCustomWrap" class="custom-field"><input id="teethCustom" placeholder="Dentes"></div></div>
-<div class="field"><label for="ears">Orelhas</label><select id="ears" name="ears"><option value="">Selecione</option><option>Pequenas</option><option>Médias</option><option>Grandes</option><option>Alongadas</option><option>Pontiagudas</option><option>Assimétricas</option><option value="__other__">Outro / personalizar</option></select><div id="earsCustomWrap" class="custom-field"><input id="earsCustom" placeholder="Orelhas"></div></div>
+<div class="field"><label for="ears">Formato das orelhas</label><select id="ears" name="ears"><option value="">Selecione</option><option>Pequenas e arredondadas</option><option>Médias e arredondadas</option><option>Grandes e arredondadas</option><option>Alongadas</option><option>Pontiagudas curtas</option><option>Pontiagudas longas</option><option>Próximas à cabeça</option><option>Projetadas lateralmente</option><option>Assimétricas</option><option value="__other__">Outro / personalizar</option></select><div id="earsCustomWrap" class="custom-field"><input id="earsCustom" placeholder="Formato das orelhas"></div></div>
 <div class="field"><label for="nails">Unhas / mãos</label><select id="nails" name="nails"><option value="">Selecione</option><option>Cuidadas</option><option>Marcadas por trabalho manual</option><option>Calos frequentes</option><option>Unhas curtas e funcionais</option><option>Unhas longas</option><option>Cicatrizes nas mãos</option><option value="__other__">Outro / personalizar</option></select><div id="nailsCustomWrap" class="custom-field"><input id="nailsCustom" placeholder="Mãos / unhas"></div></div>
-<div class="field"><label for="voice">Voz</label><select id="voice" name="voice"><option value="">Selecione</option><option>Baixa e calma</option><option>Grave</option><option>Aguda</option><option>Suave</option><option>Rouca</option><option>Rápida</option><option>Lenta e medida</option><option>Projetada / marcial</option><option value="__other__">Outra / personalizar</option></select><div id="voiceCustomWrap" class="custom-field"><input id="voiceCustom" placeholder="Voz"></div></div>
+<div class="field"><label for="voice">Timbre e ritmo da voz</label><select id="voice" name="voice"><option value="">Selecione</option><option>Baixa e calma</option><option>Grave</option><option>Aguda</option><option>Suave</option><option>Rouca</option><option>Rápida</option><option>Lenta e medida</option><option>Projetada / marcial</option><option>Monótona</option><option>Melódica</option><option value="__other__">Outra / personalizar</option></select><div id="voiceCustomWrap" class="custom-field"><input id="voiceCustom" placeholder="Timbre ou ritmo"></div></div>
+</div>
+<div class="mini-title">Jeito de falar <span class="subtle">· combine quantos quiser</span></div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Natural" id="vt0"><label for="vt0">Natural</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Engraçado" id="vt1"><label for="vt1">Engraçado</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Rude" id="vt2"><label for="vt2">Rude</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Sarcástico" id="vt3"><label for="vt3">Sarcástico</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Muito sarcástico" id="vt4"><label for="vt4">Muito sarcástico</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Irritante / chato" id="vt5"><label for="vt5">Irritante / chato</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Seco e direto" id="vt6"><label for="vt6">Seco e direto</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Gentil" id="vt7"><label for="vt7">Gentil</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Formal" id="vt8"><label for="vt8">Formal</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Teatral" id="vt9"><label for="vt9">Teatral</label></div>
+<div class="quick-check"><input type="checkbox" name="voiceTraits" value="Tímido / hesitante" id="vt10"><label for="vt10">Tímido / hesitante</label></div>
 </div>
 
 <div class="mini-title">Marcas e particularidades</div>
@@ -385,17 +417,16 @@ var PEOPLE_INFO={
 'Humano':'Espécie humanoide amplamente distribuída, com grande variação populacional contínua. Pigmentação, cabelo, proporções e traços oculares variam com ambiente, ancestralidade, migração e fluxo gênico; não existem “raças humanas” biológicas discretas no cânone.',
 'Elfo':'Espécie humanoide longeva e muito diversa. Orelhas alongadas são frequentes, assim como audição acima da média em algumas populações, dedos longos e padrões complexos de íris. Sensibilidade média maior à Mana pode ocorrer, mas não é reserva de poder nem profissão obrigatória.',
 'Anão':'Espécie humanoide compacta, de centro de gravidade baixo, ossatura densa e musculatura robusta em média. Possui longa adaptação a ambientes montanhosos e subterrâneos; metalurgia e engenharia são tradições aprendidas, não instintos biológicos.',
-'Dragão primordial (original)':'Espécie sapiente primordial. Todo dragão nasce em corpo primordial e as linhagens preservam grande variação morfológica. “Primordial” descreve antiguidade e estrutura biológica, não divindade, invencibilidade ou superioridade moral.',
-'Nareth':'Dragão que tomou Nareth durante a janela biológica apropriada. O corpo primordial é reorganizado de forma irreversível em um corpo humanoide definitivo: não existe forma reserva, alternância voluntária, asas ocultas ou transformação temporária.',
-'Mutari humano-dragão':'Mutari é uma categoria genealógica, não uma espécie. Neste caso descreve descendência viável entre humano e dragão após Nareth. A pessoa nasce humanoide; ancestralidade dracônica não concede automaticamente asas, garras, escamas, Vaelir ou um pacote de poderes.',
+'Nareth':'Dragão da linhagem moderna que tomou Nareth e vive em corpo humanoide definitivo. A transformação é irreversível: não existe segunda forma escondida, asas guardadas ou retorno ao corpo primordial. Dragões que recusaram Nareth ficam reservados a NPCs neste criador.',
 'Korvath':'Grande família sapiente humanoide robusta, com ossatura densa, tórax amplo, musculatura compacta e caninos inferiores desenvolvidos. A pigmentação natural é ampla, incluindo castanhos, cobres, ocres, oliva, cinzas quentes e tons terrosos. Resistência física não determina profissão ou moralidade.',
-'Ruvani':'Pequena espécie endoterma, em geral com cerca de 0,95–1,25 m. Adultos têm centro de gravidade baixo, mãos muito hábeis, ombros flexíveis e boa mobilidade em microespaços. São historicamente ligados a Thalorien e hoje possuem diáspora ampla.',
+'Ruvani':'Humanoide adulto de baixa estatura, normalmente entre 0,95 e 1,25 m e cerca de 22–45 kg. Não possui proporções infantis: tem corpo adulto compacto, centro de gravidade baixo, ombros flexíveis, mãos muito hábeis e facilidade para circular em passagens estreitas. Não é uma espécie animaliforme.',
 'Khevran':'Espécie pequena e compacta, geralmente com cerca de 0,80–1,10 m, adaptada a redes fissurais e verticais de Drakoria. Tórax profundo, ombros móveis, antebraços fortes, boa aderência e leitura de vibração e fluxo de ar ajudam em ambientes subterrâneos; isso não é sonar mágico.',
-'Hadrun':'Espécie humanoide de grande massa, normalmente em torno de 2,6–3,2 m e frequentemente 300–500 kg ou mais. Ossos, articulações, pés, coração e retorno vascular são adaptados à escala corporal. Climas frios favorecem sua termorregulação; tamanho não equivale a poder mágico.',
+'Hadrun':'Humanoide gigantesco, normalmente entre 2,6 e 3,2 m. A faixa canônica frequente de 300–500+ kg parece alta, mas é coerente com o aumento cúbico de massa e com ossos, articulações, pés e musculatura dimensionados para esse corpo; não significa obesidade. Climas frios favorecem sua termorregulação, e tamanho não equivale a poder mágico.',
 'Theryn':'Espécie humanoide regenerativa, em geral com cerca de 1,85–2,30 m. A regeneração reorganiza tecido por mecanismos biológicos e manatrônicos, mas exige água, nutrientes, tempo e energia; não cria matéria, não impede dor, envelhecimento ou morte.',
 'Sairen':'Espécie humanoide de Umbrael, geralmente com cerca de 1,50–1,90 m. Olfato forte, audição direcional, sensibilidade em baixa luz, postura e sinais químicos ampliam a comunicação social. Não possuem telepatia nem detecção infalível de mentira.',
 'Nerathi':'Espécie aquática verdadeira de Umbralis. Corpo humanoide hidrodinâmico, braços manipuladores, pernas adaptadas à natação, pés amplos, brânquias principais e pulmões reduzidos de apoio. Podem permanecer no ar, mas isso custa fisiologicamente; não são “magos de água” por natureza.',
-'Feérico':'Família ampla de múltiplas espécies, algumas sapientes e outras não. Entre linhagens sapientes consolidadas, indivíduos podem nascer em Primeira Estatura, de até cerca de 60 cm, e durante a maturidade permanecer nela ou assumir uma Segunda Estatura humanoide permanente. Isso não é evolução de poder.'
+'Feérico':'Família ampla de múltiplas espécies, algumas sapientes e outras não. Entre linhagens sapientes consolidadas, indivíduos podem nascer em Primeira Estatura, de até cerca de 60 cm, e durante a maturidade permanecer nela ou assumir uma Segunda Estatura humanoide permanente. Isso não é evolução de poder.',
+'Lupran':'Povo animaliforme sapiente recuperado no cânone como independente dos Fenrion. A existência é confirmada, mas a anatomia detalhada ainda não está fechada; por isso o criador não força um visual de gato, cão ou lobo. Traços específicos ficam provisórios até a autoridade especializada fechar o corpo-base.'
 }
 
 var PLACE_INFO={
@@ -424,6 +455,8 @@ var OCULAR_INFO={
 'Marca Áurea Varyth-Kaelorn':'Arquitetura C11-A3-OH-R6. Lê estabilidade de campo e coerência de luz/Mana em curta distância e pode apoiar barreiras temporárias, esgrima mágica e sincronização de técnicas. Não é o Selo do Véu.',
 'Olhos de Sangue — linhagem de Seavor':'Arquitetura C10-A3-OH-R6. Integra Biológica, Perceptiva e Aura para ler perfusão, pulso, pressão, calor e sinais associados ao sangue circulante. Ajuda a localizar hemorragia e antecipar mudanças corporais; não para o coração com o olhar.',
 'Vaelir (H4)':'Disposição hereditária dracônica com duas classes/arquiteturas oculares compatíveis no mesmo indivíduo. Vaelir não concede um poder único por si; oferece canais diferentes e cobra integração sensorial, fadiga e Carga de Controle.',
+'Arquitetura Nethra (A5)':'Arquitetura ocular específica de Nethras. Pode contribuir para orientação liminar, mas não é a fonte total de capacidades como Passear entre os Reinos e não deve ser transplantada automaticamente para outra espécie.',
+'Convergência ocular rara (A8)':'Categoria de convergência excepcional em que mais de uma arquitetura funcional precisa operar de forma compatível. É extremamente rara, aumenta custo de integração e não concede domínio automático de todas as funções envolvidas.',
 'Coroa Parasita':'A7-OP-R8. Organismo ou colônia manatrônica invade a região ocular e pode ampliar detecção de Mana próxima. Consome nutrientes/Mana, inflama tecido e pode migrar por nervos.',
 'Sangue Rúnico':'A7-OR-R8. Ritual grava microcanais rúnicos usando sangue do portador; pode rastrear assinaturas biológicas/aurátricas compatíveis. Pode causar hemorragia ocular, trombose, perda de visão e dependência ritual.',
 'Olho da Aparição':'A7-OP/OR-R8. Pode perceber resíduos de presença e ecos liminares muito recentes. O preço inclui falsos positivos, sonhos intrusivos e sobreposição perceptiva.',
@@ -460,7 +493,7 @@ var HEIGHT_RULES={
 'Sairen':[150,190,5],
 'Nerathi':[140,220,5],
 'Nareth':[145,220,5],
-'Mutari humano-dragão':[140,220,5]
+'Lupran':null
 };
 
 
@@ -478,7 +511,7 @@ function textify(v){return Array.isArray(v)?v.join(', '):(v||'')}
 
 var CUSTOM_MAP={
 people:'peopleCustom',originPlace:'originPlaceCustom',socialOrigin:'socialOriginCustom',
-age:'ageCustom',height:'heightCustom',build:'buildCustom',posture:'postureCustom',headShape:'headShapeCustom',faceShape:'faceShapeCustom',
+age:'ageCustom',height:'heightCustom',build:'buildCustom',posture:'postureCustom',headShape:'headShapeCustom',faceShape:'faceShapeCustom',brows:'browsCustom',
 skin:'skinCustom',eyeLeft:'eyeLeftCustom',eyeRight:'eyeRightCustom',eyeShape:'eyeShapeCustom',ocular:'ocularCustom',
 hairColor:'hairColorCustom',hairType:'hairTypeCustom',hairLength:'hairLengthCustom',hairDensity:'hairDensityCustom',hairstyle:'hairstyleCustom',
 nose:'noseCustom',mouth:'mouthCustom',teeth:'teethCustom',ears:'earsCustom',nails:'nailsCustom',voice:'voiceCustom',
