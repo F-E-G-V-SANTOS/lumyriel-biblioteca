@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Lumyriel RPG — aventura single-player narrativa, sem níveis, integrada ao Criador de Personagens.">
+<title>Lumyriel RPG · Alpha</title>
+<style>
+:root{--bg:#0b0c0e;--panel:#121416;--panel2:#17191c;--line:#2d2e31;--ink:#eee8de;--muted:#aaa59c;--gold:#b99b61;--gold2:#d7bc86;--danger:#c27f74;--ok:#9eb38f;--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0,rgba(185,155,97,.08),transparent 30%),var(--bg);color:var(--ink);font:15px/1.6 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button,a{transition:.2s}a{color:inherit;text-decoration:none}.shell{width:min(1180px,calc(100% - 32px));margin:auto}
+header{position:sticky;top:0;z-index:30;background:rgba(10,11,13,.92);backdrop-filter:blur(14px);border-bottom:1px solid #242528}.top{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px;font-weight:760;letter-spacing:.075em;text-transform:uppercase}.sigil{width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font:600 1.25rem Georgia,serif}.back{border:1px solid #393936;border-radius:999px;padding:8px 13px;color:#d6d0c6}
+main{padding:46px 0 70px}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:end;margin-bottom:30px}.eyebrow{text-transform:uppercase;letter-spacing:.18em;color:var(--gold2);font-size:.72rem;font-weight:750}.hero h1{font:500 clamp(2.8rem,6vw,5.4rem)/.98 Georgia,serif;letter-spacing:-.045em;margin:10px 0 17px}.hero p{max-width:760px;color:#c2bcb2;font-size:1.02rem}.alpha-note{border:1px solid #3a352c;border-radius:15px;background:#141411;padding:14px 16px;color:#bbb3a6}.alpha-note strong{color:var(--gold2)}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,#151719,#101214);padding:22px}.setup{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}.setup h2,.game h2{font:500 1.9rem Georgia,serif;margin:4px 0 16px}.field{display:grid;gap:7px;margin-bottom:14px}.field label{color:#d9d2c8;font-weight:650}.field small{color:#827f78}.field input,.field select,.field textarea{width:100%;border:1px solid #36383b;background:#0e1012;color:var(--ink);border-radius:12px;padding:11px 12px;outline:none}.field textarea{min-height:88px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#796a4c}
+.character{display:grid;gap:11px}.char-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.char-name{font:500 1.65rem Georgia,serif;color:#f0e8db}.char-meta{color:var(--muted)}.tags{display:flex;flex-wrap:wrap;gap:7px}.tag{border:1px solid #373630;background:#161817;border-radius:999px;padding:5px 9px;color:#c8c0b2;font-size:.78rem}.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{border:1px solid #2c2e31;background:#0f1113;border-radius:12px;padding:9px}.stat b{display:block;color:var(--gold2);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}.stat span{color:#d3ccc1}
+.btns{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid #3a3935;border-radius:999px;background:#17191c;color:#ece5da;padding:10px 15px;cursor:pointer}.btn:hover{border-color:#696254}.btn.primary{background:var(--gold);border-color:var(--gold);color:#17130d;font-weight:760}.btn.ghost{background:transparent}.btn.danger{border-color:#694b47;color:#e3b2aa}.btn:disabled{opacity:.45;cursor:not-allowed}.status{margin-top:10px;color:var(--muted);font-size:.9rem}.status.ok{color:var(--ok)}.status.warn{color:#d1ae70}
+.game{display:none;margin-top:22px}.game.active{display:block}.game-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}.chronicle{min-height:540px}.log{display:grid;gap:13px;max-height:62vh;overflow:auto;padding-right:5px;scrollbar-width:thin}.entry{border:1px solid #292b2e;border-radius:14px;background:#0e1012;padding:15px 16px}.entry.narrator{border-color:#3a352d;background:linear-gradient(135deg,#141514,#101214)}.entry.player{margin-left:8%;background:#15181a}.entry.system{border-style:dashed;color:#aaa398}.entry .who{display:block;color:var(--gold2);font-size:.69rem;text-transform:uppercase;letter-spacing:.13em;margin-bottom:6px}.entry p{margin:0;white-space:pre-wrap}.action-box{border-top:1px solid #2a2b2d;margin-top:16px;padding-top:16px}.quick-actions{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 12px}.quick-actions button{border:1px solid #303237;background:#101214;color:#bfb8ae;border-radius:999px;padding:7px 10px;cursor:pointer;font-size:.82rem}.action-row{display:grid;grid-template-columns:1fr auto;gap:9px}.action-row textarea{min-height:76px;border:1px solid #36383b;background:#0d0f11;color:var(--ink);border-radius:14px;padding:11px 12px;resize:vertical}.action-row .btn{align-self:stretch;border-radius:14px}
+.side{display:grid;gap:12px;position:sticky;top:88px}.side-card{border:1px solid #2c2e31;border-radius:15px;background:#101214;padding:15px}.side-card h3{font:500 1.2rem Georgia,serif;margin:0 0 10px}.meter{height:8px;border-radius:999px;background:#25272a;overflow:hidden}.meter span{display:block;height:100%;background:linear-gradient(90deg,#8f774e,#cfb77d);width:0}.kv{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #232529;color:#aaa49b}.kv:last-child{border:0}.kv strong{color:#ddd5ca;text-align:right}.dice{font:500 1.55rem Georgia,serif;color:var(--gold2)}.fine{font-size:.8rem;color:#77736c;line-height:1.45}.ending{border:1px solid #554b3b;background:#171611;border-radius:15px;padding:17px;margin-top:15px}
+@media(max-width:900px){.hero,.setup,.game-grid{grid-template-columns:1fr}.side{position:static;grid-template-columns:repeat(2,minmax(0,1fr))}.chronicle{min-height:0}.log{max-height:none}}
+@media(max-width:620px){.shell{width:min(100% - 20px,1180px)}.top{min-height:62px}.brand{font-size:.78rem}.sigil{width:33px;height:33px}.back{font-size:.78rem;padding:7px 10px}.hero{margin-bottom:18px}.hero h1{font-size:2.65rem}.card{padding:16px}.stat-grid{grid-template-columns:1fr 1fr}.side{grid-template-columns:1fr}.action-row{grid-template-columns:1fr}.action-row .btn{min-height:48px}.entry.player{margin-left:0}.btns .btn{flex:1 1 150px;text-align:center}}
+</style>
+</head>
+<body>
+<header><div class="shell top"><a class="brand" href="index.html"><span class="sigil">L</span><span>Biblioteca de Lumyriel</span></a><a class="back" href="index.html">← Voltar</a></div></header>
+<main class="shell">
+<section class="hero">
+  <div>
+    <div class="eyebrow">Lumyriel RPG · Alpha</div>
+    <h1>O mundo responde ao que você faz.</h1>
+    <p>Uma aventura single-player baseada no personagem criado em Lumyriel. Não há níveis: treinamento, equipamento, limitações, contexto e consequências sustentam cada ação.</p>
+  </div>
+  <div class="alpha-note"><strong>Alpha jogável:</strong> esta versão já resolve ações, mantém estado da sessão e salva a campanha no navegador. O narrador local é provisório; a arquitetura já separa a futura conexão com GPT por um backend próprio. Sessões do RPG não alteram o cânone de Lumyriel.</div>
+</section>
+
+<section class="setup" id="setup">
+  <div class="card">
+    <div class="eyebrow">1 · Personagem</div>
+    <h2>Quem entra na história?</h2>
+    <div id="characterCard" class="character"></div>
+    <div class="btns" style="margin-top:15px">
+      <button class="btn" id="reloadCharacter">Recarregar ficha salva</button>
+      <a class="btn ghost" href="character-creator.html">Abrir criador</a>
+    </div>
+    <div id="characterStatus" class="status"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">2 · Sessão</div>
+    <h2>Defina o ritmo da aventura.</h2>
+    <div class="field"><label for="difficulty">Dificuldade</label>
+      <select id="difficulty">
+        <option value="story">História — foco narrativo, falha sempre move a cena</option>
+        <option value="easy">Fácil — margem maior para erro</option>
+        <option value="medium" selected>Médio — consequências equilibradas</option>
+        <option value="hard">Difícil — recursos e riscos pesam mais</option>
+        <option value="lumyriel">Lumyriel — causalidade rigorosa, sem proteção narrativa</option>
+      </select>
+    </div>
+    <div class="field"><label for="duration">Duração aproximada</label>
+      <select id="duration"><option value="30">30 minutos</option><option value="45">45 minutos</option><option value="60" selected>1 hora</option><option value="90">1h30</option><option value="120">2 horas</option></select>
+      <small>A duração controla o número de batidas narrativas; não é um cronômetro rígido.</small>
+    </div>
+    <div class="field"><label for="region">Ponto de partida</label>
+      <select id="region"><option>Valdren</option><option>Elaris</option><option>Brumamata</option><option>Thalassia</option><option>Estrada entre assentamentos</option></select>
+    </div>
+    <div class="field"><label for="premise">Intenção da sessão</label><textarea id="premise" placeholder="Ex.: investigar um desaparecimento, atravessar uma rota perigosa, entregar um objeto, sobreviver a uma expedição..."></textarea></div>
+    <button class="btn primary" id="startGame">Iniciar aventura →</button>
+    <div class="status">Motor alpha: 2d10 + competência contextual. Sem classes, XP ou nível.</div>
+  </div>
+</section>
+
+<section class="game" id="game">
+  <div class="game-grid">
+    <div class="card chronicle">
+      <div class="eyebrow">Crônica da sessão</div>
+      <h2 id="gameTitle">Aventura em Lumyriel</h2>
+      <div class="log" id="log" aria-live="polite"></div>
+      <div class="action-box" id="actionBox">
+        <div class="quick-actions">
+          <button data-action="Observo o ambiente com cuidado antes de agir.">Observar</button>
+          <button data-action="Tento conversar e descobrir o que a outra pessoa sabe.">Conversar</button>
+          <button data-action="Procuro uma rota mais segura e avalio os riscos.">Planejar rota</button>
+          <button data-action="Uso meu treinamento e equipamento para superar o obstáculo.">Agir</button>
+        </div>
+        <div class="action-row">
+          <textarea id="playerAction" placeholder="O que seu personagem faz? Você pode escrever qualquer ação."></textarea>
+          <button class="btn primary" id="sendAction">Agir</button>
+        </div>
+      </div>
+      <div id="ending"></div>
+    </div>
+
+    <aside class="side">
+      <div class="side-card"><h3>Campanha</h3><div class="kv"><span>Dificuldade</span><strong id="sideDifficulty">—</strong></div><div class="kv"><span>Região</span><strong id="sideRegion">—</strong></div><div class="kv"><span>Progresso</span><strong id="sideProgress">0 / 0</strong></div><div class="meter" aria-label="Progresso da campanha"><span id="progressBar"></span></div></div>
+      <div class="side-card"><h3>Estado</h3><div class="kv"><span>Pressão</span><strong id="pressure">0</strong></div><div class="kv"><span>Ferimentos</span><strong id="wounds">0</strong></div><div class="kv"><span>Último teste</span><strong class="dice" id="lastRoll">—</strong></div><p class="fine">Pressão representa desgaste, tempo perdido, exposição e recursos comprometidos. Ferimentos persistem na sessão.</p></div>
+      <div class="side-card"><h3>Personagem</h3><div id="sideCharacter" class="fine">—</div></div>
+      <div class="side-card"><h3>Sessão local</h3><div class="btns"><button class="btn" id="saveGame">Salvar</button><button class="btn" id="resumeGame">Retomar</button><button class="btn danger" id="resetGame">Encerrar</button></div><p class="fine">O estado fica apenas neste navegador nesta alpha.</p></div>
+    </aside>
+  </div>
+</section>
+</main>
+
+<script>
+var CHARACTER_KEY='lumyriel-character-draft';
+var SESSION_KEY='lumyriel-rpg-session-alpha';
+var RPG_API_URL=''; // Futuro backend seguro do narrador GPT. Nunca inserir chave de API no HTML.
+var character=null;
+var state=null;
+
+var DIFFICULTIES={
+ story:{label:'História',target:9,pressureFail:0,woundThreshold:99},
+ easy:{label:'Fácil',target:10,pressureFail:1,woundThreshold:5},
+ medium:{label:'Médio',target:11,pressureFail:1,woundThreshold:4},
+ hard:{label:'Difícil',target:12,pressureFail:2,woundThreshold:3},
+ lumyriel:{label:'Lumyriel',target:13,pressureFail:2,woundThreshold:2}
+};
+var BEATS={30:5,45:6,60:8,90:11,120:14};
+var SKILL_VALUE={'Sem experiência':-2,'Familiar':0,'Treinado':2,'Experiente':4,'Especialista':5,'Mestre':6};
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+function txt(v){return Array.isArray(v)?v.join(', '):(v||'')}
+function loadCharacter(){
+  var status=document.getElementById('characterStatus');
+  try{
+    var raw=localStorage.getItem(CHARACTER_KEY);
+    if(!raw){character=null;renderCharacter();status.textContent='Nenhuma ficha salva encontrada neste navegador. Você ainda pode testar a alpha com um viajante provisório.';status.className='status warn';return}
+    var parsed=JSON.parse(raw);character=parsed.data||parsed;renderCharacter();status.textContent='Ficha carregada do Criador de Personagens.';status.className='status ok';
+  }catch(e){character=null;renderCharacter();status.textContent='Não foi possível ler a ficha salva.';status.className='status warn'}
+}
+function activeCharacter(){
+  return character||{name:'Viajante provisório',people:'Não definido',originPlace:'Não definido',profession:'Sem ocupação definida',archetype:'Perfil aberto',skillMelee:'Familiar',skillRanged:'Familiar',skillAura:'Sem experiência',skillMana:'Sem experiência',skillRunes:'Sem experiência',skillSurvival:'Familiar',skillCraft:'Familiar',skillKnowledge:'Familiar',skillSocial:'Familiar',limitations:'Sem ficha completa',bio:'Personagem provisório para testar o RPG.'};
+}
+function renderCharacter(){
+  var c=activeCharacter();
+  var skills=[['Combate',c.skillMelee],['Distância',c.skillRanged],['Aura',c.skillAura],['Mana',c.skillMana],['Runas',c.skillRunes],['Sobrevivência',c.skillSurvival],['Ofício',c.skillCraft],['Conhecimento',c.skillKnowledge],['Social',c.skillSocial]];
+  document.getElementById('characterCard').innerHTML=
+    '<div class="char-head"><div><div class="char-name">'+esc(c.name||'Personagem sem nome')+'</div><div class="char-meta">'+esc([c.people,c.originPlace,c.profession].filter(Boolean).join(' · '))+'</div></div><span class="tag">'+(character?'Ficha salva':'Provisório')+'</span></div>'+
+    '<div class="tags">'+[c.archetype,c.role,c.trainingSource].filter(Boolean).map(function(x){return '<span class="tag">'+esc(txt(x))+'</span>'}).join('')+'</div>'+
+    '<div class="stat-grid">'+skills.map(function(x){return '<div class="stat"><b>'+x[0]+'</b><span>'+esc(txt(x[1])||'—')+'</span></div>'}).join('')+'</div>';
+}
+function skillForAction(action){
+  var s=action.toLowerCase();
+  if(/arco|tiro|atir|distância|distancia|projétil|projetil/.test(s))return ['Distância','skillRanged'];
+  if(/mana|magia|feiti|manatr/.test(s))return ['Mana','skillMana'];
+  if(/aura|reforç|reforc/.test(s))return ['Aura','skillAura'];
+  if(/runa|selo|matriz|runol/.test(s))return ['Runologia','skillRunes'];
+  if(/sobreviv|rastre|trilha|rota|abrigo|forrage|caça|caca|ambiente/.test(s))return ['Sobrevivência','skillSurvival'];
+  if(/forja|repar|constru|fabric|ofício|oficio|ferrament/.test(s))return ['Ofício','skillCraft'];
+  if(/investig|estud|lembr|conhec|analis|examino|pesquis|observo/.test(s))return ['Conhecimento','skillKnowledge'];
+  if(/convers|negoci|persu|pergunt|mentir|intimid|social|convencer/.test(s))return ['Social','skillSocial'];
+  return ['Corpo a corpo','skillMelee'];
+}
+function modifierFor(c,key){
+  var v=txt(c[key]);return SKILL_VALUE[v]!==undefined?SKILL_VALUE[v]:0;
+}
+function roll2d10(){return 1+Math.floor(Math.random()*10)+1+Math.floor(Math.random()*10)}
+function resolveAction(action){
+  var c=activeCharacter(),sk=skillForAction(action),mod=modifierFor(c,sk[1]),raw=roll2d10(),cfg=DIFFICULTIES[state.difficulty],total=raw+mod,target=cfg.target;
+  var delta=total-target,result=delta>=4?'yesAnd':delta>=0?'yes':delta>=-3?'noBut':'noAnd';
+  var pressure=0,wound=0;
+  if(result==='noBut')pressure=cfg.pressureFail;
+  if(result==='noAnd'){pressure=cfg.pressureFail+1;if(state.pressure+pressure>=cfg.woundThreshold)wound=1}
+  if(state.difficulty==='story'&&result==='noAnd')result='noBut';
+  return {skill:sk[0],skillKey:sk[1],skillLabel:txt(c[sk[1]])||'Não definido',raw:raw,modifier:mod,total:total,target:target,result:result,pressure:pressure,wound:wound};
+}
+function resultLabel(r){return {yesAnd:'Sucesso com vantagem',yes:'Sucesso',noBut:'Falha com abertura',noAnd:'Falha com consequência'}[r]}
+function beatTone(){
+  var p=state.beat/state.maxBeats;
+  if(p<.34)return 'início';
+  if(p<.72)return 'desenvolvimento';
+  return 'desfecho';
+}
+function localNarration(action,res){
+  var c=activeCharacter(),place=state.region,phase=beatTone();
+  var openings={
+    Valdren:'Valdren não se apresenta como cenário vazio: oficinas, rotas, vigilância e gente ocupada continuam existindo enquanto você decide o próximo passo.',
+    Elaris:'Em Elaris, estudo, ofício e circulação de informação criam oportunidades, mas também testemunhas, protocolos e consequências sociais.',
+    Brumamata:'Na Brumamata, distância, visibilidade, terreno e orientação importam antes de qualquer heroísmo.',
+    Thalassia:'Em Thalassia, infraestrutura, acesso e riscos materiais tornam decisões simples em problemas de logística.',
+    'Estrada entre assentamentos':'Na estrada, cada escolha consome luz, tempo, água, atenção ou distância.'
+  };
+  var outcomes={
+    yesAnd:'A ação funciona e produz uma vantagem adicional. Você não controla o mundo, mas desta vez leitura do contexto e execução caminham juntas.',
+    yes:'A ação funciona dentro do que seu treinamento e as condições permitem. O resultado resolve o problema imediato sem apagar os custos do caminho.',
+    noBut:'A tentativa não entrega o que você queria, porém revela uma saída concreta. A cena avança: você pode insistir por outro método, aceitar um custo ou explorar a nova informação.',
+    noAnd:'A tentativa falha e o mundo cobra a diferença. Tempo, posição ou segurança pioram; ainda existe caminho adiante, mas ele agora exige uma decisão mais cara.'
+  };
+  var phaseText=phase==='início'?'O problema ainda está se definindo e pequenas escolhas começam a fechar possibilidades.':phase==='desenvolvimento'?'As consequências anteriores já alteraram o espaço de decisão; personagens e condições reagem ao que aconteceu.':'A sessão se aproxima do ponto em que será preciso escolher o que vale preservar, abandonar ou arriscar.';
+  return openings[place]+'\n\n'+c.name+' tenta: “'+action+'”\n\n'+outcomes[res.result]+' '+phaseText;
+}
+var Narrator={
+  async turn(action,res){
+    if(RPG_API_URL){
+      try{
+        var reply=await fetch(RPG_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'turn',session:state,character:activeCharacter(),action:action,resolution:res})});
+        if(reply.ok){var data=await reply.json();if(data&&data.narration)return data.narration}
+      }catch(e){}
+    }
+    return localNarration(action,res);
+  },
+  async opening(){
+    if(RPG_API_URL){
+      try{
+        var reply=await fetch(RPG_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'opening',session:state,character:activeCharacter()})});
+        if(reply.ok){var data=await reply.json();if(data&&data.narration)return data.narration}
+      }catch(e){}
+    }
+    var c=activeCharacter(),goal=state.premise||'descobrir por que algo aparentemente simples saiu do curso esperado';
+    return 'A sessão começa em '+state.region+'. '+c.name+' entra na cena com um objetivo claro: '+goal+'.\n\nNada foi preparado para garantir sua vitória. O mundo já possui rotinas, limites materiais e pessoas com interesses próprios. A primeira coisa que chama sua atenção é uma pequena incompatibilidade entre o que deveria estar acontecendo e o que está acontecendo de fato. Você ainda pode observar antes de se comprometer.';
+  }
+};
+function addEntry(type,who,text){
+  var el=document.createElement('div');el.className='entry '+type;el.innerHTML='<span class="who">'+esc(who)+'</span><p>'+esc(text)+'</p>';document.getElementById('log').appendChild(el);el.scrollIntoView({behavior:'smooth',block:'end'});
+  if(state)state.log.push({type:type,who:who,text:text});
+}
+function renderState(){
+  if(!state)return;
+  document.getElementById('sideDifficulty').textContent=DIFFICULTIES[state.difficulty].label;
+  document.getElementById('sideRegion').textContent=state.region;
+  document.getElementById('sideProgress').textContent=state.beat+' / '+state.maxBeats;
+  document.getElementById('progressBar').style.width=Math.min(100,(state.beat/state.maxBeats)*100)+'%';
+  document.getElementById('pressure').textContent=state.pressure;
+  document.getElementById('wounds').textContent=state.wounds;
+  document.getElementById('lastRoll').textContent=state.lastRoll||'—';
+  var c=activeCharacter();document.getElementById('sideCharacter').innerHTML='<strong>'+esc(c.name)+'</strong><br>'+esc([c.people,c.profession,c.archetype].filter(Boolean).join(' · '));
+}
+function saveSession(show){
+  if(!state)return;localStorage.setItem(SESSION_KEY,JSON.stringify(state));
+  if(show)addEntry('system','Sistema','Sessão salva neste navegador.');
+}
+async function startGame(){
+  var duration=document.getElementById('duration').value;
+  state={version:'alpha-0.1',difficulty:document.getElementById('difficulty').value,duration:Number(duration),maxBeats:BEATS[duration]||8,beat:0,region:document.getElementById('region').value,premise:document.getElementById('premise').value.trim(),pressure:0,wounds:0,lastRoll:'—',startedAt:new Date().toISOString(),log:[]};
+  document.getElementById('setup').style.display='none';document.getElementById('game').classList.add('active');document.getElementById('log').innerHTML='';document.getElementById('ending').innerHTML='';document.getElementById('actionBox').style.display='block';
+  renderState();var opening=await Narrator.opening();addEntry('narrator','Narrador',opening);saveSession(false);
+}
+async function playAction(){
+  if(!state)return;var box=document.getElementById('playerAction'),action=box.value.trim();if(!action)return;
+  box.value='';addEntry('player',activeCharacter().name||'Personagem',action);
+  var res=resolveAction(action);state.beat++;state.pressure+=res.pressure;state.wounds+=res.wound;state.lastRoll=res.total+' ('+res.raw+(res.modifier>=0?' + ':' - ')+Math.abs(res.modifier)+')';
+  addEntry('system','Resolução',res.skill+' · '+res.skillLabel+' · alvo '+res.target+' · '+resultLabel(res.result)+(res.wound?' · ferimento adquirido':''));
+  var narration=await Narrator.turn(action,res);addEntry('narrator','Narrador',narration);renderState();
+  if(state.beat>=state.maxBeats)finishGame(res);else saveSession(false);
+}
+function finishGame(last){
+  document.getElementById('actionBox').style.display='none';
+  var tone=state.wounds>=2?'Você chega ao fim marcado por consequências físicas que não desaparecem porque a sessão acabou.':state.pressure>=5?'Você conclui a sessão sob forte desgaste: houve progresso, mas o custo acumulado importa.':'A sessão fecha com espaço para continuidade; nem todo fio precisa ser resolvido para que a aventura tenha consequência.';
+  document.getElementById('ending').innerHTML='<div class="ending"><div class="eyebrow">Fim desta sessão</div><h3 style="margin:6px 0 8px;font:500 1.5rem Georgia,serif">A crônica fecha por enquanto.</h3><p>'+esc(tone)+'</p><div class="btns"><button class="btn primary" onclick="newSession()">Nova sessão</button><button class="btn" onclick="saveSession(true)">Salvar registro</button></div></div>';
+  saveSession(false);
+}
+function newSession(){state=null;document.getElementById('game').classList.remove('active');document.getElementById('setup').style.display='grid';window.scrollTo({top:0,behavior:'smooth'})}
+function resumeSession(){
+  try{
+    var raw=localStorage.getItem(SESSION_KEY);if(!raw)return;
+    state=JSON.parse(raw);document.getElementById('setup').style.display='none';document.getElementById('game').classList.add('active');document.getElementById('log').innerHTML='';
+    (state.log||[]).forEach(function(e){var el=document.createElement('div');el.className='entry '+e.type;el.innerHTML='<span class="who">'+esc(e.who)+'</span><p>'+esc(e.text)+'</p>';document.getElementById('log').appendChild(el)});
+    document.getElementById('actionBox').style.display=state.beat>=state.maxBeats?'none':'block';renderState();
+    if(state.beat>=state.maxBeats)finishGame({result:'yes'});
+  }catch(e){}
+}
+function resetSession(){localStorage.removeItem(SESSION_KEY);newSession()}
+document.getElementById('reloadCharacter').addEventListener('click',loadCharacter);
+document.getElementById('startGame').addEventListener('click',startGame);
+document.getElementById('sendAction').addEventListener('click',playAction);
+document.getElementById('playerAction').addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter')playAction()});
+document.querySelectorAll('.quick-actions button').forEach(function(b){b.addEventListener('click',function(){document.getElementById('playerAction').value=b.dataset.action;document.getElementById('playerAction').focus()})});
+document.getElementById('saveGame').addEventListener('click',function(){saveSession(true)});
+document.getElementById('resumeGame').addEventListener('click',resumeSession);
+document.getElementById('resetGame').addEventListener('click',resetSession);
+loadCharacter();
+if(localStorage.getItem(SESSION_KEY))document.getElementById('characterStatus').insertAdjacentHTML('beforeend',' Há uma sessão salva que pode ser retomada no painel do jogo.');
+</script>
+</body>
+</html>
