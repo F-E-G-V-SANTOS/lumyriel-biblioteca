@@ -1,0 +1,18 @@
+{
+  "name": "lumyriel-rpg-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "check": "node --check src/server.js && node --check src/db.js && node --check src/engine.js && node --check src/validators.js",
+    "test": "node --test src/engine.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.0.0"
+  }
+}
