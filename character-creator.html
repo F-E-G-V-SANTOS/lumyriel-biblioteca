@@ -69,7 +69,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <select id="people" name="people">
 <option value="">Selecione</option>
 <option>Humano</option><option>Elfo</option><option>Anão</option>
-<option>Dragão ancestral</option><option>Nareth</option><option>Mutari humano-dragão</option>
+<option>Dragão primordial</option><option>Nareth</option><option>Mutari humano-dragão</option>
 <option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option>
 <option value="__other__">Outro / personalizar</option>
 </select>
@@ -351,21 +351,21 @@ var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
 var form=document.getElementById('creatorForm');
 
 var PEOPLE_INFO={
-'Humano':'Populações humanas são amplamente diversas em Lumyriel. Presença antiga não prova origem planetária local; migração, mistura e história regional importam mais do que um molde único.',
-'Elfo':'Povos élficos não formam um bloco político único. Conflitos registrados tendem a ser locais e podem envolver custódia ecológica, assentamento e concessões.',
-'Anão':'Povos anões também não possuem uma política única. Tensões conhecidas costumam envolver trabalho, mineração, ambiente, propriedade e tecnologia.',
-'Dragão ancestral':'Linhagens dracônicas anteriores a Caldris, diversas em região, ambiente, história e linhagem. Dragão ancestral e Nareth não são a mesma trajetória corporal.',
-'Nareth':'Trajetória corporal dracônica posterior e estável, não uma transformação estética temporária. O primeiro Nareth histórico não é necessariamente a origem biológica da capacidade.',
-'Mutari humano-dragão':'Descendência humano-dragão. Pode carregar traços de ancestralidade dracônica sem obedecer a uma divisão biológica simples ou garantir qualquer poder específico.',
-'Korvath':'Povo marcado historicamente por recrutamento, serviço militar, mercenarismo e coerção em diferentes contextos. O estereótipo de violência não define indivíduos nem cria um inimigo universal.',
-'Ruvani':'Povo atravessado por conflitos históricos de propriedade, confisco, retomada e criminalização. Em centros cosmopolitas, Ruvani podem viver como cidadãos comuns.',
-'Khevran':'Povo ligado a histórias de subsolo, galerias e direitos minerais, especialmente em Drakoria. Titularidade da superfície, do recurso e da rede subterrânea pode divergir.',
-'Hadrun':'Povo cuja história inclui a Fome Branca e expulsões. Maior necessidade energética é um fato material; tratá-la como “glutonaria” é preconceito.',
-'Theryn':'Povo marcado por perseguições associadas a falsas crenças sobre regeneração. Consentimento médico, pesquisa e proteção funerária possuem peso político especial.',
-'Sairen':'Povo envolvido em debates históricos sobre percepção corporal e privacidade. Ser capaz de perceber sinais não transforma alguém em detector infalível de mentira.',
-'Nerathi':'Povo relacionado a espaços marítimos habitados e a disputas sobre pesca, salvamento, naufrágios, cemitérios, viveiros e propriedade de carga.',
-'Feérico':'“Feérico” não descreve uma geopolítica única. Relações e costumes dependem da espécie, do povo e da comunidade específica.'
-};
+'Humano':'Espécie humanoide amplamente distribuída, com grande variação populacional contínua. Pigmentação, cabelo, proporções e traços oculares variam com ambiente, ancestralidade, migração e fluxo gênico; não existem “raças humanas” biológicas discretas no cânone.',
+'Elfo':'Espécie humanoide longeva e muito diversa. Orelhas alongadas são frequentes, assim como audição acima da média em algumas populações, dedos longos e padrões complexos de íris. Sensibilidade média maior à Mana pode ocorrer, mas não é reserva de poder nem profissão obrigatória.',
+'Anão':'Espécie humanoide compacta, de centro de gravidade baixo, ossatura densa e musculatura robusta em média. Possui longa adaptação a ambientes montanhosos e subterrâneos; metalurgia e engenharia são tradições aprendidas, não instintos biológicos.',
+'Dragão primordial':'Espécie sapiente primordial. Todo dragão nasce em corpo primordial e as linhagens preservam grande variação morfológica. “Primordial” descreve antiguidade e estrutura biológica, não divindade, invencibilidade ou superioridade moral.',
+'Nareth':'Dragão que tomou Nareth durante a janela biológica apropriada. O corpo primordial é reorganizado de forma irreversível em um corpo humanoide definitivo: não existe forma reserva, alternância voluntária, asas ocultas ou transformação temporária.',
+'Mutari humano-dragão':'Mutari é uma categoria genealógica, não uma espécie. Neste caso descreve descendência viável entre humano e dragão após Nareth. A pessoa nasce humanoide; ancestralidade dracônica não concede automaticamente asas, garras, escamas, Vaelir ou um pacote de poderes.',
+'Korvath':'Grande família sapiente humanoide robusta, com ossatura densa, tórax amplo, musculatura compacta e caninos inferiores desenvolvidos. A pigmentação natural é ampla, incluindo castanhos, cobres, ocres, oliva, cinzas quentes e tons terrosos. Resistência física não determina profissão ou moralidade.',
+'Ruvani':'Pequena espécie endoterma, em geral com cerca de 0,95–1,25 m. Adultos têm centro de gravidade baixo, mãos muito hábeis, ombros flexíveis e boa mobilidade em microespaços. São historicamente ligados a Thalorien e hoje possuem diáspora ampla.',
+'Khevran':'Espécie pequena e compacta, geralmente com cerca de 0,80–1,10 m, adaptada a redes fissurais e verticais de Drakoria. Tórax profundo, ombros móveis, antebraços fortes, boa aderência e leitura de vibração e fluxo de ar ajudam em ambientes subterrâneos; isso não é sonar mágico.',
+'Hadrun':'Espécie humanoide de grande massa, normalmente em torno de 2,6–3,2 m e frequentemente 300–500 kg ou mais. Ossos, articulações, pés, coração e retorno vascular são adaptados à escala corporal. Climas frios favorecem sua termorregulação; tamanho não equivale a poder mágico.',
+'Theryn':'Espécie humanoide regenerativa, em geral com cerca de 1,85–2,30 m. A regeneração reorganiza tecido por mecanismos biológicos e manatrônicos, mas exige água, nutrientes, tempo e energia; não cria matéria, não impede dor, envelhecimento ou morte.',
+'Sairen':'Espécie humanoide de Umbrael, geralmente com cerca de 1,50–1,90 m. Olfato forte, audição direcional, sensibilidade em baixa luz, postura e sinais químicos ampliam a comunicação social. Não possuem telepatia nem detecção infalível de mentira.',
+'Nerathi':'Espécie aquática verdadeira de Umbralis. Corpo humanoide hidrodinâmico, braços manipuladores, pernas adaptadas à natação, pés amplos, brânquias principais e pulmões reduzidos de apoio. Podem permanecer no ar, mas isso custa fisiologicamente; não são “magos de água” por natureza.',
+'Feérico':'Família ampla de múltiplas espécies, algumas sapientes e outras não. Entre linhagens sapientes consolidadas, indivíduos podem nascer em Primeira Estatura, de até cerca de 60 cm, e durante a maturidade permanecer nela ou assumir uma Segunda Estatura humanoide permanente. Isso não é evolução de poder.'
+}
 
 var PLACE_INFO={
 'Eryndhor':'Grande região de circulação, comércio e diversidade interna. A fala comercial de Elaris funciona como língua franca em grande parte de Eryndhor, sem apagar línguas e dialetos locais.',
@@ -414,6 +414,21 @@ var SKIN_REC={
 'Valdren':'faixa ampla, com mistura regional e circulação histórica',
 'Dorso Cinzento':'faixa ampla; altitude, trabalho regional e migração tornam inadequada uma cor obrigatória',
 'Brumamata':'faixa ampla; origem próxima à mata não determina fenótipo por si só'
+};
+
+var HEIGHT_RULES={
+'Humano':[140,215,5],
+'Elfo':[160,215,5],
+'Anão':[130,165,5],
+'Korvath':[160,215,5],
+'Ruvani':[95,125,5],
+'Khevran':[80,110,5],
+'Hadrun':[260,320,10],
+'Theryn':[185,230,5],
+'Sairen':[150,190,5],
+'Nerathi':[140,220,5],
+'Nareth':[145,220,5],
+'Mutari humano-dragão':[140,220,5]
 };
 
 var NAME_ENDINGS={
@@ -501,7 +516,9 @@ function updateLumName(){
 function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
  box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição curta baseada no cânone atual.');
- validateOcular();
+ populateHeightForSpecies(v);
+ updateSkinRecommendation();
+ updateOcularDescription();
 }
 function updatePlaceDescription(){
  var v=document.getElementById('originPlace').value, box=document.getElementById('placeDescription');
@@ -519,7 +536,7 @@ function updateOcularDescription(){
 }
 function validateOcular(){
  var people=document.getElementById('people').value, ocular=document.getElementById('ocular').value, box=document.getElementById('ocularDescription');
- if(ocular==='Vaelir (H4)'&&!['Dragão ancestral','Nareth','Mutari humano-dragão'].includes(people)){
+ if(ocular==='Vaelir (H4)'&&!['Dragão primordial','Nareth','Mutari humano-dragão'].includes(people)){
    box.innerHTML+='<br><span class="recommend"><strong>Incompatibilidade:</strong> Vaelir natural exige ascendência dracônica. Ajuste o povo/linhagem ou escolha outra arquitetura.</span>';
  }
  if(['Selo do Véu Valeris','Marca Áurea Varyth-Kaelorn','Olhos de Sangue'].includes(ocular)){
@@ -543,13 +560,32 @@ document.getElementById('realName').addEventListener('input',updateLumName);
 
 function populateNumericSelects(){
  var age=document.getElementById('age');
- for(var i=6;i<=120;i++){var o=document.createElement('option');o.value=i;o.textContent=i+' anos';age.appendChild(o)}
+ for(var i=6;i<=120;i++){var o=document.createElement('option');o.value=String(i);o.textContent=i+' anos';age.appendChild(o)}
+ [['121–200 anos','121–200 anos'],['201–500 anos','201–500 anos'],['501–1000 anos','501–1000 anos'],['Mais de 1000 anos','Mais de 1000 anos']].forEach(function(x){var o=document.createElement('option');o.value=x[0];o.textContent=x[1];age.appendChild(o)});
  var oa=document.createElement('option');oa.value='__other__';oa.textContent='Outra idade / personalizar';age.appendChild(oa);
- var height=document.getElementById('height');
- for(var cm=120;cm<=230;cm+=5){var oh=document.createElement('option');oh.value=(cm/100).toFixed(2).replace('.',',')+' m';oh.textContent=oh.value;height.appendChild(oh)}
- var oc=document.createElement('option');oc.value='__other__';oc.textContent='Outra altura / personalizar';height.appendChild(oc);
  age.addEventListener('change',function(){document.getElementById('ageCustomWrap').classList.toggle('show',age.value==='__other__')});
- height.addEventListener('change',function(){document.getElementById('heightCustomWrap').classList.toggle('show',height.value==='__other__')});
+ populateHeightForSpecies(document.getElementById('people').value);
+}
+function populateHeightForSpecies(species){
+ var height=document.getElementById('height'),current=height.value;
+ height.innerHTML='<option value="">Selecione</option>';
+ var rule=HEIGHT_RULES[species];
+ if(species==='Feérico'){
+   var og1=document.createElement('optgroup');og1.label='Primeira Estatura';
+   for(var cm=30;cm<=60;cm+=5){var o=document.createElement('option');o.value=(cm/100).toFixed(2).replace('.',',')+' m';o.textContent=o.value;og1.appendChild(o)}
+   height.appendChild(og1);
+   var og2=document.createElement('optgroup');og2.label='Segunda Estatura humanoide';
+   for(var cm2=145;cm2<=215;cm2+=5){var o2=document.createElement('option');o2.value=(cm2/100).toFixed(2).replace('.',',')+' m';o2.textContent=o2.value;og2.appendChild(o2)}
+   height.appendChild(og2);
+ }else if(species==='Dragão primordial'){
+   var note=document.createElement('option');note.disabled=true;note.textContent='Dimensões variam por linhagem primordial';height.appendChild(note);
+ }else{
+   var min=rule?rule[0]:140,max=rule?rule[1]:220,step=rule?rule[2]:5;
+   for(var cm3=min;cm3<=max;cm3+=step){var o3=document.createElement('option');o3.value=(cm3/100).toFixed(2).replace('.',',')+' m';o3.textContent=o3.value;height.appendChild(o3)}
+ }
+ var custom=document.createElement('option');custom.value='__other__';custom.textContent=species==='Dragão primordial'?'Descrever dimensões corporais':'Outra altura / personalizar';height.appendChild(custom);
+ if([].slice.call(height.options).some(function(o){return o.value===current}))height.value=current;
+ height.onchange=function(){document.getElementById('heightCustomWrap').classList.toggle('show',height.value==='__other__')};
 }
 
 function clearChecks(name){[].slice.call(document.querySelectorAll('input[name="'+name+'"]')).forEach(function(x){x.checked=false})}
@@ -565,7 +601,7 @@ function randomizeCharacter(){
  setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi']));
  setValue('originPlace',pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Valdren','Elaris','Thalassia']));
  setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
- setValue('height',pick(['1,55 m','1,60 m','1,65 m','1,70 m','1,75 m','1,80 m','1,85 m','1,90 m']));
+ var heightChoices=[].slice.call(document.getElementById('height').options).filter(function(o){return o.value&&o.value!=='__other__'&&!o.disabled}).map(function(o){return o.value});if(heightChoices.length)setValue('height',pick(heightChoices));
  setValue('build',pick(['Delicada','Esbelta','Mediana','Atlética','Robusta','Musculosa','Corpulenta']));
  setValue('posture',pick(['Relaxada','Formal','Vigilante','Marcial','Elegante','Assimétrica']));
  setValue('headShape',pick(['Oval','Redonda','Alongada','Quadrada','Angular']));
