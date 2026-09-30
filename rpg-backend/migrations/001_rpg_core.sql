@@ -1,5 +1,17 @@
 BEGIN;
 
+CREATE TABLE rpg_player_characters (
+  character_id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  revision INTEGER NOT NULL CHECK (revision >= 1),
+  creator_version TEXT NOT NULL,
+  character_json JSONB NOT NULL CHECK (jsonb_typeof(character_json) = 'object'),
+  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'archived')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (user_id, character_id)
+);
+
 CREATE TABLE rpg_campaigns (
   campaign_id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
@@ -23,6 +35,12 @@ CREATE TABLE rpg_campaigns (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   last_played_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE rpg_campaigns
+  ADD CONSTRAINT rpg_campaigns_character_owner_fk
+  FOREIGN KEY (user_id, character_id)
+  REFERENCES rpg_player_characters(user_id, character_id)
+  DEFERRABLE INITIALLY DEFERRED;
 
 CREATE TABLE rpg_character_snapshots (
   character_snapshot_id TEXT PRIMARY KEY,
@@ -137,6 +155,9 @@ ALTER TABLE rpg_campaign_events
   FOREIGN KEY (campaign_id, turn_id)
   REFERENCES rpg_turns(campaign_id, turn_id)
   DEFERRABLE INITIALLY DEFERRED;
+
+CREATE INDEX rpg_player_characters_user_status_idx
+  ON rpg_player_characters(user_id, status, updated_at DESC);
 
 CREATE INDEX rpg_campaigns_user_status_idx
   ON rpg_campaigns(user_id, status, last_played_at DESC);
