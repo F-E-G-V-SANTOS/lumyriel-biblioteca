@@ -1,5 +1,5 @@
-import { randomInt } from 'node:crypto';
 import { assertRpg } from './errors.js';
+import { secureRandomIntInclusive } from './random.js';
 
 export const ATTRIBUTE_KEYS = Object.freeze([
   'potencia',
@@ -167,7 +167,7 @@ function shiftGrade(grade, delta) {
 }
 
 export function rollD20(mode = 'normal', roller = null) {
-  const next = roller ?? (() => randomInt(1, 21));
+  const next = roller ?? (() => secureRandomIntInclusive(1, 20));
   assertRpg(['normal', 'favor', 'pressao'].includes(mode), 'INVALID_ROLL_MODE', 'Modo de rolagem inválido.');
 
   const dice = mode === 'normal' ? [next()] : [next(), next()];
