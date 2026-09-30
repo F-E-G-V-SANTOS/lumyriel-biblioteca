@@ -60,7 +60,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="middleName">Segundo nome <span class="subtle">(opcional)</span></label><input id="middleName" placeholder="Ex.: Eduardo" autocomplete="off"></div>
 <div class="field"><label for="surname">Sobrenome <span class="subtle">(opcional)</span></label><input id="surname" placeholder="Ex.: Gomes" autocomplete="off"></div>
 </div>
-<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são a referência do nome original. O dossiê e a submissão usam a adaptação lumyrieliana gerada pela Fala Comercial de Elaris.</small></div>
+<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são a referência do nome original. O criador gera uma naturalização onomástica compatível com a Fala Comercial de Elaris: não é tradução literal nem torna a forma cânone automaticamente.</small></div>
 
 <div class="section-title">Identidade e origem</div>
 <div class="grid">
@@ -639,30 +639,65 @@ function hashString(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCod
 function cleanName(s){
  return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-zçÇ]/g,'').toLowerCase();
 }
-function fceAdapt(raw){
+function fcePhonologicalAdapt(raw){
  var s=cleanName(raw);
  if(!s)return '';
- // Adaptação ortográfica aproximada ao inventário canônico da FCE.
+ // Adaptação ortográfica ao núcleo canônico da FCE.
  s=s.replace(/nh/g,'ny').replace(/lh/g,'l').replace(/ch/g,'sh').replace(/rr/g,'r').replace(/ss/g,'s');
  s=s.replace(/qu/g,'k').replace(/gu(?=[ei])/g,'g');
  s=s.replace(/g(?=[ei])/g,'sh').replace(/j/g,'sh').replace(/x/g,'sh');
  s=s.replace(/c(?=[ei])/g,'s').replace(/c/g,'k').replace(/q/g,'k');
- s=s.replace(/ç/g,'s');
- // Letras/sinais fora do núcleo são acomodados por equivalentes próximos.
- s=s.replace(/w/g,'v');
- // Evita encontros iniciais não produtivos usando vogal epentética simples.
- var allowed=['br','dr','gr','kr','pr','tr','vr','bl','gl','kl','pl','fl','sl'];
- if(s.length>2 && !'aeiou'.includes(s[0]) && !'aeiou'.includes(s[1]) && !allowed.includes(s.slice(0,2))){
-   s=s[0]+'e'+s.slice(1);
- }
- // Codas nativas produtivas: n, r, l, s, t, k. Outras recebem vogal final.
- if(s && !'aeiounrlstk'.includes(s.slice(-1)))s+='a';
+ s=s.replace(/ç/g,'s').replace(/w/g,'v');
  s=s.replace(/(.)\1\1+/g,'$1$1');
- return s.charAt(0).toUpperCase()+s.slice(1);
+ return s;
+}
+function fcePersonalName(raw,slot){
+ var s=fcePhonologicalAdapt(raw);
+ if(!s)return '';
+
+ // O nome de entrada é referência, não empréstimo preservado:
+ // a forma final é uma naturalização onomástica, sem etimologia inventada.
+ var h=hashString(s+'|FCE-PERSONAL|'+String(slot||0));
+ var endingsBySlot=[
+   ['ran','ven','dor','len','mir','sar','rel','ren'],
+   ['ar','ir','or','el','an','en','var','is'],
+   ['ar','en','or','al','is','er','an','n']
+ ];
+ var endings=endingsBySlot[Math.min(2,Math.max(0,slot||0))];
+ var ending=endings[h%endings.length];
+
+ var stem=s;
+ // Remove finais muito transparentes do nome de origem antes da naturalização.
+ if(stem.length>3 && /[aeiou]$/.test(stem))stem=stem.slice(0,-1);
+ if(stem.length>3 && /[^aeiounrlstk]$/.test(stem))stem=stem.slice(0,-1);
+ if((slot||0)===2 && stem.length>3 && /s$/.test(stem))stem=stem.slice(0,-1);
+
+ // Mantém parentesco visual com o nome original sem apenas copiá-lo.
+ if(stem.length>6)stem=stem.slice(0,Math.max(4,Math.ceil(stem.length*.72)));
+ if(!stem)stem=s.slice(0,Math.min(3,s.length));
+
+ // Evita encontros artificiais na junção.
+ if(/[aeiou]$/.test(stem)&&/^[aeiou]/.test(ending)){
+   if(stem.slice(-1)===ending[0])ending=ending.slice(1);
+   else stem=stem.slice(0,-1);
+ }
+ if(stem.slice(-1)===ending[0])ending=ending.slice(1);
+
+ var out=(stem+ending).replace(/(.)\1\1+/g,'$1$1');
+
+ // Garantia de que a naturalização não devolva exatamente o nome de entrada.
+ if(out===s){
+   out=stem+(slot===2?'en':'ar');
+ }
+ return out.charAt(0).toUpperCase()+out.slice(1);
 }
 function updateLumName(){
- var parts=['firstName','middleName','surname'].map(function(id){return document.getElementById(id).value.trim()}).filter(Boolean);
- document.getElementById('name').value=parts.map(fceAdapt).filter(Boolean).join(' ');
+ var ids=['firstName','middleName','surname'],parts=[];
+ ids.forEach(function(id,slot){
+   var raw=document.getElementById(id).value.trim();
+   if(raw)parts.push(fcePersonalName(raw,slot));
+ });
+ document.getElementById('name').value=parts.join(' ');
 }
 function lumPlaceAdaptOne(base){
  base=(base||'').trim();if(!base)return '';
@@ -1176,12 +1211,12 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.5',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.6',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.5',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.6',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
