@@ -76,17 +76,31 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <select id="people" name="people">
 <option value="">Selecione</option>
 <option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option>
-<option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option>
+<option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lu Pran (animaliforme)</option>
 <option value="__other__">Outro / personalizar</option>
 </select>
 <div id="peopleCustomWrap" class="custom-field"><input id="peopleCustom" placeholder="Defina o povo ou espécie"></div>
 <div id="peopleDescription" class="info-box">Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.</div>
+<div id="lupranTraitWrap" class="conditional" style="margin-top:12px">
+  <div class="field"><label for="animalMorph">Traço animaliforme visual <span class="subtle">(provisório)</span></label>
+    <select id="animalMorph" name="animalMorph">
+      <option value="">Selecione</option>
+      <option>Felino</option>
+      <option>Canídeo</option>
+      <option>Lupino</option>
+      <option>Misto animaliforme</option>
+      <option value="__other__">Outro / personalizar</option>
+    </select>
+    <div id="animalMorphCustomWrap" class="custom-field"><input id="animalMorphCustom" placeholder="Descreva o traço animaliforme"></div>
+    <div class="info-box warn">A existência dos Lu Pran como povo animaliforme sapiente está recuperada no cânone, mas o corpo-base detalhado ainda não está fechado. Felino, canídeo ou lupino aqui funcionam como proposta visual do personagem, não como nova espécie canônica.</div>
+  </div>
+</div>
 </div>
 
 <div class="field full conditional" id="mutariWrap">
 <div class="grid">
-<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Dragão primordial — somente progenitor NPC</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
-<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Dragão primordial — somente progenitor NPC</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Lupran</option></select></div>
+<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lu Pran (animaliforme)</option></select></div>
+<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lu Pran (animaliforme)</option></select></div>
 </div>
 <div id="mutariResult" class="info-box">Escolha duas ancestralidades. Combinações ainda não confirmadas serão tratadas como candidatas, não como biologia canônica.</div>
 </div>
@@ -182,7 +196,16 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field full"><label for="ocular">Tipo / arquitetura / habilidade ocular</label>
 <select id="ocular" name="ocular">
 <option value="Nenhuma arquitetura especial">A0 — Sem arquitetura funcional especial</option>
+<optgroup label="Disposição cromática">
+<option>H1 — Anisocromia leve</option>
+<option>H2 — Heterocromia central ou setorial</option>
 <option>H3 — Heterocromia bilateral natural não-Vaelir</option>
+<option>H5 — Mosaico / quimerismo ocular complexo</option>
+</optgroup>
+<optgroup label="Arquiteturas funcionais">
+<option>A1 — Ressonante sutil</option>
+<option>A6 — Adquirida estável</option>
+</optgroup>
 <option>Pupila Radial de Raio</option>
 <option>Anel Luminoso Elétrico</option>
 <option>Selo do Véu — linhagem Valeris</option>
@@ -448,7 +471,12 @@ var PLACE_INFO={
 
 var OCULAR_INFO={
 'Nenhuma arquitetura especial':'A0 — olho pigmentário sem mecanismo funcional ocular confirmado. Cor comum ou rara não determina capacidade, afinidade, moralidade ou poder.',
+'H1 — Anisocromia leve':'Os dois olhos permanecem na mesma classe cromática, mas variam em tonalidade ou intensidade. É uma disposição de cor, não uma habilidade.',
+'H2 — Heterocromia central ou setorial':'Uma mesma íris apresenta duas zonas cromáticas relevantes, como um anel central ou setor de cor diferente. Não indica Vaelir por si só.',
 'H3 — Heterocromia bilateral natural não-Vaelir':'Cada olho pertence a uma classe cromática distinta, sem assinatura hereditária Vaelir confirmada. Pode parecer Vaelir, mas só genealogia, arquitetura e resposta energética sustentam H4.',
+'H5 — Mosaico / quimerismo ocular complexo':'Combinação somática, embrionária ou adquirida que produz um padrão ocular complexo fora do Vaelir. Pode exigir explicação de desenvolvimento, quimerismo ou alteração posterior.',
+'A1 — Ressonante sutil':'Pequenas diferenças de condução, sensibilidade ou eficiência ocular produzem uma função real, porém discreta e geralmente superável por treino ou instrumentação.',
+'A6 — Adquirida estável':'Arquitetura ocular criada por medicina, runologia, prótese, exposição controlada ou transformação não hereditária relativamente estável. A origem e a manutenção precisam ser explicadas.',
 'Pupila Radial de Raio':'Arquitetura associada a C12 e linhagens Varyth relacionadas. A Janela Radial aumenta resolução temporal e direcional durante descarga ou alta velocidade. Não para o tempo, não prevê o futuro e não vê através de paredes.',
 'Anel Luminoso Elétrico':'Modificador A2 associado a C12. Estabiliza a distribuição do estímulo e ajuda a separar direção de descarga, vetor de movimento e contraste. É suporte funcional, não um segundo poder.',
 'Selo do Véu — linhagem Valeris':'Arquitetura hereditária típica C11/C6-A3-OH-R6. Detecta descontinuidades de Mana, costuras de barreiras, resíduos rúnicos e refração anômala, além de auxiliar contra certas ilusões. Não lê mente, mentira ou futuro.',
@@ -510,7 +538,7 @@ stepButtons.forEach(function(b){b.addEventListener('click',function(){goStep(Num
 function textify(v){return Array.isArray(v)?v.join(', '):(v||'')}
 
 var CUSTOM_MAP={
-people:'peopleCustom',originPlace:'originPlaceCustom',socialOrigin:'socialOriginCustom',
+people:'peopleCustom',animalMorph:'animalMorphCustom',originPlace:'originPlaceCustom',socialOrigin:'socialOriginCustom',
 age:'ageCustom',height:'heightCustom',build:'buildCustom',posture:'postureCustom',headShape:'headShapeCustom',faceShape:'faceShapeCustom',brows:'browsCustom',
 skin:'skinCustom',eyeLeft:'eyeLeftCustom',eyeRight:'eyeRightCustom',eyeShape:'eyeShapeCustom',ocular:'ocularCustom',
 hairColor:'hairColorCustom',hairType:'hairTypeCustom',hairLength:'hairLengthCustom',hairDensity:'hairDensityCustom',hairstyle:'hairstyleCustom',
@@ -597,9 +625,9 @@ function mutariStatus(a,b){
  if(!a||!b)return {label:'Ancestralidade incompleta',text:'Escolha as duas ancestralidades.'};
  if(a===b)return {label:'Não é Mutari',text:'As duas ancestralidades são iguais; isso descreve uma linhagem única, não um Mutari.'};
  var pair=[a,b].sort().join('|');
- if(pair===['Humano','Nareth'].sort().join('|'))return {label:'Compatibilidade confirmada',text:'Descendência humano–dracônica após Nareth é confirmada e nasce humanoide. Helior é precedente canônico.'};
- if([a,b].includes('Dragão primordial — somente progenitor NPC'))return {label:'Compatibilidade em aberto',text:'Dragão primordial pode aparecer aqui apenas como progenitor NPC para testar a ideia autoral. As regras reprodutivas dessa combinação ainda não estão fechadas, então o descendente permanece candidato até validação.'};
- return {label:'Compatibilidade em aberto',text:'Esta combinação ainda não possui compatibilidade reprodutiva confirmada na autoridade vigente. A ficha pode ser testada, mas permanece candidata.'};
+ if(pair===['Humano','Nareth'].sort().join('|'))return {label:'Mutari humano–dracônico confirmado',text:'Descendência entre humano e dragão após Nareth é confirmada e nasce humanoide. A herança é um mosaico biológico, não uma soma automática dos melhores traços dos dois progenitores.'};
+ if(pair===['Humano','Elfo'].sort().join('|'))return {label:'Mutari humano–élfico confirmado',text:'A compatibilidade humano–élfica é biologicamente possível e possui precedentes históricos. A aparência final resulta de recombinação e variação individual, não de uma divisão matemática 50/50.'};
+ return {label:'Compatibilidade em aberto',text:'Esta combinação ainda não possui compatibilidade reprodutiva confirmada na autoridade vigente. A ficha pode ser testada como candidata, mas não deve ser tratada como combinação biológica confirmada.'};
 }
 function updateMutariHeight(){
  if(document.getElementById('ancestryMode').value!=='mutari')return;
@@ -630,7 +658,8 @@ function hasDraconicAncestry(){
 }
 function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
- box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição curta baseada no cânone atual.');
+ box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v==='Lupran'?'Lu Pran':v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição curta baseada no cânone atual.');
+ var lu=document.getElementById('lupranTraitWrap');if(lu)lu.classList.toggle('show',v==='Lupran');
  populateHeightForSpecies(v);
  updateSkinRecommendation();
  updateOcularDescription();
@@ -692,11 +721,17 @@ function updateIdentityRecommendations(){
  if(sp==='Ruvani')items.push('Ruvani: o corpo deve parecer adulto e compacto, com faixa típica de 0,95–1,25 m; não use proporções infantis.');
  if(sp==='Hadrun')items.push('Hadrun: 2,6–3,2 m e 300–500+ kg são coerentes pela escala corporal cúbica e pela anatomia robusta; massa alta não significa obesidade.');
  if(sp==='Nareth')items.push('Nareth: o corpo é humanoide definitivo. Asas, cauda dracônica funcional ou retorno ao corpo primordial não combinam com a biologia vigente.');
- if(sp==='Lupran')items.push('Lupran: o caráter animaliforme é canônico, mas o corpo-base ainda não foi fechado; traços felinos, caninos ou lupinos escolhidos agora ficam provisórios.');
+ if(sp==='Lupran'){
+   items.push('Lu Pran: o caráter animaliforme é canônico, mas o corpo-base ainda não foi fechado; traços felinos, canídeos ou lupinos escolhidos agora ficam provisórios.');
+   var am=selectedText('animalMorph');if(am)items.push('Traço animaliforme: '+am.toLowerCase()+' funciona como proposta visual deste personagem. Se o futuro cânone fechar outra anatomia para a linhagem, esta característica poderá precisar ser reinterpretada.');
+ }
  if(mut){
    var a=selectedText('parentA'),b=selectedText('parentB'),ms=mutariStatus(a,b);
    items.push('Mutari: '+ms.text);
  }
+ var age=selectedText('age');if(age)items.push('Idade: '+age+' influencia maturação, marcas de uso, voz, cabelo e experiência, sem impor uma aparência única.');
+ var gender=selectedText('gender');if(gender&&gender!=='Não definir')items.push('Gênero: '+gender.toLowerCase()+' pode participar do dimorfismo médio da espécie, mas existe ampla sobreposição corporal individual.');
+ var social=selectedText('socialOrigin');if(social)items.push('Origem social: '+social.toLowerCase()+' tende a aparecer mais em hábitos, vestimenta, mãos, cicatrizes, postura e acesso a cuidados do que em biologia básica.');
  var pl=selectedText('originPlace');
  if(pl)items.push('Origem: '+(pl==='__other__'?(document.getElementById('originPlaceLum').value||'aguardando conversão do local personalizado'):(PLACE_INFO[pl]||pl)));
  var skin=selectedText('skin');
@@ -712,6 +747,7 @@ function updateIdentityRecommendations(){
  }
  var eyeL=selectedText('eyeLeft'),eyeR=selectedText('eyeRight');
  if(eyeL||eyeR)items.push('Olhos: '+[eyeL,eyeR].filter(Boolean).join(' / ')+' é biologicamente possível dentro da ampla variação de Lumyriel; cor sozinha não cria habilidade e heterocromia não prova Vaelir.');
+ var oc=selectedText('ocular');if(oc&&OCULAR_INFO[oc])items.push('Arquitetura ocular: '+OCULAR_INFO[oc]);
  var hc=selectedText('hairColor'),ht=selectedText('hairType'),hl=selectedText('hairLength');
  if(hc||ht||hl)items.push('Cabelo: '+[hc,ht,hl].filter(Boolean).join(', ')+' pode surgir por pigmentação, estrutura do fio, herança e cuidado. Tons incomuns não indicam Afinidade automaticamente.');
  var nose=selectedText('nose'),mouth=selectedText('mouth'),teeth=selectedText('teeth');
@@ -721,7 +757,7 @@ function updateIdentityRecommendations(){
  if(!items.length)items.push('Comece pela espécie/ancestralidade e pelo lugar de origem. O sistema passará a explicar o que é comum, raro ou precisa de justificativa.');
  box.innerHTML='<strong>Coerência automática:</strong><ul class="recommend-list">'+items.map(function(x){return '<li>'+escapeHtml(x)+'</li>'}).join('')+'</ul>';
 }
-['height','build','posture','headShape','faceShape','brows','eyeLeft','eyeRight','eyeShape','hairColor','hairType','hairLength','hairDensity','ears','nose','mouth','teeth','nails','voice'].forEach(function(id){
+['age','gender','socialOrigin','height','build','posture','headShape','faceShape','brows','skin','eyeLeft','eyeRight','eyeShape','ocular','hairColor','hairType','hairLength','hairDensity','ears','nose','mouth','teeth','nails','voice','animalMorph'].forEach(function(id){
  var el=document.getElementById(id);if(el)el.addEventListener('change',updateIdentityRecommendations);
 });
 function populateNumericSelects(){
@@ -768,6 +804,7 @@ function randomizeCharacter(){
  setValue('age',String(pick([18,21,24,27,31,36,42,51,67])));
  setValue('gender',pick(['Homem','Mulher','Não definir']));
  setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi','Feérico','Lupran']));
+ if(document.getElementById('people').value==='Lupran')setValue('animalMorph',pick(['Felino','Canídeo','Lupino','Misto animaliforme']));
  setValue('originPlace',pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Valdren','Elaris','Thalassia']));
  setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
  var heightChoices=[].slice.call(document.getElementById('height').options).filter(function(o){return o.value&&o.value!=='__other__'&&!o.disabled}).map(function(o){return o.value});if(heightChoices.length)setValue('height',pick(heightChoices));
@@ -850,7 +887,7 @@ function renderDossier(){
  var ancestry=d.ancestryMode==='mutari'?[d.parentA,d.parentB,d.mutariStatus].filter(Boolean).join(' + '):'Linhagem única';
  var face=[d.headShape,d.faceShape,d.brows,d.nose,d.mouth,d.ears].filter(Boolean).join(' · ');
  var voiceProfile=[d.voice,textify(d.voiceTraits)].filter(Boolean).join(' · ');
- var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Ancestralidade',ancestry],['Aparência',appearance],['Rosto',face],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Voz e fala',voiceProfile],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
+ var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Ancestralidade',ancestry],['Traço animaliforme',d.animalMorph],['Aparência',appearance],['Rosto',face],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Voz e fala',voiceProfile],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
  document.getElementById('summaryGrid').innerHTML=entries.map(function(x){return '<div class="summary-item"><b>'+x[0]+'</b><span>'+escapeHtml(textify(x[1])||'Não definido')+'</span></div>'}).join('');
  document.getElementById('summaryBio').textContent=d.bio||'Biografia ainda não escrita.';
 }
@@ -885,11 +922,11 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.2',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.3',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.2',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.3',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
