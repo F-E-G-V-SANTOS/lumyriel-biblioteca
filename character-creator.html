@@ -816,7 +816,7 @@ function biologicalCoherenceState(){
  }
  if(warnings.length){
    var ok=originResolved;
-   return {code:'EXCEPCIONAL',label:ok?'Configuração excepcional justificada':'Configuração biologicamente excepcional',css:'exceptional',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:true,originResolved:ok,finalizable:ok,validated:ok,notes:notes};
+   return {code:'EXCEPCIONAL',label:ok?'Configuração excepcional justificada':'Configuração biologicamente excepcional',css:'exceptional',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:true,originResolved:ok,finalizable:ok,validated:ok&&unknowns.length===0,notes:notes};
  }
  if(unknowns.length){
    return {code:'DESCONHECIDA',label:'Compatibilidade biológica ainda desconhecida',css:'unknown',blockers:blockers,warnings:warnings,unknowns:unknowns,infos:infos,requiresOrigin:false,originResolved:originResolved,finalizable:true,validated:false,notes:notes};
@@ -872,9 +872,13 @@ function ensureBiologicalFinalization(){
 function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
  box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.');
- var morph=document.getElementById('specialMorphology');
+ var morph=document.getElementById('specialMorphology'),ears=document.getElementById('ears'),tail=document.getElementById('tail');
  if(v==='Lupran'&&!morph.value)morph.value='Lupran — morfologia Selvari lupina estável';
- if(v!=='Lupran'&&morph.value==='Lupran — morfologia Selvari lupina estável')morph.value='';
+ if(v!=='Lupran'&&morph.value==='Lupran — morfologia Selvari lupina estável'){
+   morph.value='';
+   if(ears.value==='Lupinas altas e móveis')ears.value='';
+   if(tail.value==='Cauda lupina funcional')tail.value='';
+ }
  populateHeightForSpecies(v);
  syncMorphologyAnatomy();
  updateMorphologyDescription();
