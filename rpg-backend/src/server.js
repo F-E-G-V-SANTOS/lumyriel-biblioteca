@@ -8,9 +8,11 @@ import {
   validateTurnRequest,
 } from './validators.js';
 import { buildInitialState, resolveMockTurn } from './engine.js';
+import { isNarratorPilotAction, runNarratedPilotTurn } from './narrated-turn.js';
 
 const PORT = Number(process.env.PORT || 8787);
 const ALLOWED_ORIGIN = process.env.RPG_ALLOWED_ORIGIN || '';
+const NARRATOR_ENABLED = process.env.RPG_ENABLE_NARRATOR === 'true';
 
 class HttpError extends Error {
   constructor(status, code, message) {
@@ -274,6 +276,12 @@ async function takeTurn(req, res, campaignId) {
   const userId = userIdForRequest(req);
   const body = validateTurnRequest(await readJson(req));
 
+  if (NARRATOR_ENABLED && isNarratorPilotAction(body.player_input)) {
+    const output = await runNarratedPilotTurn({ userId, campaignId, body });
+    sendJson(res, 200, output);
+    return;
+  }
+
   const output = await withTransaction(async (client) => {
     const campaignResult = await client.query(
       `SELECT * FROM rpg_campaigns
@@ -447,7 +455,12 @@ async function router(req, res) {
   const path = url.pathname;
 
   if (req.method === 'GET' && path === '/health') {
-    sendJson(res, 200, { ok: true, service: 'Lumyriel RPG Backend MVP', phase: '1-3-no-gpt' });
+    sendJson(res, 200, {
+      ok: true,
+      service: 'Lumyriel RPG Backend MVP',
+      phase: NARRATOR_ENABLED ? '4-gpt-pilot' : '1-3-no-gpt',
+      narrator: NARRATOR_ENABLED ? 'pilot' : 'disabled',
+    });
     return;
   }
   if (req.method === 'POST' && path === '/api/rpg/characters/import') return importCharacter(req, res);
