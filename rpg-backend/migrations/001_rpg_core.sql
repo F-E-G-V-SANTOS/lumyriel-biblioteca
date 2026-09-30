@@ -16,7 +16,7 @@ CREATE TABLE rpg_campaigns (
   campaign_id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
   character_id TEXT NOT NULL,
-  character_source_revision INTEGER NOT NULL CHECK (character_source_revision >= 0),
+  character_source_revision INTEGER NOT NULL CHECK (character_source_revision >= 1),
   character_snapshot_id TEXT NOT NULL UNIQUE,
   canon_package_id TEXT NOT NULL,
   canon_package_version TEXT NOT NULL,
@@ -44,17 +44,21 @@ ALTER TABLE rpg_campaigns
 
 CREATE TABLE rpg_character_snapshots (
   character_snapshot_id TEXT PRIMARY KEY,
-  campaign_id TEXT NOT NULL UNIQUE REFERENCES rpg_campaigns(campaign_id) ON DELETE CASCADE,
+  campaign_id TEXT NOT NULL UNIQUE,
   character_id TEXT NOT NULL,
-  source_revision INTEGER NOT NULL CHECK (source_revision >= 0),
+  source_revision INTEGER NOT NULL CHECK (source_revision >= 1),
   snapshot_json JSONB NOT NULL CHECK (jsonb_typeof(snapshot_json) = 'object'),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (campaign_id, character_snapshot_id),
+  FOREIGN KEY (campaign_id, character_id)
+    REFERENCES rpg_campaigns(campaign_id, character_id)
+    ON DELETE CASCADE
 );
 
 ALTER TABLE rpg_campaigns
   ADD CONSTRAINT rpg_campaigns_character_snapshot_fk
-  FOREIGN KEY (character_snapshot_id)
-  REFERENCES rpg_character_snapshots(character_snapshot_id)
+  FOREIGN KEY (campaign_id, character_snapshot_id)
+  REFERENCES rpg_character_snapshots(campaign_id, character_snapshot_id)
   DEFERRABLE INITIALLY DEFERRED;
 
 CREATE TABLE rpg_campaign_states (
@@ -90,11 +94,13 @@ CREATE TABLE rpg_checkpoints (
   campaign_summary TEXT NOT NULL DEFAULT '',
   canon_package_id TEXT NOT NULL,
   canon_package_version TEXT NOT NULL,
-  character_snapshot_id TEXT NOT NULL REFERENCES rpg_character_snapshots(character_snapshot_id),
+  character_snapshot_id TEXT NOT NULL,
   reason TEXT NOT NULL CHECK (reason IN ('scene_end', 'high_impact', 'long_transition', 'session_exit', 'periodic', 'manual')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   confirmed BOOLEAN NOT NULL DEFAULT FALSE,
-  UNIQUE (campaign_id, state_version, event_sequence)
+  UNIQUE (campaign_id, state_version, event_sequence),
+  FOREIGN KEY (campaign_id, character_snapshot_id)
+    REFERENCES rpg_character_snapshots(campaign_id, character_snapshot_id)
 );
 
 ALTER TABLE rpg_campaigns
