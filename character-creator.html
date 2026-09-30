@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Criador de Personagens de Lumyriel — construa um personagem por origem, aparência, cultura, habilidades, equipamento, histórico e escolhas narrativas, sem níveis.">
+<title>Criador de Personagens · Lumyriel</title>
+<style>
+:root{--bg:#0b0c0d;--bg2:#111316;--panel:#151719;--panel2:#1a1c1f;--line:#2d2c29;--gold:#b79a61;--gold2:#d3bc87;--ink:#ece7dc;--muted:#aaa59b;--soft:#c8c1b5;--ok:#98aa91;--warn:#c5a36d;--r:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 15% 0%,rgba(183,154,97,.08),transparent 30%),var(--bg);color:var(--ink);font:15px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{width:min(1180px,calc(100% - 36px));margin:auto}
+header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-filter:blur(14px);border-bottom:1px solid #242527}.top{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:13px;font-weight:760;letter-spacing:.08em;text-transform:uppercase}.sigil{width:40px;height:40px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font:600 1.35rem Georgia,serif}.back{border:1px solid #383733;border-radius:999px;padding:9px 14px;color:#d7d0c4}
+.hero{padding:64px 0 32px}.eyebrow{color:var(--gold2);text-transform:uppercase;letter-spacing:.19em;font-size:.73rem;font-weight:750}.hero h1{font:500 clamp(2.6rem,6vw,5.2rem)/1.02 Georgia,serif;letter-spacing:-.035em;margin:12px 0 18px;max-width:900px}.hero p{max-width:780px;color:#c5c0b6;font-size:1.02rem}.notice{margin-top:24px;border:1px solid #34322d;background:#121416;border-radius:15px;padding:14px 16px;color:#b9b3a8}.notice strong{color:var(--gold2)}
+.creator{display:grid;grid-template-columns:260px minmax(0,1fr);gap:22px;padding:24px 0 80px}.steps{position:sticky;top:94px;align-self:start;border:1px solid var(--line);border-radius:20px;background:#111315;padding:14px}.step-btn{width:100%;display:flex;align-items:center;gap:11px;text-align:left;border:0;background:transparent;color:#a9a49a;border-radius:12px;padding:10px 11px;margin:2px 0}.step-btn span{width:27px;height:27px;border:1px solid #3a3935;border-radius:50%;display:grid;place-items:center;font-size:.77rem;flex:0 0 auto}.step-btn.active{background:#211f1b;color:#f0e7d8}.step-btn.active span{border-color:var(--gold);color:var(--gold2)}.step-btn.done span{background:#26271f;color:#cbd2b2}
+.workspace{min-width:0}.panel{display:none;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#151719,#111315);padding:clamp(22px,4vw,40px)}.panel.active{display:block}.panel-head{display:flex;justify-content:space-between;gap:20px;align-items:start;margin-bottom:26px}.panel-head h2{font:500 clamp(2rem,4vw,3rem)/1.08 Georgia,serif;margin:7px 0 0}.panel-head p{max-width:520px;color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;color:#d7d0c5;font-size:.82rem;font-weight:700;margin-bottom:7px}.field small{display:block;color:#817d75;margin-top:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #343431;background:#0e1011;color:#e9e4db;border-radius:12px;padding:11px 12px;outline:none}.field textarea{min-height:108px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#6c604a;box-shadow:0 0 0 3px rgba(183,154,97,.08)}
+.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.choice{position:relative}.choice input{position:absolute;opacity:0;pointer-events:none}.choice label{display:block;border:1px solid #343431;background:#0f1112;border-radius:12px;padding:11px 12px;color:#bdb7ad;cursor:pointer;height:100%}.choice input:checked+label{border-color:#79694e;background:#211f1a;color:#f0e7d8}
+.section-title{font:500 1.35rem Georgia,serif;color:#e7dfd1;margin:30px 0 13px;padding-top:22px;border-top:1px solid #292a2b}.section-title.first{margin-top:0;padding-top:0;border:0}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid #343431;border-radius:999px;padding:8px 11px;background:#0f1112;color:#bcb6ac}.pill input{margin-right:6px}
+.nav-actions{display:flex;justify-content:space-between;gap:12px;margin-top:28px;padding-top:22px;border-top:1px solid #292a2b}.btn{border:1px solid #3a3935;border-radius:999px;background:#17191c;color:#e9e3d9;padding:11px 16px}.btn.primary{background:var(--gold);border-color:var(--gold);color:#17130d;font-weight:750}.btn.ghost{background:transparent}.btn:disabled{opacity:.45;cursor:not-allowed}
+.profile{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}.card{border:1px solid #32322f;border-radius:16px;padding:18px;background:#0f1112}.card h3{font:500 1.35rem Georgia,serif;margin:0 0 10px}.card p{color:#aaa59b;margin:6px 0}.tag{display:inline-block;border:1px solid #403b31;border-radius:999px;padding:5px 9px;margin:3px;color:#cfc3ae;font-size:.78rem}.meter-row{margin:12px 0}.meter-row strong{display:block;color:#ddd5c8;font-size:.86rem}.meter-row span{color:#9e998f;font-size:.82rem}
+.summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.summary-item{border:1px solid #30302d;border-radius:13px;padding:13px;background:#101213}.summary-item b{display:block;color:var(--gold2);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}.summary-item span{color:#d4cec4}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 0}.status{font-size:.83rem;color:#8f8a82;margin-top:10px}.status.ok{color:#aebd9e}.status.warn{color:#d0b27a}
+footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:900px){.creator{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto;gap:6px;padding:8px}.step-btn{min-width:max-content;width:auto}.step-btn span{display:none}.profile{grid-template-columns:1fr}}
+@media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px}.brand{font-size:.82rem}.sigil{width:34px;height:34px}.hero{padding:36px 0 18px}.hero h1{font-size:2.65rem}.creator{padding-top:12px}.panel{padding:20px 14px;border-radius:16px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#111315 28%);padding-top:28px;padding-bottom:4px}.btn{padding:10px 13px}.back{font-size:.8rem;padding:8px 11px}}
+</style>
+</head>
+<body>
+<header><div class="shell top"><a class="brand" href="index.html"><span class="sigil">L</span><span>Biblioteca de Lumyriel</span></a><a class="back" href="index.html">← Voltar à biblioteca</a></div></header>
+<main>
+<section class="hero shell">
+<div class="eyebrow">Ferramenta alpha</div>
+<h1>Criador de Personagens de Lumyriel</h1>
+<p>Construa uma pessoa, não uma barra de atributos. Em Lumyriel, competência nasce de corpo, origem, experiência, treinamento, proficiências, equipamentos, cultura e escolhas. Não existem níveis.</p>
+<div class="notice"><strong>Importante:</strong> criar ou enviar um personagem não o torna canônico automaticamente. Personagens enviados futuramente ao acervo entram como <b>candidatos à avaliação autoral</b>.</div>
+</section>
+<section class="shell creator">
+<nav class="steps" aria-label="Etapas do criador">
+<button class="step-btn active" data-step="0"><span>1</span>Identidade</button>
+<button class="step-btn" data-step="1"><span>2</span>Corpo e rosto</button>
+<button class="step-btn" data-step="2"><span>3</span>Cultura e fé</button>
+<button class="step-btn" data-step="3"><span>4</span>Histórico</button>
+<button class="step-btn" data-step="4"><span>5</span>Habilidades</button>
+<button class="step-btn" data-step="5"><span>6</span>Equipamento</button>
+<button class="step-btn" data-step="6"><span>7</span>Papel narrativo</button>
+<button class="step-btn" data-step="7"><span>8</span>Biografia</button>
+<button class="step-btn" data-step="8"><span>9</span>Dossiê</button>
+</nav>
+<div class="workspace">
+<form id="creatorForm">
+<section class="panel active" data-panel="0">
+<div class="panel-head"><div><div class="eyebrow">1 · Identidade</div><h2>Quem é essa pessoa?</h2></div><p>Comece pela identidade e pela origem. A procedência influencia cultura, experiência e aparência, mas não determina personalidade ou moralidade.</p></div>
+<div class="grid">
+<div class="field"><label for="name">Nome</label><input id="name" name="name" placeholder="Nome do personagem"></div>
+<div class="field"><label for="age">Idade</label><input id="age" name="age" type="number" min="0" max="2000" placeholder="Ex.: 27"></div>
+<div class="field"><label for="people">Povo / espécie</label><select id="people" name="people"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Dragão / Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Outro / não definido</option></select><small>Lista inicial baseada nas categorias já registradas no cânone; será refinada com as autoridades especializadas.</small></div>
+<div class="field"><label for="originStatus">Relação com Lumyriel</label><select id="originStatus" name="originStatus"><option>Nativo de Lumyriel</option><option>Origem ancestral exógena</option><option>Nascido fora de Lumyriel</option><option>Origem desconhecida</option></select></div>
+<div class="field full"><label for="originPlace">Lugar de origem</label><input id="originPlace" name="originPlace" list="places" placeholder="Continente, reino, região ou cidade"><datalist id="places"><option value="Eryndhor"><option value="Thalorien"><option value="Frosthaven"><option value="Umbralis"><option value="Aetherion"><option value="Solara"><option value="Umbrael"><option value="Karveth"><option value="Drakoria"><option value="Valdren"><option value="Elaris"><option value="Thalassia"><option value="Brumamata"><option value="Dorso Cinzento"></datalist></div>
+<div class="field"><label for="gender">Gênero / identidade</label><input id="gender" name="gender" placeholder="Livre"></div>
+<div class="field"><label for="socialOrigin">Origem social</label><select id="socialOrigin" name="socialOrigin"><option value="">Selecione</option><option>Rural</option><option>Urbana</option><option>Mercantil</option><option>Artesã</option><option>Militar</option><option>Acadêmica</option><option>Nobre</option><option>Religiosa</option><option>Itinerante</option><option>Marginalizada</option><option>Outra</option></select></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn ghost" onclick="randomizeCharacter()">Randomizar personagem</button><button type="button" class="btn primary" onclick="goStep(1)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="1">
+<div class="panel-head"><div><div class="eyebrow">2 · Corpo e rosto</div><h2>Aparência sem molde único.</h2></div><p>Defina o corpo em detalhes. Aparência pode carregar sinais sociais e história, mas não funciona como destino biológico.</p></div>
+<div class="section-title first">Estrutura corporal</div>
+<div class="grid three">
+<div class="field"><label for="height">Altura</label><input id="height" name="height" placeholder="Ex.: 1,76 m"></div>
+<div class="field"><label for="build">Constituição</label><select id="build" name="build"><option value="">Selecione</option><option>Delicada</option><option>Esbelta</option><option>Mediana</option><option>Atlética</option><option>Robusta</option><option>Musculosa</option><option>Corpulenta</option></select></div>
+<div class="field"><label for="posture">Postura</label><select id="posture" name="posture"><option value="">Selecione</option><option>Relaxada</option><option>Formal</option><option>Vigilante</option><option>Curvada</option><option>Marcial</option><option>Elegante</option><option>Assimétrica</option></select></div>
+<div class="field"><label for="headShape">Formato da cabeça</label><select id="headShape" name="headShape"><option value="">Selecione</option><option>Oval</option><option>Redonda</option><option>Alongada</option><option>Quadrada</option><option>Triangular</option><option>Angular</option></select></div>
+<div class="field"><label for="faceShape">Formato do rosto</label><select id="faceShape" name="faceShape"><option value="">Selecione</option><option>Oval</option><option>Redondo</option><option>Quadrado</option><option>Longo</option><option>Coração</option><option>Diamante</option><option>Angular</option></select></div>
+<div class="field"><label for="skin">Pele / tonalidade</label><input id="skin" name="skin" placeholder="Descreva a tonalidade e particularidades"></div>
+</div>
+<div class="section-title">Olhos</div>
+<div class="grid three">
+<div class="field"><label for="eyeLeft">Olho esquerdo</label><input id="eyeLeft" name="eyeLeft" placeholder="Cor"></div>
+<div class="field"><label for="eyeRight">Olho direito</label><input id="eyeRight" name="eyeRight" placeholder="Cor"></div>
+<div class="field"><label for="eyeShape">Formato dos olhos</label><select id="eyeShape" name="eyeShape"><option value="">Selecione</option><option>Amendoados</option><option>Arredondados</option><option>Estreitos</option><option>Profundos</option><option>Salientes</option><option>Caídos</option><option>Elevados</option></select></div>
+<div class="field full"><label for="ocular">Traço ou habilidade ocular</label><input id="ocular" name="ocular" placeholder="Nenhuma, traço de linhagem ou habilidade canônica específica"><small>Não há árvore genérica de “poderes oculares”. Técnicas precisam ser compatíveis com a fisiologia e as regras mágicas de Lumyriel.</small></div>
+</div>
+<div class="section-title">Cabelo e rosto</div>
+<div class="grid three">
+<div class="field"><label for="hairColor">Cor do cabelo</label><input id="hairColor" name="hairColor" placeholder="Cor"></div>
+<div class="field"><label for="hairType">Tipo de cabelo</label><select id="hairType" name="hairType"><option value="">Selecione</option><option>Liso</option><option>Ondulado</option><option>Cacheado</option><option>Crespo</option><option>Muito crespo</option><option>Sem cabelo</option></select></div>
+<div class="field"><label for="hairLength">Comprimento</label><select id="hairLength" name="hairLength"><option value="">Selecione</option><option>Raspado</option><option>Curto</option><option>Médio</option><option>Longo</option><option>Muito longo</option></select></div>
+<div class="field"><label for="nose">Nariz</label><input id="nose" name="nose" placeholder="Formato, largura, perfil"></div>
+<div class="field"><label for="mouth">Boca / lábios</label><input id="mouth" name="mouth" placeholder="Formato e particularidades"></div>
+<div class="field"><label for="teeth">Dentes</label><input id="teeth" name="teeth" placeholder="Condição, forma, particularidades"></div>
+<div class="field"><label for="ears">Orelhas</label><input id="ears" name="ears" placeholder="Formato e particularidades"></div>
+<div class="field"><label for="nails">Unhas / mãos</label><input id="nails" name="nails" placeholder="Formato, cuidado, marcas de trabalho"></div>
+<div class="field"><label for="voice">Voz</label><input id="voice" name="voice" placeholder="Timbre, ritmo, sotaque, volume"></div>
+<div class="field full"><label for="marks">Marcas, cicatrizes, tatuagens ou particularidades</label><textarea id="marks" name="marks"></textarea></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(0)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(2)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="2">
+<div class="panel-head"><div><div class="eyebrow">3 · Cultura e fé</div><h2>De onde vêm seus valores?</h2></div><p>Cultura é aprendida, transmitida e disputada. Fé e prática social também podem divergir.</p></div>
+<div class="grid">
+<div class="field"><label for="culture">Cultura / identidade cultural</label><input id="culture" name="culture" placeholder="Povo, comunidade, tradição ou mistura cultural"></div>
+<div class="field"><label for="language">Línguas e variedades</label><input id="language" name="language" placeholder="Idiomas, sotaques, leitura/escrita"></div>
+<div class="field"><label for="faith">Crença / fé</label><input id="faith" name="faith" placeholder="Tradição, culto, filosofia ou ausência de fé"></div>
+<div class="field"><label for="faithRelation">Relação com a fé</label><select id="faithRelation" name="faithRelation"><option value="">Selecione</option><option>Devoto</option><option>Praticante cultural</option><option>Questionador</option><option>Cético</option><option>Indiferente</option><option>Convertido</option><option>Em conflito</option><option>Outra</option></select></div>
+<div class="field"><label for="education">Formação</label><select id="education" name="education"><option value="">Selecione</option><option>Aprendizado familiar</option><option>Mestre / aprendiz</option><option>Guilda / ofício</option><option>Militar</option><option>Religiosa</option><option>Acadêmica</option><option>Autodidata</option><option>Mista</option></select></div>
+<div class="field"><label for="literacy">Leitura e escrita</label><select id="literacy" name="literacy"><option value="">Selecione</option><option>Não alfabetizado</option><option>Leitura funcional</option><option>Alfabetizado</option><option>Formação avançada</option><option>Escrita profissional / erudita</option></select></div>
+<div class="field full"><label for="customs">Costumes, hábitos e códigos sociais</label><textarea id="customs" name="customs" placeholder="O que aprendeu como normal, respeitoso, proibido ou esperado?"></textarea></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(1)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(3)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="3">
+<div class="panel-head"><div><div class="eyebrow">4 · Histórico</div><h2>Competência precisa de origem.</h2></div><p>Se alguém sabe lutar, curar, forjar ou operar magia, a ficha deve explicar onde, com quem e por quanto tempo aprendeu.</p></div>
+<div class="grid">
+<div class="field"><label for="profession">Profissão / ocupação atual</label><input id="profession" name="profession" placeholder="Ex.: ferreiro, guarda, curador, pesquisador"></div>
+<div class="field"><label for="trainingSource">Principal fonte de treinamento</label><select id="trainingSource" name="trainingSource"><option value="">Selecione</option><option>Família</option><option>Mestre particular</option><option>Guilda / ofício</option><option>Exército / guarda</option><option>Academia</option><option>Ordem religiosa</option><option>Autodidata</option><option>Sobrevivência prática</option><option>Mercenarismo</option><option>Múltiplas fontes</option></select></div>
+<div class="field"><label for="yearsTraining">Tempo de prática</label><input id="yearsTraining" name="yearsTraining" placeholder="Ex.: 8 anos; desde a infância"></div>
+<div class="field"><label for="family">Família / vínculos de origem</label><input id="family" name="family" placeholder="Família, casa, grupo, tutela"></div>
+<div class="field full"><label for="past">Histórico de vida</label><textarea id="past" name="past" placeholder="Eventos que realmente moldaram o personagem."></textarea></div>
+<div class="field full"><label for="reputation">Reputação e posição social</label><textarea id="reputation" name="reputation" placeholder="Como diferentes grupos o enxergam?"></textarea></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(2)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(4)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="4">
+<div class="panel-head"><div><div class="eyebrow">5 · Habilidades</div><h2>Sem níveis. Com experiência.</h2></div><p>Escolha áreas de competência e descreva o grau real de domínio. O resultado será uma leitura qualitativa, não uma pontuação.</p></div>
+<div class="section-title first">Arquétipo de uso</div>
+<div class="choice-grid">
+<div class="choice"><input type="radio" name="archetype" value="Espada e escudo" id="a1"><label for="a1">Espada e escudo</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Cajado e espada" id="a2"><label for="a2">Cajado e espada</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Combatente devocional" id="a3"><label for="a3">Paladino / combatente devocional*</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Arqueiro ou atirador mecânico" id="a4"><label for="a4">Arqueiro / projéteis mecânicos</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Usuário de Aura" id="a5"><label for="a5">Usuário de Aura</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Runólogo ou técnico mágico" id="a6"><label for="a6">Runólogo / técnico mágico</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Explorador" id="a7"><label for="a7">Explorador</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Curador" id="a8"><label for="a8">Curador</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Artesão" id="a9"><label for="a9">Artesão / especialista</label></div>
+</div>
+<div class="status">*Rótulo de criação para facilitar entendimento; não representa uma classe ou nível do cânone.</div>
+<div class="section-title">Domínio por área</div>
+<div class="grid three">
+<div class="field"><label>Combate corpo a corpo</label><select name="skillMelee"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Combate à distância</label><select name="skillRanged"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Aura</label><select name="skillAura"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Mana / artes mágicas</label><select name="skillMana"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Runologia / técnica</label><select name="skillRunes"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Sobrevivência</label><select name="skillSurvival"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Ofício / artesanato</label><select name="skillCraft"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Conhecimento acadêmico</label><select name="skillKnowledge"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Competência social</label><select name="skillSocial"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+</div>
+<div class="section-title">Proficiências e limites</div>
+<div class="grid">
+<div class="field full"><label for="masteries">Habilidades mestradas</label><textarea id="masteries" name="masteries" placeholder="O que faz excepcionalmente bem, e por quê?"></textarea></div>
+<div class="field full"><label for="limitations">Limitações reais</label><textarea id="limitations" name="limitations" placeholder="Falta de experiência, lesão, dependência de equipamento, conhecimento insuficiente, medo, custo mágico..."></textarea></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(3)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(5)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="5">
+<div class="panel-head"><div><div class="eyebrow">6 · Equipamento</div><h2>Possuir não é saber usar.</h2></div><p>Armas, ferramentas e itens têm procedência, manutenção e função. Equipamento não substitui treinamento.</p></div>
+<div class="grid">
+<div class="field"><label for="weapon1">Arma / ferramenta principal</label><input id="weapon1" name="weapon1" placeholder="Ex.: espada, lança, cajado, martelo"></div>
+<div class="field"><label for="weapon2">Secundária</label><input id="weapon2" name="weapon2" placeholder="Ex.: escudo, adaga, ferramenta"></div>
+<div class="field"><label for="armor">Proteção / vestimenta</label><input id="armor" name="armor" placeholder="Material, função, mobilidade"></div>
+<div class="field"><label for="tools">Ferramentas</label><input id="tools" name="tools" placeholder="Kit de ofício, navegação, cura, pesquisa..."></div>
+<div class="field full"><label for="specialItems">Itens especiais e procedência</label><textarea id="specialItems" name="specialItems" placeholder="O que carrega, de onde veio e por que importa?"></textarea></div>
+<div class="field full"><label for="maintenance">Manutenção, custos e dependências</label><textarea id="maintenance" name="maintenance" placeholder="O que precisa para manter seu equipamento funcionando?"></textarea></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(4)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(6)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="6">
+<div class="panel-head"><div><div class="eyebrow">7 · Papel narrativo</div><h2>O que essa pessoa escolhe fazer?</h2></div><p>Herói, vilão ou anti-herói é só um rótulo inicial. Valores, objetivos, limites e lealdades mostram melhor quem o personagem realmente é.</p></div>
+<div class="grid">
+<div class="field"><label for="role">Papel narrativo</label><select id="role" name="role"><option>Herói</option><option>Anti-herói</option><option>Antagonista</option><option>Vilão</option><option>Neutro</option><option>Indefinido</option></select></div>
+<div class="field"><label for="temperament">Temperamento</label><input id="temperament" name="temperament" placeholder="Ex.: reservado, expansivo, metódico"></div>
+<div class="field full"><label for="goals">Objetivos</label><textarea id="goals" name="goals"></textarea></div>
+<div class="field full"><label for="values">Princípios e valores</label><textarea id="values" name="values" placeholder="O que considera certo, justo ou sagrado?"></textarea></div>
+<div class="field full"><label for="limits">Limites morais</label><textarea id="limits" name="limits" placeholder="O que se recusa a fazer? O que poderia fazê-lo cruzar essa linha?"></textarea></div>
+<div class="field"><label for="loyalties">Lealdades</label><input id="loyalties" name="loyalties" placeholder="Pessoa, família, instituição, povo, causa"></div>
+<div class="field"><label for="fears">Medos / vulnerabilidades</label><input id="fears" name="fears" placeholder="Físicos, sociais, emocionais ou morais"></div>
+</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(5)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(7)">Continuar →</button></div>
+</section>
+
+<section class="panel" data-panel="7">
+<div class="panel-head"><div><div class="eyebrow">8 · Biografia</div><h2>Dê continuidade à ficha.</h2></div><p>Você pode escrever livremente ou gerar uma primeira versão a partir das escolhas feitas. O texto gerado continua totalmente editável.</p></div>
+<div class="field full"><label for="bio">Biografia</label><textarea id="bio" name="bio" style="min-height:330px" placeholder="Escreva a história do personagem..."></textarea></div>
+<div class="toolbar"><button type="button" class="btn primary" onclick="generateBio()">Gerar biografia a partir da ficha</button><button type="button" class="btn" onclick="document.getElementById('bio').value=''">Limpar biografia</button></div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(6)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(8);renderDossier()">Revisar dossiê →</button></div>
+</section>
+
+<section class="panel" data-panel="8">
+<div class="panel-head"><div><div class="eyebrow">9 · Dossiê</div><h2>Personagem completo.</h2></div><p>Esta leitura final não mede “poder”. Ela resume preparação, experiência, dependências e contexto.</p></div>
+<div class="profile">
+<div>
+<div class="card"><h3 id="summaryName">Personagem sem nome</h3><p id="summaryOrigin"></p><div id="summaryTags"></div></div>
+<div class="card" style="margin-top:14px"><h3>Leitura de competência</h3><div id="competence"></div></div>
+</div>
+<div class="card"><h3>Resumo da ficha</h3><div class="summary-grid" id="summaryGrid"></div><div class="section-title">Biografia</div><p id="summaryBio" style="white-space:pre-wrap;color:#c8c1b5"></p></div>
+</div>
+<div class="toolbar">
+<button type="button" class="btn primary" onclick="saveLocal()">Salvar rascunho neste navegador</button>
+<button type="button" class="btn" onclick="downloadJson()">Baixar JSON</button>
+<button type="button" class="btn" onclick="downloadText()">Baixar dossiê</button>
+<button type="button" class="btn" disabled title="A integração com o Drive será ativada na próxima etapa">Enviar personagem para Lumyriel</button>
+</div>
+<div id="saveStatus" class="status warn">Envio ao Drive ainda não está ativo. O personagem pode ser salvo localmente ou exportado sem perda.</div>
+<div class="nav-actions"><button type="button" class="btn" onclick="goStep(7)">← Editar biografia</button><button type="button" class="btn ghost" onclick="randomizeCharacter();goStep(0)">Criar outro personagem</button></div>
+</section>
+</form>
+</div>
+</section>
+</main>
+<footer><div class="shell footer-row"><span>Criador de Personagens · versão alpha</span><span>Sem níveis · competência por experiência, proficiência, equipamento e histórico.</span></div></footer>
+<script>
+var currentStep=0;
+var panels=[].slice.call(document.querySelectorAll('.panel'));
+var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
+var form=document.getElementById('creatorForm');
+function goStep(n){currentStep=Math.max(0,Math.min(panels.length-1,n));panels.forEach(function(p,i){p.classList.toggle('active',i===currentStep)});stepButtons.forEach(function(b,i){b.classList.toggle('active',i===currentStep);if(i<currentStep)b.classList.add('done')});window.scrollTo({top:document.querySelector('.creator').offsetTop-80,behavior:'smooth'});if(currentStep===8)renderDossier()}
+stepButtons.forEach(function(b){b.addEventListener('click',function(){goStep(Number(b.dataset.step))})});
+function formData(){var fd=new FormData(form),o={};fd.forEach(function(v,k){o[k]=v});return o}
+function setValue(name,value){var els=form.elements[name];if(!els)return;if(els.length&&els[0]&&els[0].type==='radio'){for(var i=0;i<els.length;i++)els[i].checked=els[i].value===value}else els.value=value}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function randomizeCharacter(){
+ var p=pick(['Humano','Elfo','Anão','Dragão / Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi']);
+ var age=pick([18,21,24,27,31,36,42,51,67]);
+ var place=pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Drakoria','Valdren','Elaris','Thalassia']);
+ var arche=pick(['Espada e escudo','Cajado e espada','Combatente devocional','Arqueiro ou atirador mecânico','Usuário de Aura','Runólogo ou técnico mágico','Explorador','Curador','Artesão']);
+ var role=pick(['Herói','Anti-herói','Antagonista','Neutro','Indefinido']);
+ var mastery=['Sem experiência','Familiar','Treinado','Experiente','Mestre'];
+ setValue('people',p);setValue('age',age);setValue('originPlace',place);setValue('originStatus',pick(['Nativo de Lumyriel','Origem ancestral exógena','Origem desconhecida']));
+ setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
+ setValue('height',(pick([1.52,1.61,1.68,1.73,1.79,1.84,1.91,2.03])).toFixed(2).replace('.',',')+' m');
+ setValue('build',pick(['Delicada','Esbelta','Mediana','Atlética','Robusta','Musculosa','Corpulenta']));
+ setValue('posture',pick(['Relaxada','Formal','Vigilante','Curvada','Marcial','Elegante','Assimétrica']));
+ setValue('headShape',pick(['Oval','Redonda','Alongada','Quadrada','Triangular','Angular']));
+ setValue('faceShape',pick(['Oval','Redondo','Quadrado','Longo','Coração','Diamante','Angular']));
+ setValue('eyeShape',pick(['Amendoados','Arredondados','Estreitos','Profundos','Elevados']));
+ setValue('eyeLeft',pick(['castanho','âmbar','azul','verde','cinza','violeta','vermelho']));
+ setValue('eyeRight',Math.random()<.24?pick(['castanho','âmbar','azul','verde','cinza','violeta','vermelho']):form.elements.eyeLeft.value);
+ setValue('hairType',pick(['Liso','Ondulado','Cacheado','Crespo','Muito crespo']));
+ setValue('hairLength',pick(['Raspado','Curto','Médio','Longo','Muito longo']));
+ setValue('hairColor',pick(['preto','castanho escuro','castanho claro','loiro','ruivo','branco','acinzentado']));
+ setValue('faithRelation',pick(['Devoto','Praticante cultural','Questionador','Cético','Indiferente','Em conflito']));
+ setValue('education',pick(['Aprendizado familiar','Mestre / aprendiz','Guilda / ofício','Militar','Religiosa','Acadêmica','Autodidata','Mista']));
+ setValue('literacy',pick(['Não alfabetizado','Leitura funcional','Alfabetizado','Formação avançada']));
+ setValue('trainingSource',pick(['Família','Mestre particular','Guilda / ofício','Exército / guarda','Academia','Ordem religiosa','Autodidata','Sobrevivência prática','Múltiplas fontes']));
+ setValue('archetype',arche);setValue('role',role);
+ ['skillMelee','skillRanged','skillAura','skillMana','skillRunes','skillSurvival','skillCraft','skillKnowledge','skillSocial'].forEach(function(n){setValue(n,pick(mastery))});
+ setValue('temperament',pick(['reservado e observador','expansivo e curioso','metódico e paciente','impulsivo, mas leal','sereno e desconfiado','pragmático e bem-humorado']));
+ document.getElementById('bio').value='';
+ document.getElementById('saveStatus').textContent='Personagem randomizado. Campos culturais e biográficos podem ser refinados antes do envio.';
+ document.getElementById('saveStatus').className='status ok';
+}
+function generateBio(){
+ var d=formData(),name=d.name||'O personagem',place=d.originPlace||'uma região ainda não definida',people=d.people||'origem não definida',profession=d.profession||'uma ocupação ainda em construção',training=d.trainingSource||'experiências diversas',role=(d.role||'papel narrativo indefinido').toLowerCase();
+ var s=name+' é '+(d.age?('uma pessoa de '+d.age+' anos'):'uma pessoa')+' de '+place+', ligada ao povo ou espécie '+people+'. ';
+ s+='Sua formação principal veio de '+training+', e sua vida atual se organiza em torno de '+profession+'. ';
+ if(d.archetype)s+='Em situações de risco, sua preparação se aproxima do perfil de '+d.archetype.toLowerCase()+'. ';
+ if(d.faith)s+='Sua relação com crença e tradição passa por '+d.faith+(d.faithRelation?' de maneira '+d.faithRelation.toLowerCase():'')+'. ';
+ if(d.goals)s+='Seus objetivos atuais incluem '+d.goals.trim()+'. ';
+ if(d.values)s+='Entre os princípios que orientam suas escolhas estão '+d.values.trim()+'. ';
+ if(d.limitations)s+='Sua competência, porém, possui limites concretos: '+d.limitations.trim()+'. ';
+ if(d.past)s+='Seu passado é marcado por '+d.past.trim()+'. ';
+ s+='Narrativamente, tende a ocupar o papel de '+role+', mas suas escolhas e relações podem alterar essa leitura.';
+ document.getElementById('bio').value=s;
+}
+function renderDossier(){
+ var d=formData();
+ document.getElementById('summaryName').textContent=d.name||'Personagem sem nome';
+ document.getElementById('summaryOrigin').textContent=[d.people,d.originPlace,d.age?d.age+' anos':''].filter(Boolean).join(' · ')||'Origem ainda não definida';
+ var tags=[d.archetype,d.role,d.profession,d.faithRelation].filter(Boolean);document.getElementById('summaryTags').innerHTML=tags.map(function(x){return '<span class="tag">'+escapeHtml(x)+'</span>'}).join('');
+ var skillMap=[['Corpo a corpo',d.skillMelee],['Distância',d.skillRanged],['Aura',d.skillAura],['Mana / artes mágicas',d.skillMana],['Runologia',d.skillRunes],['Sobrevivência',d.skillSurvival],['Ofício',d.skillCraft],['Conhecimento',d.skillKnowledge],['Social',d.skillSocial]];
+ document.getElementById('competence').innerHTML=skillMap.map(function(x){return '<div class="meter-row"><strong>'+x[0]+'</strong><span>'+escapeHtml(x[1]||'Não definido')+'</span></div>'}).join('');
+ var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Aparência',[d.height,d.build,d.skin].filter(Boolean).join(', ')],['Olhos',[d.eyeLeft,d.eyeRight].filter(Boolean).join(' / ')],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',d.limitations],['Objetivos',d.goals]];
+ document.getElementById('summaryGrid').innerHTML=entries.map(function(x){return '<div class="summary-item"><b>'+x[0]+'</b><span>'+escapeHtml(x[1]||'Não definido')+'</span></div>'}).join('');
+ document.getElementById('summaryBio').textContent=d.bio||'Biografia ainda não escrita.';
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+function saveLocal(){localStorage.setItem('lumyriel-character-draft',JSON.stringify(formData()));var e=document.getElementById('saveStatus');e.textContent='Rascunho salvo neste navegador.';e.className='status ok'}
+function loadLocal(){try{var raw=localStorage.getItem('lumyriel-character-draft');if(!raw)return;var d=JSON.parse(raw);Object.keys(d).forEach(function(k){setValue(k,d[k])});}catch(e){}}
+function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
+function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
+function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.1',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadText(){var d=formData();var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','','Nome: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Papel narrativo: '+(d.role||'Não definido'),'Arquétipo de uso: '+(d.archetype||'Não definido'),'','BIOGRAFIA',d.bio||'Não escrita.','','LIMITAÇÕES',d.limitations||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.specialItems].filter(Boolean).join(' · ')||'Não definido.'];download(lines.join('\n'),filename(d,'txt'),'text/plain;charset=utf-8')}
+loadLocal();
+</script>
+</body>
+</html>
