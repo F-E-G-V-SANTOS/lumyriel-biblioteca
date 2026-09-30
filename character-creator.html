@@ -538,6 +538,12 @@ function formData(){
  if(o.skin==='__recommended__')o.skin='Recomendação biogeográfica: '+skinRecommendation();
  if(o.age==='__other__')o.age=document.getElementById('ageCustom').value||'Não definida';
  if(o.height==='__other__')o.height=document.getElementById('heightCustom').value||'Não definida';
+ if(document.getElementById('originPlace').value==='__other__')o.originPlace=document.getElementById('originPlaceLum').value||'Local lumyrieliano não definido';
+ if(o.ancestryMode==='mutari'){
+   var ma=document.getElementById('parentA').value,mb=document.getElementById('parentB').value;
+   o.people=ma&&mb?'Mutari — '+ma+' + '+mb:'Mutari — ancestralidade incompleta';
+   o.mutariStatus=mutariStatus(ma,mb).label;
+ }
  return o;
 }
 
@@ -573,8 +579,40 @@ function fceAdapt(raw){
  return s.charAt(0).toUpperCase()+s.slice(1);
 }
 function updateLumName(){
- var raw=document.getElementById('realName').value;
- document.getElementById('name').value=fceAdapt(raw);
+ var parts=['firstName','middleName','surname'].map(function(id){return document.getElementById(id).value.trim()}).filter(Boolean);
+ document.getElementById('name').value=parts.map(fceAdapt).filter(Boolean).join(' ');
+}
+function lumPlaceAdapt(raw){
+ var base=(raw||'').trim();if(!base)return '';
+ var h=hashString(base.toLowerCase()),on=['v','d','k','r','l','m','n','s','t','br','dr','gr','kr','pr','tr'],vo=['a','e','i','o','u'],co=['','n','r','l','s','t','k'];
+ var count=2+(h%2),out='';
+ for(var i=0;i<count;i++){h=(Math.imul(h^((i+1)*2654435761),2246822519))>>>0;out+=on[h%on.length]+vo[(h>>>5)%vo.length]+co[(h>>>11)%co.length]}
+ return out.charAt(0).toUpperCase()+out.slice(1);
+}
+function updateCustomPlace(){
+ var raw=document.getElementById('originPlaceCustom').value;
+ document.getElementById('originPlaceLum').value=lumPlaceAdapt(raw);
+}
+function mutariStatus(a,b){
+ if(!a||!b)return {label:'Ancestralidade incompleta',text:'Escolha as duas ancestralidades.'};
+ if(a===b)return {label:'Não é Mutari',text:'As duas ancestralidades são iguais; isso descreve uma linhagem única, não um Mutari.'};
+ var pair=[a,b].sort().join('|');
+ if(pair===['Humano','Nareth'].sort().join('|'))return {label:'Compatibilidade confirmada',text:'Descendência humano–dracônica após Nareth é confirmada e nasce humanoide. Helior é precedente canônico.'};
+ return {label:'Compatibilidade em aberto',text:'Esta combinação ainda não possui compatibilidade reprodutiva confirmada na autoridade vigente. A ficha pode ser testada, mas permanece candidata.'};
+}
+function updateAncestryMode(){
+ var mut=document.getElementById('ancestryMode').value==='mutari';
+ document.getElementById('singleSpeciesWrap').style.display=mut?'none':'block';
+ document.getElementById('mutariWrap').classList.toggle('show',mut);
+ updateMutariResult();updateIdentityRecommendations();updateOcularDescription();
+}
+function updateMutariResult(){
+ var a=document.getElementById('parentA').value,b=document.getElementById('parentB').value,s=mutariStatus(a,b),box=document.getElementById('mutariResult');
+ box.innerHTML='<strong>'+escapeHtml(s.label)+':</strong> '+escapeHtml(s.text);
+}
+function hasDraconicAncestry(){
+ if(document.getElementById('ancestryMode').value==='mutari')return [document.getElementById('parentA').value,document.getElementById('parentB').value].includes('Nareth');
+ return document.getElementById('people').value==='Nareth';
 }
 function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
@@ -582,11 +620,12 @@ function updatePeopleDescription(){
  populateHeightForSpecies(v);
  updateSkinRecommendation();
  updateOcularDescription();
+ updateIdentityRecommendations();
 }
 function updatePlaceDescription(){
  var v=document.getElementById('originPlace').value, box=document.getElementById('placeDescription');
- box.innerHTML=v&&PLACE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PLACE_INFO[v]):(v==='__other__'?'Use o campo de personalização. O local será tratado como candidato até avaliação cartográfica.':'Escolha um lugar para ver o contexto regional.');
- updateSkinRecommendation();updateLumName();
+ box.innerHTML=v&&PLACE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PLACE_INFO[v]):(v==='__other__'?'Digite um lugar de referência e o criador gerará uma forma plausível para a ficha. Isso não cria geografia canônica.':'Escolha um lugar para ver o contexto regional.');
+ updateSkinRecommendation();updateIdentityRecommendations();
 }
 function updateSkinRecommendation(){
  var box=document.getElementById('skinRecommendation');
@@ -599,8 +638,14 @@ function updateOcularDescription(){
 }
 function validateOcular(){
  var people=document.getElementById('people').value, ocular=document.getElementById('ocular').value, box=document.getElementById('ocularDescription');
- if(ocular==='Vaelir (H4)'&&!['Dragão primordial (original)','Nareth','Mutari humano-dragão'].includes(people)){
+ if(ocular==='Vaelir (H4)'&&!hasDraconicAncestry()){
    box.innerHTML+='<br><span class="recommend"><strong>Incompatibilidade:</strong> Vaelir natural exige ascendência dracônica. Ajuste o povo/linhagem ou escolha outra arquitetura.</span>';
+ }
+ if(ocular==='Arquitetura Nethra (A5)'){
+   box.innerHTML+='<br><span class="recommend"><strong>Uso provisório:</strong> A5 é específica de Nethras. Como Nethra não é uma espécie jogável fechada nesta versão, a ficha precisa tratá-la como exceção em avaliação.</span>';
+ }
+ if(ocular==='Convergência ocular rara (A8)'){
+   box.innerHTML+='<br><span class="recommend"><strong>Raridade extrema:</strong> A8 exige convergência funcional compatível, integração sensorial e custo; não equivale a escolher vários poderes sem consequência.</span>';
  }
  if(['Selo do Véu — linhagem Valeris','Marca Áurea Varyth-Kaelorn','Olhos de Sangue — linhagem de Seavor'].includes(ocular)){
    box.innerHTML+='<br><span class="subtle">Esta arquitetura é hereditária e ligada a linhagem conhecida; uma ficha enviada com ela precisa justificar genealogia compatível.</span>';
@@ -616,11 +661,46 @@ Object.keys(CUSTOM_MAP).forEach(function(name){
  var el=form.elements[name];if(el&&el.tagName==='SELECT')el.addEventListener('change',function(){toggleCustom(el)});
 });
 document.getElementById('people').addEventListener('change',updatePeopleDescription);
+document.getElementById('ancestryMode').addEventListener('change',updateAncestryMode);
+document.getElementById('parentA').addEventListener('change',function(){updateMutariResult();updateIdentityRecommendations();updateOcularDescription()});
+document.getElementById('parentB').addEventListener('change',function(){updateMutariResult();updateIdentityRecommendations();updateOcularDescription()});
 document.getElementById('originPlace').addEventListener('change',updatePlaceDescription);
-document.getElementById('skin').addEventListener('change',updateSkinRecommendation);
-document.getElementById('ocular').addEventListener('change',updateOcularDescription);
-document.getElementById('realName').addEventListener('input',updateLumName);
+document.getElementById('originPlaceCustom').addEventListener('input',function(){updateCustomPlace();updateIdentityRecommendations()});
+document.getElementById('skin').addEventListener('change',function(){updateSkinRecommendation();updateIdentityRecommendations()});
+document.getElementById('ocular').addEventListener('change',function(){updateOcularDescription();updateIdentityRecommendations()});
+['firstName','middleName','surname'].forEach(function(id){document.getElementById(id).addEventListener('input',updateLumName)});
 
+function selectedText(id){var el=document.getElementById(id);return el&&el.value?el.value:''}
+function updateIdentityRecommendations(){
+ var box=document.getElementById('identityRecommendation');if(!box)return;
+ var mut=document.getElementById('ancestryMode').value==='mutari';
+ var sp=mut?'Mutari':selectedText('people'),items=[];
+ if(sp==='Ruvani')items.push('Ruvani: o corpo deve parecer adulto e compacto, com faixa típica de 0,95–1,25 m; não use proporções infantis.');
+ if(sp==='Hadrun')items.push('Hadrun: 2,6–3,2 m e 300–500+ kg são coerentes pela escala corporal cúbica e pela anatomia robusta; massa alta não significa obesidade.');
+ if(sp==='Nareth')items.push('Nareth: o corpo é humanoide definitivo. Asas, cauda dracônica funcional ou retorno ao corpo primordial não combinam com a biologia vigente.');
+ if(sp==='Lupran')items.push('Lupran: o caráter animaliforme é canônico, mas o corpo-base ainda não foi fechado; traços felinos, caninos ou lupinos escolhidos agora ficam provisórios.');
+ if(mut){
+   var a=selectedText('parentA'),b=selectedText('parentB'),ms=mutariStatus(a,b);
+   items.push('Mutari: '+ms.text);
+ }
+ var pl=selectedText('originPlace');
+ if(pl)items.push('Origem: '+(pl==='__other__'?(document.getElementById('originPlaceLum').value||'aguardando conversão do local personalizado'):(PLACE_INFO[pl]||pl)));
+ var skin=selectedText('skin');
+ if(skin==='__recommended__')items.push('Pele: será usada a faixa biogeográfica sugerida para a origem, sem transformar local de nascimento em regra de pigmentação.');
+ else if(skin)items.push('Pele manual: pode ser explicada por ancestralidade, migração, recombinação familiar ou variação individual. Se for muito fora da história familiar, uma mutação rara pode ser registrada.');
+ var ear=selectedText('ears');
+ if(ear){
+   if(sp==='Elfo'&&!/Pontiag|Alongad/.test(ear))items.push('Orelhas élficas fora do padrão alongado/pontiagudo pedem uma justificativa como variação familiar, ancestralidade mista ou mutação de desenvolvimento.');
+   else items.push('Orelhas: a opção escolhida é plausível como variação individual enquanto não houver restrição anatômica específica para essa espécie.');
+ }
+ if(selectedText('eyeLeft'))items.push('Olhos: cor rara é possível, mas cor sozinha não cria habilidade. Arquitetura funcional é avaliada separadamente.');
+ if(selectedText('hairColor'))items.push('Cabelo: tons incomuns podem resultar de pigmentos acessórios, estrutura do fio, diluição ou herança familiar; não indicam Afinidade automaticamente.');
+ if(!items.length)items.push('Comece pela espécie/ancestralidade e pelo lugar de origem. O sistema passará a explicar o que é comum, raro ou precisa de justificativa.');
+ box.innerHTML='<strong>Coerência automática:</strong><ul class="recommend-list">'+items.map(function(x){return '<li>'+escapeHtml(x)+'</li>'}).join('')+'</ul>';
+}
+['height','build','posture','headShape','faceShape','brows','eyeLeft','eyeRight','eyeShape','hairColor','hairType','hairLength','hairDensity','ears','nose','mouth','teeth','nails','voice'].forEach(function(id){
+ var el=document.getElementById(id);if(el)el.addEventListener('change',updateIdentityRecommendations);
+});
 function populateNumericSelects(){
  var age=document.getElementById('age');
  for(var i=6;i<=120;i++){var o=document.createElement('option');o.value=String(i);o.textContent=i+' anos';age.appendChild(o)}
@@ -640,13 +720,11 @@ function populateHeightForSpecies(species){
    var og2=document.createElement('optgroup');og2.label='Segunda Estatura humanoide';
    for(var cm2=145;cm2<=215;cm2+=5){var o2=document.createElement('option');o2.value=(cm2/100).toFixed(2).replace('.',',')+' m';o2.textContent=o2.value;og2.appendChild(o2)}
    height.appendChild(og2);
- }else if(species==='Dragão primordial (original)'){
-   var note=document.createElement('option');note.disabled=true;note.textContent='Dimensões variam por linhagem primordial';height.appendChild(note);
  }else{
    var min=rule?rule[0]:140,max=rule?rule[1]:220,step=rule?rule[2]:5;
    for(var cm3=min;cm3<=max;cm3+=step){var o3=document.createElement('option');o3.value=(cm3/100).toFixed(2).replace('.',',')+' m';o3.textContent=o3.value;height.appendChild(o3)}
  }
- var custom=document.createElement('option');custom.value='__other__';custom.textContent=species==='Dragão primordial (original)'?'Descrever dimensões corporais':'Outra altura / personalizar';height.appendChild(custom);
+ var custom=document.createElement('option');custom.value='__other__';custom.textContent='Outra altura / personalizar';height.appendChild(custom);
  if([].slice.call(height.options).some(function(o){return o.value===current}))height.value=current;
  height.onchange=function(){document.getElementById('heightCustomWrap').classList.toggle('show',height.value==='__other__')};
 }
@@ -656,12 +734,15 @@ function checkRandom(name,count){
  var els=[].slice.call(document.querySelectorAll('input[name="'+name+'"]'));els.sort(function(){return Math.random()-.5}).slice(0,count).forEach(function(x){x.checked=true});
 }
 function randomizeCharacter(){
- ['markChoices','customChoices','pastChoices','masteryChoices','limitationChoices','goalChoices','valueChoices'].forEach(clearChecks);
+ ['markChoices','voiceTraits','customChoices','pastChoices','masteryChoices','limitationChoices','goalChoices','valueChoices'].forEach(clearChecks);
  var sampleNames=['Ana','Bruno','Camila','Daniel','Elisa','Filipe','Gabriel','Helena','Isabela','João','Lucas','Marina','Rafael','Sofia'];
- document.getElementById('realName').value=pick(sampleNames);
+ var sampleSecond=['','Eduardo','Marina','Valentina','Miguel','Helena','Rafael'];
+ var sampleSurnames=['','Gomes','Silva','Costa','Ferreira','Almeida','Santos'];
+ document.getElementById('firstName').value=pick(sampleNames);document.getElementById('middleName').value=pick(sampleSecond);document.getElementById('surname').value=pick(sampleSurnames);
+ setValue('ancestryMode','single');
  setValue('age',String(pick([18,21,24,27,31,36,42,51,67])));
  setValue('gender',pick(['Homem','Mulher','Não definir']));
- setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi']));
+ setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi','Feérico','Lupran']));
  setValue('originPlace',pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Valdren','Elaris','Thalassia']));
  setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
  var heightChoices=[].slice.call(document.getElementById('height').options).filter(function(o){return o.value&&o.value!=='__other__'&&!o.disabled}).map(function(o){return o.value});if(heightChoices.length)setValue('height',pick(heightChoices));
@@ -669,6 +750,7 @@ function randomizeCharacter(){
  setValue('posture',pick(['Relaxada','Formal','Vigilante','Marcial','Elegante','Assimétrica']));
  setValue('headShape',pick(['Oval','Redonda','Alongada','Quadrada','Angular']));
  setValue('faceShape',pick(['Oval','Redondo','Quadrado','Longo','Coração','Diamante','Angular']));
+ setValue('brows',pick(['Retas','Levemente arqueadas','Arqueadas','Angulares','Grossas','Finas']));
  setValue('skin','__recommended__');
  setValue('eyeShape',pick(['Amendoados','Arredondados','Estreitos','Profundos','Elevados']));
  var eye=pick(['Castanho-escuro','Castanho','Avelã','Âmbar','Verde','Cinza-azulado','Azul profundo','Dourado','Violeta']);
@@ -682,9 +764,10 @@ function randomizeCharacter(){
  setValue('nose',pick(['Reto e estreito','Reto e largo','Curto','Longo','Arredondado','Aquilino','Levemente desviado']));
  setValue('mouth',pick(['Finos','Médios','Cheios','Arco marcado','Assimétricos']));
  setValue('teeth',pick(['Regulares','Levemente irregulares','Desgastados','Cuidados profissionalmente']));
- setValue('ears',pick(['Pequenas','Médias','Grandes','Alongadas','Pontiagudas']));
+ setValue('ears',pick(['Pequenas e arredondadas','Médias e arredondadas','Grandes e arredondadas','Alongadas','Pontiagudas curtas','Pontiagudas longas']));
  setValue('nails',pick(['Cuidadas','Marcadas por trabalho manual','Calos frequentes','Unhas curtas e funcionais','Cicatrizes nas mãos']));
  setValue('voice',pick(['Baixa e calma','Grave','Aguda','Suave','Rouca','Rápida','Lenta e medida','Projetada / marcial']));
+ checkRandom('voiceTraits',pick([1,1,2,2,3]));
  setValue('culture',pick(['Cultura urbana cosmopolita','Cultura rural / aldeã','Cultura mercantil','Cultura de ofício','Cultura militar','Cultura acadêmica','Cultura marítima','Mista / multicultural']));
  setValue('language',pick(['Fala comercial de Elaris','Fala regional + fala comercial de Elaris','Multilíngue por comércio / viagem','Variedade regional local']));
  setValue('faith',pick(['Caminho da Luz','Tradições da Chama Ancestral','Liturgias de Maré','Observâncias Celestes','Sem tradição religiosa definida']));
@@ -784,7 +867,7 @@ function downloadText(){
 
 populateNumericSelects();
 updatePeopleDescription();updatePlaceDescription();updateSkinRecommendation();updateOcularDescription();
-loadLocal();
+loadLocal();updateLumName();updateCustomPlace();updateAncestryMode();updatePeopleDescription();updatePlaceDescription();updateIdentityRecommendations();
 </script>
 </body>
 </html>
