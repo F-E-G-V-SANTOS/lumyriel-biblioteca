@@ -1,0 +1,36 @@
+name: Lumyriel RPG Backend CI
+
+on:
+  push:
+    paths:
+      - 'rpg-backend/**'
+      - '.github/workflows/rpg-backend-ci.yml'
+  pull_request:
+    paths:
+      - 'rpg-backend/**'
+      - '.github/workflows/rpg-backend-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rpg-backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Syntax checks
+        run: npm run check
+
+      - name: Unit tests
+        run: npm test
