@@ -1,5 +1,5 @@
-import { randomUUID } from 'node:crypto';
 import { assertRpg } from './errors.js';
+import { secureRandomUUID } from './random.js';
 import {
   DIFFICULTY_MODES,
   DURATION_MODES,
@@ -22,7 +22,7 @@ export function createCampaignArtifacts({
   characterRecord,
   canonPackage,
   situation,
-  idFactory = randomUUID,
+  idFactory = secureRandomUUID,
   now = () => new Date().toISOString()
 }) {
   assertRpg(init && typeof init === 'object', 'INVALID_INIT', 'CampaignInitRequest ausente.');
