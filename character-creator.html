@@ -57,7 +57,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="section-title first">Nome</div>
 <div class="name-pair">
 <div class="field"><label for="realName">Seu nome / nome de referência</label><input id="realName" placeholder="Digite um nome normal" autocomplete="off"><small>Usado somente para criar o nome do personagem. Não entra no dossiê nem na submissão.</small></div>
-<div class="field"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Adaptação onomástica regional automática. Não é uma tradução oficial de uma língua única.</small></div>
+<div class="field"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Adaptação fonológica automática pela Fala Comercial de Elaris (FCE), usada como língua franca. O nome de referência não entra no dossiê nem na submissão.</small></div>
 </div>
 
 <div class="section-title">Identidade e origem</div>
@@ -69,7 +69,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <select id="people" name="people">
 <option value="">Selecione</option>
 <option>Humano</option><option>Elfo</option><option>Anão</option>
-<option>Dragão primordial</option><option>Nareth</option><option>Mutari humano-dragão</option>
+<option>Dragão primordial (original)</option><option>Nareth</option><option>Mutari humano-dragão</option>
 <option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option>
 <option value="__other__">Outro / personalizar</option>
 </select>
@@ -80,8 +80,8 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="originStatus">Relação com Lumyriel</label>
 <select id="originStatus" name="originStatus">
 <option selected>Nativo de Lumyriel</option>
-<option disabled>Ascendência com origem planetária não local — disponível futuramente</option>
-<option disabled>Origem histórica desconhecida — disponível futuramente</option>
+<option disabled>Origem ancestral — disponível futuramente</option>
+<option disabled>Origem desconhecida — disponível futuramente</option>
 </select>
 <small>Nesta versão do criador, somente personagens nativos de Lumyriel podem ser enviados.</small>
 </div>
@@ -134,22 +134,49 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 
 <div class="section-title">Olhos</div>
 <div class="grid three">
-<div class="field"><label for="eyeLeft">Olho esquerdo</label><select id="eyeLeft" name="eyeLeft" class="eye-color"><option value="">Selecione</option><option>Castanho profundo</option><option>Castanho</option><option>Avelã</option><option>Âmbar</option><option>Mel</option><option>Verde</option><option>Cinza</option><option>Cinza-azulado</option><option>Azul</option><option>Azul-elétrico</option><option>Dourado</option><option>Violeta / roxo</option><option>Vermelho / sanguíneo</option><option value="__other__">Outra classe cromática / personalizar</option></select><div id="eyeLeftCustomWrap" class="custom-field"><input id="eyeLeftCustom" placeholder="Cor personalizada"></div></div>
-<div class="field"><label for="eyeRight">Olho direito</label><select id="eyeRight" name="eyeRight" class="eye-color"><option value="">Selecione</option><option>Castanho profundo</option><option>Castanho</option><option>Avelã</option><option>Âmbar</option><option>Mel</option><option>Verde</option><option>Cinza</option><option>Cinza-azulado</option><option>Azul</option><option>Azul-elétrico</option><option>Dourado</option><option>Violeta / roxo</option><option>Vermelho / sanguíneo</option><option value="__other__">Outra classe cromática / personalizar</option></select><div id="eyeRightCustomWrap" class="custom-field"><input id="eyeRightCustom" placeholder="Cor personalizada"></div></div>
+<div class="field"><label for="eyeLeft">Olho esquerdo</label><select id="eyeLeft" name="eyeLeft" class="eye-color"><option value="">Selecione</option>
+<optgroup label="C1 — Terrosos"><option>Castanho-claro</option><option>Castanho</option><option>Castanho-escuro</option><option>Café</option><option>Madeira</option><option>Terra úmida</option></optgroup>
+<optgroup label="C2 — Avelã / ocre"><option>Avelã</option><option>Castanho-esverdeado</option><option>Mel apagado</option><option>Ocre</option></optgroup>
+<optgroup label="C3 — Cinza / ardósia"><option>Cinza-claro</option><option>Ardósia</option><option>Cinza-azulado</option><option>Aço</option></optgroup>
+<optgroup label="C4 — Azuis naturais"><option>Azul-claro</option><option>Azul profundo</option><option>Azul-esverdeado</option></optgroup>
+<optgroup label="C5 — Verdes"><option>Verde</option><option>Verde-musgo</option><option>Verde-acinzentado</option><option>Jade apagado</option></optgroup>
+<optgroup label="C6 — Âmbar / cobre"><option>Âmbar</option><option>Mel intenso</option><option>Cobre</option><option>Bronze claro</option></optgroup>
+<optgroup label="C7 — Obsidiana / negro-profundo"><option>Castanho quase negro</option><option>Grafite profundo</option><option>Obsidiana natural</option></optgroup>
+<optgroup label="C8 — Prata / branco-pálido"><option>Prata</option><option>Cinza-prateado</option><option>Branco-pálido não patológico</option></optgroup>
+<optgroup label="C9 — Violeta / índigo"><option>Violeta</option><option>Púrpura</option><option>Índigo</option></optgroup>
+<optgroup label="C10 — Rubro / alaranjado"><option>Vermelho</option><option>Rubro</option><option>Carmesim</option><option>Vermelho-alaranjado</option></optgroup>
+<optgroup label="C11 — Dourado"><option>Ouro pálido</option><option>Dourado</option><option>Ouro profundo</option></optgroup>
+<optgroup label="C12 — Azul-elétrico / ciano intenso"><option>Azul-elétrico</option><option>Ciano intenso</option><option>Azul de descarga</option></optgroup>
+<option value="__other__">Outra tonalidade / personalizar</option></select><div id="eyeLeftCustomWrap" class="custom-field"><input id="eyeLeftCustom" placeholder="Cor personalizada"></div></div>
+<div class="field"><label for="eyeRight">Olho direito</label><select id="eyeRight" name="eyeRight" class="eye-color"><option value="">Selecione</option>
+<optgroup label="C1 — Terrosos"><option>Castanho-claro</option><option>Castanho</option><option>Castanho-escuro</option><option>Café</option><option>Madeira</option><option>Terra úmida</option></optgroup>
+<optgroup label="C2 — Avelã / ocre"><option>Avelã</option><option>Castanho-esverdeado</option><option>Mel apagado</option><option>Ocre</option></optgroup>
+<optgroup label="C3 — Cinza / ardósia"><option>Cinza-claro</option><option>Ardósia</option><option>Cinza-azulado</option><option>Aço</option></optgroup>
+<optgroup label="C4 — Azuis naturais"><option>Azul-claro</option><option>Azul profundo</option><option>Azul-esverdeado</option></optgroup>
+<optgroup label="C5 — Verdes"><option>Verde</option><option>Verde-musgo</option><option>Verde-acinzentado</option><option>Jade apagado</option></optgroup>
+<optgroup label="C6 — Âmbar / cobre"><option>Âmbar</option><option>Mel intenso</option><option>Cobre</option><option>Bronze claro</option></optgroup>
+<optgroup label="C7 — Obsidiana / negro-profundo"><option>Castanho quase negro</option><option>Grafite profundo</option><option>Obsidiana natural</option></optgroup>
+<optgroup label="C8 — Prata / branco-pálido"><option>Prata</option><option>Cinza-prateado</option><option>Branco-pálido não patológico</option></optgroup>
+<optgroup label="C9 — Violeta / índigo"><option>Violeta</option><option>Púrpura</option><option>Índigo</option></optgroup>
+<optgroup label="C10 — Rubro / alaranjado"><option>Vermelho</option><option>Rubro</option><option>Carmesim</option><option>Vermelho-alaranjado</option></optgroup>
+<optgroup label="C11 — Dourado"><option>Ouro pálido</option><option>Dourado</option><option>Ouro profundo</option></optgroup>
+<optgroup label="C12 — Azul-elétrico / ciano intenso"><option>Azul-elétrico</option><option>Ciano intenso</option><option>Azul de descarga</option></optgroup>
+<option value="__other__">Outra tonalidade / personalizar</option></select><div id="eyeRightCustomWrap" class="custom-field"><input id="eyeRightCustom" placeholder="Cor personalizada"></div></div>
 <div class="field"><label for="eyeShape">Formato dos olhos</label><select id="eyeShape" name="eyeShape"><option value="">Selecione</option><option>Amendoados</option><option>Arredondados</option><option>Estreitos</option><option>Profundos</option><option>Salientes</option><option>Caídos</option><option>Elevados</option><option value="__other__">Outro / personalizar</option></select><div id="eyeShapeCustomWrap" class="custom-field"><input id="eyeShapeCustom" placeholder="Formato"></div></div>
 <div class="field full"><label for="ocular">Tipo / arquitetura / habilidade ocular</label>
 <select id="ocular" name="ocular">
-<option value="Nenhuma arquitetura especial">Nenhuma arquitetura especial</option>
-<option>Heterocromia comum (H3)</option>
-<option>Pupila Radial</option>
-<option>Selo do Véu Valeris</option>
+<option value="Nenhuma arquitetura especial">A0 — Sem arquitetura funcional especial</option>
+<option>H3 — Heterocromia bilateral natural não-Vaelir</option>
+<option>Pupila Radial de Raio</option>
+<option>Anel Luminoso Elétrico</option>
+<option>Selo do Véu — linhagem Valeris</option>
 <option>Marca Áurea Varyth-Kaelorn</option>
-<option>Olhos de Sangue</option>
+<option>Olhos de Sangue — linhagem de Seavor</option>
 <option>Vaelir (H4)</option>
-<optgroup label="Alterações perigosas ou adquiridas">
+<optgroup label="Alterações adquiridas / alto risco">
 <option>Coroa Parasita</option><option>Sangue Rúnico</option><option>Olho da Aparição</option><option>Brasa Profana</option><option>Vazio Corrompido</option>
 </optgroup>
-<option value="__other__">Outra / personalizar</option>
+<option value="__other__">Outra arquitetura / personalizar</option>
 </select>
 <div id="ocularCustomWrap" class="custom-field"><input id="ocularCustom" placeholder="Nome da arquitetura ocular"></div>
 <div id="ocularDescription" class="info-box">Olhos visualmente comuns podem coexistir com grande poder. Cor ocular, arquitetura e competência são coisas diferentes.</div>
@@ -158,7 +185,11 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 
 <div class="section-title">Cabelo</div>
 <div class="grid three">
-<div class="field"><label for="hairColor">Cor do cabelo</label><select id="hairColor" name="hairColor"><option value="">Selecione</option><option>Preto</option><option>Castanho escuro</option><option>Castanho médio</option><option>Castanho claro</option><option>Loiro</option><option>Ruivo</option><option>Cobre</option><option>Branco</option><option>Prata</option><option>Rosa</option><option>Coral</option><option>Magenta</option><option>Azul</option><option>Ciano</option><option>Violeta</option><option>Índigo</option><option>Verde</option><option value="__other__">Outra / personalizar</option></select><div id="hairColorCustomWrap" class="custom-field"><input id="hairColorCustom" placeholder="Cor personalizada"></div><small>Em Lumyriel, cor natural de cabelo não determina Afinidade, poder, povo ou moralidade.</small></div>
+<div class="field"><label for="hairColor">Cor do cabelo</label><select id="hairColor" name="hairColor"><option value="">Selecione</option>
+<optgroup label="CCC-P — pigmentação basal"><option>Preto</option><option>Carvão</option><option>Castanho escuro</option><option>Castanho médio</option><option>Castanho claro</option><option>Loiro</option><option>Dourado natural</option><option>Ruivo</option><option>Cobre</option></optgroup>
+<optgroup label="CCC-C — cromóforos acessórios"><option>Rosa</option><option>Coral</option><option>Magenta</option><option>Violeta quente</option><option>Amarelo incomum</option></optgroup>
+<optgroup label="CCC-S / CCC-D — estrutura e diluição"><option>Azul</option><option>Ciano</option><option>Azul-acinzentado</option><option>Prata fria</option><option>Violeta frio</option><option>Cinza</option><option>Branco</option><option>Tom pastel</option><option>Iridescência discreta</option></optgroup>
+<option value="__other__">Outra combinação / personalizar</option></select><div id="hairColorCustomWrap" class="custom-field"><input id="hairColorCustom" placeholder="Cor personalizada"></div><small>Em Lumyriel, cor natural de cabelo não determina Afinidade, poder, povo ou moralidade.</small></div>
 <div class="field"><label for="hairType">Tipo de cabelo</label><select id="hairType" name="hairType"><option value="">Selecione</option><option>Liso</option><option>Ondulado</option><option>Cacheado</option><option>Crespo</option><option>Muito crespo</option><option>Sem cabelo</option><option value="__other__">Outro / personalizar</option></select><div id="hairTypeCustomWrap" class="custom-field"><input id="hairTypeCustom" placeholder="Tipo"></div></div>
 <div class="field"><label for="hairLength">Comprimento</label><select id="hairLength" name="hairLength"><option value="">Selecione</option><option>Raspado</option><option>Muito curto</option><option>Curto</option><option>Médio</option><option>Longo</option><option>Muito longo</option><option value="__other__">Outro / personalizar</option></select><div id="hairLengthCustomWrap" class="custom-field"><input id="hairLengthCustom" placeholder="Comprimento"></div></div>
 <div class="field"><label for="hairDensity">Densidade</label><select id="hairDensity" name="hairDensity"><option value="">Selecione</option><option>Baixa</option><option>Média</option><option>Alta</option><option>Muito volumoso</option><option value="__other__">Outra / personalizar</option></select><div id="hairDensityCustomWrap" class="custom-field"><input id="hairDensityCustom" placeholder="Densidade"></div></div>
@@ -354,7 +385,7 @@ var PEOPLE_INFO={
 'Humano':'Espécie humanoide amplamente distribuída, com grande variação populacional contínua. Pigmentação, cabelo, proporções e traços oculares variam com ambiente, ancestralidade, migração e fluxo gênico; não existem “raças humanas” biológicas discretas no cânone.',
 'Elfo':'Espécie humanoide longeva e muito diversa. Orelhas alongadas são frequentes, assim como audição acima da média em algumas populações, dedos longos e padrões complexos de íris. Sensibilidade média maior à Mana pode ocorrer, mas não é reserva de poder nem profissão obrigatória.',
 'Anão':'Espécie humanoide compacta, de centro de gravidade baixo, ossatura densa e musculatura robusta em média. Possui longa adaptação a ambientes montanhosos e subterrâneos; metalurgia e engenharia são tradições aprendidas, não instintos biológicos.',
-'Dragão primordial':'Espécie sapiente primordial. Todo dragão nasce em corpo primordial e as linhagens preservam grande variação morfológica. “Primordial” descreve antiguidade e estrutura biológica, não divindade, invencibilidade ou superioridade moral.',
+'Dragão primordial (original)':'Espécie sapiente primordial. Todo dragão nasce em corpo primordial e as linhagens preservam grande variação morfológica. “Primordial” descreve antiguidade e estrutura biológica, não divindade, invencibilidade ou superioridade moral.',
 'Nareth':'Dragão que tomou Nareth durante a janela biológica apropriada. O corpo primordial é reorganizado de forma irreversível em um corpo humanoide definitivo: não existe forma reserva, alternância voluntária, asas ocultas ou transformação temporária.',
 'Mutari humano-dragão':'Mutari é uma categoria genealógica, não uma espécie. Neste caso descreve descendência viável entre humano e dragão após Nareth. A pessoa nasce humanoide; ancestralidade dracônica não concede automaticamente asas, garras, escamas, Vaelir ou um pacote de poderes.',
 'Korvath':'Grande família sapiente humanoide robusta, com ossatura densa, tórax amplo, musculatura compacta e caninos inferiores desenvolvidos. A pigmentação natural é ampla, incluindo castanhos, cobres, ocres, oliva, cinzas quentes e tons terrosos. Resistência física não determina profissão ou moralidade.',
@@ -368,35 +399,36 @@ var PEOPLE_INFO={
 }
 
 var PLACE_INFO={
-'Eryndhor':'Grande região de circulação, comércio e diversidade interna. A fala comercial de Elaris funciona como língua franca em grande parte de Eryndhor, sem apagar línguas e dialetos locais.',
-'Valdren':'Centralidade regional de crescimento cumulativo. Oficinas, armazenamento, hinterlândia produtiva, circulação, administração e acesso aos contrafortes sustentam a cidade.',
-'Elaris':'Metrópole e capital, com governo, comércio, produção, serviços e modernização desigual. A Academia ocupa uma periferia elevada e a ferrovia é parcial.',
-'Dorso Cinzento':'Região onde mineração, assentamentos de vale, passes, estradas de carga, oficinas e concessões tiveram grande peso histórico.',
-'Brumamata':'Mata antiga com forte gradiente de risco e conhecimento. A borda e corredores conhecidos não equivalem ao interior pouco compreendido. A advertência tradicional é: “A mata não se perde. Você, sim.”',
-'Thalorien':'Região conectada a deltas, portos, caravanas e rotas comerciais. Algodão, cânhamo de deserto e fibras de oásis aparecem em sua cultura material.',
-'Frosthaven':'Região de clima severo e forte atenção a estoques, resgate, patrulha e fechamento sazonal. O Pacto de Nivaren mantém postura externa defensiva.',
-'Umbralis':'Espaço talássico de navegação, portos e jurisdição marítima. Pesca, salvamento, pirataria, naufrágios e manutenção de infraestrutura geram tensões recorrentes.',
-'Thalassia':'Centro de grande prestígio institucional em Umbralis. Seus escudos, Núcleos Abissais, memória da Podridão de Prata e setor selado afetam orçamento, acesso, pesquisa e segurança.',
-'Aetherion':'Terras de infraestrutura técnica sofisticada e acesso condicionado. Regras necessárias ao uso de infraestrutura não equivalem a submissão política geral.',
-'Solara':'Região onde água e infraestrutura hídrica possuem importância estratégica. Coroa, conselhos, territórios e produção podem disputar acesso e distribuição.',
-'Umbrael':'Região de observatórios, rotas e informação estratégica. Autoridades locais podem compartilhar dados de segurança por reciprocidade sem abrir todo o conhecimento estratégico.',
-'Drakoria':'Região de profunda história dracônica, Casas, conflitos de fronteira e memórias longas. Diferenças entre linhagem, Casa, Estado e posição política precisam ser preservadas.',
-'Karveth':'Reino dracônico organizado pela Carta de União de Karveth, que unificou Casas e clãs sob uma Coroa sem apagar autonomia territorial, representação e deveres próprios.'
+'Eryndhor':'Continente de grande circulação e diversidade interna. A fala comercial de Elaris funciona como língua franca em muitas rotas, sem apagar idiomas, identidades e histórias regionais.',
+'Valdren':'Centralidade regional sustentada por travessia, oficinas, armazenamento, hinterlândia produtiva, administração, redistribuição e acesso aos contrafortes.',
+'Elaris':'Metrópole e capital de Eryndhor. Reúne governo, comércio, produção, serviços e modernização desigual; a Academia ocupa uma área periférica elevada e a ferrovia ainda é parcial.',
+'Dorso Cinzento':'Sistema montanhoso onde mineração, assentamentos de vale, passes, estradas de carga, oficinas e concessões tiveram forte peso histórico.',
+'Brumamata':'Mata antiga com gradiente de risco e conhecimento. A borda estável e os corredores conhecidos não equivalem ao interior pouco compreendido.',
+'Thalorien':'Continente de forte causalidade climática: umidade oceânica, Montes de Daerun, barlavento úmido, sotavento seco, corredores ripários, interior árido e delta fértil moldam circulação e assentamento.',
+'Frosthaven':'Continente frio marcado por gelo, fiordes, vales termais, sazonalidade, estoques e resgate. O Pacto de Nivaren coordena parte importante de sua vida política.',
+'Umbralis':'Continente e espaço marítimo de navegação, portos e jurisdição tridimensional. Pesca, salvamento, naufrágio e vida submersa têm peso territorial real.',
+'Thalassia':'Grande centro multiespécie de Umbralis, com zonas inundadas, secas/seladas e setores anfíbios. Escudos, Núcleos Abissais e a memória da Podridão de Prata afetam acesso, pesquisa e segurança.',
+'Aetherion':'Continente de ecúmeno elevado e infraestrutura de acesso horizontal e vertical. Segurança técnica, vento, estoque e transporte condicionam circulação.',
+'Solara':'Continente em que água e infraestrutura hídrica têm peso estratégico. Vale de Helion, Planalto e Câmara de Serevan e Pilar do Sol estão entre suas âncoras conhecidas.',
+'Umbrael':'Continente associado a Noctis, Mar de Nuvens e sistemas de observação e rotas. Baixa luz e tempestades não equivalem a maldade ou Corrupção.',
+'Drakoria':'Continente de florestas antigas, bacias habitáveis, montanhas e faixas vulcano-tectônicas. Casas, Coroa, mineração, metalurgia e longa memória dracônica se sobrepõem sem formar uma cultura única.',
+'Karveth':'Principal centralidade política da Coroa em Drakoria. A Carta de União organiza relações entre Casas e preserva autonomias e deveres distintos.'
 };
 
 var OCULAR_INFO={
-'Nenhuma arquitetura especial':'Olhos sem arquitetura especial conhecida. Isso não significa baixa capacidade: Gibor é um exemplo canônico de olhos visualmente comuns coexistindo com poder excepcional.',
-'Heterocromia comum (H3)':'Dois padrões cromáticos distintos sem Vaelir. Heterocromia, sozinha, não concede habilidade nem prova ascendência dracônica.',
-'Pupila Radial':'Interface elétrica/perceptiva que melhora resolução temporal e direcional. Ajuda percepção e resposta; não desacelera o tempo externo e não concede precognição.',
-'Selo do Véu Valeris':'Arquitetura hereditária da linhagem Valeris. Aumenta sensibilidade a descontinuidades de Mana, costuras de barreiras, resíduos rúnicos, refração anômala e certas ilusões. Não lê pensamentos, não atravessa paredes e não prevê o futuro.',
-'Marca Áurea Varyth-Kaelorn':'Arquitetura distinta do Selo do Véu. Auxilia leitura de estabilidade e coerência de campo e pode apoiar a sincronização de técnicas.',
-'Olhos de Sangue':'Arquitetura hereditária associada a leitura hemodinâmica, perceptiva e aurátrica. Não “para o coração com o olhar”; essa função é tratada como rumor falso.',
-'Vaelir (H4)':'Categoria ocular hereditária composta de origem exclusivamente dracônica. Vaelir verdadeiro implica ascendência dracônica, mas não revela Casa, moralidade, lealdade política ou nível de poder.',
-'Coroa Parasita':'Alteração ocular perigosa/adquirida. Exige histórico compatível e não deve ser tratada como decoração sem consequência.',
-'Sangue Rúnico':'Alteração ocular perigosa/adquirida ligada a modificação extraordinária. Exige causa, custo e histórico coerentes.',
-'Olho da Aparição':'Alteração ocular perigosa/adquirida. Não deve ser escolhida como habilidade gratuita; exige contexto narrativo e fisiológico.',
-'Brasa Profana':'Alteração ocular perigosa/adquirida. Sua presença não define culpa moral, mas exige mecanismo e consequência.',
-'Vazio Corrompido':'Alteração ocular perigosa/adquirida associada a risco e mudança física. Alteração perigosa não equivale automaticamente a maldade.'
+'Nenhuma arquitetura especial':'A0 — olho pigmentário sem mecanismo funcional ocular confirmado. Cor comum ou rara não determina capacidade, afinidade, moralidade ou poder.',
+'H3 — Heterocromia bilateral natural não-Vaelir':'Cada olho pertence a uma classe cromática distinta, sem assinatura hereditária Vaelir confirmada. Pode parecer Vaelir, mas só genealogia, arquitetura e resposta energética sustentam H4.',
+'Pupila Radial de Raio':'Arquitetura associada a C12 e linhagens Varyth relacionadas. A Janela Radial aumenta resolução temporal e direcional durante descarga ou alta velocidade. Não para o tempo, não prevê o futuro e não vê através de paredes.',
+'Anel Luminoso Elétrico':'Modificador A2 associado a C12. Estabiliza a distribuição do estímulo e ajuda a separar direção de descarga, vetor de movimento e contraste. É suporte funcional, não um segundo poder.',
+'Selo do Véu — linhagem Valeris':'Arquitetura hereditária típica C11/C6-A3-OH-R6. Detecta descontinuidades de Mana, costuras de barreiras, resíduos rúnicos e refração anômala, além de auxiliar contra certas ilusões. Não lê mente, mentira ou futuro.',
+'Marca Áurea Varyth-Kaelorn':'Arquitetura C11-A3-OH-R6. Lê estabilidade de campo e coerência de luz/Mana em curta distância e pode apoiar barreiras temporárias, esgrima mágica e sincronização de técnicas. Não é o Selo do Véu.',
+'Olhos de Sangue — linhagem de Seavor':'Arquitetura C10-A3-OH-R6. Integra Biológica, Perceptiva e Aura para ler perfusão, pulso, pressão, calor e sinais associados ao sangue circulante. Ajuda a localizar hemorragia e antecipar mudanças corporais; não para o coração com o olhar.',
+'Vaelir (H4)':'Disposição hereditária dracônica com duas classes/arquiteturas oculares compatíveis no mesmo indivíduo. Vaelir não concede um poder único por si; oferece canais diferentes e cobra integração sensorial, fadiga e Carga de Controle.',
+'Coroa Parasita':'A7-OP-R8. Organismo ou colônia manatrônica invade a região ocular e pode ampliar detecção de Mana próxima. Consome nutrientes/Mana, inflama tecido e pode migrar por nervos.',
+'Sangue Rúnico':'A7-OR-R8. Ritual grava microcanais rúnicos usando sangue do portador; pode rastrear assinaturas biológicas/aurátricas compatíveis. Pode causar hemorragia ocular, trombose, perda de visão e dependência ritual.',
+'Olho da Aparição':'A7-OP/OR-R8. Pode perceber resíduos de presença e ecos liminares muito recentes. O preço inclui falsos positivos, sonhos intrusivos e sobreposição perceptiva.',
+'Brasa Profana':'C10/C11 alterado, A7-OR-R8. Lê gradientes térmicos refinados e pode apoiar Arte Ígnea. Não cria fogo apenas pelo olhar e pode causar dano nervoso, ressecamento e cegueira.',
+'Vazio Corrompido':'A7-OC-R8. Corrupção reescreve tecido ocular; a aparente sensibilidade a rupturas e zonas incoerentes é sintoma de processo sistêmico que pode causar dor, perda de visão e alteração de Aura. Nunca é tratado como upgrade desejável.'
 };
 
 var SKIN_REC={
@@ -431,22 +463,7 @@ var HEIGHT_RULES={
 'Mutari humano-dragão':[140,220,5]
 };
 
-var NAME_ENDINGS={
-'Eryndhor':['en','or','iel','eris','an','eth','ior'],
-'Valdren':['en','or','ian','eth','el','ar'],
-'Elaris':['elis','ian','eris','or','en','ael'],
-'Dorso Cinzento':['orn','ar','eth','en','var'],
-'Brumamata':['en','ir','ara','el','or'],
-'Thalorien':['sair','iel','ara','esh','ir','areth'],
-'Frosthaven':['var','en','tor','hald','is','orn'],
-'Umbralis':['ner','is','mar','sai','ren','thal'],
-'Thalassia':['thal','is','nera','mar','iel','sai'],
-'Aetherion':['ael','yr','en','iel','or','rin'],
-'Solara':['sol','ara','iel','ir','en','or'],
-'Umbrael':['vae','rin','or','iel','en','eth'],
-'Drakoria':['vyr','kael','reth','azhyr','or','yth','var'],
-'Karveth':['vyr','kael','reth','var','yth','or']
-};
+
 
 function goStep(n){
  currentStep=Math.max(0,Math.min(panels.length-1,n));
@@ -498,20 +515,33 @@ function setValue(name,value){
 }
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
 function hashString(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function cleanName(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z]/g,'').toLowerCase()}
+function cleanName(s){
+ return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-zçÇ]/g,'').toLowerCase();
+}
+function fceAdapt(raw){
+ var s=cleanName(raw);
+ if(!s)return '';
+ // Adaptação ortográfica aproximada ao inventário canônico da FCE.
+ s=s.replace(/nh/g,'ny').replace(/lh/g,'l').replace(/ch/g,'sh').replace(/rr/g,'r').replace(/ss/g,'s');
+ s=s.replace(/qu/g,'k').replace(/gu(?=[ei])/g,'g');
+ s=s.replace(/g(?=[ei])/g,'sh').replace(/j/g,'sh').replace(/x/g,'sh');
+ s=s.replace(/c(?=[ei])/g,'s').replace(/c/g,'k').replace(/q/g,'k');
+ s=s.replace(/ç/g,'s');
+ // Letras/sinais fora do núcleo são acomodados por equivalentes próximos.
+ s=s.replace(/w/g,'v');
+ // Evita encontros iniciais não produtivos usando vogal epentética simples.
+ var allowed=['br','dr','gr','kr','pr','tr','vr','bl','gl','kl','pl','fl','sl'];
+ if(s.length>2 && !'aeiou'.includes(s[0]) && !'aeiou'.includes(s[1]) && !allowed.includes(s.slice(0,2))){
+   s=s[0]+'e'+s.slice(1);
+ }
+ // Codas nativas produtivas: n, r, l, s, t, k. Outras recebem vogal final.
+ if(s && !'aeiounrlstk'.includes(s.slice(-1)))s+='a';
+ s=s.replace(/(.)\1\1+/g,'$1$1');
+ return s.charAt(0).toUpperCase()+s.slice(1);
+}
 function updateLumName(){
- var raw=document.getElementById('realName').value, base=cleanName(raw), place=document.getElementById('originPlace').value||'Eryndhor';
- var out=document.getElementById('name');
- if(!base){out.value='';return}
- var endings=NAME_ENDINGS[place]||['en','or','iel','ar','eth','is'];
- var h=hashString(base+'|'+place), ending=endings[h%endings.length];
- var root=base;
- if(root.length>5)root=root.slice(0,Math.max(3,Math.min(5,root.length-1)));
- root=root.replace(/[aeiou]+$/,'');
- if(root.length<2)root=base.slice(0,2);
- var join=(root.slice(-1)===ending[0])?ending.slice(1):ending;
- var lum=(root+join).replace(/(.)\1\1+/g,'$1$1');
- out.value=lum.charAt(0).toUpperCase()+lum.slice(1);
+ var raw=document.getElementById('realName').value;
+ document.getElementById('name').value=fceAdapt(raw);
 }
 function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
@@ -536,10 +566,10 @@ function updateOcularDescription(){
 }
 function validateOcular(){
  var people=document.getElementById('people').value, ocular=document.getElementById('ocular').value, box=document.getElementById('ocularDescription');
- if(ocular==='Vaelir (H4)'&&!['Dragão primordial','Nareth','Mutari humano-dragão'].includes(people)){
+ if(ocular==='Vaelir (H4)'&&!['Dragão primordial (original)','Nareth','Mutari humano-dragão'].includes(people)){
    box.innerHTML+='<br><span class="recommend"><strong>Incompatibilidade:</strong> Vaelir natural exige ascendência dracônica. Ajuste o povo/linhagem ou escolha outra arquitetura.</span>';
  }
- if(['Selo do Véu Valeris','Marca Áurea Varyth-Kaelorn','Olhos de Sangue'].includes(ocular)){
+ if(['Selo do Véu — linhagem Valeris','Marca Áurea Varyth-Kaelorn','Olhos de Sangue — linhagem de Seavor'].includes(ocular)){
    box.innerHTML+='<br><span class="subtle">Esta arquitetura é hereditária e ligada a linhagem conhecida; uma ficha enviada com ela precisa justificar genealogia compatível.</span>';
  }
 }
@@ -577,13 +607,13 @@ function populateHeightForSpecies(species){
    var og2=document.createElement('optgroup');og2.label='Segunda Estatura humanoide';
    for(var cm2=145;cm2<=215;cm2+=5){var o2=document.createElement('option');o2.value=(cm2/100).toFixed(2).replace('.',',')+' m';o2.textContent=o2.value;og2.appendChild(o2)}
    height.appendChild(og2);
- }else if(species==='Dragão primordial'){
+ }else if(species==='Dragão primordial (original)'){
    var note=document.createElement('option');note.disabled=true;note.textContent='Dimensões variam por linhagem primordial';height.appendChild(note);
  }else{
    var min=rule?rule[0]:140,max=rule?rule[1]:220,step=rule?rule[2]:5;
    for(var cm3=min;cm3<=max;cm3+=step){var o3=document.createElement('option');o3.value=(cm3/100).toFixed(2).replace('.',',')+' m';o3.textContent=o3.value;height.appendChild(o3)}
  }
- var custom=document.createElement('option');custom.value='__other__';custom.textContent=species==='Dragão primordial'?'Descrever dimensões corporais':'Outra altura / personalizar';height.appendChild(custom);
+ var custom=document.createElement('option');custom.value='__other__';custom.textContent=species==='Dragão primordial (original)'?'Descrever dimensões corporais':'Outra altura / personalizar';height.appendChild(custom);
  if([].slice.call(height.options).some(function(o){return o.value===current}))height.value=current;
  height.onchange=function(){document.getElementById('heightCustomWrap').classList.toggle('show',height.value==='__other__')};
 }
@@ -608,10 +638,10 @@ function randomizeCharacter(){
  setValue('faceShape',pick(['Oval','Redondo','Quadrado','Longo','Coração','Diamante','Angular']));
  setValue('skin','__recommended__');
  setValue('eyeShape',pick(['Amendoados','Arredondados','Estreitos','Profundos','Elevados']));
- var eye=pick(['Castanho profundo','Castanho','Avelã','Âmbar','Mel','Verde','Cinza','Cinza-azulado','Azul','Dourado','Violeta / roxo']);
- setValue('eyeLeft',eye);setValue('eyeRight',Math.random()<.22?pick(['Âmbar','Verde','Cinza','Azul','Dourado','Violeta / roxo']):eye);
+ var eye=pick(['Castanho-escuro','Castanho','Avelã','Âmbar','Verde','Cinza-azulado','Azul profundo','Dourado','Violeta']);
+ setValue('eyeLeft',eye);setValue('eyeRight',Math.random()<.22?pick(['Âmbar','Verde','Cinza-claro','Azul-claro','Dourado','Violeta']):eye);
  setValue('ocular','Nenhuma arquitetura especial');
- setValue('hairColor',pick(['Preto','Castanho escuro','Castanho médio','Castanho claro','Loiro','Ruivo','Cobre','Branco','Prata','Rosa','Azul','Violeta']));
+ setValue('hairColor',pick(['Preto','Carvão','Castanho escuro','Castanho médio','Castanho claro','Loiro','Ruivo','Cobre','Branco','Prata fria','Rosa','Azul','Violeta quente']));
  setValue('hairType',pick(['Liso','Ondulado','Cacheado','Crespo','Muito crespo']));
  setValue('hairLength',pick(['Muito curto','Curto','Médio','Longo','Muito longo']));
  setValue('hairDensity',pick(['Baixa','Média','Alta','Muito volumoso']));
