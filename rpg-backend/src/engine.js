@@ -19,7 +19,7 @@ function applyNaturalShift(degree, dieRaw) {
   return degree;
 }
 
-export function buildInitialState({ campaignId, characterId, mechanics, difficultyMode, durationMode }) {
+export function buildInitialState({ campaignId, characterId, mechanics, difficultyMode, durationMode, startLocationId = 'session:valdren:mvp-start', openingSummary = null, situationId = null }) {
   const attrs = mechanics.attributes;
   const vitalityMax = 8 + (attrs.vigor * 2);
   const staminaMax = 5 + attrs.vigor + attrs.agilidade;
@@ -55,7 +55,7 @@ export function buildInitialState({ campaignId, characterId, mechanics, difficul
       epoch_minutes: null,
       segment_label: null,
     },
-    current_location_id: 'session:valdren:mvp-start',
+    current_location_id: startLocationId,
     character: {
       character_id: characterId,
       attributes: { ...attrs },
@@ -84,8 +84,9 @@ export function buildInitialState({ campaignId, characterId, mechanics, difficul
     npc_states: [],
     creature_states: [],
     open_hooks: [],
-    scene_summary: 'Campanha criada. O protótipo ainda usa situação mockada sem Narrador GPT.',
-    campaign_summary: 'Início da campanha.',
+    scene_summary: openingSummary || 'Campanha criada em Valdren.',
+    campaign_summary: openingSummary ? `Início da campanha: ${openingSummary}` : 'Início da campanha.',
+    active_situation_id: situationId,
     canonical_context_refs: ['rpg:valdren:package-v0.1'],
   };
 }
