@@ -165,3 +165,16 @@ O site público e `apps-script/Code.gs` permanecem intocados nesta fase. A integ
 3. criar a rota visual `/jogar`;
 4. manter a submissão canônica atual como fluxo separado;
 5. integrar o Narrador GPT somente depois de Fases 1–3 passarem nos testes de banco, versão e idempotência.
+
+## Fase 4 — fundação do Narrador (não ativada no endpoint)
+
+A branch também contém a camada isolada de integração do Narrador:
+
+- `src/context.js` monta `NarratorTurnContext` sem enviar o `CampaignState` inteiro;
+- `src/narrator.js` implementa Responses API por HTTP, Function Calling estrito e Structured Output;
+- somente `consultar_estado` e `realizar_teste` estão expostos nesta fundação;
+- `parallel_tool_calls=false`;
+- `OPENAI_API_KEY` e `OPENAI_MODEL` existem apenas no ambiente do servidor;
+- o endpoint de turno continua na implementação mockada da Fase 3.
+
+Essa separação é deliberada: a próxima mudança deve refatorar o orquestrador para **não manter transação PostgreSQL aberta durante chamadas ao modelo**. Só depois disso `RPG_ENABLE_NARRATOR` poderá ligar o Narrador real ao endpoint de turno.
