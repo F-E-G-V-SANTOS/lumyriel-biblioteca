@@ -60,7 +60,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="middleName">Segundo nome <span class="subtle">(opcional)</span></label><input id="middleName" placeholder="Ex.: Eduardo" autocomplete="off"></div>
 <div class="field"><label for="surname">Sobrenome <span class="subtle">(opcional)</span></label><input id="surname" placeholder="Ex.: Gomes" autocomplete="off"></div>
 </div>
-<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são apenas referência. O dossiê e a submissão usam somente esta adaptação pela Fala Comercial de Elaris.</small></div>
+<div class="field full" style="margin-top:12px"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Os três campos acima são a referência do nome original. O dossiê e a submissão usam a adaptação lumyrieliana gerada pela Fala Comercial de Elaris.</small></div>
 
 <div class="section-title">Identidade e origem</div>
 <div class="grid">
@@ -75,33 +75,44 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field full" id="singleSpeciesWrap"><label for="people">Povo / espécie</label>
 <select id="people" name="people">
 <option value="">Selecione</option>
-<option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option>
-<option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option>
-<option value="Lupran">Lupran (animaliforme lupino)</option>
-<option value="Corniforme">Corniforme (espécie com chifres · nome diegético em aberto)</option>
+<option value="Humano">Humano — humanoide amplamente distribuído</option>
+<option value="Elfo">Elfo — humanoide longevo, orelhas alongadas frequentes</option>
+<option value="Anão">Anão — humanoide compacto e robusto</option>
+<option value="Nareth">Nareth — dragão em corpo humanoide definitivo</option>
+<option value="Korvath">Korvath — humanoide robusto, caninos marcados</option>
+<option value="Ruvani">Ruvani — humanoide adulto pequeno e proporcional</option>
+<option value="Khevran">Khevran — humanoide pequeno de adaptação fissural</option>
+<option value="Hadrun">Hadrun — humanoide gigante de grande massa</option>
+<option value="Theryn">Theryn — humanoide de regeneração limitada</option>
+<option value="Sairen">Sairen — humanoide de sentidos ampliados</option>
+<option value="Nerathi">Nerathi — humanoide aquático verdadeiro</option>
+<option value="Feérico">Feérico — família de múltiplas espécies</option>
+<option value="Lupran">Lupran — espécie de morfologia Selvari lupina</option>
+<option value="Valdrin">Valdrin — espécie humanoide corniforme</option>
 <option value="__other__">Outro / personalizar</option>
 </select>
 <div id="peopleCustomWrap" class="custom-field"><input id="peopleCustom" placeholder="Defina o povo ou espécie"></div>
+<small>Dragões que permanecem em corpo primordial não são criáveis aqui e ficam reservados a NPCs. Nareth representa o dragão que assumiu corpo humanoide definitivo; descendência interespecífica é configurada como Mutari.</small>
 <div id="peopleDescription" class="info-box">Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.</div>
 </div>
 
 <div class="field full"><label for="specialMorphology">Morfologia especial <span class="subtle">(opcional)</span></label>
 <select id="specialMorphology" name="specialMorphology">
 <option value="">Nenhuma morfologia adicional</option>
-<option>Lupran — morfologia lupina estável</option>
-<option>Kemonomimi felinoide / nekomimi — Alterado ou Metamorfo</option>
-<option>Kemonomimi lupina não-Lupran — Alterado ou Metamorfo</option>
-<option>Kemonomimi ursina — Alterado ou Metamorfo</option>
+<option>Lupran — morfologia Selvari lupina estável</option>
+<option>Selvari felino — traços felinos funcionais</option>
+<option>Selvari lupino não-Lupran — traços lupinos funcionais</option>
+<option>Selvari ursino — traços ursinos funcionais</option>
 <option value="__other__">Outra morfologia / personalizar</option>
 </select>
 <div id="specialMorphologyCustomWrap" class="custom-field"><input id="specialMorphologyCustom" placeholder="Descreva a morfologia"></div>
-<div id="morphologyDescription" class="info-box">Kemonomimi descreve morfologia, não uma espécie única. O criador mantém espécie, Mutari, Alterado e Metamorfo como categorias diferentes.</div>
+<div id="morphologyDescription" class="info-box">Selvari descreve uma morfologia humanoide com traços animais funcionais, não uma espécie única. Lupran é uma espécie Selvari lupina; fenótipos felinos, lupinos e ursinos podem ter outras origens biológicas documentadas.</div>
 </div>
 
 <div class="field full conditional" id="mutariWrap">
 <div class="grid">
-<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (animaliforme lupino)</option><option value="Corniforme">Corniforme</option></select></div>
-<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (animaliforme lupino)</option><option value="Corniforme">Corniforme</option></select></div>
+<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option value="Nareth">Nareth (dragão em corpo humanoide)</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (Selvari lupino)</option><option value="Valdrin">Valdrin</option></select></div>
+<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option value="Nareth">Nareth (dragão em corpo humanoide)</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (Selvari lupino)</option><option value="Valdrin">Valdrin</option></select></div>
 </div>
 <div id="mutariResult" class="info-box">Escolha duas ancestralidades. Combinações ainda não confirmadas serão tratadas como candidatas, não como biologia canônica.</div>
 </div>
@@ -451,16 +462,16 @@ var PEOPLE_INFO={
 'Sairen':'Espécie humanoide de Umbrael, geralmente com cerca de 1,50–1,90 m. Olfato forte, audição direcional, sensibilidade em baixa luz, postura e sinais químicos ampliam a comunicação social. Não possuem telepatia nem detecção infalível de mentira.',
 'Nerathi':'Espécie aquática verdadeira de Umbralis. Corpo humanoide hidrodinâmico, braços manipuladores, pernas adaptadas à natação, pés amplos, brânquias principais e pulmões reduzidos de apoio. Podem permanecer no ar, mas isso custa fisiologicamente; não são “magos de água” por natureza.',
 'Feérico':'Família ampla de múltiplas espécies, algumas sapientes e outras não. Entre linhagens sapientes consolidadas, indivíduos podem nascer em Primeira Estatura, de até cerca de 60 cm, e durante a maturidade permanecer nela ou assumir uma Segunda Estatura humanoide permanente. Isso não é evolução de poder.',
-'Lupran':'Espécie/povo sapiente animaliforme de morfologia lupino-convergente. Possui corpo bípede funcional, mãos manipuladoras, orelhas externas móveis, cauda funcional, caninos desenvolvidos, estrutura facial que pode variar de muito humanoide a focinho curto e pelagem de distribuição variável. Não é humano-lobo, lobisomem, Mutari humano-lobo ou Fenrion humanoide.',
-'Corniforme':'Espécie sapiente humanoide independente cuja característica externa definidora são chifres verdadeiros permanentes integrados ao crânio. O plano corporal é amplamente humanoide; chifres variam em forma, curvatura, espessura e orientação. Não é demônio, oni, Mutari ou dracônico por definição. O nome diegético da espécie ainda permanece aberto.'
+'Lupran':'Espécie/povo sapiente independente de morfologia Selvari lupina. Possui corpo bípede funcional, mãos manipuladoras, um único par funcional de orelhas lupinas móveis, cauda funcional, caninos desenvolvidos, estrutura facial que pode variar de muito humanoide a focinho curto e pelagem de distribuição variável. Não é humano-lobo, lobisomem, Mutari humano-lobo ou Fenrion humanoide.',
+'Valdrin':'Espécie sapiente humanoide independente de morfologia corniforme. Chifres verdadeiros e permanentes integram o crânio e podem variar em forma, curvatura, espessura e orientação. Valdrin é o nome canônico da espécie; “corniforme” é apenas o descritor anatômico. Não é demônio, Mutari ou dracônico por definição.'
 }
 
 var MORPH_INFO={
-'Lupran — morfologia lupina estável':'Forma corporal natural dos Lupran: um único par funcional de orelhas lupinas, cauda funcional, dentição e aparelho sensorial próprios. Não há forma humana oculta nem transformação por lua.',
-'Kemonomimi felinoide / nekomimi — Alterado ou Metamorfo':'Morfologia felinoide estável com orelhas felinas funcionais, possível cauda, caninos e, conforme a linhagem, garras retráteis e modulação vocal. No cânone atual isso não constitui uma espécie felina única; Gatos Sombra são Alterados/Metamorfos, não uma raça.',
-'Kemonomimi lupina não-Lupran — Alterado ou Metamorfo':'Uma aparência lupina fora da espécie Lupran exige outra história corporal, como Alteração ou Metamorfismo. Sem isso, a opção biologicamente estável é Lupran.',
-'Kemonomimi ursina — Alterado ou Metamorfo':'Morfologia ursina estável pode incluir orelhas arredondadas, dentição modificada, pilosidade localizada e garras robustas. Urso Totem é uma tradição de Alterados/Metamorfos, não uma espécie.'
-};
+'Lupran — morfologia Selvari lupina estável':'Forma corporal natural dos Lupran: anatomia humanoide estável com um único par funcional de orelhas lupinas, cauda funcional, dentição e aparelho sensorial próprios. Não há forma humana oculta nem transformação por lua.',
+'Selvari felino — traços felinos funcionais':'Morfologia Selvari felina: orelhas felinas funcionais substituem o pavilhão humano, podendo coexistir com cauda, caninos, pilosidade e outras adaptações coerentes. Selvari é morfologia, não espécie única; Gatos Sombra podem apresentar esse fenótipo sem criar uma espécie felina separada.',
+'Selvari lupino não-Lupran — traços lupinos funcionais':'Morfologia Selvari lupina fora dos Lupran exige uma origem corporal própria e demonstrável. Sem isso, semelhança com Lupran não transforma automaticamente o personagem em Lupran, Mutari ou lobisomem.',
+'Selvari ursino — traços ursinos funcionais':'Morfologia Selvari ursina pode incluir orelhas arredondadas funcionais, pilosidade localizada, dentição e unhas modificadas conforme a origem biológica. Urso Totem pode apresentar esse fenótipo sem constituir uma espécie ursina separada.'
+}
 
 var PLACE_INFO={
 'Eryndhor':'Continente de grande circulação e diversidade interna. A fala comercial de Elaris funciona como língua franca em muitas rotas, sem apagar idiomas, identidades e histórias regionais.',
@@ -532,7 +543,7 @@ var HEIGHT_RULES={
 'Nerathi':[140,220,5],
 'Nareth':[145,220,5],
 'Lupran':null,
-'Corniforme':null
+'Valdrin':null
 };
 
 
@@ -675,8 +686,8 @@ function updatePeopleDescription(){
  var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
  box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.');
  var morph=document.getElementById('specialMorphology');
- if(v==='Lupran'&&!morph.value)morph.value='Lupran — morfologia lupina estável';
- if(v!=='Lupran'&&morph.value==='Lupran — morfologia lupina estável')morph.value='';
+ if(v==='Lupran'&&!morph.value)morph.value='Lupran — morfologia Selvari lupina estável';
+ if(v!=='Lupran'&&morph.value==='Lupran — morfologia Selvari lupina estável')morph.value='';
  populateHeightForSpecies(v);
  updateMorphologyDescription();
  updateSkinRecommendation();
@@ -685,9 +696,9 @@ function updatePeopleDescription(){
 }
 function updateMorphologyDescription(){
  var v=document.getElementById('specialMorphology').value,box=document.getElementById('morphologyDescription'),sp=document.getElementById('people').value;
- var msg=MORPH_INFO[v]||'Kemonomimi descreve morfologia, não uma espécie única. Espécie, Mutari, Alterado e Metamorfo permanecem categorias diferentes.';
- if(v==='Lupran — morfologia lupina estável'&&sp&&sp!=='Lupran')msg+=' Para uma espécie que não seja Lupran, essa aparência precisa de outra origem corporal e não deve ser tratada como Lupran automático.';
- if(v&&v.indexOf('Alterado ou Metamorfo')>=0)msg+=' A ficha deve explicar quando e como essa alteração corporal aconteceu.';
+ var msg=MORPH_INFO[v]||'Selvari descreve morfologia, não uma espécie única. Espécie, Mutari, Alterado e Metamorfo continuam categorias diferentes e a origem corporal precisa ser coerente.';
+ if(v==='Lupran — morfologia Selvari lupina estável'&&sp&&sp!=='Lupran')msg+=' Para uma espécie que não seja Lupran, essa aparência precisa de outra origem corporal e não deve ser tratada como Lupran automático.';
+ if(v&&v.indexOf('Selvari')>=0&&v!=='Lupran — morfologia Selvari lupina estável')msg+=' A ficha deve registrar a origem plausível desse fenótipo: linhagem, alteração, metamorfismo ou outro mecanismo já sustentado pelo projeto.';
  box.innerHTML='<strong>Morfologia:</strong> '+escapeHtml(msg);
 }
 function updatePlaceDescription(){
@@ -748,9 +759,10 @@ function updateIdentityRecommendations(){
  if(sp==='Hadrun')items.push('Hadrun: 2,6–3,2 m e 300–500+ kg são coerentes pela escala corporal cúbica e pela anatomia robusta; massa alta não significa obesidade.');
  if(sp==='Nareth')items.push('Nareth: o corpo é humanoide definitivo. Asas, cauda dracônica funcional ou retorno ao corpo primordial não combinam com a biologia vigente.');
  if(sp==='Lupran')items.push('Lupran: a anatomia lupino-convergente é estável e canônica: corpo bípede, mãos manipuladoras, orelhas móveis, cauda funcional, caninos desenvolvidos e pelagem variável. Não é lobisomem nem Mutari humano-lobo.');
- if(sp==='Corniforme')items.push('Corniforme: chifres verdadeiros permanentes são parte do crânio e exigem acomodação física; não indicam demônio, poder, casta ou ascendência dracônica.');
+ if(sp==='Valdrin')items.push('Valdrin: chifres verdadeiros permanentes são parte do crânio e exigem acomodação física; Valdrin é a espécie, enquanto corniforme é apenas o descritor anatômico. Chifres não indicam demônio, poder, casta ou ascendência dracônica.');
  var sm=selectedText('specialMorphology');
  if(sm)items.push('Morfologia especial: '+(MORPH_INFO[sm]||sm));
+ if(sm&&sm.indexOf('Selvari')>=0)items.push('Traços Selvari precisam funcionar como anatomia real: orelhas animais substituem o pavilhão humano correspondente; cauda, dentição, pelagem e sentidos só entram quando houver suporte para aquela origem corporal.');
  if(mut){
    var a=selectedText('parentA'),b=selectedText('parentB'),ms=mutariStatus(a,b);
    items.push('Mutari: '+ms.text);
@@ -763,30 +775,43 @@ function updateIdentityRecommendations(){
  var skin=selectedText('skin');
  if(skin==='__recommended__')items.push('Pele: será usada a faixa biogeográfica sugerida para a origem, sem transformar local de nascimento em regra de pigmentação.');
  else if(skin)items.push('Pele manual: pode ser explicada por ancestralidade, migração, recombinação familiar ou variação individual. Se for muito fora da história familiar, uma mutação rara pode ser registrada.');
+ var height=selectedText('height');if(height)items.push('Altura: '+height+' já é filtrada pela faixa típica da espécie quando ela está fechada. Uma altura manual fora da faixa pede justificativa por ancestralidade, desenvolvimento, condição médica ou mutação, sem virar vantagem automática.');
  var bodyBits=[selectedText('build'),selectedText('posture'),selectedText('headShape'),selectedText('faceShape')].filter(Boolean);
  if(bodyBits.length)items.push('Corpo e rosto: '+bodyBits.join(', ')+' são tratados como variação individual. Se uma combinação for incomum para a ancestralidade, herança familiar, mistura populacional, desenvolvimento e mutação continuam explicações possíveis.');
  var brow=selectedText('brows');if(brow)items.push('Sobrancelhas: '+brow.toLowerCase()+' é uma variação morfológica normal; densidade e desenho podem variar por herança, idade e costume.');
  var ear=selectedText('ears');
  if(ear){
+   var animalEar=/Felinas|Lupinas|Ursinas/.test(ear);
    if(sp==='Elfo'&&!/Pontiag|Alongad/.test(ear))items.push('Orelhas élficas fora do padrão alongado/pontiagudo pedem uma justificativa como variação familiar, ancestralidade mista ou mutação de desenvolvimento.');
+   else if(animalEar&&sp!=='Lupran'&&!sm)items.push('Orelhas '+ear.toLowerCase()+': este é um traço Selvari. Escolha uma morfologia Selvari compatível ou explique a origem corporal; não mantenha ao mesmo tempo um segundo par de orelhas humanas.');
    else items.push('Orelhas: '+ear.toLowerCase()+' é tratada como variação individual enquanto não houver restrição anatômica específica para essa espécie.');
  }
- var tail=selectedText('tail');if(tail)items.push('Cauda: '+tail.toLowerCase()+' precisa ser compatível com a morfologia escolhida; em kemonomimi ela é anatomia funcional, não adereço automático.');
- var eyeL=selectedText('eyeLeft'),eyeR=selectedText('eyeRight');
+ var tail=selectedText('tail');
+ if(tail){
+   if(sp!=='Lupran'&&!sm)items.push('Cauda: '+tail.toLowerCase()+' exige uma origem morfológica compatível. Em um personagem sem morfologia Selvari ou outra anatomia justificadora, trate a característica como alteração, herança rara ou mutação a explicar.');
+   else items.push('Cauda: '+tail.toLowerCase()+' é anatomia funcional e precisa combinar com a origem corporal escolhida; não é um adereço automático.');
+ }
+ var eyeL=selectedText('eyeLeft'),eyeR=selectedText('eyeRight'),eyeShape=selectedText('eyeShape');
  if(eyeL||eyeR)items.push('Olhos: '+[eyeL,eyeR].filter(Boolean).join(' / ')+' é biologicamente possível dentro da ampla variação de Lumyriel; cor sozinha não cria habilidade e heterocromia não prova Vaelir.');
+ if(eyeShape)items.push('Formato dos olhos: '+eyeShape.toLowerCase()+' é morfologia individual; ancestralidade e desenvolvimento explicam a maior parte da variação sem exigir habilidade ocular.');
  var oc=selectedText('ocular');if(oc&&OCULAR_INFO[oc])items.push('Arquitetura ocular: '+OCULAR_INFO[oc]);
- var hc=selectedText('hairColor'),ht=selectedText('hairType'),hl=selectedText('hairLength');
- if(hc||ht||hl)items.push('Cabelo: '+[hc,ht,hl].filter(Boolean).join(', ')+' pode surgir por pigmentação, estrutura do fio, herança e cuidado. Tons incomuns não indicam Afinidade automaticamente.');
+ var hc=selectedText('hairColor'),ht=selectedText('hairType'),hl=selectedText('hairLength'),hd=selectedText('hairDensity'),hs=selectedText('hairstyle');
+ if(hc||ht||hl||hd||hs)items.push('Cabelo: '+[hc,ht,hl,hd,hs].filter(Boolean).join(', ')+' combina pigmentação, estrutura do fio, herança, idade e cuidado. Tons incomuns não indicam Afinidade automaticamente; penteado é principalmente cultural e prático.');
  var nose=selectedText('nose'),mouth=selectedText('mouth'),teeth=selectedText('teeth');
  if(nose||mouth||teeth)items.push('Traços faciais: '+[nose,mouth,teeth].filter(Boolean).join(', ')+' podem refletir ancestralidade familiar e variação de desenvolvimento; uma diferença rara não precisa virar “poder”.');
  var nails=selectedText('nails');if(nails)items.push('Mãos/unhas: '+nails.toLowerCase()+' pode refletir anatomia, profissão, hábitos e cuidado pessoal.');
- var voice=selectedText('voice');if(voice)items.push('Voz: '+voice.toLowerCase()+' pode resultar de anatomia, idade, hábito, treinamento e contexto social; o jeito de falar é escolhido separadamente.');
+ var voice=selectedText('voice'),voiceTraits=[].slice.call(document.querySelectorAll('input[name="voiceTraits"]:checked')).map(function(x){return x.value});
+ if(voice||voiceTraits.length)items.push('Voz e fala: '+[voice,voiceTraits.join(', ')].filter(Boolean).join(' · ')+' formam um perfil combinado. Timbre pode ter base anatômica; sarcasmo, humor, rudeza, formalidade e ritmo são hábitos sociais e pessoais, não traços biológicos obrigatórios.');
+ var marks=[].slice.call(document.querySelectorAll('input[name="markChoices"]:checked')).map(function(x){return x.value});
+ if(marks.length)items.push('Marcas: '+marks.join(', ')+' devem ter uma causa compatível — trabalho, acidente, doença, ritual, conflito, cuidado corporal ou história pessoal. Se a marca for congênita e rara, herança ou mutação podem ser registradas.');
  if(!items.length)items.push('Comece pela espécie/ancestralidade e pelo lugar de origem. O sistema passará a explicar o que é comum, raro ou precisa de justificativa.');
  box.innerHTML='<strong>Coerência automática:</strong><ul class="recommend-list">'+items.map(function(x){return '<li>'+escapeHtml(x)+'</li>'}).join('')+'</ul>';
 }
-['age','gender','socialOrigin','height','build','posture','headShape','faceShape','brows','skin','eyeLeft','eyeRight','eyeShape','ocular','hairColor','hairType','hairLength','hairDensity','ears','nose','mouth','teeth','tail','nails','voice','specialMorphology'].forEach(function(id){
+['age','gender','socialOrigin','height','build','posture','headShape','faceShape','brows','skin','eyeLeft','eyeRight','eyeShape','ocular','hairColor','hairType','hairLength','hairDensity','hairstyle','ears','nose','mouth','teeth','tail','nails','voice','specialMorphology'].forEach(function(id){
  var el=document.getElementById(id);if(el)el.addEventListener('change',updateIdentityRecommendations);
 });
+[].slice.call(document.querySelectorAll('input[name="voiceTraits"],input[name="markChoices"]')).forEach(function(el){el.addEventListener('change',updateIdentityRecommendations)});
+[].slice.call(document.querySelectorAll('.custom-field input')).forEach(function(el){el.addEventListener('input',updateIdentityRecommendations)});
 function populateNumericSelects(){
  var age=document.getElementById('age');
  for(var i=6;i<=120;i++){var o=document.createElement('option');o.value=String(i);o.textContent=i+' anos';age.appendChild(o)}
@@ -799,8 +824,8 @@ function populateHeightForSpecies(species){
  var height=document.getElementById('height'),current=height.value;
  height.innerHTML='<option value="">Selecione</option>';
  var rule=HEIGHT_RULES[species];
- if(species==='Lupran'||species==='Corniforme'){
-   var lu=document.createElement('option');lu.disabled=true;lu.textContent=species==='Lupran'?'Faixa exata de altura ainda não fechada no cânone':'Faixa exata de altura ainda não fechada para a espécie corniforme';height.appendChild(lu);
+ if(species==='Lupran'||species==='Valdrin'){
+   var lu=document.createElement('option');lu.disabled=true;lu.textContent=species==='Lupran'?'Faixa exata de altura ainda não fechada no cânone':'Faixa exata de altura ainda não fechada para Valdrin';height.appendChild(lu);
  }else if(species==='Feérico'){
    var og1=document.createElement('optgroup');og1.label='Primeira Estatura';
    for(var cm=30;cm<=60;cm+=5){var o=document.createElement('option');o.value=(cm/100).toFixed(2).replace('.',',')+' m';o.textContent=o.value;og1.appendChild(o)}
@@ -830,8 +855,8 @@ function randomizeCharacter(){
  setValue('ancestryMode','single');
  setValue('age',String(pick([18,21,24,27,31,36,42,51,67])));
  setValue('gender',pick(['Homem','Mulher','Não definir']));
- setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi','Feérico','Lupran','Corniforme']));
- setValue('specialMorphology',document.getElementById('people').value==='Lupran'?'Lupran — morfologia lupina estável':'');
+ setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi','Feérico','Lupran','Valdrin']));
+ setValue('specialMorphology',document.getElementById('people').value==='Lupran'?'Lupran — morfologia Selvari lupina estável':'');
  setValue('originPlace',pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Valdren','Elaris','Thalassia']));
  setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
  var heightChoices=[].slice.call(document.getElementById('height').options).filter(function(o){return o.value&&o.value!=='__other__'&&!o.disabled}).map(function(o){return o.value});if(heightChoices.length)setValue('height',pick(heightChoices));
@@ -949,11 +974,11 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.3',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.4',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.3',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.4',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
