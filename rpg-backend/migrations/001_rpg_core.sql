@@ -33,6 +33,12 @@ CREATE TABLE rpg_character_snapshots (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+ALTER TABLE rpg_campaigns
+  ADD CONSTRAINT rpg_campaigns_character_snapshot_fk
+  FOREIGN KEY (character_snapshot_id)
+  REFERENCES rpg_character_snapshots(character_snapshot_id)
+  DEFERRABLE INITIALLY DEFERRED;
+
 CREATE TABLE rpg_campaign_states (
   campaign_id TEXT PRIMARY KEY REFERENCES rpg_campaigns(campaign_id) ON DELETE CASCADE,
   state_version INTEGER NOT NULL CHECK (state_version >= 0),
@@ -90,6 +96,12 @@ CREATE TABLE rpg_situations (
   PRIMARY KEY (campaign_id, situation_id, version)
 );
 
+ALTER TABLE rpg_campaigns
+  ADD CONSTRAINT rpg_campaigns_situation_fk
+  FOREIGN KEY (campaign_id, situation_id, situation_version)
+  REFERENCES rpg_situations(campaign_id, situation_id, version)
+  DEFERRABLE INITIALLY DEFERRED;
+
 CREATE TABLE rpg_session_entities (
   entity_id TEXT NOT NULL,
   campaign_id TEXT NOT NULL REFERENCES rpg_campaigns(campaign_id) ON DELETE CASCADE,
@@ -116,8 +128,15 @@ CREATE TABLE rpg_turns (
   error_json JSONB,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   completed_at TIMESTAMPTZ,
-  UNIQUE (campaign_id, idempotency_key)
+  UNIQUE (campaign_id, idempotency_key),
+  UNIQUE (campaign_id, turn_id)
 );
+
+ALTER TABLE rpg_campaign_events
+  ADD CONSTRAINT rpg_campaign_events_turn_fk
+  FOREIGN KEY (campaign_id, turn_id)
+  REFERENCES rpg_turns(campaign_id, turn_id)
+  DEFERRABLE INITIALLY DEFERRED;
 
 CREATE INDEX rpg_campaigns_user_status_idx
   ON rpg_campaigns(user_id, status, last_played_at DESC);
