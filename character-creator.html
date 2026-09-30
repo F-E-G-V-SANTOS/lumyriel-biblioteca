@@ -21,6 +21,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,11,12,.92);backdrop-f
 .profile{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}.card{border:1px solid #32322f;border-radius:16px;padding:18px;background:#0f1112}.card h3{font:500 1.35rem Georgia,serif;margin:0 0 10px}.card p{color:#aaa59b;margin:6px 0}.tag{display:inline-block;border:1px solid #403b31;border-radius:999px;padding:5px 9px;margin:3px;color:#cfc3ae;font-size:.78rem}.meter-row{margin:12px 0}.meter-row strong{display:block;color:#ddd5c8;font-size:.86rem}.meter-row span{color:#9e998f;font-size:.82rem}
 .summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.summary-item{border:1px solid #30302d;border-radius:13px;padding:13px;background:#101213}.summary-item b{display:block;color:var(--gold2);font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}.summary-item span{color:#d4cec4}
 .toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 0}.status{font-size:.83rem;color:#8f8a82;margin-top:10px}.status.ok{color:#aebd9e}.status.warn{color:#d0b27a}
+.info-box{margin-top:9px;border:1px solid #33322e;border-radius:12px;background:#101214;padding:12px 13px;color:#aaa59b;font-size:.86rem;line-height:1.55}.info-box strong{color:var(--gold2)}.info-box.warn{border-color:#5b4931;color:#c6b59a}
+.readonly{background:#171612!important;color:var(--gold2)!important;border-color:#4b4437!important;font-weight:700}.custom-field{display:none;margin-top:8px}.custom-field.show{display:block}.quick-grid{display:flex;gap:8px;flex-wrap:wrap}.quick-check{position:relative}.quick-check input{position:absolute;opacity:0;pointer-events:none}.quick-check label{display:block;border:1px solid #343431;background:#0f1112;border-radius:999px;padding:8px 11px;color:#bcb6ac;cursor:pointer;font-size:.84rem}.quick-check input:checked+label{border-color:#79694e;background:#211f1a;color:#f0e7d8}.subtle{color:#817d75;font-size:.8rem}.field select option:disabled{color:#777}.name-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}.recommend{color:#d0bd98}.mini-title{font:500 1.05rem Georgia,serif;color:#ddd4c5;margin:14px 0 8px}
 footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media(max-width:900px){.creator{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto;gap:6px;padding:8px}.step-btn{min-width:max-content;width:auto}.step-btn span{display:none}.profile{grid-template-columns:1fr}}
 @media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px}.brand{font-size:.82rem}.sigil{width:34px;height:34px}.hero{padding:36px 0 18px}.hero h1{font-size:2.65rem}.creator{padding-top:12px}.panel{padding:20px 14px;border-radius:16px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#111315 28%);padding-top:28px;padding-bottom:4px}.btn{padding:10px 13px}.back{font-size:.8rem;padding:8px 11px}}
@@ -50,87 +52,198 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="workspace">
 <form id="creatorForm">
 <section class="panel active" data-panel="0">
-<div class="panel-head"><div><div class="eyebrow">1 · Identidade</div><h2>Quem é essa pessoa?</h2></div><p>Comece pela identidade e pela origem. A procedência influencia cultura, experiência e aparência, mas não determina personalidade ou moralidade.</p></div>
+<div class="panel-head"><div><div class="eyebrow">1 · Identidade</div><h2>Quem é essa pessoa?</h2></div><p>Quase tudo aqui pode ser escolhido em listas. Campos livres aparecem apenas quando você quiser personalizar além das opções prontas.</p></div>
+
+<div class="section-title first">Nome</div>
+<div class="name-pair">
+<div class="field"><label for="realName">Seu nome / nome de referência</label><input id="realName" placeholder="Digite um nome normal" autocomplete="off"><small>Usado somente para criar o nome do personagem. Não entra no dossiê nem na submissão.</small></div>
+<div class="field"><label for="name">Nome lumyrieliano</label><input id="name" name="name" class="readonly" readonly placeholder="Será gerado automaticamente"><small>Adaptação onomástica regional automática. Não é uma tradução oficial de uma língua única.</small></div>
+</div>
+
+<div class="section-title">Identidade e origem</div>
 <div class="grid">
-<div class="field"><label for="name">Nome</label><input id="name" name="name" placeholder="Nome do personagem"></div>
-<div class="field"><label for="age">Idade</label><input id="age" name="age" type="number" min="0" max="2000" placeholder="Ex.: 27"></div>
-<div class="field"><label for="people">Povo / espécie</label><select id="people" name="people"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option>Dragão / Nareth</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option>Outro / não definido</option></select><small>Lista inicial baseada nas categorias já registradas no cânone; será refinada com as autoridades especializadas.</small></div>
-<div class="field"><label for="originStatus">Relação com Lumyriel</label><select id="originStatus" name="originStatus"><option>Nativo de Lumyriel</option><option>Origem ancestral exógena</option><option>Nascido fora de Lumyriel</option><option>Origem desconhecida</option></select></div>
-<div class="field full"><label for="originPlace">Lugar de origem</label><input id="originPlace" name="originPlace" list="places" placeholder="Continente, reino, região ou cidade"><datalist id="places"><option value="Eryndhor"><option value="Thalorien"><option value="Frosthaven"><option value="Umbralis"><option value="Aetherion"><option value="Solara"><option value="Umbrael"><option value="Karveth"><option value="Drakoria"><option value="Valdren"><option value="Elaris"><option value="Thalassia"><option value="Brumamata"><option value="Dorso Cinzento"></datalist></div>
-<div class="field"><label for="gender">Gênero / identidade</label><input id="gender" name="gender" placeholder="Livre"></div>
-<div class="field"><label for="socialOrigin">Origem social</label><select id="socialOrigin" name="socialOrigin"><option value="">Selecione</option><option>Rural</option><option>Urbana</option><option>Mercantil</option><option>Artesã</option><option>Militar</option><option>Acadêmica</option><option>Nobre</option><option>Religiosa</option><option>Itinerante</option><option>Marginalizada</option><option>Outra</option></select></div>
+<div class="field"><label for="age">Idade</label><select id="age" name="age"><option value="">Selecione</option></select><div id="ageCustomWrap" class="custom-field"><input id="ageCustom" type="number" min="0" max="5000" placeholder="Idade personalizada"></div></div>
+<div class="field"><label for="gender">Gênero</label><select id="gender" name="gender"><option value="">Selecione</option><option>Homem</option><option>Mulher</option><option>Não definir</option></select></div>
+
+<div class="field full"><label for="people">Povo / espécie</label>
+<select id="people" name="people">
+<option value="">Selecione</option>
+<option>Humano</option><option>Elfo</option><option>Anão</option>
+<option>Dragão ancestral</option><option>Nareth</option><option>Mutari humano-dragão</option>
+<option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option>
+<option value="__other__">Outro / personalizar</option>
+</select>
+<div id="peopleCustomWrap" class="custom-field"><input id="peopleCustom" placeholder="Defina o povo ou espécie"></div>
+<div id="peopleDescription" class="info-box">Escolha uma opção para ver uma descrição curta baseada no cânone atual.</div>
+</div>
+
+<div class="field"><label for="originStatus">Relação com Lumyriel</label>
+<select id="originStatus" name="originStatus">
+<option selected>Nativo de Lumyriel</option>
+<option disabled>Ascendência com origem planetária não local — disponível futuramente</option>
+<option disabled>Origem histórica desconhecida — disponível futuramente</option>
+</select>
+<small>Nesta versão do criador, somente personagens nativos de Lumyriel podem ser enviados.</small>
+</div>
+
+<div class="field"><label for="originPlace">Lugar de origem</label>
+<select id="originPlace" name="originPlace">
+<option value="">Selecione</option>
+<optgroup label="Continentes e grandes regiões">
+<option>Eryndhor</option><option>Thalorien</option><option>Frosthaven</option><option>Umbralis</option><option>Aetherion</option><option>Solara</option><option>Umbrael</option><option>Drakoria</option>
+</optgroup>
+<optgroup label="Reinos, cidades e regiões conhecidas">
+<option>Karveth</option><option>Valdren</option><option>Elaris</option><option>Thalassia</option><option>Dorso Cinzento</option><option>Brumamata</option>
+</optgroup>
+<option value="__other__">Outro local / personalizar</option>
+</select>
+<div id="originPlaceCustomWrap" class="custom-field"><input id="originPlaceCustom" placeholder="Nome do lugar"></div>
+<div id="placeDescription" class="info-box">Escolha um lugar para ver o contexto regional.</div>
+</div>
+
+<div class="field"><label for="socialOrigin">Origem social</label>
+<select id="socialOrigin" name="socialOrigin">
+<option value="">Selecione</option><option>Rural</option><option>Urbana</option><option>Mercantil</option><option>Artesã</option><option>Militar</option><option>Acadêmica</option><option>Nobre</option><option>Religiosa</option><option>Itinerante</option><option>Marginalizada</option><option value="__other__">Outra / escrever manualmente</option>
+</select>
+<div id="socialOriginCustomWrap" class="custom-field"><input id="socialOriginCustom" placeholder="Descreva a origem social"></div>
+</div>
 </div>
 <div class="nav-actions"><button type="button" class="btn ghost" onclick="randomizeCharacter()">Randomizar personagem</button><button type="button" class="btn primary" onclick="goStep(1)">Continuar →</button></div>
 </section>
 
 <section class="panel" data-panel="1">
-<div class="panel-head"><div><div class="eyebrow">2 · Corpo e rosto</div><h2>Aparência sem molde único.</h2></div><p>Defina o corpo em detalhes. Aparência pode carregar sinais sociais e história, mas não funciona como destino biológico.</p></div>
+<div class="panel-head"><div><div class="eyebrow">2 · Corpo e rosto</div><h2>Escolha primeiro. Personalize depois.</h2></div><p>As opções servem como atalhos. Quando uma característica pedir algo mais específico, escolha “Outro / personalizar”.</p></div>
+
 <div class="section-title first">Estrutura corporal</div>
 <div class="grid three">
-<div class="field"><label for="height">Altura</label><input id="height" name="height" placeholder="Ex.: 1,76 m"></div>
-<div class="field"><label for="build">Constituição</label><select id="build" name="build"><option value="">Selecione</option><option>Delicada</option><option>Esbelta</option><option>Mediana</option><option>Atlética</option><option>Robusta</option><option>Musculosa</option><option>Corpulenta</option></select></div>
-<div class="field"><label for="posture">Postura</label><select id="posture" name="posture"><option value="">Selecione</option><option>Relaxada</option><option>Formal</option><option>Vigilante</option><option>Curvada</option><option>Marcial</option><option>Elegante</option><option>Assimétrica</option></select></div>
-<div class="field"><label for="headShape">Formato da cabeça</label><select id="headShape" name="headShape"><option value="">Selecione</option><option>Oval</option><option>Redonda</option><option>Alongada</option><option>Quadrada</option><option>Triangular</option><option>Angular</option></select></div>
-<div class="field"><label for="faceShape">Formato do rosto</label><select id="faceShape" name="faceShape"><option value="">Selecione</option><option>Oval</option><option>Redondo</option><option>Quadrado</option><option>Longo</option><option>Coração</option><option>Diamante</option><option>Angular</option></select></div>
-<div class="field"><label for="skin">Pele / tonalidade</label><input id="skin" name="skin" placeholder="Descreva a tonalidade e particularidades"></div>
+<div class="field"><label for="height">Altura</label><select id="height" name="height"><option value="">Selecione</option></select><div id="heightCustomWrap" class="custom-field"><input id="heightCustom" placeholder="Altura personalizada"></div></div>
+<div class="field"><label for="build">Constituição</label><select id="build" name="build"><option value="">Selecione</option><option>Delicada</option><option>Esbelta</option><option>Mediana</option><option>Atlética</option><option>Robusta</option><option>Musculosa</option><option>Corpulenta</option><option value="__other__">Outra / personalizar</option></select><div id="buildCustomWrap" class="custom-field"><input id="buildCustom" placeholder="Constituição"></div></div>
+<div class="field"><label for="posture">Postura</label><select id="posture" name="posture"><option value="">Selecione</option><option>Relaxada</option><option>Formal</option><option>Vigilante</option><option>Curvada</option><option>Marcial</option><option>Elegante</option><option>Assimétrica</option><option value="__other__">Outra / personalizar</option></select><div id="postureCustomWrap" class="custom-field"><input id="postureCustom" placeholder="Postura"></div></div>
+<div class="field"><label for="headShape">Formato da cabeça</label><select id="headShape" name="headShape"><option value="">Selecione</option><option>Oval</option><option>Redonda</option><option>Alongada</option><option>Quadrada</option><option>Triangular</option><option>Angular</option><option value="__other__">Outro / personalizar</option></select><div id="headShapeCustomWrap" class="custom-field"><input id="headShapeCustom" placeholder="Formato"></div></div>
+<div class="field"><label for="faceShape">Formato do rosto</label><select id="faceShape" name="faceShape"><option value="">Selecione</option><option>Oval</option><option>Redondo</option><option>Quadrado</option><option>Longo</option><option>Coração</option><option>Diamante</option><option>Angular</option><option value="__other__">Outro / personalizar</option></select><div id="faceShapeCustomWrap" class="custom-field"><input id="faceShapeCustom" placeholder="Formato"></div></div>
+
+<div class="field"><label for="skin">Tonalidade da pele</label>
+<select id="skin" name="skin">
+<option value="__recommended__" selected>Usar recomendação biogeográfica</option>
+<option>Muito clara</option><option>Clara</option><option>Clara a média</option><option>Morena clara</option><option>Morena média</option><option>Morena escura</option><option>Escura</option><option>Muito escura / profunda</option><option value="__other__">Outra / personalizar</option>
+</select>
+<div id="skinCustomWrap" class="custom-field"><input id="skinCustom" placeholder="Tonalidade personalizada"></div>
+<div id="skinRecommendation" class="info-box"><strong>Recomendação:</strong> escolha o lugar de origem primeiro. A recomendação é uma faixa plausível, nunca uma regra de povo ou identidade.</div>
 </div>
+</div>
+
 <div class="section-title">Olhos</div>
 <div class="grid three">
-<div class="field"><label for="eyeLeft">Olho esquerdo</label><input id="eyeLeft" name="eyeLeft" placeholder="Cor"></div>
-<div class="field"><label for="eyeRight">Olho direito</label><input id="eyeRight" name="eyeRight" placeholder="Cor"></div>
-<div class="field"><label for="eyeShape">Formato dos olhos</label><select id="eyeShape" name="eyeShape"><option value="">Selecione</option><option>Amendoados</option><option>Arredondados</option><option>Estreitos</option><option>Profundos</option><option>Salientes</option><option>Caídos</option><option>Elevados</option></select></div>
-<div class="field full"><label for="ocular">Traço ou habilidade ocular</label><input id="ocular" name="ocular" placeholder="Nenhuma, traço de linhagem ou habilidade canônica específica"><small>Não há árvore genérica de “poderes oculares”. Técnicas precisam ser compatíveis com a fisiologia e as regras mágicas de Lumyriel.</small></div>
+<div class="field"><label for="eyeLeft">Olho esquerdo</label><select id="eyeLeft" name="eyeLeft" class="eye-color"><option value="">Selecione</option><option>Castanho profundo</option><option>Castanho</option><option>Avelã</option><option>Âmbar</option><option>Mel</option><option>Verde</option><option>Cinza</option><option>Cinza-azulado</option><option>Azul</option><option>Azul-elétrico</option><option>Dourado</option><option>Violeta / roxo</option><option>Vermelho / sanguíneo</option><option value="__other__">Outra classe cromática / personalizar</option></select><div id="eyeLeftCustomWrap" class="custom-field"><input id="eyeLeftCustom" placeholder="Cor personalizada"></div></div>
+<div class="field"><label for="eyeRight">Olho direito</label><select id="eyeRight" name="eyeRight" class="eye-color"><option value="">Selecione</option><option>Castanho profundo</option><option>Castanho</option><option>Avelã</option><option>Âmbar</option><option>Mel</option><option>Verde</option><option>Cinza</option><option>Cinza-azulado</option><option>Azul</option><option>Azul-elétrico</option><option>Dourado</option><option>Violeta / roxo</option><option>Vermelho / sanguíneo</option><option value="__other__">Outra classe cromática / personalizar</option></select><div id="eyeRightCustomWrap" class="custom-field"><input id="eyeRightCustom" placeholder="Cor personalizada"></div></div>
+<div class="field"><label for="eyeShape">Formato dos olhos</label><select id="eyeShape" name="eyeShape"><option value="">Selecione</option><option>Amendoados</option><option>Arredondados</option><option>Estreitos</option><option>Profundos</option><option>Salientes</option><option>Caídos</option><option>Elevados</option><option value="__other__">Outro / personalizar</option></select><div id="eyeShapeCustomWrap" class="custom-field"><input id="eyeShapeCustom" placeholder="Formato"></div></div>
+<div class="field full"><label for="ocular">Tipo / arquitetura / habilidade ocular</label>
+<select id="ocular" name="ocular">
+<option value="Nenhuma arquitetura especial">Nenhuma arquitetura especial</option>
+<option>Heterocromia comum (H3)</option>
+<option>Pupila Radial</option>
+<option>Selo do Véu Valeris</option>
+<option>Marca Áurea Varyth-Kaelorn</option>
+<option>Olhos de Sangue</option>
+<option>Vaelir (H4)</option>
+<optgroup label="Alterações perigosas ou adquiridas">
+<option>Coroa Parasita</option><option>Sangue Rúnico</option><option>Olho da Aparição</option><option>Brasa Profana</option><option>Vazio Corrompido</option>
+</optgroup>
+<option value="__other__">Outra / personalizar</option>
+</select>
+<div id="ocularCustomWrap" class="custom-field"><input id="ocularCustom" placeholder="Nome da arquitetura ocular"></div>
+<div id="ocularDescription" class="info-box">Olhos visualmente comuns podem coexistir com grande poder. Cor ocular, arquitetura e competência são coisas diferentes.</div>
 </div>
-<div class="section-title">Cabelo e rosto</div>
+</div>
+
+<div class="section-title">Cabelo</div>
 <div class="grid three">
-<div class="field"><label for="hairColor">Cor do cabelo</label><input id="hairColor" name="hairColor" placeholder="Cor"></div>
-<div class="field"><label for="hairType">Tipo de cabelo</label><select id="hairType" name="hairType"><option value="">Selecione</option><option>Liso</option><option>Ondulado</option><option>Cacheado</option><option>Crespo</option><option>Muito crespo</option><option>Sem cabelo</option></select></div>
-<div class="field"><label for="hairLength">Comprimento</label><select id="hairLength" name="hairLength"><option value="">Selecione</option><option>Raspado</option><option>Curto</option><option>Médio</option><option>Longo</option><option>Muito longo</option></select></div>
-<div class="field"><label for="nose">Nariz</label><input id="nose" name="nose" placeholder="Formato, largura, perfil"></div>
-<div class="field"><label for="mouth">Boca / lábios</label><input id="mouth" name="mouth" placeholder="Formato e particularidades"></div>
-<div class="field"><label for="teeth">Dentes</label><input id="teeth" name="teeth" placeholder="Condição, forma, particularidades"></div>
-<div class="field"><label for="ears">Orelhas</label><input id="ears" name="ears" placeholder="Formato e particularidades"></div>
-<div class="field"><label for="nails">Unhas / mãos</label><input id="nails" name="nails" placeholder="Formato, cuidado, marcas de trabalho"></div>
-<div class="field"><label for="voice">Voz</label><input id="voice" name="voice" placeholder="Timbre, ritmo, sotaque, volume"></div>
-<div class="field full"><label for="marks">Marcas, cicatrizes, tatuagens ou particularidades</label><textarea id="marks" name="marks"></textarea></div>
+<div class="field"><label for="hairColor">Cor do cabelo</label><select id="hairColor" name="hairColor"><option value="">Selecione</option><option>Preto</option><option>Castanho escuro</option><option>Castanho médio</option><option>Castanho claro</option><option>Loiro</option><option>Ruivo</option><option>Cobre</option><option>Branco</option><option>Prata</option><option>Rosa</option><option>Coral</option><option>Magenta</option><option>Azul</option><option>Ciano</option><option>Violeta</option><option>Índigo</option><option>Verde</option><option value="__other__">Outra / personalizar</option></select><div id="hairColorCustomWrap" class="custom-field"><input id="hairColorCustom" placeholder="Cor personalizada"></div><small>Em Lumyriel, cor natural de cabelo não determina Afinidade, poder, povo ou moralidade.</small></div>
+<div class="field"><label for="hairType">Tipo de cabelo</label><select id="hairType" name="hairType"><option value="">Selecione</option><option>Liso</option><option>Ondulado</option><option>Cacheado</option><option>Crespo</option><option>Muito crespo</option><option>Sem cabelo</option><option value="__other__">Outro / personalizar</option></select><div id="hairTypeCustomWrap" class="custom-field"><input id="hairTypeCustom" placeholder="Tipo"></div></div>
+<div class="field"><label for="hairLength">Comprimento</label><select id="hairLength" name="hairLength"><option value="">Selecione</option><option>Raspado</option><option>Muito curto</option><option>Curto</option><option>Médio</option><option>Longo</option><option>Muito longo</option><option value="__other__">Outro / personalizar</option></select><div id="hairLengthCustomWrap" class="custom-field"><input id="hairLengthCustom" placeholder="Comprimento"></div></div>
+<div class="field"><label for="hairDensity">Densidade</label><select id="hairDensity" name="hairDensity"><option value="">Selecione</option><option>Baixa</option><option>Média</option><option>Alta</option><option>Muito volumoso</option><option value="__other__">Outra / personalizar</option></select><div id="hairDensityCustomWrap" class="custom-field"><input id="hairDensityCustom" placeholder="Densidade"></div></div>
+<div class="field"><label for="hairstyle">Penteado habitual</label><select id="hairstyle" name="hairstyle"><option value="">Selecione</option><option>Solto</option><option>Preso baixo</option><option>Coque</option><option>Tranças</option><option>Tranças agrupadas</option><option>Rabo de cavalo</option><option>Curto funcional</option><option>Sem padrão fixo</option><option value="__other__">Outro / personalizar</option></select><div id="hairstyleCustomWrap" class="custom-field"><input id="hairstyleCustom" placeholder="Penteado"></div></div>
 </div>
+
+<div class="section-title">Rosto, mãos e voz</div>
+<div class="grid three">
+<div class="field"><label for="nose">Nariz</label><select id="nose" name="nose"><option value="">Selecione</option><option>Reto e estreito</option><option>Reto e largo</option><option>Curto</option><option>Longo</option><option>Arredondado</option><option>Aquilino</option><option>Levemente desviado</option><option value="__other__">Outro / personalizar</option></select><div id="noseCustomWrap" class="custom-field"><input id="noseCustom" placeholder="Nariz"></div></div>
+<div class="field"><label for="mouth">Boca / lábios</label><select id="mouth" name="mouth"><option value="">Selecione</option><option>Finos</option><option>Médios</option><option>Cheios</option><option>Arco marcado</option><option>Assimétricos</option><option value="__other__">Outro / personalizar</option></select><div id="mouthCustomWrap" class="custom-field"><input id="mouthCustom" placeholder="Boca / lábios"></div></div>
+<div class="field"><label for="teeth">Dentes</label><select id="teeth" name="teeth"><option value="">Selecione</option><option>Regulares</option><option>Levemente irregulares</option><option>Desgastados</option><option>Com falhas visíveis</option><option>Caninos marcados</option><option>Cuidados profissionalmente</option><option value="__other__">Outro / personalizar</option></select><div id="teethCustomWrap" class="custom-field"><input id="teethCustom" placeholder="Dentes"></div></div>
+<div class="field"><label for="ears">Orelhas</label><select id="ears" name="ears"><option value="">Selecione</option><option>Pequenas</option><option>Médias</option><option>Grandes</option><option>Alongadas</option><option>Pontiagudas</option><option>Assimétricas</option><option value="__other__">Outro / personalizar</option></select><div id="earsCustomWrap" class="custom-field"><input id="earsCustom" placeholder="Orelhas"></div></div>
+<div class="field"><label for="nails">Unhas / mãos</label><select id="nails" name="nails"><option value="">Selecione</option><option>Cuidadas</option><option>Marcadas por trabalho manual</option><option>Calos frequentes</option><option>Unhas curtas e funcionais</option><option>Unhas longas</option><option>Cicatrizes nas mãos</option><option value="__other__">Outro / personalizar</option></select><div id="nailsCustomWrap" class="custom-field"><input id="nailsCustom" placeholder="Mãos / unhas"></div></div>
+<div class="field"><label for="voice">Voz</label><select id="voice" name="voice"><option value="">Selecione</option><option>Baixa e calma</option><option>Grave</option><option>Aguda</option><option>Suave</option><option>Rouca</option><option>Rápida</option><option>Lenta e medida</option><option>Projetada / marcial</option><option value="__other__">Outra / personalizar</option></select><div id="voiceCustomWrap" class="custom-field"><input id="voiceCustom" placeholder="Voz"></div></div>
+</div>
+
+<div class="mini-title">Marcas e particularidades</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="markChoices" value="Sem marcas visíveis" id="mk0"><label for="mk0">Sem marcas visíveis</label></div>
+<div class="quick-check"><input type="checkbox" name="markChoices" value="Cicatriz discreta" id="mk1"><label for="mk1">Cicatriz discreta</label></div>
+<div class="quick-check"><input type="checkbox" name="markChoices" value="Cicatrizes de trabalho" id="mk2"><label for="mk2">Cicatrizes de trabalho</label></div>
+<div class="quick-check"><input type="checkbox" name="markChoices" value="Cicatriz de combate" id="mk3"><label for="mk3">Cicatriz de combate</label></div>
+<div class="quick-check"><input type="checkbox" name="markChoices" value="Sardas" id="mk4"><label for="mk4">Sardas</label></div>
+<div class="quick-check"><input type="checkbox" name="markChoices" value="Tatuagem cultural" id="mk5"><label for="mk5">Tatuagem cultural</label></div>
+</div>
+<div class="field" style="margin-top:10px"><label for="marks">Detalhe opcional</label><input id="marks" name="marks" placeholder="Só escreva se quiser acrescentar algo"></div>
+
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(0)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(2)">Continuar →</button></div>
 </section>
 
 <section class="panel" data-panel="2">
-<div class="panel-head"><div><div class="eyebrow">3 · Cultura e fé</div><h2>De onde vêm seus valores?</h2></div><p>Cultura é aprendida, transmitida e disputada. Fé e prática social também podem divergir.</p></div>
+<div class="panel-head"><div><div class="eyebrow">3 · Cultura e fé</div><h2>Escolha o contexto cultural.</h2></div><p>As listas evitam transformar esta parte em redação. Quando a tradição exata ainda não estiver nomeada no cânone, o criador usa categorias descritivas em vez de inventar um nome.</p></div>
 <div class="grid">
-<div class="field"><label for="culture">Cultura / identidade cultural</label><input id="culture" name="culture" placeholder="Povo, comunidade, tradição ou mistura cultural"></div>
-<div class="field"><label for="language">Línguas e variedades</label><input id="language" name="language" placeholder="Idiomas, sotaques, leitura/escrita"></div>
-<div class="field"><label for="faith">Crença / fé</label><input id="faith" name="faith" placeholder="Tradição, culto, filosofia ou ausência de fé"></div>
-<div class="field"><label for="faithRelation">Relação com a fé</label><select id="faithRelation" name="faithRelation"><option value="">Selecione</option><option>Devoto</option><option>Praticante cultural</option><option>Questionador</option><option>Cético</option><option>Indiferente</option><option>Convertido</option><option>Em conflito</option><option>Outra</option></select></div>
-<div class="field"><label for="education">Formação</label><select id="education" name="education"><option value="">Selecione</option><option>Aprendizado familiar</option><option>Mestre / aprendiz</option><option>Guilda / ofício</option><option>Militar</option><option>Religiosa</option><option>Acadêmica</option><option>Autodidata</option><option>Mista</option></select></div>
+<div class="field"><label for="culture">Contexto cultural</label><select id="culture" name="culture"><option value="">Selecione</option><option>Cultura urbana cosmopolita</option><option>Cultura rural / aldeã</option><option>Cultura mercantil</option><option>Cultura de ofício</option><option>Cultura militar</option><option>Cultura acadêmica</option><option>Cultura marítima</option><option>Cultura de Casa / linhagem</option><option>Cultura itinerante / caravanista</option><option>Mista / multicultural</option><option value="__other__">Outra / personalizar</option></select><div id="cultureCustomWrap" class="custom-field"><input id="cultureCustom" placeholder="Contexto cultural"></div></div>
+<div class="field"><label for="language">Repertório linguístico</label><select id="language" name="language"><option value="">Selecione</option><option>Fala comercial de Elaris</option><option>Fala regional + fala comercial de Elaris</option><option>Multilíngue por comércio / viagem</option><option>Variedade regional local</option><option>Tradição ligada ao Dracônico Antigo</option><option>Língua de sinais / repertório multimodal</option><option value="__other__">Outro / personalizar</option></select><div id="languageCustomWrap" class="custom-field"><input id="languageCustom" placeholder="Língua ou repertório"></div><small>Casa, região, Estado ou espécie não equivalem automaticamente a uma única língua.</small></div>
+<div class="field"><label for="faith">Crença / tradição</label><select id="faith" name="faith"><option value="">Selecione</option><option>Caminho da Luz</option><option>Tradições da Chama Ancestral</option><option>Liturgias de Maré</option><option>Observâncias Celestes</option><option>Tradição local não especificada</option><option>Sem tradição religiosa definida</option><option value="__other__">Outra / personalizar</option></select><div id="faithCustomWrap" class="custom-field"><input id="faithCustom" placeholder="Crença ou tradição"></div></div>
+<div class="field"><label for="faithRelation">Relação com a fé</label><select id="faithRelation" name="faithRelation"><option value="">Selecione</option><option>Devoto</option><option>Praticante cultural</option><option>Questionador</option><option>Cético</option><option>Indiferente</option><option>Convertido</option><option>Em conflito</option><option value="__other__">Outra / personalizar</option></select><div id="faithRelationCustomWrap" class="custom-field"><input id="faithRelationCustom" placeholder="Relação com a fé"></div></div>
+<div class="field"><label for="education">Formação</label><select id="education" name="education"><option value="">Selecione</option><option>Aprendizado familiar</option><option>Mestre / aprendiz</option><option>Guilda / ofício</option><option>Militar</option><option>Religiosa</option><option>Acadêmica</option><option>Autodidata</option><option>Mista</option><option value="__other__">Outra / personalizar</option></select><div id="educationCustomWrap" class="custom-field"><input id="educationCustom" placeholder="Formação"></div></div>
 <div class="field"><label for="literacy">Leitura e escrita</label><select id="literacy" name="literacy"><option value="">Selecione</option><option>Não alfabetizado</option><option>Leitura funcional</option><option>Alfabetizado</option><option>Formação avançada</option><option>Escrita profissional / erudita</option></select></div>
-<div class="field full"><label for="customs">Costumes, hábitos e códigos sociais</label><textarea id="customs" name="customs" placeholder="O que aprendeu como normal, respeitoso, proibido ou esperado?"></textarea></div>
 </div>
+<div class="mini-title">Hábitos e códigos sociais</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="customChoices" value="Valoriza hospitalidade" id="cu1"><label for="cu1">Hospitalidade</label></div>
+<div class="quick-check"><input type="checkbox" name="customChoices" value="Valoriza reputação profissional" id="cu2"><label for="cu2">Reputação profissional</label></div>
+<div class="quick-check"><input type="checkbox" name="customChoices" value="Forte dever familiar" id="cu3"><label for="cu3">Dever familiar</label></div>
+<div class="quick-check"><input type="checkbox" name="customChoices" value="Respeita hierarquias formais" id="cu4"><label for="cu4">Hierarquia formal</label></div>
+<div class="quick-check"><input type="checkbox" name="customChoices" value="Prefere acordos informais" id="cu5"><label for="cu5">Acordos informais</label></div>
+<div class="quick-check"><input type="checkbox" name="customChoices" value="Valoriza autonomia individual" id="cu6"><label for="cu6">Autonomia</label></div>
+</div>
+<div class="field" style="margin-top:10px"><label for="customs">Detalhe opcional</label><input id="customs" name="customs" placeholder="Algo específico que não apareceu nas opções"></div>
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(1)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(3)">Continuar →</button></div>
 </section>
 
 <section class="panel" data-panel="3">
-<div class="panel-head"><div><div class="eyebrow">4 · Histórico</div><h2>Competência precisa de origem.</h2></div><p>Se alguém sabe lutar, curar, forjar ou operar magia, a ficha deve explicar onde, com quem e por quanto tempo aprendeu.</p></div>
+<div class="panel-head"><div><div class="eyebrow">4 · Histórico</div><h2>De onde veio a experiência?</h2></div><p>Você pode montar o passado quase todo por seleção. Texto livre fica só para detalhes que realmente importem.</p></div>
 <div class="grid">
-<div class="field"><label for="profession">Profissão / ocupação atual</label><input id="profession" name="profession" placeholder="Ex.: ferreiro, guarda, curador, pesquisador"></div>
-<div class="field"><label for="trainingSource">Principal fonte de treinamento</label><select id="trainingSource" name="trainingSource"><option value="">Selecione</option><option>Família</option><option>Mestre particular</option><option>Guilda / ofício</option><option>Exército / guarda</option><option>Academia</option><option>Ordem religiosa</option><option>Autodidata</option><option>Sobrevivência prática</option><option>Mercenarismo</option><option>Múltiplas fontes</option></select></div>
-<div class="field"><label for="yearsTraining">Tempo de prática</label><input id="yearsTraining" name="yearsTraining" placeholder="Ex.: 8 anos; desde a infância"></div>
-<div class="field"><label for="family">Família / vínculos de origem</label><input id="family" name="family" placeholder="Família, casa, grupo, tutela"></div>
-<div class="field full"><label for="past">Histórico de vida</label><textarea id="past" name="past" placeholder="Eventos que realmente moldaram o personagem."></textarea></div>
-<div class="field full"><label for="reputation">Reputação e posição social</label><textarea id="reputation" name="reputation" placeholder="Como diferentes grupos o enxergam?"></textarea></div>
+<div class="field"><label for="profession">Profissão / ocupação atual</label><select id="profession" name="profession"><option value="">Selecione</option><option>Estudante</option><option>Artesão / ferreiro</option><option>Runólogo / técnico</option><option>Guarda / soldado</option><option>Patrulheiro / explorador</option><option>Curador / profissional de saúde</option><option>Pesquisador / acadêmico</option><option>Escriba / arquivista</option><option>Comerciante</option><option>Marinheiro / navegante</option><option>Mineiro</option><option>Agricultor / criador</option><option>Mensageiro</option><option>Mercenário licenciado</option><option>Sem ocupação fixa</option><option value="__other__">Outra / personalizar</option></select><div id="professionCustomWrap" class="custom-field"><input id="professionCustom" placeholder="Profissão"></div></div>
+<div class="field"><label for="trainingSource">Principal fonte de treinamento</label><select id="trainingSource" name="trainingSource"><option value="">Selecione</option><option>Família</option><option>Mestre particular</option><option>Guilda / ofício</option><option>Exército / guarda</option><option>Academia</option><option>Ordem religiosa</option><option>Autodidata</option><option>Sobrevivência prática</option><option>Mercenarismo</option><option>Múltiplas fontes</option><option value="__other__">Outra / personalizar</option></select><div id="trainingSourceCustomWrap" class="custom-field"><input id="trainingSourceCustom" placeholder="Fonte de treinamento"></div></div>
+<div class="field"><label for="yearsTraining">Tempo de prática</label><select id="yearsTraining" name="yearsTraining"><option value="">Selecione</option><option>Menos de 1 ano</option><option>1–2 anos</option><option>3–5 anos</option><option>6–10 anos</option><option>11–20 anos</option><option>Mais de 20 anos</option><option>Desde a infância</option><option value="__other__">Outro / personalizar</option></select><div id="yearsTrainingCustomWrap" class="custom-field"><input id="yearsTrainingCustom" placeholder="Tempo de prática"></div></div>
+<div class="field"><label for="family">Vínculo familiar principal</label><select id="family" name="family"><option value="">Selecione</option><option>Família presente e próxima</option><option>Família presente, relação difícil</option><option>Família distante</option><option>Família adotiva / tutela</option><option>Criado por comunidade / instituição</option><option>Sem vínculo familiar conhecido</option><option>Casa ou linhagem extensa</option><option value="__other__">Outro / personalizar</option></select><div id="familyCustomWrap" class="custom-field"><input id="familyCustom" placeholder="Vínculo familiar"></div></div>
+<div class="field"><label for="reputation">Reputação</label><select id="reputation" name="reputation"><option value="">Selecione</option><option>Desconhecido fora do círculo local</option><option>Confiável no ofício</option><option>Respeitado localmente</option><option>Promissor, mas inexperiente</option><option>Controverso</option><option>Temido</option><option>Mal compreendido</option><option>Boa reputação institucional</option><option>Reputação danificada</option><option value="__other__">Outra / personalizar</option></select><div id="reputationCustomWrap" class="custom-field"><input id="reputationCustom" placeholder="Reputação"></div></div>
 </div>
+
+<div class="mini-title">Eventos que marcaram o passado</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Mudança de cidade ou região" id="pa1"><label for="pa1">Mudança de região</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Aprendizado com um mestre" id="pa2"><label for="pa2">Teve um mestre</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Experiência de guerra ou conflito" id="pa3"><label for="pa3">Conflito / guerra</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Acidente ou ferimento importante" id="pa4"><label for="pa4">Acidente / ferimento</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Perda familiar ou afetiva" id="pa5"><label for="pa5">Perda</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Descoberta acadêmica ou profissional" id="pa6"><label for="pa6">Descoberta</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Viagem prolongada" id="pa7"><label for="pa7">Viagem</label></div>
+<div class="quick-check"><input type="checkbox" name="pastChoices" value="Conflito com autoridade" id="pa8"><label for="pa8">Conflito com autoridade</label></div>
+</div>
+<div class="field" style="margin-top:10px"><label for="past">Detalhe opcional do histórico</label><textarea id="past" name="past" placeholder="Só escreva se quiser explicar um desses acontecimentos ou acrescentar outro."></textarea></div>
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(2)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(4)">Continuar →</button></div>
 </section>
 
 <section class="panel" data-panel="4">
-<div class="panel-head"><div><div class="eyebrow">5 · Habilidades</div><h2>Sem níveis. Com experiência.</h2></div><p>Escolha áreas de competência e descreva o grau real de domínio. O resultado será uma leitura qualitativa, não uma pontuação.</p></div>
-<div class="section-title first">Arquétipo de uso</div>
+<div class="panel-head"><div><div class="eyebrow">5 · Habilidades</div><h2>Sem níveis. Com experiência.</h2></div><p>Escolha um perfil de atuação e indique o domínio real em cada área. “Mestre” precisa fazer sentido com idade, histórico e tempo de prática.</p></div>
+<div class="section-title first">Perfil de atuação</div>
 <div class="choice-grid">
 <div class="choice"><input type="radio" name="archetype" value="Espada e escudo" id="a1"><label for="a1">Espada e escudo</label></div>
 <div class="choice"><input type="radio" name="archetype" value="Cajado e espada" id="a2"><label for="a2">Cajado e espada</label></div>
-<div class="choice"><input type="radio" name="archetype" value="Combatente devocional" id="a3"><label for="a3">Paladino / combatente devocional*</label></div>
+<div class="choice"><input type="radio" name="archetype" value="Combatente devocional" id="a3"><label for="a3">Combatente devocional</label></div>
 <div class="choice"><input type="radio" name="archetype" value="Arqueiro ou atirador mecânico" id="a4"><label for="a4">Arqueiro / projéteis mecânicos</label></div>
 <div class="choice"><input type="radio" name="archetype" value="Usuário de Aura" id="a5"><label for="a5">Usuário de Aura</label></div>
 <div class="choice"><input type="radio" name="archetype" value="Runólogo ou técnico mágico" id="a6"><label for="a6">Runólogo / técnico mágico</label></div>
@@ -138,50 +251,64 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="choice"><input type="radio" name="archetype" value="Curador" id="a8"><label for="a8">Curador</label></div>
 <div class="choice"><input type="radio" name="archetype" value="Artesão" id="a9"><label for="a9">Artesão / especialista</label></div>
 </div>
-<div class="status">*Rótulo de criação para facilitar entendimento; não representa uma classe ou nível do cânone.</div>
+<div class="status">Esses perfis ajudam a montar a ficha; não são classes nem níveis do mundo.</div>
+
 <div class="section-title">Domínio por área</div>
 <div class="grid three">
-<div class="field"><label>Combate corpo a corpo</label><select name="skillMelee"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Combate à distância</label><select name="skillRanged"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Aura</label><select name="skillAura"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Mana / artes mágicas</label><select name="skillMana"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Runologia / técnica</label><select name="skillRunes"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Sobrevivência</label><select name="skillSurvival"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Ofício / artesanato</label><select name="skillCraft"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Conhecimento acadêmico</label><select name="skillKnowledge"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
-<div class="field"><label>Competência social</label><select name="skillSocial"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
+<div class="field"><label>Combate corpo a corpo</label><select name="skillMelee"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Combate à distância</label><select name="skillRanged"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Aura</label><select name="skillAura"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Mana / artes mágicas</label><select name="skillMana"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Runologia / técnica</label><select name="skillRunes"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Sobrevivência</label><select name="skillSurvival"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Ofício / artesanato</label><select name="skillCraft"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Conhecimento acadêmico</label><select name="skillKnowledge"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div><div class="field"><label>Competência social</label><select name="skillSocial"><option>Sem experiência</option><option>Familiar</option><option>Treinado</option><option>Experiente</option><option>Mestre</option></select></div>
 </div>
-<div class="section-title">Proficiências e limites</div>
-<div class="grid">
-<div class="field full"><label for="masteries">Habilidades mestradas</label><textarea id="masteries" name="masteries" placeholder="O que faz excepcionalmente bem, e por quê?"></textarea></div>
-<div class="field full"><label for="limitations">Limitações reais</label><textarea id="limitations" name="limitations" placeholder="Falta de experiência, lesão, dependência de equipamento, conhecimento insuficiente, medo, custo mágico..."></textarea></div>
+
+<div class="section-title">Especializações rápidas</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="masteryChoices" value="Espada" id="ma0"><label for="ma0">Espada</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Escudo" id="ma1"><label for="ma1">Escudo</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Lança" id="ma2"><label for="ma2">Lança</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Arco" id="ma3"><label for="ma3">Arco</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Bastão" id="ma4"><label for="ma4">Bastão</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Arremesso" id="ma5"><label for="ma5">Arremesso</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Combate desarmado" id="ma6"><label for="ma6">Combate desarmado</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Barreiras" id="ma7"><label for="ma7">Barreiras</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Selos" id="ma8"><label for="ma8">Selos</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Leitura de matrizes" id="ma9"><label for="ma9">Leitura de matrizes</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Primeiros socorros" id="ma10"><label for="ma10">Primeiros socorros</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Rastreamento" id="ma11"><label for="ma11">Rastreamento</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Cartografia" id="ma12"><label for="ma12">Cartografia</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Forja" id="ma13"><label for="ma13">Forja</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Alquimia / química" id="ma14"><label for="ma14">Alquimia / química</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Navegação" id="ma15"><label for="ma15">Navegação</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Logística" id="ma16"><label for="ma16">Logística</label></div><div class="quick-check"><input type="checkbox" name="masteryChoices" value="Investigação" id="ma17"><label for="ma17">Investigação</label></div>
 </div>
+<div class="field" style="margin-top:10px"><label for="masteries">Outra especialização / detalhe opcional</label><input id="masteries" name="masteries" placeholder="Opcional"></div>
+
+<div class="section-title">Limitações reais</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="limitationChoices" value="Pouca experiência em combate real" id="li0"><label for="li0">Pouca experiência em combate real</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Baixa resistência" id="li1"><label for="li1">Baixa resistência</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Lesão antiga" id="li2"><label for="li2">Lesão antiga</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Dificuldade com Mana" id="li3"><label for="li3">Dificuldade com Mana</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Dificuldade com Aura" id="li4"><label for="li4">Dificuldade com Aura</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Pouca formação formal" id="li5"><label for="li5">Pouca formação formal</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Dependência de equipamento" id="li6"><label for="li6">Dependência de equipamento</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Medo específico" id="li7"><label for="li7">Medo específico</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Impulsividade" id="li8"><label for="li8">Impulsividade</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Baixa experiência fora da região natal" id="li9"><label for="li9">Baixa experiência fora da região natal</label></div><div class="quick-check"><input type="checkbox" name="limitationChoices" value="Sobrecarga sensorial" id="li10"><label for="li10">Sobrecarga sensorial</label></div>
+</div>
+<div class="field" style="margin-top:10px"><label for="limitations">Outra limitação / detalhe opcional</label><input id="limitations" name="limitations" placeholder="Opcional"></div>
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(3)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(5)">Continuar →</button></div>
 </section>
 
 <section class="panel" data-panel="5">
-<div class="panel-head"><div><div class="eyebrow">6 · Equipamento</div><h2>Possuir não é saber usar.</h2></div><p>Armas, ferramentas e itens têm procedência, manutenção e função. Equipamento não substitui treinamento.</p></div>
+<div class="panel-head"><div><div class="eyebrow">6 · Equipamento</div><h2>Possuir não é saber usar.</h2></div><p>Escolha armas e ferramentas rapidamente. O histórico e as proficiências continuam dizendo se o personagem realmente sabe usá-las.</p></div>
 <div class="grid">
-<div class="field"><label for="weapon1">Arma / ferramenta principal</label><input id="weapon1" name="weapon1" placeholder="Ex.: espada, lança, cajado, martelo"></div>
-<div class="field"><label for="weapon2">Secundária</label><input id="weapon2" name="weapon2" placeholder="Ex.: escudo, adaga, ferramenta"></div>
-<div class="field"><label for="armor">Proteção / vestimenta</label><input id="armor" name="armor" placeholder="Material, função, mobilidade"></div>
-<div class="field"><label for="tools">Ferramentas</label><input id="tools" name="tools" placeholder="Kit de ofício, navegação, cura, pesquisa..."></div>
-<div class="field full"><label for="specialItems">Itens especiais e procedência</label><textarea id="specialItems" name="specialItems" placeholder="O que carrega, de onde veio e por que importa?"></textarea></div>
-<div class="field full"><label for="maintenance">Manutenção, custos e dependências</label><textarea id="maintenance" name="maintenance" placeholder="O que precisa para manter seu equipamento funcionando?"></textarea></div>
+<div class="field"><label for="weapon1">Arma / ferramenta principal</label><select id="weapon1" name="weapon1"><option value="">Nenhuma / selecione</option><option>Espada</option><option>Espada curta</option><option>Lança</option><option>Machado</option><option>Martelo</option><option>Bastão</option><option>Cajado técnico</option><option>Arco</option><option>Besta</option><option>Ferramenta de ofício</option><option>Arma oculta / invocável compatível</option><option value="__other__">Outra / personalizar</option></select><div id="weapon1CustomWrap" class="custom-field"><input id="weapon1Custom" placeholder="Principal"></div></div>
+<div class="field"><label for="weapon2">Secundária</label><select id="weapon2" name="weapon2"><option value="">Nenhuma</option><option>Escudo</option><option>Adaga</option><option>Espada curta</option><option>Bastão</option><option>Ferramenta de campo</option><option>Arco</option><option>Kit rúnico</option><option value="__other__">Outra / personalizar</option></select><div id="weapon2CustomWrap" class="custom-field"><input id="weapon2Custom" placeholder="Secundária"></div></div>
+<div class="field"><label for="armor">Proteção / vestimenta</label><select id="armor" name="armor"><option value="">Selecione</option><option>Roupa comum</option><option>Roupa de viagem reforçada</option><option>Proteção leve</option><option>Proteção média</option><option>Proteção pesada</option><option>Traje de ofício</option><option>Traje acadêmico / técnico</option><option>Traje marítimo</option><option value="__other__">Outra / personalizar</option></select><div id="armorCustomWrap" class="custom-field"><input id="armorCustom" placeholder="Proteção"></div></div>
+<div class="field"><label for="tools">Ferramentas</label><select id="tools" name="tools"><option value="">Nenhuma / selecione</option><option>Kit de campo</option><option>Kit médico</option><option>Kit de escrita e registro</option><option>Kit rúnico</option><option>Ferramentas de forja</option><option>Ferramentas de navegação</option><option>Mapas e instrumentos</option><option>Kit de coleta / naturalista</option><option value="__other__">Outra / personalizar</option></select><div id="toolsCustomWrap" class="custom-field"><input id="toolsCustom" placeholder="Ferramentas"></div></div>
+<div class="field"><label for="specialItems">Item especial</label><select id="specialItems" name="specialItems"><option value="">Nenhum</option><option>Objeto de família</option><option>Documento / insígnia</option><option>Artefato técnico comum</option><option>Objeto religioso</option><option>Peça rara de procedência conhecida</option><option value="__other__">Outro / personalizar</option></select><div id="specialItemsCustomWrap" class="custom-field"><input id="specialItemsCustom" placeholder="Item e procedência"></div></div>
+<div class="field"><label for="maintenance">Dependência de manutenção</label><select id="maintenance" name="maintenance"><option value="">Selecione</option><option>Baixa — ferramentas simples</option><option>Moderada — afiação, reparo e peças</option><option>Alta — calibração técnica / rúnica</option><option>Muito alta — material raro ou especialista</option><option value="__other__">Outra / personalizar</option></select><div id="maintenanceCustomWrap" class="custom-field"><input id="maintenanceCustom" placeholder="Manutenção"></div></div>
 </div>
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(4)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(6)">Continuar →</button></div>
 </section>
 
 <section class="panel" data-panel="6">
-<div class="panel-head"><div><div class="eyebrow">7 · Papel narrativo</div><h2>O que essa pessoa escolhe fazer?</h2></div><p>Herói, vilão ou anti-herói é só um rótulo inicial. Valores, objetivos, limites e lealdades mostram melhor quem o personagem realmente é.</p></div>
+<div class="panel-head"><div><div class="eyebrow">7 · Papel narrativo</div><h2>Escolhas antes de rótulos.</h2></div><p>Marque tendências e valores. Você ainda pode acrescentar detalhes, mas não precisa escrever uma redação para construir personalidade.</p></div>
 <div class="grid">
 <div class="field"><label for="role">Papel narrativo</label><select id="role" name="role"><option>Herói</option><option>Anti-herói</option><option>Antagonista</option><option>Vilão</option><option>Neutro</option><option>Indefinido</option></select></div>
-<div class="field"><label for="temperament">Temperamento</label><input id="temperament" name="temperament" placeholder="Ex.: reservado, expansivo, metódico"></div>
-<div class="field full"><label for="goals">Objetivos</label><textarea id="goals" name="goals"></textarea></div>
-<div class="field full"><label for="values">Princípios e valores</label><textarea id="values" name="values" placeholder="O que considera certo, justo ou sagrado?"></textarea></div>
-<div class="field full"><label for="limits">Limites morais</label><textarea id="limits" name="limits" placeholder="O que se recusa a fazer? O que poderia fazê-lo cruzar essa linha?"></textarea></div>
-<div class="field"><label for="loyalties">Lealdades</label><input id="loyalties" name="loyalties" placeholder="Pessoa, família, instituição, povo, causa"></div>
-<div class="field"><label for="fears">Medos / vulnerabilidades</label><input id="fears" name="fears" placeholder="Físicos, sociais, emocionais ou morais"></div>
+<div class="field"><label for="temperament">Temperamento</label><select id="temperament" name="temperament"><option value="">Selecione</option><option>Reservado e observador</option><option>Expansivo e curioso</option><option>Metódico e paciente</option><option>Impulsivo, mas leal</option><option>Sereno e desconfiado</option><option>Pragmático e bem-humorado</option><option>Ambicioso e disciplinado</option><option>Gentil e inseguro</option><option value="__other__">Outro / personalizar</option></select><div id="temperamentCustomWrap" class="custom-field"><input id="temperamentCustom" placeholder="Temperamento"></div></div>
+</div>
+
+<div class="mini-title">Objetivos</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="goalChoices" value="Proteger alguém" id="go0"><label for="go0">Proteger alguém</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Aprender / pesquisar" id="go1"><label for="go1">Aprender / pesquisar</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Ganhar reconhecimento" id="go2"><label for="go2">Ganhar reconhecimento</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Sobreviver" id="go3"><label for="go3">Sobreviver</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Encontrar alguém" id="go4"><label for="go4">Encontrar alguém</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Reparar um erro" id="go5"><label for="go5">Reparar um erro</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Defender uma comunidade" id="go6"><label for="go6">Defender uma comunidade</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Explorar o desconhecido" id="go7"><label for="go7">Explorar o desconhecido</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Construir algo duradouro" id="go8"><label for="go8">Construir algo duradouro</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Buscar justiça" id="go9"><label for="go9">Buscar justiça</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Acumular poder" id="go10"><label for="go10">Acumular poder</label></div><div class="quick-check"><input type="checkbox" name="goalChoices" value="Mudar de vida" id="go11"><label for="go11">Mudar de vida</label></div>
+</div>
+<div class="field" style="margin-top:10px"><label for="goals">Outro objetivo / detalhe opcional</label><input id="goals" name="goals" placeholder="Opcional"></div>
+
+<div class="mini-title">Princípios e valores</div>
+<div class="quick-grid">
+<div class="quick-check"><input type="checkbox" name="valueChoices" value="Família" id="va0"><label for="va0">Família</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Liberdade" id="va1"><label for="va1">Liberdade</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Dever" id="va2"><label for="va2">Dever</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Conhecimento" id="va3"><label for="va3">Conhecimento</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Compaixão" id="va4"><label for="va4">Compaixão</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Lealdade" id="va5"><label for="va5">Lealdade</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Honra" id="va6"><label for="va6">Honra</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Justiça" id="va7"><label for="va7">Justiça</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Fé" id="va8"><label for="va8">Fé</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Responsabilidade" id="va9"><label for="va9">Responsabilidade</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Verdade" id="va10"><label for="va10">Verdade</label></div><div class="quick-check"><input type="checkbox" name="valueChoices" value="Sobrevivência" id="va11"><label for="va11">Sobrevivência</label></div>
+</div>
+<div class="field" style="margin-top:10px"><label for="values">Outro valor / detalhe opcional</label><input id="values" name="values" placeholder="Opcional"></div>
+
+<div class="mini-title">Linha moral</div>
+<div class="grid">
+<div class="field"><label for="limits">O que não faria normalmente</label><select id="limits" name="limits"><option value="">Selecione</option><option>Matar deliberadamente</option><option>Abandonar um aliado</option><option>Ferir inocentes</option><option>Trair a própria palavra</option><option>Usar tortura</option><option>Colocar família em risco</option><option>Obedecer ordem injusta</option><option>Nenhuma linha clara ainda</option><option value="__other__">Outro / personalizar</option></select><div id="limitsCustomWrap" class="custom-field"><input id="limitsCustom" placeholder="Linha moral"></div></div>
+<div class="field"><label for="loyalties">Lealdade principal</label><select id="loyalties" name="loyalties"><option value="">Selecione</option><option>Família</option><option>Amigos</option><option>Comunidade local</option><option>Reino / Estado</option><option>Instituição</option><option>Fé / tradição</option><option>Ofício / juramento profissional</option><option>A si próprio</option><option>Nenhuma lealdade dominante</option><option value="__other__">Outra / personalizar</option></select><div id="loyaltiesCustomWrap" class="custom-field"><input id="loyaltiesCustom" placeholder="Lealdade"></div></div>
+<div class="field"><label for="fears">Vulnerabilidade predominante</label><select id="fears" name="fears"><option value="">Selecione</option><option>Fracassar diante de outros</option><option>Perder alguém próximo</option><option>Perder autonomia</option><option>Ser abandonado</option><option>Perder controle</option><option>Ser incapaz de proteger</option><option>Ser desmascarado</option><option>O desconhecido</option><option>Não definir</option><option value="__other__">Outra / personalizar</option></select><div id="fearsCustomWrap" class="custom-field"><input id="fearsCustom" placeholder="Vulnerabilidade"></div></div>
 </div>
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(5)">← Voltar</button><button type="button" class="btn primary" onclick="goStep(7)">Continuar →</button></div>
 </section>
@@ -222,76 +349,326 @@ var currentStep=0;
 var panels=[].slice.call(document.querySelectorAll('.panel'));
 var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
 var form=document.getElementById('creatorForm');
-function goStep(n){currentStep=Math.max(0,Math.min(panels.length-1,n));panels.forEach(function(p,i){p.classList.toggle('active',i===currentStep)});stepButtons.forEach(function(b,i){b.classList.toggle('active',i===currentStep);if(i<currentStep)b.classList.add('done')});window.scrollTo({top:document.querySelector('.creator').offsetTop-80,behavior:'smooth'});if(currentStep===8)renderDossier()}
+
+var PEOPLE_INFO={
+'Humano':'Populações humanas são amplamente diversas em Lumyriel. Presença antiga não prova origem planetária local; migração, mistura e história regional importam mais do que um molde único.',
+'Elfo':'Povos élficos não formam um bloco político único. Conflitos registrados tendem a ser locais e podem envolver custódia ecológica, assentamento e concessões.',
+'Anão':'Povos anões também não possuem uma política única. Tensões conhecidas costumam envolver trabalho, mineração, ambiente, propriedade e tecnologia.',
+'Dragão ancestral':'Linhagens dracônicas anteriores a Caldris, diversas em região, ambiente, história e linhagem. Dragão ancestral e Nareth não são a mesma trajetória corporal.',
+'Nareth':'Trajetória corporal dracônica posterior e estável, não uma transformação estética temporária. O primeiro Nareth histórico não é necessariamente a origem biológica da capacidade.',
+'Mutari humano-dragão':'Descendência humano-dragão. Pode carregar traços de ancestralidade dracônica sem obedecer a uma divisão biológica simples ou garantir qualquer poder específico.',
+'Korvath':'Povo marcado historicamente por recrutamento, serviço militar, mercenarismo e coerção em diferentes contextos. O estereótipo de violência não define indivíduos nem cria um inimigo universal.',
+'Ruvani':'Povo atravessado por conflitos históricos de propriedade, confisco, retomada e criminalização. Em centros cosmopolitas, Ruvani podem viver como cidadãos comuns.',
+'Khevran':'Povo ligado a histórias de subsolo, galerias e direitos minerais, especialmente em Drakoria. Titularidade da superfície, do recurso e da rede subterrânea pode divergir.',
+'Hadrun':'Povo cuja história inclui a Fome Branca e expulsões. Maior necessidade energética é um fato material; tratá-la como “glutonaria” é preconceito.',
+'Theryn':'Povo marcado por perseguições associadas a falsas crenças sobre regeneração. Consentimento médico, pesquisa e proteção funerária possuem peso político especial.',
+'Sairen':'Povo envolvido em debates históricos sobre percepção corporal e privacidade. Ser capaz de perceber sinais não transforma alguém em detector infalível de mentira.',
+'Nerathi':'Povo relacionado a espaços marítimos habitados e a disputas sobre pesca, salvamento, naufrágios, cemitérios, viveiros e propriedade de carga.',
+'Feérico':'“Feérico” não descreve uma geopolítica única. Relações e costumes dependem da espécie, do povo e da comunidade específica.'
+};
+
+var PLACE_INFO={
+'Eryndhor':'Grande região de circulação, comércio e diversidade interna. A fala comercial de Elaris funciona como língua franca em grande parte de Eryndhor, sem apagar línguas e dialetos locais.',
+'Valdren':'Centralidade regional de crescimento cumulativo. Oficinas, armazenamento, hinterlândia produtiva, circulação, administração e acesso aos contrafortes sustentam a cidade.',
+'Elaris':'Metrópole e capital, com governo, comércio, produção, serviços e modernização desigual. A Academia ocupa uma periferia elevada e a ferrovia é parcial.',
+'Dorso Cinzento':'Região onde mineração, assentamentos de vale, passes, estradas de carga, oficinas e concessões tiveram grande peso histórico.',
+'Brumamata':'Mata antiga com forte gradiente de risco e conhecimento. A borda e corredores conhecidos não equivalem ao interior pouco compreendido. A advertência tradicional é: “A mata não se perde. Você, sim.”',
+'Thalorien':'Região conectada a deltas, portos, caravanas e rotas comerciais. Algodão, cânhamo de deserto e fibras de oásis aparecem em sua cultura material.',
+'Frosthaven':'Região de clima severo e forte atenção a estoques, resgate, patrulha e fechamento sazonal. O Pacto de Nivaren mantém postura externa defensiva.',
+'Umbralis':'Espaço talássico de navegação, portos e jurisdição marítima. Pesca, salvamento, pirataria, naufrágios e manutenção de infraestrutura geram tensões recorrentes.',
+'Thalassia':'Centro de grande prestígio institucional em Umbralis. Seus escudos, Núcleos Abissais, memória da Podridão de Prata e setor selado afetam orçamento, acesso, pesquisa e segurança.',
+'Aetherion':'Terras de infraestrutura técnica sofisticada e acesso condicionado. Regras necessárias ao uso de infraestrutura não equivalem a submissão política geral.',
+'Solara':'Região onde água e infraestrutura hídrica possuem importância estratégica. Coroa, conselhos, territórios e produção podem disputar acesso e distribuição.',
+'Umbrael':'Região de observatórios, rotas e informação estratégica. Autoridades locais podem compartilhar dados de segurança por reciprocidade sem abrir todo o conhecimento estratégico.',
+'Drakoria':'Região de profunda história dracônica, Casas, conflitos de fronteira e memórias longas. Diferenças entre linhagem, Casa, Estado e posição política precisam ser preservadas.',
+'Karveth':'Reino dracônico organizado pela Carta de União de Karveth, que unificou Casas e clãs sob uma Coroa sem apagar autonomia territorial, representação e deveres próprios.'
+};
+
+var OCULAR_INFO={
+'Nenhuma arquitetura especial':'Olhos sem arquitetura especial conhecida. Isso não significa baixa capacidade: Gibor é um exemplo canônico de olhos visualmente comuns coexistindo com poder excepcional.',
+'Heterocromia comum (H3)':'Dois padrões cromáticos distintos sem Vaelir. Heterocromia, sozinha, não concede habilidade nem prova ascendência dracônica.',
+'Pupila Radial':'Interface elétrica/perceptiva que melhora resolução temporal e direcional. Ajuda percepção e resposta; não desacelera o tempo externo e não concede precognição.',
+'Selo do Véu Valeris':'Arquitetura hereditária da linhagem Valeris. Aumenta sensibilidade a descontinuidades de Mana, costuras de barreiras, resíduos rúnicos, refração anômala e certas ilusões. Não lê pensamentos, não atravessa paredes e não prevê o futuro.',
+'Marca Áurea Varyth-Kaelorn':'Arquitetura distinta do Selo do Véu. Auxilia leitura de estabilidade e coerência de campo e pode apoiar a sincronização de técnicas.',
+'Olhos de Sangue':'Arquitetura hereditária associada a leitura hemodinâmica, perceptiva e aurátrica. Não “para o coração com o olhar”; essa função é tratada como rumor falso.',
+'Vaelir (H4)':'Categoria ocular hereditária composta de origem exclusivamente dracônica. Vaelir verdadeiro implica ascendência dracônica, mas não revela Casa, moralidade, lealdade política ou nível de poder.',
+'Coroa Parasita':'Alteração ocular perigosa/adquirida. Exige histórico compatível e não deve ser tratada como decoração sem consequência.',
+'Sangue Rúnico':'Alteração ocular perigosa/adquirida ligada a modificação extraordinária. Exige causa, custo e histórico coerentes.',
+'Olho da Aparição':'Alteração ocular perigosa/adquirida. Não deve ser escolhida como habilidade gratuita; exige contexto narrativo e fisiológico.',
+'Brasa Profana':'Alteração ocular perigosa/adquirida. Sua presença não define culpa moral, mas exige mecanismo e consequência.',
+'Vazio Corrompido':'Alteração ocular perigosa/adquirida associada a risco e mudança física. Alteração perigosa não equivale automaticamente a maldade.'
+};
+
+var SKIN_REC={
+'Frosthaven':'faixa ampla, com tons claros a médios biologicamente plausíveis em populações antigas de menor insolação; migração e ancestralidade podem ampliar todo o espectro',
+'Thalorien':'faixa ampla, com tons médios a escuros biologicamente plausíveis em populações de longa exposição a alta insolação; caravanas e migração ampliam a diversidade',
+'Solara':'faixa ampla, com tons médios a muito escuros biologicamente plausíveis sob alta insolação e clima seco; ancestralidade e migração continuam relevantes',
+'Aetherion':'faixa ampla; altitude pode aumentar exposição ultravioleta, então ancestralidade e história populacional importam mais que uma regra simples por latitude',
+'Umbralis':'faixa costeira ampla e historicamente móvel; não há uma tonalidade obrigatória',
+'Thalassia':'faixa costeira ampla e cosmopolita; não há uma tonalidade obrigatória',
+'Umbrael':'faixa ampla; origem regional não determina sozinha pigmentação',
+'Drakoria':'faixa ampla; linhagem dracônica, migração e história familiar impedem uma recomendação única',
+'Karveth':'faixa ampla; Casas e linhagens não devem ser reduzidas a uma tonalidade obrigatória',
+'Eryndhor':'faixa ampla por diversidade regional, urbana e migratória',
+'Elaris':'faixa muito ampla por caráter metropolitano e circulação populacional',
+'Valdren':'faixa ampla, com mistura regional e circulação histórica',
+'Dorso Cinzento':'faixa ampla; altitude, trabalho regional e migração tornam inadequada uma cor obrigatória',
+'Brumamata':'faixa ampla; origem próxima à mata não determina fenótipo por si só'
+};
+
+var NAME_ENDINGS={
+'Eryndhor':['en','or','iel','eris','an','eth','ior'],
+'Valdren':['en','or','ian','eth','el','ar'],
+'Elaris':['elis','ian','eris','or','en','ael'],
+'Dorso Cinzento':['orn','ar','eth','en','var'],
+'Brumamata':['en','ir','ara','el','or'],
+'Thalorien':['sair','iel','ara','esh','ir','areth'],
+'Frosthaven':['var','en','tor','hald','is','orn'],
+'Umbralis':['ner','is','mar','sai','ren','thal'],
+'Thalassia':['thal','is','nera','mar','iel','sai'],
+'Aetherion':['ael','yr','en','iel','or','rin'],
+'Solara':['sol','ara','iel','ir','en','or'],
+'Umbrael':['vae','rin','or','iel','en','eth'],
+'Drakoria':['vyr','kael','reth','azhyr','or','yth','var'],
+'Karveth':['vyr','kael','reth','var','yth','or']
+};
+
+function goStep(n){
+ currentStep=Math.max(0,Math.min(panels.length-1,n));
+ panels.forEach(function(p,i){p.classList.toggle('active',i===currentStep)});
+ stepButtons.forEach(function(b,i){b.classList.toggle('active',i===currentStep);b.classList.toggle('done',i<currentStep)});
+ window.scrollTo({top:document.querySelector('.creator').offsetTop-80,behavior:'smooth'});
+ if(currentStep===8)renderDossier();
+}
 stepButtons.forEach(function(b){b.addEventListener('click',function(){goStep(Number(b.dataset.step))})});
-function formData(){var fd=new FormData(form),o={};fd.forEach(function(v,k){o[k]=v});return o}
-function setValue(name,value){var els=form.elements[name];if(!els)return;if(els.length&&els[0]&&els[0].type==='radio'){for(var i=0;i<els.length;i++)els[i].checked=els[i].value===value}else els.value=value}
+
+function textify(v){return Array.isArray(v)?v.join(', '):(v||'')}
+
+var CUSTOM_MAP={
+people:'peopleCustom',originPlace:'originPlaceCustom',socialOrigin:'socialOriginCustom',
+age:'ageCustom',height:'heightCustom',build:'buildCustom',posture:'postureCustom',headShape:'headShapeCustom',faceShape:'faceShapeCustom',
+skin:'skinCustom',eyeLeft:'eyeLeftCustom',eyeRight:'eyeRightCustom',eyeShape:'eyeShapeCustom',ocular:'ocularCustom',
+hairColor:'hairColorCustom',hairType:'hairTypeCustom',hairLength:'hairLengthCustom',hairDensity:'hairDensityCustom',hairstyle:'hairstyleCustom',
+nose:'noseCustom',mouth:'mouthCustom',teeth:'teethCustom',ears:'earsCustom',nails:'nailsCustom',voice:'voiceCustom',
+culture:'cultureCustom',language:'languageCustom',faith:'faithCustom',faithRelation:'faithRelationCustom',education:'educationCustom',
+profession:'professionCustom',trainingSource:'trainingSourceCustom',yearsTraining:'yearsTrainingCustom',family:'familyCustom',reputation:'reputationCustom',
+weapon1:'weapon1Custom',weapon2:'weapon2Custom',armor:'armorCustom',tools:'toolsCustom',specialItems:'specialItemsCustom',maintenance:'maintenanceCustom',
+temperament:'temperamentCustom',limits:'limitsCustom',loyalties:'loyaltiesCustom',fears:'fearsCustom'
+};
+
+function skinRecommendation(){
+ var p=document.getElementById('originPlace').value;
+ return SKIN_REC[p]||'faixa ampla; origem geográfica é apenas uma pista e nunca substitui ancestralidade, migração e história familiar';
+}
+
+function formData(){
+ var fd=new FormData(form),o={};
+ fd.forEach(function(v,k){
+   if(k==='website'||k.endsWith('Custom'))return;
+   if(o[k]!==undefined){if(!Array.isArray(o[k]))o[k]=[o[k]];o[k].push(v)}else o[k]=v;
+ });
+ Object.keys(CUSTOM_MAP).forEach(function(k){
+   if(o[k]==='__other__'){var el=document.getElementById(CUSTOM_MAP[k]);o[k]=(el&&el.value.trim())||'Personalizado / não especificado'}
+ });
+ if(o.skin==='__recommended__')o.skin='Recomendação biogeográfica: '+skinRecommendation();
+ if(o.age==='__other__')o.age=document.getElementById('ageCustom').value||'Não definida';
+ if(o.height==='__other__')o.height=document.getElementById('heightCustom').value||'Não definida';
+ return o;
+}
+
+function setValue(name,value){
+ var els=form.elements[name];if(!els)return;
+ if(els.length&&els[0]&&els[0].type==='radio'){for(var i=0;i<els.length;i++)els[i].checked=els[i].value===value}
+ else {els.value=value;els.dispatchEvent(new Event('change'))}
+}
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function hashString(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function cleanName(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Za-z]/g,'').toLowerCase()}
+function updateLumName(){
+ var raw=document.getElementById('realName').value, base=cleanName(raw), place=document.getElementById('originPlace').value||'Eryndhor';
+ var out=document.getElementById('name');
+ if(!base){out.value='';return}
+ var endings=NAME_ENDINGS[place]||['en','or','iel','ar','eth','is'];
+ var h=hashString(base+'|'+place), ending=endings[h%endings.length];
+ var root=base;
+ if(root.length>5)root=root.slice(0,Math.max(3,Math.min(5,root.length-1)));
+ root=root.replace(/[aeiou]+$/,'');
+ if(root.length<2)root=base.slice(0,2);
+ var join=(root.slice(-1)===ending[0])?ending.slice(1):ending;
+ var lum=(root+join).replace(/(.)\1\1+/g,'$1$1');
+ out.value=lum.charAt(0).toUpperCase()+lum.slice(1);
+}
+function updatePeopleDescription(){
+ var v=document.getElementById('people').value, box=document.getElementById('peopleDescription');
+ box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição curta baseada no cânone atual.');
+ validateOcular();
+}
+function updatePlaceDescription(){
+ var v=document.getElementById('originPlace').value, box=document.getElementById('placeDescription');
+ box.innerHTML=v&&PLACE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PLACE_INFO[v]):(v==='__other__'?'Use o campo de personalização. O local será tratado como candidato até avaliação cartográfica.':'Escolha um lugar para ver o contexto regional.');
+ updateSkinRecommendation();updateLumName();
+}
+function updateSkinRecommendation(){
+ var box=document.getElementById('skinRecommendation');
+ box.innerHTML='<strong>Recomendação:</strong> '+escapeHtml(skinRecommendation())+'. <span class="recommend">É uma orientação de plausibilidade, não uma regra étnica.</span>';
+}
+function updateOcularDescription(){
+ var v=document.getElementById('ocular').value, box=document.getElementById('ocularDescription');
+ box.innerHTML=OCULAR_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(OCULAR_INFO[v]):(v==='__other__'?'Arquiteturas novas podem ser descritas aqui, mas serão candidatas e precisam respeitar a física ocular/mágica vigente.':'');
+ validateOcular();
+}
+function validateOcular(){
+ var people=document.getElementById('people').value, ocular=document.getElementById('ocular').value, box=document.getElementById('ocularDescription');
+ if(ocular==='Vaelir (H4)'&&!['Dragão ancestral','Nareth','Mutari humano-dragão'].includes(people)){
+   box.innerHTML+='<br><span class="recommend"><strong>Incompatibilidade:</strong> Vaelir natural exige ascendência dracônica. Ajuste o povo/linhagem ou escolha outra arquitetura.</span>';
+ }
+ if(['Selo do Véu Valeris','Marca Áurea Varyth-Kaelorn','Olhos de Sangue'].includes(ocular)){
+   box.innerHTML+='<br><span class="subtle">Esta arquitetura é hereditária e ligada a linhagem conhecida; uma ficha enviada com ela precisa justificar genealogia compatível.</span>';
+ }
+}
+function toggleCustom(select){
+ var id=CUSTOM_MAP[select.name], wrap=id&&document.getElementById(id+'Wrap');
+ if(wrap)wrap.classList.toggle('show',select.value==='__other__');
+ if(select.name==='age')document.getElementById('ageCustomWrap').classList.toggle('show',select.value==='__other__');
+ if(select.name==='height')document.getElementById('heightCustomWrap').classList.toggle('show',select.value==='__other__');
+}
+Object.keys(CUSTOM_MAP).forEach(function(name){
+ var el=form.elements[name];if(el&&el.tagName==='SELECT')el.addEventListener('change',function(){toggleCustom(el)});
+});
+document.getElementById('people').addEventListener('change',updatePeopleDescription);
+document.getElementById('originPlace').addEventListener('change',updatePlaceDescription);
+document.getElementById('skin').addEventListener('change',updateSkinRecommendation);
+document.getElementById('ocular').addEventListener('change',updateOcularDescription);
+document.getElementById('realName').addEventListener('input',updateLumName);
+
+function populateNumericSelects(){
+ var age=document.getElementById('age');
+ for(var i=6;i<=120;i++){var o=document.createElement('option');o.value=i;o.textContent=i+' anos';age.appendChild(o)}
+ var oa=document.createElement('option');oa.value='__other__';oa.textContent='Outra idade / personalizar';age.appendChild(oa);
+ var height=document.getElementById('height');
+ for(var cm=120;cm<=230;cm+=5){var oh=document.createElement('option');oh.value=(cm/100).toFixed(2).replace('.',',')+' m';oh.textContent=oh.value;height.appendChild(oh)}
+ var oc=document.createElement('option');oc.value='__other__';oc.textContent='Outra altura / personalizar';height.appendChild(oc);
+ age.addEventListener('change',function(){document.getElementById('ageCustomWrap').classList.toggle('show',age.value==='__other__')});
+ height.addEventListener('change',function(){document.getElementById('heightCustomWrap').classList.toggle('show',height.value==='__other__')});
+}
+
+function clearChecks(name){[].slice.call(document.querySelectorAll('input[name="'+name+'"]')).forEach(function(x){x.checked=false})}
+function checkRandom(name,count){
+ var els=[].slice.call(document.querySelectorAll('input[name="'+name+'"]'));els.sort(function(){return Math.random()-.5}).slice(0,count).forEach(function(x){x.checked=true});
+}
 function randomizeCharacter(){
- var p=pick(['Humano','Elfo','Anão','Dragão / Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi']);
- var age=pick([18,21,24,27,31,36,42,51,67]);
- var place=pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Drakoria','Valdren','Elaris','Thalassia']);
- var arche=pick(['Espada e escudo','Cajado e espada','Combatente devocional','Arqueiro ou atirador mecânico','Usuário de Aura','Runólogo ou técnico mágico','Explorador','Curador','Artesão']);
- var role=pick(['Herói','Anti-herói','Antagonista','Neutro','Indefinido']);
- var mastery=['Sem experiência','Familiar','Treinado','Experiente','Mestre'];
- setValue('people',p);setValue('age',age);setValue('originPlace',place);setValue('originStatus',pick(['Nativo de Lumyriel','Origem ancestral exógena','Origem desconhecida']));
+ ['markChoices','customChoices','pastChoices','masteryChoices','limitationChoices','goalChoices','valueChoices'].forEach(clearChecks);
+ var sampleNames=['Ana','Bruno','Camila','Daniel','Elisa','Filipe','Gabriel','Helena','Isabela','João','Lucas','Marina','Rafael','Sofia'];
+ document.getElementById('realName').value=pick(sampleNames);
+ setValue('age',String(pick([18,21,24,27,31,36,42,51,67])));
+ setValue('gender',pick(['Homem','Mulher','Não definir']));
+ setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi']));
+ setValue('originPlace',pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Valdren','Elaris','Thalassia']));
  setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
- setValue('height',(pick([1.52,1.61,1.68,1.73,1.79,1.84,1.91,2.03])).toFixed(2).replace('.',',')+' m');
+ setValue('height',pick(['1,55 m','1,60 m','1,65 m','1,70 m','1,75 m','1,80 m','1,85 m','1,90 m']));
  setValue('build',pick(['Delicada','Esbelta','Mediana','Atlética','Robusta','Musculosa','Corpulenta']));
- setValue('posture',pick(['Relaxada','Formal','Vigilante','Curvada','Marcial','Elegante','Assimétrica']));
- setValue('headShape',pick(['Oval','Redonda','Alongada','Quadrada','Triangular','Angular']));
+ setValue('posture',pick(['Relaxada','Formal','Vigilante','Marcial','Elegante','Assimétrica']));
+ setValue('headShape',pick(['Oval','Redonda','Alongada','Quadrada','Angular']));
  setValue('faceShape',pick(['Oval','Redondo','Quadrado','Longo','Coração','Diamante','Angular']));
+ setValue('skin','__recommended__');
  setValue('eyeShape',pick(['Amendoados','Arredondados','Estreitos','Profundos','Elevados']));
- setValue('eyeLeft',pick(['castanho','âmbar','azul','verde','cinza','violeta','vermelho']));
- setValue('eyeRight',Math.random()<.24?pick(['castanho','âmbar','azul','verde','cinza','violeta','vermelho']):form.elements.eyeLeft.value);
+ var eye=pick(['Castanho profundo','Castanho','Avelã','Âmbar','Mel','Verde','Cinza','Cinza-azulado','Azul','Dourado','Violeta / roxo']);
+ setValue('eyeLeft',eye);setValue('eyeRight',Math.random()<.22?pick(['Âmbar','Verde','Cinza','Azul','Dourado','Violeta / roxo']):eye);
+ setValue('ocular','Nenhuma arquitetura especial');
+ setValue('hairColor',pick(['Preto','Castanho escuro','Castanho médio','Castanho claro','Loiro','Ruivo','Cobre','Branco','Prata','Rosa','Azul','Violeta']));
  setValue('hairType',pick(['Liso','Ondulado','Cacheado','Crespo','Muito crespo']));
- setValue('hairLength',pick(['Raspado','Curto','Médio','Longo','Muito longo']));
- setValue('hairColor',pick(['preto','castanho escuro','castanho claro','loiro','ruivo','branco','acinzentado']));
+ setValue('hairLength',pick(['Muito curto','Curto','Médio','Longo','Muito longo']));
+ setValue('hairDensity',pick(['Baixa','Média','Alta','Muito volumoso']));
+ setValue('hairstyle',pick(['Solto','Preso baixo','Coque','Tranças','Rabo de cavalo','Curto funcional','Sem padrão fixo']));
+ setValue('nose',pick(['Reto e estreito','Reto e largo','Curto','Longo','Arredondado','Aquilino','Levemente desviado']));
+ setValue('mouth',pick(['Finos','Médios','Cheios','Arco marcado','Assimétricos']));
+ setValue('teeth',pick(['Regulares','Levemente irregulares','Desgastados','Cuidados profissionalmente']));
+ setValue('ears',pick(['Pequenas','Médias','Grandes','Alongadas','Pontiagudas']));
+ setValue('nails',pick(['Cuidadas','Marcadas por trabalho manual','Calos frequentes','Unhas curtas e funcionais','Cicatrizes nas mãos']));
+ setValue('voice',pick(['Baixa e calma','Grave','Aguda','Suave','Rouca','Rápida','Lenta e medida','Projetada / marcial']));
+ setValue('culture',pick(['Cultura urbana cosmopolita','Cultura rural / aldeã','Cultura mercantil','Cultura de ofício','Cultura militar','Cultura acadêmica','Cultura marítima','Mista / multicultural']));
+ setValue('language',pick(['Fala comercial de Elaris','Fala regional + fala comercial de Elaris','Multilíngue por comércio / viagem','Variedade regional local']));
+ setValue('faith',pick(['Caminho da Luz','Tradições da Chama Ancestral','Liturgias de Maré','Observâncias Celestes','Sem tradição religiosa definida']));
  setValue('faithRelation',pick(['Devoto','Praticante cultural','Questionador','Cético','Indiferente','Em conflito']));
  setValue('education',pick(['Aprendizado familiar','Mestre / aprendiz','Guilda / ofício','Militar','Religiosa','Acadêmica','Autodidata','Mista']));
- setValue('literacy',pick(['Não alfabetizado','Leitura funcional','Alfabetizado','Formação avançada']));
- setValue('trainingSource',pick(['Família','Mestre particular','Guilda / ofício','Exército / guarda','Academia','Ordem religiosa','Autodidata','Sobrevivência prática','Múltiplas fontes']));
- setValue('archetype',arche);setValue('role',role);
+ setValue('literacy',pick(['Leitura funcional','Alfabetizado','Formação avançada']));
+ setValue('profession',pick(['Estudante','Artesão / ferreiro','Runólogo / técnico','Guarda / soldado','Patrulheiro / explorador','Curador / profissional de saúde','Pesquisador / acadêmico','Comerciante','Marinheiro / navegante']));
+ setValue('trainingSource',pick(['Família','Mestre particular','Guilda / ofício','Exército / guarda','Academia','Autodidata','Sobrevivência prática','Múltiplas fontes']));
+ setValue('yearsTraining',pick(['1–2 anos','3–5 anos','6–10 anos','11–20 anos','Desde a infância']));
+ setValue('family',pick(['Família presente e próxima','Família presente, relação difícil','Família distante','Família adotiva / tutela','Casa ou linhagem extensa']));
+ setValue('reputation',pick(['Desconhecido fora do círculo local','Confiável no ofício','Respeitado localmente','Promissor, mas inexperiente','Controverso','Mal compreendido']));
+ var arche=pick(['Espada e escudo','Cajado e espada','Combatente devocional','Arqueiro ou atirador mecânico','Usuário de Aura','Runólogo ou técnico mágico','Explorador','Curador','Artesão']);setValue('archetype',arche);
+ var mastery=['Sem experiência','Familiar','Treinado','Experiente'];
  ['skillMelee','skillRanged','skillAura','skillMana','skillRunes','skillSurvival','skillCraft','skillKnowledge','skillSocial'].forEach(function(n){setValue(n,pick(mastery))});
- setValue('temperament',pick(['reservado e observador','expansivo e curioso','metódico e paciente','impulsivo, mas leal','sereno e desconfiado','pragmático e bem-humorado']));
+ setValue('weapon1',pick(['Espada','Lança','Bastão','Arco','Ferramenta de ofício','Cajado técnico']));
+ setValue('weapon2',pick(['','Escudo','Adaga','Bastão','Ferramenta de campo','Kit rúnico']));
+ setValue('armor',pick(['Roupa comum','Roupa de viagem reforçada','Proteção leve','Proteção média','Traje de ofício','Traje acadêmico / técnico']));
+ setValue('tools',pick(['Kit de campo','Kit médico','Kit de escrita e registro','Kit rúnico','Ferramentas de forja','Mapas e instrumentos']));
+ setValue('specialItems',pick(['','Objeto de família','Documento / insígnia','Artefato técnico comum','Objeto religioso']));
+ setValue('maintenance',pick(['Baixa — ferramentas simples','Moderada — afiação, reparo e peças','Alta — calibração técnica / rúnica']));
+ setValue('role',pick(['Herói','Anti-herói','Antagonista','Neutro','Indefinido']));
+ setValue('temperament',pick(['Reservado e observador','Expansivo e curioso','Metódico e paciente','Impulsivo, mas leal','Sereno e desconfiado','Pragmático e bem-humorado']));
+ checkRandom('markChoices',Math.random()<.5?1:0);checkRandom('customChoices',2);checkRandom('pastChoices',2);checkRandom('masteryChoices',2);checkRandom('limitationChoices',2);checkRandom('goalChoices',2);checkRandom('valueChoices',3);
  document.getElementById('bio').value='';
- document.getElementById('saveStatus').textContent='Personagem randomizado. Campos culturais e biográficos podem ser refinados antes do envio.';
- document.getElementById('saveStatus').className='status ok';
+ updateLumName();updatePeopleDescription();updatePlaceDescription();updateOcularDescription();
+ var s=document.getElementById('saveStatus');s.textContent='Personagem randomizado de forma coerente o bastante para servir de ponto de partida. Revise as escolhas raras antes de enviar.';s.className='status ok';
 }
+
 function generateBio(){
- var d=formData(),name=d.name||'O personagem',place=d.originPlace||'uma região ainda não definida',people=d.people||'origem não definida',profession=d.profession||'uma ocupação ainda em construção',training=d.trainingSource||'experiências diversas',role=(d.role||'papel narrativo indefinido').toLowerCase();
- var s=name+' é '+(d.age?('uma pessoa de '+d.age+' anos'):'uma pessoa')+' de '+place+', ligada ao povo ou espécie '+people+'. ';
+ var d=formData(), name=d.name||'O personagem', place=d.originPlace||'uma região ainda não definida', people=d.people||'origem não definida', profession=d.profession||'uma ocupação ainda em construção', training=d.trainingSource||'experiências diversas', role=(d.role||'papel narrativo indefinido').toLowerCase();
+ var s=name+' é '+(d.age?('uma pessoa de '+d.age):'uma pessoa')+' de '+place+', ligada ao povo ou espécie '+people+'. ';
  s+='Sua formação principal veio de '+training+', e sua vida atual se organiza em torno de '+profession+'. ';
- if(d.archetype)s+='Em situações de risco, sua preparação se aproxima do perfil de '+d.archetype.toLowerCase()+'. ';
- if(d.faith)s+='Sua relação com crença e tradição passa por '+d.faith+(d.faithRelation?' de maneira '+d.faithRelation.toLowerCase():'')+'. ';
- if(d.goals)s+='Seus objetivos atuais incluem '+d.goals.trim()+'. ';
- if(d.values)s+='Entre os princípios que orientam suas escolhas estão '+d.values.trim()+'. ';
- if(d.limitations)s+='Sua competência, porém, possui limites concretos: '+d.limitations.trim()+'. ';
- if(d.past)s+='Seu passado é marcado por '+d.past.trim()+'. ';
+ if(d.archetype)s+='Em situações de risco, sua preparação se aproxima do perfil de '+textify(d.archetype).toLowerCase()+'. ';
+ if(d.faith)s+='Sua relação com crença e tradição passa por '+textify(d.faith)+(d.faithRelation?' de maneira '+textify(d.faithRelation).toLowerCase():'')+'. ';
+ var goals=[textify(d.goalChoices),textify(d.goals)].filter(Boolean).join(', ');if(goals)s+='Seus objetivos atuais incluem '+goals+'. ';
+ var values=[textify(d.valueChoices),textify(d.values)].filter(Boolean).join(', ');if(values)s+='Entre os princípios que orientam suas escolhas estão '+values+'. ';
+ var limitations=[textify(d.limitationChoices),textify(d.limitations)].filter(Boolean).join(', ');if(limitations)s+='Sua competência possui limites concretos: '+limitations+'. ';
+ var past=[textify(d.pastChoices),textify(d.past)].filter(Boolean).join(', ');if(past)s+='Seu passado é marcado por '+past+'. ';
  s+='Narrativamente, tende a ocupar o papel de '+role+', mas suas escolhas e relações podem alterar essa leitura.';
  document.getElementById('bio').value=s;
 }
+
 function renderDossier(){
  var d=formData();
  document.getElementById('summaryName').textContent=d.name||'Personagem sem nome';
- document.getElementById('summaryOrigin').textContent=[d.people,d.originPlace,d.age?d.age+' anos':''].filter(Boolean).join(' · ')||'Origem ainda não definida';
- var tags=[d.archetype,d.role,d.profession,d.faithRelation].filter(Boolean);document.getElementById('summaryTags').innerHTML=tags.map(function(x){return '<span class="tag">'+escapeHtml(x)+'</span>'}).join('');
+ document.getElementById('summaryOrigin').textContent=[d.people,d.originPlace,d.age?d.age:''].filter(Boolean).join(' · ')||'Origem ainda não definida';
+ var tags=[d.archetype,d.role,d.profession,d.faithRelation].filter(Boolean);document.getElementById('summaryTags').innerHTML=tags.map(function(x){return '<span class="tag">'+escapeHtml(textify(x))+'</span>'}).join('');
  var skillMap=[['Corpo a corpo',d.skillMelee],['Distância',d.skillRanged],['Aura',d.skillAura],['Mana / artes mágicas',d.skillMana],['Runologia',d.skillRunes],['Sobrevivência',d.skillSurvival],['Ofício',d.skillCraft],['Conhecimento',d.skillKnowledge],['Social',d.skillSocial]];
- document.getElementById('competence').innerHTML=skillMap.map(function(x){return '<div class="meter-row"><strong>'+x[0]+'</strong><span>'+escapeHtml(x[1]||'Não definido')+'</span></div>'}).join('');
- var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Aparência',[d.height,d.build,d.skin].filter(Boolean).join(', ')],['Olhos',[d.eyeLeft,d.eyeRight].filter(Boolean).join(' / ')],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',d.limitations],['Objetivos',d.goals]];
- document.getElementById('summaryGrid').innerHTML=entries.map(function(x){return '<div class="summary-item"><b>'+x[0]+'</b><span>'+escapeHtml(x[1]||'Não definido')+'</span></div>'}).join('');
+ document.getElementById('competence').innerHTML=skillMap.map(function(x){return '<div class="meter-row"><strong>'+x[0]+'</strong><span>'+escapeHtml(textify(x[1])||'Não definido')+'</span></div>'}).join('');
+ var eye=[d.eyeLeft,d.eyeRight].filter(Boolean).join(' / ')+(d.ocular?' · '+d.ocular:'');
+ var appearance=[d.height,d.build,d.skin].filter(Boolean).join(', ');
+ var master=[textify(d.masteryChoices),d.masteries].filter(Boolean).join(', ');
+ var lim=[textify(d.limitationChoices),d.limitations].filter(Boolean).join(', ');
+ var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Aparência',appearance],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
+ document.getElementById('summaryGrid').innerHTML=entries.map(function(x){return '<div class="summary-item"><b>'+x[0]+'</b><span>'+escapeHtml(textify(x[1])||'Não definido')+'</span></div>'}).join('');
  document.getElementById('summaryBio').textContent=d.bio||'Biografia ainda não escrita.';
 }
+
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
-function saveLocal(){localStorage.setItem('lumyriel-character-draft',JSON.stringify(formData()));var e=document.getElementById('saveStatus');e.textContent='Rascunho salvo neste navegador.';e.className='status ok'}
-function loadLocal(){try{var raw=localStorage.getItem('lumyriel-character-draft');if(!raw)return;var d=JSON.parse(raw);Object.keys(d).forEach(function(k){setValue(k,d[k])});}catch(e){}}
+function saveLocal(){
+ var draft={data:formData(),sourceName:document.getElementById('realName').value};
+ localStorage.setItem('lumyriel-character-draft',JSON.stringify(draft));
+ var e=document.getElementById('saveStatus');e.textContent='Rascunho salvo neste navegador.';e.className='status ok';
+}
+function loadLocal(){
+ try{
+   var raw=localStorage.getItem('lumyriel-character-draft');if(!raw)return;
+   var parsed=JSON.parse(raw),d=parsed.data||parsed;
+   if(parsed.sourceName)document.getElementById('realName').value=parsed.sourceName;
+   Object.keys(d).forEach(function(k){
+     if(Array.isArray(d[k])){d[k].forEach(function(v){var q=document.querySelector('input[name="'+k+'"][value="'+CSS.escape(v)+'"]');if(q)q.checked=true})}
+     else if(form.elements[k])setValue(k,d[k]);
+   });
+   updateLumName();updatePeopleDescription();updatePlaceDescription();updateOcularDescription();
+ }catch(e){}
+}
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.1',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.2',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.1',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.2',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
@@ -300,7 +677,14 @@ async function submitToLumyriel(){
    s.textContent='Não foi possível enviar agora. Seu personagem continua disponível neste navegador e pode ser exportado.';s.className='status warn';
  }
 }
-function downloadText(){var d=formData();var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','','Nome: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Papel narrativo: '+(d.role||'Não definido'),'Arquétipo de uso: '+(d.archetype||'Não definido'),'','BIOGRAFIA',d.bio||'Não escrita.','','LIMITAÇÕES',d.limitations||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.specialItems].filter(Boolean).join(' · ')||'Não definido.'];download(lines.join('\n'),filename(d,'txt'),'text/plain;charset=utf-8')}
+function downloadText(){
+ var d=formData(), master=[textify(d.masteryChoices),d.masteries].filter(Boolean).join(', '), lim=[textify(d.limitationChoices),d.limitations].filter(Boolean).join(', ');
+ var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','','Nome lumyrieliano: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Gênero: '+(d.gender||'Não definido'),'Papel narrativo: '+(d.role||'Não definido'),'Perfil de atuação: '+(d.archetype||'Não definido'),'','APARÊNCIA',[d.height,d.build,d.skin].filter(Boolean).join(' · '),'Olhos: '+[d.eyeLeft,d.eyeRight,d.ocular].filter(Boolean).join(' · '),'Cabelo: '+[d.hairColor,d.hairType,d.hairLength,d.hairDensity,d.hairstyle].filter(Boolean).join(' · '),'','ESPECIALIZAÇÕES',master||'Não definidas.','','LIMITAÇÕES',lim||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.tools,d.specialItems].filter(Boolean).join(' · ')||'Não definido.','','BIOGRAFIA',d.bio||'Não escrita.'];
+ download(lines.join('\n'),filename(d,'txt'),'text/plain;charset=utf-8');
+}
+
+populateNumericSelects();
+updatePeopleDescription();updatePlaceDescription();updateSkinRecommendation();updateOcularDescription();
 loadLocal();
 </script>
 </body>
