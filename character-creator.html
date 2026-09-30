@@ -830,6 +830,7 @@ function generateBio(){
  var values=[textify(d.valueChoices),textify(d.values)].filter(Boolean).join(', ');if(values)s+='Entre os princípios que orientam suas escolhas estão '+values+'. ';
  var limitations=[textify(d.limitationChoices),textify(d.limitations)].filter(Boolean).join(', ');if(limitations)s+='Sua competência possui limites concretos: '+limitations+'. ';
  var past=[textify(d.pastChoices),textify(d.past)].filter(Boolean).join(', ');if(past)s+='Seu passado é marcado por '+past+'. ';
+ var voiceProfile=[d.voice,textify(d.voiceTraits)].filter(Boolean).join(', ');if(voiceProfile)s+='Sua maneira de falar combina '+voiceProfile.toLowerCase()+', o que colore suas interações sem determinar sua personalidade inteira. ';
  s+='Narrativamente, tende a ocupar o papel de '+role+', mas suas escolhas e relações podem alterar essa leitura.';
  document.getElementById('bio').value=s;
 }
@@ -845,7 +846,10 @@ function renderDossier(){
  var appearance=[d.height,d.build,d.skin].filter(Boolean).join(', ');
  var master=[textify(d.masteryChoices),d.masteries].filter(Boolean).join(', ');
  var lim=[textify(d.limitationChoices),d.limitations].filter(Boolean).join(', ');
- var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Aparência',appearance],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
+ var ancestry=d.ancestryMode==='mutari'?[d.parentA,d.parentB,d.mutariStatus].filter(Boolean).join(' + '):'Linhagem única';
+ var face=[d.headShape,d.faceShape,d.brows,d.nose,d.mouth,d.ears].filter(Boolean).join(' · ');
+ var voiceProfile=[d.voice,textify(d.voiceTraits)].filter(Boolean).join(' · ');
+ var entries=[['Origem',d.originPlace],['Relação com Lumyriel',d.originStatus],['Ancestralidade',ancestry],['Aparência',appearance],['Rosto',face],['Olhos',eye],['Cabelo',[d.hairColor,d.hairType,d.hairLength].filter(Boolean).join(' · ')],['Voz e fala',voiceProfile],['Cultura',d.culture],['Fé',d.faith],['Formação',d.education],['Treinamento',d.trainingSource],['Especializações',master],['Equipamento',[d.weapon1,d.weapon2,d.armor].filter(Boolean).join(' · ')],['Lealdades',d.loyalties],['Limitações',lim],['Objetivos',[textify(d.goalChoices),d.goals].filter(Boolean).join(', ')]];
  document.getElementById('summaryGrid').innerHTML=entries.map(function(x){return '<div class="summary-item"><b>'+x[0]+'</b><span>'+escapeHtml(textify(x[1])||'Não definido')+'</span></div>'}).join('');
  document.getElementById('summaryBio').textContent=d.bio||'Biografia ainda não escrita.';
 }
