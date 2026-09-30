@@ -147,7 +147,10 @@ export function resolveMockTurn({ state, mechanics, playerInput }) {
     next.world_time.epoch_minutes = (next.world_time.epoch_minutes ?? 0) + 10;
     narrative = 'Dez minutos de tempo de mundo foram registrados pelo motor.';
   } else {
-    narrative = 'A ação livre foi registrada. Nesta Fase 3 sem GPT, apenas ações mockadas executam resolução mecânica.';
+    const described = String(playerInput.raw_text || '').trim();
+    narrative = described
+      ? `A intenção "${described}" foi registrada. O gateway mecânico geral ainda não resolve esta ação no protótipo.`
+      : 'A intenção foi registrada. O gateway mecânico geral ainda não resolve esta ação no protótipo.';
   }
 
   next.scene_summary = narrative;
