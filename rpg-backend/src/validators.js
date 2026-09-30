@@ -4,6 +4,7 @@ const REGIONS = new Set(['auto', 'selected']);
 const ADVENTURE_PREFERENCES = new Set([
   'auto', 'social', 'investigacao', 'exploracao', 'viagem', 'sobrevivencia', 'combate', 'mista',
 ]);
+const PLAYER_INPUT_SOURCES = new Set(['suggested_action', 'free_action', 'system_continue']);
 const ATTRIBUTES = ['potencia', 'agilidade', 'vigor', 'intelecto', 'percepcao', 'presenca'];
 
 export class ValidationError extends Error {
@@ -21,10 +22,16 @@ function assertObject(value, label) {
   }
 }
 
-function assertString(value, label, { nullable = false } = {}) {
+function assertString(value, label, { nullable = false, allowEmpty = false } = {}) {
   if (nullable && value === null) return;
-  if (typeof value !== 'string' || value.trim() === '') {
-    throw new ValidationError(`${label} must be a non-empty string`);
+  if (typeof value !== 'string' || (!allowEmpty && value.trim() === '')) {
+    throw new ValidationError(`${label} must be ${allowEmpty ? 'a string' : 'a non-empty string'}`);
+  }
+}
+
+function assertOnlyKeys(value, allowed, label) {
+  for (const key of Object.keys(value)) {
+    if (!allowed.has(key)) throw new ValidationError(`${label} contains unsupported field: ${key}`);
   }
 }
 
@@ -67,8 +74,9 @@ export function validateCharacterImport(body) {
     if (item.level === 2) level2 += 1;
     if (item.level === 1) level1 += 1;
     const specs = item.specialties ?? [];
-    if (!Array.isArray(specs)) throw new ValidationError(
-`competency ${item.id}.specialties must be an array`);
+    if (!Array.isArray(specs)) {
+      throw new ValidationError(`competency ${item.id}.specialties must be an array`);
+    }
     for (const spec of specs) {
       assertObject(spec, 'specialty');
       assertString(spec.id, 'specialty.id');
@@ -100,31 +108,64 @@ export function validateCharacterImport(body) {
 
 export function validateCampaignInit(body) {
   assertObject(body, 'body');
+  assertOnlyKeys(body, new Set([
+    'character_id', 'character_revision', 'difficulty_mode', 'duration_mode',
+    'region_selection', 'region_id', 'adventure_preference', 'campaign_name',
+  ]), 'body');
+
   assertString(body.character_id, 'character_id');
   if (!Number.isInteger(body.character_revision) || body.character_revision < 1) {
     throw new ValidationError('character_revision must be a positive integer');
   }
   if (!DIFFICULTIES.has(body.difficulty_mode)) throw new ValidationError('invalid difficulty_mode');
   if (!DURATIONS.has(body.duration_mode)) throw new ValidationError('invalid duration_mode');
-  if (!REGIONS.has(body.region_selection))›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	Ú[˜[Y™YÚ[Û—ÜÙ[XÝ[Û‰ÊNÂˆYˆ
-›ÙKœ™YÚ[Û—ÜÙ[XÝ[ÛˆOOH	ÜÙ[XÝY	ÊH\ÜÙ\Ýš[™Ê›ÙKœ™YÚ[Û—ÚY	Ü™YÚ[Û—ÚY	ÊNÂˆYˆ
-›ÙKœ™YÚ[Û—ÜÙ[XÝ[ÛˆOOH	Ø]]ÉÈ	‰ˆ›ÙKœ™YÚ[Û—ÚYOOH[
-HÂˆ›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	Ü™YÚ[Û—ÚY]\Ý™H[Ú[ˆ™YÚ[Û—ÜÙ[XÝ[Ûˆ\È]]ÉÊNÂˆBˆYˆ
-PY‘S•T‘WÔ‘Q‘T‘SÑTËš\Ê›ÙK˜Y™[\™WÜ™Y™\™[˜ÙJJHÂˆ›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	Ú[˜[YY™[\™WÜ™Y™\™[˜ÙIÊNÂˆBˆYˆ
-›ÙK˜Ø[\ZYÛ—Û˜[YHOOH[
-H\ÜÙ\Ýš[™Ê›ÙK˜Ø[\ZYÛ—Û˜[YK	ØØ[\ZYÛ—Û˜[YIÊNÂˆ™]\›ˆ›ÙNÂŸB‚™^Ü[˜Ý[Ûˆ˜[Y]U\›”™\]Y\Ý
-›ÙJHÂˆ\ÜÙ\Øš™XÝ
-›ÙK	Ø›ÙIÊNÂˆ\ÜÙ\Ýš[™Ê›ÙKšY[\Ý[˜ÞWÚÙ^K	ÚY[\Ý[˜ÞWÚÙ^IÊNÂˆYˆ
-›ÙKšY[\Ý[˜ÞWÚÙ^K›[™ÝˆLŒ
-H›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	ÚY[\Ý[˜ÞWÚÙ^H\ÈÛÈÛ™ÉÊNÂˆYˆ
-S[X™\‹š\Ò[YÙ\Š›ÙK™^XÝYÜÝ]WÝ™\œÚ[ÛŠH›ÙK™^XÝYÜÝ]WÝ™\œÚ[ÛˆJHÂˆ›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	Ù^XÝYÜÝ]WÝ™\œÚ[Ûˆ]\Ý™HHÜÚ]]™H[YÙ\‰ÊNÂˆBˆ\ÜÙ\Øš™XÝ
-›ÙKœ^Y\—Ú[œ]	Ü^Y\—Ú[œ]	ÊNÂˆYˆ
-VÉÜÝYÙÙ\ÝYØXÝ[Û‰Ë	Ùœ™YWØXÝ[Û‰Ë	ÜÞ\Ý[WØÛÛ[YI×Kš[˜ÛY\Ê›ÙKœ^Y\—Ú[œ]œÛÝ\˜ÙJJHÂˆ›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	Ú[˜[Y^Y\—Ú[œ]œÛÝ\˜ÙIÊNÂˆBˆYˆ
-\[Ùˆ›ÙKœ^Y\—Ú[œ]œ˜]×Ý^OOH	ÜÝš[™ÉÊHÂˆ›ÝÈ™]È˜[Y][Û‘\œ›ÜŠ	Ü^Y\—Ú[œ]œ˜]×Ý^]\Ý™HHÝš[™ÉÊNÂˆBˆYˆ
-›ÙKœ^Y\—Ú[œ]œÙ[XÝYØXÝ[Û—ÚYOOH[
-HÂˆ\ÜÙ\Ýš[™Ê›ÙKœ^Y\—Ú[œ]œÙ[XÝYØXÝ[Û—ÚY	Ü^Y\—Ú[œ]œÙ[XÝYØXÝ[Û—ÚY	ÊNÂˆBˆ™]\›ˆ›ÙNÂŸB‚™^Ü[˜Ý[ÛˆÙ]ÛÛ\][˜ÞS]™[
-YXÚ[šXÜËÛÛ\][˜ÞRY
-HÂˆ™]\›ˆYXÚ[šXÜË˜ÛÛ\][˜ÚY\Ë™š[™
+  if (!REGIONS.has(body.region_selection)) throw new ValidationError('invalid region_selection');
 
-][JHOˆ][KšYOOHÛÛ\][˜ÞRY
-OË›]™[ÏÈÂŸB
+  if (body.region_id !== null) assertString(body.region_id, 'region_id');
+  if (body.region_selection === 'selected' && body.region_id === null) {
+    throw new ValidationError('region_id is required when region_selection is selected');
+  }
+
+  if (!ADVENTURE_PREFERENCES.has(body.adventure_preference)) {
+    throw new ValidationError('invalid adventure_preference');
+  }
+  if (body.campaign_name !== null) assertString(body.campaign_name, 'campaign_name');
+
+  return body;
+}
+
+export function validateTurnRequest(body) {
+  assertObject(body, 'body');
+  assertOnlyKeys(body, new Set(['idempotency_key', 'expected_state_version', 'player_input']), 'body');
+
+  assertString(body.idempotency_key, 'idempotency_key');
+  if (!Number.isInteger(body.expected_state_version) || body.expected_state_version < 1) {
+    throw new ValidationError('expected_state_version must be a positive integer');
+  }
+
+  assertObject(body.player_input, 'player_input');
+  assertOnlyKeys(body.player_input, new Set(['source', 'raw_text', 'selected_action_id']), 'player_input');
+
+  if (!PLAYER_INPUT_SOURCES.has(body.player_input.source)) {
+    throw new ValidationError('invalid player_input.source');
+  }
+  assertString(body.player_input.raw_text, 'player_input.raw_text', { allowEmpty: true });
+  if (body.player_input.selected_action_id !== null) {
+    assertString(body.player_input.selected_action_id, 'player_input.selected_action_id');
+  }
+
+  if (body.player_input.source === 'suggested_action' && body.player_input.selected_action_id === null) {
+    throw new ValidationError('selected_action_id is required for suggested_action');
+  }
+  if (body.player_input.source === 'free_action' && body.player_input.raw_text.trim() === '') {
+    throw new ValidationError('raw_text is required for free_action');
+  }
+
+  return body;
+}
+
+export function getCompetencyLevel(mechanics, competencyId) {
+  const competencies = Array.isArray(mechanics?.competencies) ? mechanics.competencies : [];
+  const competency = competencies.find((item) => item?.id === competencyId);
+  return Number.isInteger(competency?.level) ? competency.level : 0;
+}
