@@ -600,15 +600,28 @@ function mutariStatus(a,b){
  if(pair===['Humano','Nareth'].sort().join('|'))return {label:'Compatibilidade confirmada',text:'Descendência humano–dracônica após Nareth é confirmada e nasce humanoide. Helior é precedente canônico.'};
  return {label:'Compatibilidade em aberto',text:'Esta combinação ainda não possui compatibilidade reprodutiva confirmada na autoridade vigente. A ficha pode ser testada, mas permanece candidata.'};
 }
+function updateMutariHeight(){
+ if(document.getElementById('ancestryMode').value!=='mutari')return;
+ var a=document.getElementById('parentA').value,b=document.getElementById('parentB').value;
+ if([a,b].includes('Humano')&&[a,b].includes('Nareth'))populateHeightForSpecies('Nareth');
+ else{
+   var height=document.getElementById('height'),current=height.value;
+   height.innerHTML='<option value="">Selecione</option><option disabled>Faixa depende da combinação ancestral; compatibilidade ainda não fechada</option><option value="__other__">Definir altura manualmente</option>';
+   if(current==='__other__')height.value=current;
+   height.onchange=function(){document.getElementById('heightCustomWrap').classList.toggle('show',height.value==='__other__')};
+ }
+}
 function updateAncestryMode(){
  var mut=document.getElementById('ancestryMode').value==='mutari';
  document.getElementById('singleSpeciesWrap').style.display=mut?'none':'block';
  document.getElementById('mutariWrap').classList.toggle('show',mut);
+ if(mut)updateMutariHeight();else populateHeightForSpecies(document.getElementById('people').value);
  updateMutariResult();updateIdentityRecommendations();updateOcularDescription();
 }
 function updateMutariResult(){
  var a=document.getElementById('parentA').value,b=document.getElementById('parentB').value,s=mutariStatus(a,b),box=document.getElementById('mutariResult');
  box.innerHTML='<strong>'+escapeHtml(s.label)+':</strong> '+escapeHtml(s.text);
+ updateMutariHeight();
 }
 function hasDraconicAncestry(){
  if(document.getElementById('ancestryMode').value==='mutari')return [document.getElementById('parentA').value,document.getElementById('parentB').value].includes('Nareth');
@@ -688,13 +701,22 @@ function updateIdentityRecommendations(){
  var skin=selectedText('skin');
  if(skin==='__recommended__')items.push('Pele: será usada a faixa biogeográfica sugerida para a origem, sem transformar local de nascimento em regra de pigmentação.');
  else if(skin)items.push('Pele manual: pode ser explicada por ancestralidade, migração, recombinação familiar ou variação individual. Se for muito fora da história familiar, uma mutação rara pode ser registrada.');
+ var bodyBits=[selectedText('build'),selectedText('posture'),selectedText('headShape'),selectedText('faceShape')].filter(Boolean);
+ if(bodyBits.length)items.push('Corpo e rosto: '+bodyBits.join(', ')+' são tratados como variação individual. Se uma combinação for incomum para a ancestralidade, herança familiar, mistura populacional, desenvolvimento e mutação continuam explicações possíveis.');
+ var brow=selectedText('brows');if(brow)items.push('Sobrancelhas: '+brow.toLowerCase()+' é uma variação morfológica normal; densidade e desenho podem variar por herança, idade e costume.');
  var ear=selectedText('ears');
  if(ear){
    if(sp==='Elfo'&&!/Pontiag|Alongad/.test(ear))items.push('Orelhas élficas fora do padrão alongado/pontiagudo pedem uma justificativa como variação familiar, ancestralidade mista ou mutação de desenvolvimento.');
-   else items.push('Orelhas: a opção escolhida é plausível como variação individual enquanto não houver restrição anatômica específica para essa espécie.');
+   else items.push('Orelhas: '+ear.toLowerCase()+' é tratada como variação individual enquanto não houver restrição anatômica específica para essa espécie.');
  }
- if(selectedText('eyeLeft'))items.push('Olhos: cor rara é possível, mas cor sozinha não cria habilidade. Arquitetura funcional é avaliada separadamente.');
- if(selectedText('hairColor'))items.push('Cabelo: tons incomuns podem resultar de pigmentos acessórios, estrutura do fio, diluição ou herança familiar; não indicam Afinidade automaticamente.');
+ var eyeL=selectedText('eyeLeft'),eyeR=selectedText('eyeRight');
+ if(eyeL||eyeR)items.push('Olhos: '+[eyeL,eyeR].filter(Boolean).join(' / ')+' é biologicamente possível dentro da ampla variação de Lumyriel; cor sozinha não cria habilidade e heterocromia não prova Vaelir.');
+ var hc=selectedText('hairColor'),ht=selectedText('hairType'),hl=selectedText('hairLength');
+ if(hc||ht||hl)items.push('Cabelo: '+[hc,ht,hl].filter(Boolean).join(', ')+' pode surgir por pigmentação, estrutura do fio, herança e cuidado. Tons incomuns não indicam Afinidade automaticamente.');
+ var nose=selectedText('nose'),mouth=selectedText('mouth'),teeth=selectedText('teeth');
+ if(nose||mouth||teeth)items.push('Traços faciais: '+[nose,mouth,teeth].filter(Boolean).join(', ')+' podem refletir ancestralidade familiar e variação de desenvolvimento; uma diferença rara não precisa virar “poder”.');
+ var nails=selectedText('nails');if(nails)items.push('Mãos/unhas: '+nails.toLowerCase()+' pode refletir anatomia, profissão, hábitos e cuidado pessoal.');
+ var voice=selectedText('voice');if(voice)items.push('Voz: '+voice.toLowerCase()+' pode resultar de anatomia, idade, hábito, treinamento e contexto social; o jeito de falar é escolhido separadamente.');
  if(!items.length)items.push('Comece pela espécie/ancestralidade e pelo lugar de origem. O sistema passará a explicar o que é comum, raro ou precisa de justificativa.');
  box.innerHTML='<strong>Coerência automática:</strong><ul class="recommend-list">'+items.map(function(x){return '<li>'+escapeHtml(x)+'</li>'}).join('')+'</ul>';
 }
@@ -713,7 +735,9 @@ function populateHeightForSpecies(species){
  var height=document.getElementById('height'),current=height.value;
  height.innerHTML='<option value="">Selecione</option>';
  var rule=HEIGHT_RULES[species];
- if(species==='Feérico'){
+ if(species==='Lupran'){
+   var lu=document.createElement('option');lu.disabled=true;lu.textContent='Faixa corporal ainda não fechada no cânone';height.appendChild(lu);
+ }else if(species==='Feérico'){
    var og1=document.createElement('optgroup');og1.label='Primeira Estatura';
    for(var cm=30;cm<=60;cm+=5){var o=document.createElement('option');o.value=(cm/100).toFixed(2).replace('.',',')+' m';o.textContent=o.value;og1.appendChild(o)}
    height.appendChild(og1);
@@ -828,7 +852,11 @@ function renderDossier(){
 
 function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
 function saveLocal(){
- var draft={data:formData(),sourceName:document.getElementById('realName').value};
+ var draft={data:formData(),sourceNames:{
+   firstName:document.getElementById('firstName').value,
+   middleName:document.getElementById('middleName').value,
+   surname:document.getElementById('surname').value
+ }};
  localStorage.setItem('lumyriel-character-draft',JSON.stringify(draft));
  var e=document.getElementById('saveStatus');e.textContent='Rascunho salvo neste navegador.';e.className='status ok';
 }
@@ -836,7 +864,13 @@ function loadLocal(){
  try{
    var raw=localStorage.getItem('lumyriel-character-draft');if(!raw)return;
    var parsed=JSON.parse(raw),d=parsed.data||parsed;
-   if(parsed.sourceName)document.getElementById('realName').value=parsed.sourceName;
+   if(parsed.sourceNames){
+     document.getElementById('firstName').value=parsed.sourceNames.firstName||'';
+     document.getElementById('middleName').value=parsed.sourceNames.middleName||'';
+     document.getElementById('surname').value=parsed.sourceNames.surname||'';
+   }else if(parsed.sourceName){
+     document.getElementById('firstName').value=parsed.sourceName;
+   }
    Object.keys(d).forEach(function(k){
      if(Array.isArray(d[k])){d[k].forEach(function(v){var q=document.querySelector('input[name="'+k+'"][value="'+CSS.escape(v)+'"]');if(q)q.checked=true})}
      else if(form.elements[k])setValue(k,d[k]);
@@ -861,13 +895,13 @@ async function submitToLumyriel(){
 }
 function downloadText(){
  var d=formData(), master=[textify(d.masteryChoices),d.masteries].filter(Boolean).join(', '), lim=[textify(d.limitationChoices),d.limitations].filter(Boolean).join(', ');
- var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','','Nome lumyrieliano: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Gênero: '+(d.gender||'Não definido'),'Papel narrativo: '+(d.role||'Não definido'),'Perfil de atuação: '+(d.archetype||'Não definido'),'','APARÊNCIA',[d.height,d.build,d.skin].filter(Boolean).join(' · '),'Olhos: '+[d.eyeLeft,d.eyeRight,d.ocular].filter(Boolean).join(' · '),'Cabelo: '+[d.hairColor,d.hairType,d.hairLength,d.hairDensity,d.hairstyle].filter(Boolean).join(' · '),'','ESPECIALIZAÇÕES',master||'Não definidas.','','LIMITAÇÕES',lim||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.tools,d.specialItems].filter(Boolean).join(' · ')||'Não definido.','','BIOGRAFIA',d.bio||'Não escrita.'];
+ var lines=['LUMYRIEL — DOSSIÊ DE PERSONAGEM','','STATUS: CANDIDATO / NÃO CANÔNICO','','Nome lumyrieliano: '+(d.name||'Não definido'),'Povo / espécie: '+(d.people||'Não definido'),'Origem biológica: '+(d.ancestryMode==='mutari'?'Mutari':'Linhagem única'),'Ancestralidade 1: '+(d.parentA||'Não aplicável'),'Ancestralidade 2: '+(d.parentB||'Não aplicável'),'Status Mutari: '+(d.mutariStatus||'Não aplicável'),'Origem: '+(d.originPlace||'Não definida'),'Idade: '+(d.age||'Não definida'),'Gênero: '+(d.gender||'Não definido'),'Papel narrativo: '+(d.role||'Não definido'),'Perfil de atuação: '+(d.archetype||'Não definido'),'','APARÊNCIA',[d.height,d.build,d.skin].filter(Boolean).join(' · '),'Rosto: '+[d.headShape,d.faceShape,d.brows,d.nose,d.mouth,d.ears].filter(Boolean).join(' · '),'Olhos: '+[d.eyeLeft,d.eyeRight,d.ocular].filter(Boolean).join(' · '),'Cabelo: '+[d.hairColor,d.hairType,d.hairLength,d.hairDensity,d.hairstyle].filter(Boolean).join(' · '),'Voz: '+[d.voice,textify(d.voiceTraits)].filter(Boolean).join(' · '),'','ESPECIALIZAÇÕES',master||'Não definidas.','','LIMITAÇÕES',lim||'Não definidas.','','EQUIPAMENTO',[d.weapon1,d.weapon2,d.armor,d.tools,d.specialItems].filter(Boolean).join(' · ')||'Não definido.','','BIOGRAFIA',d.bio||'Não escrita.'];
  download(lines.join('\n'),filename(d,'txt'),'text/plain;charset=utf-8');
 }
 
 populateNumericSelects();
-updatePeopleDescription();updatePlaceDescription();updateSkinRecommendation();updateOcularDescription();
-loadLocal();updateLumName();updateCustomPlace();updateAncestryMode();updatePeopleDescription();updatePlaceDescription();updateIdentityRecommendations();
+loadLocal();
+updateLumName();updateCustomPlace();updateAncestryMode();updatePeopleDescription();updatePlaceDescription();updateSkinRecommendation();updateOcularDescription();updateIdentityRecommendations();
 </script>
 </body>
 </html>
