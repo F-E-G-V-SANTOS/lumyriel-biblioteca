@@ -1,7 +1,7 @@
-import { randomUUID } from 'node:crypto';
 import { createCampaignArtifacts } from './campaign.js';
 import { assertRpg } from './errors.js';
 import { resolveTest } from './rules.js';
+import { secureRandomUUID } from './random.js';
 
 function competenceLevel(state, competenceId) {
   return state.competencies.find(x => x.competence_id === competenceId)?.level ?? 0;
@@ -44,7 +44,7 @@ export class RpgCoreService {
     canonSource,
     situationSource,
     roller = null,
-    idFactory = randomUUID,
+    idFactory = secureRandomUUID,
     now = () => new Date().toISOString()
   }) {
     this.repository = repository;
