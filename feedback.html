@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Envie feedback editorial sobre as obras e a experiência da Biblioteca Lumyrieliana.">
+<meta name="theme-color" content="#0b0a08">
+<meta name="color-scheme" content="dark">
+<title>Feedback · Biblioteca Lumyrieliana</title>
+<style>
+:root{--bg:#0b0a08;--panel:#13110e;--panel2:#191611;--line:#40362a;--gold:#aa8a58;--gold2:#cfb785;--ivory:#e7ddcc;--muted:#a59b8d;--paper:#d8c7a8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 18% -8%,rgba(167,132,78,.08),transparent 34%),linear-gradient(180deg,#0f0d0b,#090908);color:var(--ivory);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}.shell{width:min(920px,calc(100% - 34px));margin:auto}
+header{border-bottom:1px solid rgba(170,138,88,.22);background:rgba(11,10,8,.96);position:sticky;top:0;z-index:20}nav{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font:400 .96rem Georgia,"Times New Roman",serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}.brand:before{content:"";display:inline-block;width:24px;height:1px;background:var(--gold);vertical-align:middle;margin-right:10px}.back{font-size:.82rem;color:#b9b0a2;text-decoration:none;border-bottom:1px solid #65543d;padding-bottom:2px}
+main{padding:62px 0 92px}.eyebrow{color:var(--gold2);text-transform:uppercase;letter-spacing:.2em;font-size:.68rem;font-weight:700}h1,h2,legend{font-family:Georgia,"Times New Roman",serif;font-weight:400}h1{font-size:clamp(2.8rem,7vw,5.1rem);line-height:1.02;letter-spacing:-.025em;margin:12px 0 20px}.lead{font:1.15rem/1.7 Georgia,"Times New Roman",serif;color:#cec3b1;max-width:790px;margin:0 0 34px}
+.notice{padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:#b5ab9c;margin-bottom:30px}.notice strong{color:#ddc9a5}
+form{display:grid;gap:22px}.panel{border-top:1px solid #40372b;border-bottom:1px solid #30291f;padding:25px 0}.panel h2,.panel legend{font-size:1.55rem;color:#eadfcd;margin:0 0 8px}.helper{color:#918779;font-size:.88rem;margin:0 0 18px}
+.field{display:grid;gap:7px;margin:14px 0}.field>label,.field-label{color:#d8cdbc;font-size:.88rem}.optional{color:#80786d;font-size:.78rem}
+input[type=text],input[type=email],select,textarea{width:100%;border:1px solid #4a4032;background:#15120f;color:#eadfcd;border-radius:2px;padding:11px 12px;font:inherit}textarea{min-height:130px;resize:vertical}select{cursor:pointer}input:focus,select:focus,textarea:focus{outline:1px solid var(--gold2);outline-offset:2px;border-color:#7b684b}
+.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px}.choice{display:flex;gap:9px;align-items:flex-start;color:#beb4a5;padding:6px 0}.choice input{margin-top:4px;accent-color:#b69863}.choice span{line-height:1.4}
+.rating-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:520px}.rating-grid label{border:1px solid #443a2e;background:#14110e;padding:9px 5px;text-align:center;cursor:pointer;color:#b9ae9f}.rating-grid input{position:absolute;opacity:0;pointer-events:none}.rating-grid label:has(input:checked){border-color:var(--gold);background:#241e16;color:#f0e4d1}
+.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px}.btn{border:1px solid #5a4b37;background:#b69863;color:#17120d;padding:12px 17px;border-radius:2px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#17130f;color:#cfc4b3;font-weight:400}.status{min-height:24px;color:#b6ab9c;font-size:.88rem}.status.ok{color:#c3d3b3}.status.err{color:#e0b3a9}
+.hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.privacy-note{color:#847c71;font-size:.82rem;margin-top:10px}.privacy-note a{color:#bca783}
+footer{border-top:1px solid #30291f;padding:28px 0 42px;color:#857d71;font-size:.82rem}
+@media(max-width:650px){main{padding-top:42px}.check-grid{grid-template-columns:1fr}.rating-grid{grid-template-columns:repeat(5,1fr)}nav{min-height:60px}.brand{font-size:.78rem}.back{font-size:.76rem}}
+</style>
+</head>
+<body>
+<header><div class="shell"><nav><a class="brand" href="index.html">Biblioteca Lumyrieliana</a><a class="back" href="index.html">← Biblioteca</a></nav></div></header>
+<main class="shell">
+<div class="eyebrow">Leitura e experiência</div>
+<h1>Conte como Lumyriel chegou até você.</h1>
+<p class="lead">Você pode responder só o que quiser. As marcações rápidas ajudam a identificar padrões; os campos abertos servem para explicar com suas próprias palavras o que funcionou, o que confundiu e o que poderia ficar melhor.</p>
+<div class="notice"><strong>Não existe resposta certa.</strong> O objetivo é melhorar narrativa, clareza, ritmo, coerência e experiência de leitura sem transformar opinião de leitor em regra automática para a obra.</div>
+
+<form id="feedbackForm">
+<input class="hp" type="text" name="website" id="website" autocomplete="off" tabindex="-1" aria-hidden="true">
+
+<section class="panel">
+<h2>Sobre o que você quer falar?</h2>
+<div class="field"><label for="work">Obra ou parte do projeto</label><select id="work" name="work">
+<option value="">Escolha uma opção</option>
+<option>O Filho da Montanha</option>
+<option>Os Livros dos Tempos</option>
+<option>Livro das Artes Mágicas</option>
+<option>Biologia Lumyrieliana</option>
+<option>Matemática Lumyrieliana</option>
+<option>Arquivo Visual</option>
+<option>Criador de Personagens</option>
+<option>Site / experiência geral</option>
+<option>Outro</option>
+</select></div>
+<div class="field"><label for="location">Capítulo, livro, seção ou ponto específico <span class="optional">(opcional)</span></label><input id="location" name="location" type="text" maxlength="180" placeholder="Ex.: capítulo 6, Livro XII, seção de Mana..."></div>
+<div class="field"><label for="progress">Quanto você leu ou explorou?</label><select id="progress" name="progress"><option value="">Prefiro não dizer</option><option>Vi apenas o começo</option><option>Li alguns capítulos / seções</option><option>Li boa parte</option><option>Terminei a obra / seção disponível</option><option>Explorei o site sem focar em uma obra</option></select></div>
+</section>
+
+<section class="panel">
+<h2>Experiência geral</h2><p class="helper">Opcional. 1 significa que houve bastante dificuldade; 5 significa uma experiência muito boa.</p>
+<div class="rating-grid" role="radiogroup" aria-label="Nota geral">
+<label><input type="radio" name="overall" value="1">1</label><label><input type="radio" name="overall" value="2">2</label><label><input type="radio" name="overall" value="3">3</label><label><input type="radio" name="overall" value="4">4</label><label><input type="radio" name="overall" value="5">5</label>
+</div>
+</section>
+
+<section class="panel">
+<h2>O que funcionou bem?</h2><p class="helper">Marque quantas opções quiser.</p>
+<div class="check-grid">
+<label class="choice"><input type="checkbox" name="workedWell" value="Narração / voz do texto"><span>Narração / voz do texto</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Personagens"><span>Personagens</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Construção de mundo"><span>Construção de mundo</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Ritmo"><span>Ritmo</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Diálogos"><span>Diálogos</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Descrições"><span>Descrições</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Atmosfera"><span>Atmosfera</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Impacto emocional"><span>Impacto emocional</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Clareza das ideias"><span>Clareza das ideias</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Originalidade"><span>Originalidade</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Coerência interna / lore"><span>Coerência interna / lore</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Mistério e curiosidade"><span>Mistério e curiosidade</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Cenas de ação"><span>Cenas de ação</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Humor"><span>Humor</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Visual do site"><span>Visual do site</span></label><label class="choice"><input type="checkbox" name="workedWell" value="Leitor / navegação"><span>Leitor / navegação</span></label>
+</div>
+</section>
+
+<section class="panel">
+<h2>O que poderia melhorar?</h2><p class="helper">Marque somente o que realmente chamou sua atenção.</p>
+<div class="check-grid">
+<label class="choice"><input type="checkbox" name="couldImprove" value="Ritmo muito lento"><span>Ritmo muito lento</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Ritmo muito rápido"><span>Ritmo muito rápido</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Excesso de exposição"><span>Excesso de exposição</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Faltou contexto"><span>Faltou contexto</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Trechos confusos"><span>Trechos confusos</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Descrições longas demais"><span>Descrições longas demais</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Faltaram descrições"><span>Faltaram descrições</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Diálogos pouco naturais"><span>Diálogos pouco naturais</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Personagens precisam de mais profundidade"><span>Personagens precisam de mais profundidade</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Motivações pouco claras"><span>Motivações pouco claras</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Continuidade / coerência"><span>Continuidade / coerência</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Termos difíceis de acompanhar"><span>Termos difíceis de acompanhar</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Gramática / revisão"><span>Gramática / revisão</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Capítulos muito longos"><span>Capítulos muito longos</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Capítulos muito curtos"><span>Capítulos muito curtos</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Navegação do site"><span>Navegação do site</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Leitura no celular"><span>Leitura no celular</span></label><label class="choice"><input type="checkbox" name="couldImprove" value="Acessibilidade / legibilidade"><span>Acessibilidade / legibilidade</span></label>
+</div>
+</section>
+
+<section class="panel">
+<h2>Se quiser explicar melhor</h2>
+<div class="field"><label for="liked">O que você mais gostou? <span class="optional">(opcional)</span></label><textarea id="liked" name="liked" maxlength="4000" placeholder="Uma cena, personagem, ideia, sensação, detalhe do mundo..."></textarea></div>
+<div class="field"><label for="confused">Houve algo que confundiu, quebrou a imersão ou fez você voltar para reler? <span class="optional">(opcional)</span></label><textarea id="confused" name="confused" maxlength="4000"></textarea></div>
+<div class="field"><label for="change">Se você pudesse melhorar uma coisa, qual seria? <span class="optional">(opcional)</span></label><textarea id="change" name="change" maxlength="4000"></textarea></div>
+<div class="field"><label for="other">Outros comentários <span class="optional">(opcional)</span></label><textarea id="other" name="other" maxlength="6000"></textarea></div>
+</section>
+
+<section class="panel">
+<h2>Contato <span class="optional">(opcional)</span></h2><p class="helper">Você pode enviar anonimamente. Nome e e-mail só são necessários se quiser deixar um meio de contato.</p>
+<div class="field"><label for="name">Nome ou apelido</label><input id="name" name="name" type="text" maxlength="80"></div>
+<div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" maxlength="160" autocomplete="email"></div>
+<label class="choice"><input type="checkbox" id="mayContact" name="mayContact"><span>Podem entrar em contato comigo sobre este feedback.</span></label>
+</section>
+
+<div class="actions"><button class="btn" id="submitBtn" type="submit">Enviar feedback</button><button class="btn secondary" type="reset">Limpar</button><span class="status" id="formStatus" role="status" aria-live="polite"></span></div>
+<p class="privacy-note">Evite incluir informações pessoais desnecessárias. Veja também <a href="privacy.html">Privacidade e submissões</a>.</p>
+</form>
+</main>
+<footer><div class="shell">Biblioteca Lumyrieliana · feedback editorial</div></footer>
+<script src="assets/site-config.js"></script>
+<script>
+const form=document.getElementById('feedbackForm'),statusEl=document.getElementById('formStatus'),submitBtn=document.getElementById('submitBtn');
+const params=new URLSearchParams(location.search);
+if(params.get('book')){
+  const map={filho:'O Filho da Montanha',tempos:'Os Livros dos Tempos',magia:'Livro das Artes Mágicas'};
+  if(map[params.get('book')]) document.getElementById('work').value=map[params.get('book')];
+}
+if(params.get('location')) document.getElementById('location').value=params.get('location').slice(0,180);
+
+function values(name){return [...form.querySelectorAll('input[name="'+name+'"]:checked')].map(x=>x.value)}
+function val(id){return document.getElementById(id).value.trim()}
+function meaningful(p){return p.work||p.worked_well.length||p.could_improve.length||p.liked||p.confused||p.change||p.other||p.overall}
+form.addEventListener('submit',async e=>{
+  e.preventDefault();statusEl.className='status';statusEl.textContent='';
+  const cfg=window.LUMYRIEL_CONFIG||{};
+  const endpoint=cfg.feedbackSubmissionUrl||cfg.characterSubmissionUrl||'';
+  if(!cfg.feedbackSubmissionEnabled||!endpoint){
+    statusEl.className='status err';
+    statusEl.textContent='O canal de recebimento ainda está em configuração. O formulário já está pronto, mas o envio público ainda não foi habilitado.';
+    return;
+  }
+  const payload={
+    type:'reader_feedback',
+    website:val('website'),
+    work:val('work'),
+    location:val('location'),
+    progress:val('progress'),
+    overall:(form.querySelector('input[name="overall"]:checked')||{}).value||'',
+    worked_well:values('workedWell'),
+    could_improve:values('couldImprove'),
+    liked:val('liked'),
+    confused:val('confused'),
+    change:val('change'),
+    other:val('other'),
+    name:val('name'),
+    email:val('email'),
+    may_contact:document.getElementById('mayContact').checked,
+    _meta:{feedback_version:'1.0',page:location.href,submitted_at:new Date().toISOString()}
+  };
+  if(!meaningful(payload)){statusEl.className='status err';statusEl.textContent='Escreva ou marque pelo menos uma observação antes de enviar.';return}
+  submitBtn.disabled=true;statusEl.textContent='Enviando...';
+  try{
+    await fetch(endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    form.reset();statusEl.className='status ok';statusEl.textContent='Feedback enviado. Obrigado por ajudar a melhorar Lumyriel.';
+  }catch(err){
+    statusEl.className='status err';statusEl.textContent='Não foi possível enviar agora. Tente novamente mais tarde.';
+  }finally{submitBtn.disabled=false}
+});
+</script>
+</body>
+</html>
