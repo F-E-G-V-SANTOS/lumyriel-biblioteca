@@ -264,3 +264,103 @@ export function resolveMockTurn({ state, playerInput, rng }) {
     }
   };
 }
+
+
+const PHASE4_TEST_CATALOG = Object.freeze({
+  'percepcao|sobrevivencia': 12,
+  'agilidade|sobrevivencia': 10,
+  'presenca|influencia': 12,
+  'potencia|atletismo': 15,
+  'intelecto|conhecimentos': 12,
+  'percepcao|investigacao': 12
+});
+
+function normalizeMechanicalId(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+export function resolveNarratorTest({ state, args, rng }) {
+  if (!args || String(args.ator_id) !== String(state.character_id)) {
+    return { ok: false, code: 'actor_not_authorized', message: 'O ator solicitado não corresponde ao personagem desta campanha.' };
+  }
+
+  const attributeId = normalizeMechanicalId(args.atributo_sugerido);
+  const competenceId = normalizeMechanicalId(args.competencia_sugerida);
+  const validAttributes = new Set(['potencia','agilidade','vigor','intelecto','percepcao','presenca']);
+  if (!validAttributes.has(attributeId)) {
+    return { ok: false, code: 'attribute_not_mapped', message: 'Atributo ainda não mapeado para este teste técnico.' };
+  }
+
+  const key = `${attributeId}|${competenceId}`;
+  const difficulty = PHASE4_TEST_CATALOG[key];
+  if (!difficulty) {
+    return {
+      ok: false,
+      code: 'test_profile_unavailable',
+      message: 'A combinação de atributo e competência ainda não possui perfil de dificuldade aprovado na Fase 4.',
+      suggested_pair: { attribute: attributeId, competence: competenceId }
+    };
+  }
+
+  const nextState = structuredClone(state);
+  const roll = rollD20('normal', rng);
+  const attribute = Number(state.character_state?.mechanics?.attributes?.[attributeId] ?? 0);
+  const competence = Number(state.competencies?.[competenceId] ?? 0);
+  const speciality = 0;
+  const situational = 0;
+  const total = roll.kept + attribute + competence + speciality + situational;
+  const margin = total - difficulty;
+  let grade = resultGrade(margin);
+  if (roll.kept === 20) grade = shiftGrade(grade, +1);
+  if (roll.kept === 1) grade = shiftGrade(grade, -1);
+
+  const mechanical = {
+    type: 'test',
+    intent: String(args.intencao || ''),
+    desired_result: String(args.resultado_desejado || ''),
+    attribute: attributeId,
+    competence: competenceId,
+    speciality_suggested: args.especialidade_sugerida == null ? null : String(args.especialidade_sugerida),
+    difficulty,
+    difficulty_source: 'phase4_server_catalog_v0.1',
+    roll_mode: 'normal',
+    rolls: roll.rolls,
+    die: roll.kept,
+    modifiers: { attribute, competence, speciality, situational },
+    total,
+    margin,
+    grade,
+    perceived_risks: Array.isArray(args.riscos_percebidos) ? args.riscos_percebidos : []
+  };
+
+  nextState.last_turn = {
+    action_text: String(args.intencao || ''),
+    narrator_tool: 'realizar_teste',
+    mechanical,
+    recorded_at: new Date().toISOString()
+  };
+  nextState.scene_summary = `Último teste resolvido pelo motor: ${attributeId} + ${competenceId} → ${grade}.`;
+
+  return {
+    ok: true,
+    nextState,
+    event: {
+      operation_id: randomUUID(),
+      tool_name: 'realizar_teste',
+      arguments: structuredClone(args),
+      result: mechanical
+    },
+    toolOutput: {
+      ok: true,
+      test_resolved: true,
+      state_version_before: Number(state.state_version),
+      mechanical
+    }
+  };
+}
