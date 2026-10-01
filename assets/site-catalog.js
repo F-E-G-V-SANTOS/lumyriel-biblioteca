@@ -27,7 +27,11 @@
     .creator-cover-strip img{width:92px;aspect-ratio:.667;object-fit:cover;border:1px solid #62523b;box-shadow:0 14px 28px rgba(0,0,0,.34)}
     .creator-cover-strip span{color:#a79e8f;font-size:.82rem;line-height:1.55}
     .creator-cover-strip b{display:block;color:#dfd1ba;font:400 1rem Georgia,"Times New Roman",serif;margin-bottom:3px}
-    @media(max-width:700px){.creator-cover-strip{align-items:flex-start}.creator-cover-strip img{width:78px}}
+    .creator-page-identity{margin:22px 0 0;display:flex;align-items:center;gap:18px;max-width:720px;padding:15px;border:1px solid #4b4030;background:rgba(18,16,13,.72)}
+    .creator-page-identity img{width:112px;aspect-ratio:.667;object-fit:cover;border:1px solid #62523b;box-shadow:0 16px 30px rgba(0,0,0,.34)}
+    .creator-page-identity strong{display:block;color:#e7dbc5;font:400 1.08rem Georgia,"Times New Roman",serif;margin-bottom:4px}
+    .creator-page-identity span{color:#b7ad9d;font-size:.84rem;line-height:1.55}
+    @media(max-width:700px){.creator-cover-strip{align-items:flex-start}.creator-cover-strip img{width:78px}.creator-page-identity{align-items:flex-start}.creator-page-identity img{width:82px}}
   `;
   document.head.appendChild(style);
 
@@ -35,8 +39,6 @@
     if (!el || !path) return;
     const img = new Image();
     img.onload = () => {
-      // O HTML legado possui regras de capa com !important. A prioridade aqui
-      // garante que a arte aprovada substitua a capa antiga sem reescrever o HTML.
       el.style.setProperty('background-image', `url("${path}")`, 'important');
       el.classList.add('real-cover');
       el.classList.remove('placeholder-cover');
@@ -77,7 +79,7 @@
       title.insertAdjacentElement('afterend', credit);
     });
 
-    const heroCopy = document.querySelector('.hero > div:first-child, .hero .hero-copy');
+    const heroCopy = document.querySelector('#inicio.hero > div:first-child');
     if (heroCopy && !heroCopy.querySelector('.site-author-credit')) {
       const credit = document.createElement('div');
       credit.className = 'site-author-credit';
@@ -179,9 +181,32 @@
     else callout.appendChild(wrap);
   }
 
+  function updateRpgPreview() {
+    const copy = document.querySelector('#rpg-preview .rpg-preview-copy');
+    if (!copy || copy.querySelector('.rpg-cover-strip')) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'creator-cover-strip rpg-cover-strip';
+    wrap.innerHTML = `<img src="${COVERS.rpg}" alt="Capa de Lumyriel RPG" loading="lazy" onerror="this.parentElement.hidden=true"><span><b>Lumyriel RPG</b>Arte oficial de apresentação do projeto futuro, por ${AUTHOR}.</span>`;
+    copy.appendChild(wrap);
+  }
+
+  function updateCreatorPage() {
+    if (!document.getElementById('creatorForm')) return;
+    const hero = document.querySelector('main .hero.shell');
+    if (!hero || hero.querySelector('.creator-page-identity')) return;
+    const block = document.createElement('div');
+    block.className = 'creator-page-identity';
+    block.innerHTML = `<img src="${COVERS.criador}" alt="Capa do Criador de Personagens" loading="lazy" onerror="this.parentElement.hidden=true"><span><strong>Criador de Personagens · ${AUTHOR}</strong>Ferramenta oficial de construção de personagens de Lumyriel. A arte aprovada passa a identificar também esta página.</span>`;
+    const notice = hero.querySelector('.notice');
+    if (notice) notice.insertAdjacentElement('afterend', block);
+    else hero.appendChild(block);
+  }
+
   renameMagic();
   applyExistingCovers();
   updateProjectShelf();
   addAuthorCredits();
   updateCreatorCallout();
+  updateRpgPreview();
+  updateCreatorPage();
 })();
