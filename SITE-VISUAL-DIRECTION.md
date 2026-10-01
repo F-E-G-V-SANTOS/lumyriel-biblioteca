@@ -189,13 +189,13 @@ A estante principal reúne apenas as três obras com identidade visual aprovada.
 
 A implementação deve preservar navegação por teclado, foco visível e preferência do sistema por redução de movimento; a atmosfera física não justifica perda de acessibilidade.
 
-## Arquivo visual público
-O arquivo visual deixa de ser uma seção vazia a partir do primeiro conjunto legitimamente publicável: as três capas editoriais aprovadas.
+## Arquivo visual
+O Arquivo Visual permanece **em desenvolvimento**. As capas editoriais pertencem à Biblioteca e não são usadas para preencher esta seção.
 
-- capas são classificadas como **design editorial**, não como arte conceitual;
+- a seção pública não exibe imagens enquanto o acervo estiver em curadoria;
 - arte conceitual, cartografia e documentos permanecem categorias distintas;
 - um mapa técnico não vira “arte” apenas para preencher galeria;
-- cada nova coleção visual precisa ter contexto e função definidos antes de ser publicada.
+- cada coleção visual precisa ter contexto e função editorial definidos antes de ser publicada.
 
 ## Gramática editorial da interface
 A interface principal passa a seguir três metáforas físicas distintas, mas compatíveis:
