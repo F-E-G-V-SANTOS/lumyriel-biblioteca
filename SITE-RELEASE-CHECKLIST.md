@@ -38,6 +38,7 @@ A frente visual e funcional principal do site está consolidada.
 Este gate NÃO depende do canal de submissões de personagens.
 
 ## Pendências externas
+- [ ] decidir se a Alpha pública pode ser indexada por mecanismos de busca; o estado atual não bloqueia indexação;
 - [ ] confirmar a hospedagem pública definitiva;
 - [ ] registrar a URL pública final;
 - [ ] testar a versão publicada em navegador real;
