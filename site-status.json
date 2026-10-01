@@ -28,7 +28,7 @@
     "submission_public": false
   },
   "static_qa": {
-    "status": "pending-post-migration-check",
+    "status": "passed",
     "date": "2026-10-01"
   },
   "reader": {
