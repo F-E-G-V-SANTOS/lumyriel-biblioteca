@@ -213,6 +213,14 @@ Evitar reintroduzir:
 
 A capa, o texto e a hierarquia devem resolver a composição antes de qualquer componente visual extra.
 
+## Primeira dobra
+No desktop, a abertura deve caber funcionalmente na primeira viewport: título, texto introdutório, ações principais e composição dos livros precisam estar visíveis sem exigir rolagem para descobrir os CTAs.
+
+- a escala do título pode responder também à altura da viewport;
+- telas/notebooks com menor altura útil recebem composição mais compacta;
+- reduzir espaçamento é preferível a esconder ações abaixo da dobra;
+- a presença editorial do hero deve ser preservada, mas não às custas da navegação inicial.
+
 ## Mobile
 Em telas pequenas, a composição deve simplificar sem abandonar a identidade física.
 
