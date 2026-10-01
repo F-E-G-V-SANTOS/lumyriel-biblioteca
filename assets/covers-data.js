@@ -1,5 +1,10 @@
 window.LUMYRIEL_COVERS={
   filho:"assets/covers/o-filho-da-montanha.webp",
   tempos:"assets/covers/os-livros-dos-tempos.webp",
-  magia:"assets/covers/livro-das-artes-magicas.webp"
+  magia:"assets/covers/artes-magicas-lumyrielianas.webp",
+  biologia:"assets/covers/biologia-lumyrieliana.webp",
+  matematica:"assets/covers/matematica-lumyrieliana.webp",
+  rpg:"assets/covers/lumyriel-rpg.webp",
+  construindo:"assets/covers/construindo-mundos.webp",
+  criador:"assets/covers/criador-de-personagens.webp"
 };
