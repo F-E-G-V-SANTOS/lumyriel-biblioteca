@@ -1,34 +1,53 @@
-# Backend de submissões do Criador de Personagens
+# Backend de recebimento da Biblioteca Lumyrieliana
 
-Este diretório contém o endpoint Google Apps Script usado para receber personagens do site e gravá-los no Drive.
+Este diretório contém o endpoint Google Apps Script usado pelo site para dois fluxos independentes:
+
+- **Criador de Personagens** — candidaturas não canônicas;
+- **Feedback Editorial** — comentários de leitores sobre obras, narrativa e experiência do site.
 
 ## Estado atual
 
-- backend preparado: **v1.1**;
+- backend preparado: **v1.2**;
 - Criador compatível: **alpha-0.9**;
+- formulário de feedback: **v1.0**;
 - honeypot ativo;
 - limite de payload: 200.000 caracteres;
 - proteção contra submissões idênticas repetidas em janela de 10 minutos;
-- submissões continuam sempre **não canônicas** até avaliação autoral.
+- personagens continuam sempre **não canônicos** até avaliação autoral;
+- feedback não altera cânone nem decisões editoriais automaticamente.
 
-## Pasta de destino
+## Pastas de destino
 
-A pasta já criada no Drive é:
+### Personagens
 
 **Lumyriel / Submissões de Personagens**
 
 Folder ID: `1epajEdS3zafAAMYtTTi9TWN1QMNaUgJL`
 
+Cada envio gera:
+- JSON estruturado;
+- dossiê TXT legível.
+
+### Feedback de leitores
+
+**Lumyriel / Feedback de Leitores**
+
+Folder ID: `10HRr9GxboFhhl2M7WrcxQlm0nvdYpG5W`
+
+Cada feedback gera:
+- JSON estruturado;
+- TXT legível com contexto, marcações e respostas abertas.
+
 ## Publicação do Apps Script
 
 1. Acesse o Google Apps Script com a mesma conta que possui a pasta Lumyriel.
-2. Crie um **Novo projeto**.
-3. Apague o conteúdo padrão de `Code.gs` e cole o conteúdo de `apps-script/Code.gs` deste repositório.
+2. Crie um **Novo projeto** ou abra o projeto já usado pelo site.
+3. Substitua o conteúdo de `Code.gs` pelo conteúdo de `apps-script/Code.gs` deste repositório.
 4. Em **Configurações do projeto**, ajuste o fuso horário para **America/Porto_Velho**.
-5. Clique em **Implantar > Nova implantação**.
+5. Clique em **Implantar > Nova implantação** ou edite a implantação existente.
 6. Tipo: **App da Web**.
 7. Executar como: **Eu**.
-8. Quem pode acessar: escolha a opção pública disponível para permitir submissões de visitantes.
+8. Quem pode acessar: escolha a opção pública disponível para permitir feedback de visitantes.
 9. Autorize o acesso ao Google Drive.
 10. Copie a URL terminada em `/exec`.
 
@@ -37,52 +56,68 @@ Folder ID: `1epajEdS3zafAAMYtTTi9TWN1QMNaUgJL`
 Abra a URL `/exec` no navegador. A resposta esperada é semelhante a:
 
 ```json
-{"ok":true,"service":"Lumyriel Character Intake","version":"1.1"}
+{"ok":true,"service":"Lumyriel Intake","version":"1.2","accepts":["character_submission","reader_feedback"]}
 ```
-
-Se essa resposta aparecer, o endpoint está publicado.
 
 ## Conectar o site
 
-Não é mais necessário editar `character-creator.html`.
-
-Abra apenas:
+Edite somente:
 
 `assets/site-config.js`
 
-e preencha:
+Exemplo:
 
 ```js
 window.LUMYRIEL_CONFIG = {
   characterSubmissionUrl: 'COLE_A_URL_EXEC_AQUI',
-  characterSubmissionEnabled: false
+  characterSubmissionEnabled: false,
+
+  feedbackSubmissionUrl: 'COLE_A_MESMA_URL_EXEC_AQUI',
+  feedbackSubmissionEnabled: true,
+
+  readerContentBaseUrl: '',
+  readerProtectionEnabled: true
 };
 ```
 
-Depois publique essa alteração no site.
+Os dois fluxos podem compartilhar a mesma URL porque o backend distingue o tipo de payload.
 
-Com `characterSubmissionEnabled: false`, o endpoint pode existir e ser testado sem abrir o botão ao público. **Só altere `characterSubmissionEnabled` para `true` depois de fechar e publicar as regras de contribuição.**
+### Abertura independente
 
-## Teste de ponta a ponta
+- `characterSubmissionEnabled: false` mantém o envio de personagens fechado.
+- `feedbackSubmissionEnabled: true` abre apenas o feedback editorial.
 
-1. Abra o Criador de Personagens.
-2. Monte um personagem válido.
-3. Vá até **Dossiê**.
-4. Clique em **Enviar personagem para Lumyriel**.
-5. Confirme que surgiram dois arquivos em **Lumyriel / Submissões de Personagens**:
-   - `.json` estruturado;
-   - `— Dossie.txt` legível.
-6. Envie o mesmo personagem novamente imediatamente e confirme que o backend não cria uma duplicata idêntica.
+Isso permite receber comentários de leitores sem abrir as regras de contribuição de personagens.
+
+## Teste do feedback
+
+1. Abra `feedback.html`.
+2. Marque pelo menos uma opção ou escreva um comentário.
+3. Clique em **Enviar feedback**.
+4. Confirme que surgiram dois arquivos em **Lumyriel / Feedback de Leitores**:
+   - `.json`;
+   - `— Feedback.txt`.
+5. Envie exatamente o mesmo conteúdo novamente imediatamente e confirme que o backend evita duplicata recente.
 
 ## Governança
 
-Toda submissão aceita recebe:
+### Personagens
 
+Cada candidatura recebe:
 - ID `LUM-CHAR-AAAAMMDD-XXXXXX`;
 - status `PENDENTE_DE_AVALIACAO`;
 - `canonical: false`;
 - data de recebimento;
-- versão do criador;
-- estado de coerência biológica no dossiê e payload completo no JSON.
+- versão do Criador.
 
-**Submissão não promove personagem a cânone.** A integração ao universo continua dependente de avaliação autoral.
+### Feedback
+
+Cada comentário recebe:
+- ID `LUM-FDBK-AAAAMMDD-XXXXXX`;
+- status `RECEBIDO`;
+- obra/área comentada;
+- marcações rápidas;
+- campos dissertativos;
+- nome/e-mail somente quando o leitor optar por fornecê-los.
+
+Feedback é insumo editorial. Uma opinião individual não altera automaticamente texto, cânone, personagens ou regras do mundo.
