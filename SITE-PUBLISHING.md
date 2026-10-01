@@ -32,6 +32,9 @@ Abrir diretamente:
 - `reader.html?book=tempos&note=1`
 - `character-creator.html`
 - `privacy.html`
+- `site-status.json`
+
+Abra também `site-status.json` e confirme que a edição publicada corresponde ao estado esperado.
 
 Confirmar também que estes ativos respondem:
 
