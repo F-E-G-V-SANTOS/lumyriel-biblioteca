@@ -94,9 +94,18 @@
   },
   "visual_archive": {
     "frontend_ready": true,
+    "manifest_version": "1.3",
     "manifest_ready": true,
     "expected_assets": 13,
     "published_assets": "pending upload of image files",
+    "canonical_review_assets": 3,
+    "canonical_review": {
+      "oreo-nethra-das-sombras": "núcleo visual compatível; prancha infográfica retida para correção canônica",
+      "pulseira-do-peregrino": "objeto-base compatível; prancha infográfica retida para correção canônica",
+      "arte-lumyriel-revisao-canonica": "prancha integral reprovada; possível reaproveitamento individual após revisão"
+    },
+    "remaining_source_files": 8,
+    "remaining_source_files_status": "aguardando reenvio em ZIP caso ainda não recuperados",
     "map": "reserved for final stage"
   }
 }
