@@ -90,3 +90,17 @@ Enquanto o canal público de contribuições não tiver regras autorais fechadas
 O site não é autoridade canônica autônoma.
 
 As obras e ferramentas publicadas devem seguir as autoridades vigentes do projeto Lumyriel. Uma submissão de personagem nunca se torna canônica automaticamente.
+
+
+## Proteção de leitura estática
+
+O leitor usa barreiras de cópia casual:
+- seleção de texto desativada na página de leitura;
+- eventos de copiar, recortar, arrastar e menu de contexto bloqueados no papel;
+- atalhos comuns de cópia, impressão, salvar e ver código-fonte interceptados enquanto o leitor está ativo;
+- impressão do conteúdo bloqueada por CSS;
+- política de configuração permite desativar essas barreiras para manutenção.
+
+Essas medidas **não são DRM**. Como a Biblioteca continua hospedada como site estático público, o conteúdo entregue ao navegador pode ser recuperado por alguém tecnicamente determinado.
+
+O modo atual permanece `static`. `readerContentBaseUrl` existe apenas como ponto de extensão futuro e fica vazio; nenhum serviço privado está ativo.
