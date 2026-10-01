@@ -147,3 +147,18 @@ Adicionar temporariamente:
 Não publicar um `robots.txt` como substituto de `noindex` se a intenção for impedir indexação: robots controla rastreamento, não garante remoção de URLs do índice.
 
 A decisão deve ser deliberada antes do Gate A.
+
+
+## Proteção do leitor estático
+
+A Alpha mantém o conteúdo no próprio GitHub Pages. Para reduzir cópia casual, o leitor bloqueia seleção, copiar/recortar, menu de contexto, arraste e impressão do texto.
+
+Limite técnico: um site estático público não consegue impedir de forma absoluta que o conteúdo recebido pelo navegador seja recuperado. Os arquivos de leitura continuam públicos por necessidade arquitetural.
+
+A configuração já reserva:
+
+```js
+readerContentBaseUrl: ''
+```
+
+Se um dia a arquitetura mudar, o leitor pode consumir o mesmo formato de dados a partir de outra origem. **Nenhum servidor privado está ativo nem é necessário hoje.**
