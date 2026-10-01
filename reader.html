@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Leitor editorial da Biblioteca de Lumyriel.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; media-src 'self'; font-src 'self' data:">
 <meta name="theme-color" content="#0b0a08">
 <meta name="color-scheme" content="dark">
 <meta property="og:locale" content="pt_BR">
@@ -64,7 +67,8 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
 .nojs{margin:82px auto 20px;width:min(760px,calc(100% - 32px));padding:18px 0;border-top:1px solid #51432f;border-bottom:1px solid #51432f;color:#b8ad9c;display:grid;gap:7px}.nojs strong{font:400 1.25rem Georgia,"Times New Roman",serif;color:#e7dbc7}.nojs span{font-size:.9rem}.nojs a{width:max-content;color:#cfb785;text-decoration:none;border-bottom:1px solid #6f5b3c}
 
 /* proteção de leitura estática: reduz cópia casual, sem prometer DRM */
-.paper,.paper *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.shell,.shell *,.paper,.paper *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none}
+.shell select,.shell option,.shell button,.shell a{-webkit-user-select:auto;user-select:auto}
 .paper{cursor:default}
 .paper a,.paper button{cursor:pointer}
 ::selection{background:transparent;color:inherit}
@@ -245,22 +249,44 @@ document.getElementById('menuBtn').onclick=()=>{const open=shell.classList.toggl
 
 function enableReadingProtection(){
   if(!READER_PROTECTION)return;
+  const protectedRoot=shell;
+
   ['copy','cut','contextmenu','selectstart','dragstart'].forEach(type=>{
-    paper.addEventListener(type,e=>e.preventDefault());
+    protectedRoot.addEventListener(type,e=>{
+      const tag=(e.target&&e.target.tagName||'').toLowerCase();
+      if(tag==='select'||tag==='option'||tag==='button'||tag==='a')return;
+      e.preventDefault();
+    },true);
   });
+
   document.addEventListener('keydown',e=>{
-    const mod=e.ctrlKey||e.metaKey;
-    if(!mod)return;
     const key=String(e.key||'').toLowerCase();
-    if(['c','s','p','u'].includes(key)){
+    const mod=e.ctrlKey||e.metaKey;
+
+    // Barreiras de cópia/arquivo/impressão/fonte e seleção global.
+    if(mod&&['c','s','p','u','a'].includes(key)){
       e.preventDefault();
       e.stopPropagation();
+      return;
     }
-    if(key==='a'&&paper.matches(':hover')){
+
+    // Atalhos comuns de DevTools. Não é DRM: apenas reduz inspeção casual.
+    if(e.key==='F12'||(mod&&e.shiftKey&&['i','j','c','k'].includes(key))){
       e.preventDefault();
       e.stopPropagation();
     }
   },true);
+
+  window.addEventListener('beforeprint',e=>{
+    document.documentElement.classList.add('print-blocked');
+  });
+
+  // Evita incorporação casual do leitor em outra página.
+  if(window.top!==window.self){
+    try{window.top.location=window.self.location.href}catch(err){
+      document.body.innerHTML='<div class="loading">Abra esta edição diretamente na Biblioteca de Lumyriel.</div>';
+    }
+  }
 }
 enableReadingProtection();
 
