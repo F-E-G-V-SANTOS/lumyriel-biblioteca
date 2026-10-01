@@ -183,6 +183,10 @@ section+section{position:relative}
 .reading-memory:before{content:"";display:inline-block;width:18px;height:1px;background:#66563e;vertical-align:middle;margin-right:9px}
 
 .noscript-note{margin-top:22px;padding:13px 0;border-top:1px solid #4b4030;border-bottom:1px solid #4b4030;color:#b8ad9d;font-size:.88rem}
+
+[data-cover="filho"]{background-image:url("assets/covers/o-filho-da-montanha.webp")!important}
+[data-cover="tempos"]{background-image:url("assets/covers/os-livros-dos-tempos.webp")!important}
+[data-cover="magia"]{background-image:url("assets/covers/livro-das-artes-magicas.webp")!important}
 </style>
 </head>
 <body>
@@ -203,7 +207,7 @@ section+section{position:relative}
       <p>Entre na biblioteca de Lumyriel e percorra romances, crônicas, peregrinações e registros preservados como obras de eras diferentes. Cada livro mantém sua própria voz, matéria e memória.</p>
       <div class="actions"><a class="btn primary" href="#biblioteca">Explorar a biblioteca</a><div class="hero-links"><a id="readingCta" href="reader.html?book=filho&ch=0" onclick="event.preventDefault();openReader()">Começar a ler</a><a href="character-creator.html">Criar personagem</a><a href="#origem">Origem do projeto</a></div></div><div class="reading-memory" id="readingMemoryNote" hidden></div>
     </div>
-    <div class="artifact-stage" aria-hidden="true"><div class="hero-books"><div class="book3d hero-book left" data-cover="tempos"><small>Lumyriel</small><h3>Os Livros dos Tempos</h3></div><div class="book3d hero-book right" data-cover="magia"><small>Lumyriel</small><h3>Livro das Artes Mágicas</h3></div><div class="book3d hero-book main" data-cover="filho"><small>Lumyriel</small><h3>O Filho da Montanha</h3><div class="vol">Livro I</div></div></div></div>
+    <div class="artifact-stage" aria-hidden="true"><div class="hero-books"><div class="book3d hero-book left real-cover" data-cover="tempos"><small>Lumyriel</small><h3>Os Livros dos Tempos</h3></div><div class="book3d hero-book right real-cover" data-cover="magia"><small>Lumyriel</small><h3>Livro das Artes Mágicas</h3></div><div class="book3d hero-book main real-cover" data-cover="filho"><small>Lumyriel</small><h3>O Filho da Montanha</h3><div class="vol">Livro I</div></div></div></div>
   </section>
 
   
@@ -212,9 +216,9 @@ section+section{position:relative}
     <div class="section-head"><div><div class="section-kicker"><span>01</span><div class="eyebrow">Acervo editorial</div></div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
     <div class="filters" role="group" aria-label="Filtrar biblioteca"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="live">Leitura disponível</button><button class="filter" data-filter="dev">Em desenvolvimento</button><button class="filter" data-filter="planned">Planejado</button></div>
     <div class="grid" id="libraryGrid">
-      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openBook('filho')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBook('filho')}"><div class="cover-wrap"><div class="cover a" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><a class="textlink" href="reader.html?book=filho&ch=0" onclick="event.stopPropagation();event.preventDefault();openBook('filho')">Ler agora →</a></div></div></article>
-      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir Os Livros dos Tempos" onclick="openBook('tempos')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBook('tempos')}"><div class="cover-wrap"><div class="cover b" data-cover="tempos"><small>História cosmológica · Edição de leitura</small><h3>Os Livros dos Tempos</h3><span class="roman">VII</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Os Livros dos Tempos</h3><p>Cinquenta e quatro obras preservadas por tradições distintas, organizadas em sete coleções que atravessam os grandes tempos da história de Lumyriel.</p><div class="bottom"><span>Beta 1 · 54 livros</span><a class="textlink" href="reader.html?book=tempos&note=1" onclick="event.stopPropagation();event.preventDefault();openBook('tempos')">Ler agora →</a></div></div></article>
-      <article class="card" data-status="dev"><div class="cover-wrap"><div class="cover e" data-cover="magia"><small>Coleção didática multivolume</small><h3>Livro das Artes Mágicas</h3><span class="roman">AM</span></div></div><div class="meta"><span class="status dev">Em desenvolvimento</span><h3 class="book-name">Livro das Artes Mágicas</h3><p>Coleção didática das Artes Mágicas de Lumyriel. A arquitetura multivolume já abrange fundamentos, Mana, Aura, Runologia, pergaminhos, matrizes e artefatos, com revisão canônica e didática em andamento.</p><div class="bottom"><span>Arquitetura v0.4 · Volumes I–IV em desenvolvimento</span><button class="textlink" disabled>Aguardando edição de leitura</button></div></div></article>
+      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openBook('filho')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBook('filho')}"><div class="cover-wrap"><div class="cover a real-cover" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><a class="textlink" href="reader.html?book=filho&ch=0" onclick="event.stopPropagation();event.preventDefault();openBook('filho')">Ler agora →</a></div></div></article>
+      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir Os Livros dos Tempos" onclick="openBook('tempos')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBook('tempos')}"><div class="cover-wrap"><div class="cover b real-cover" data-cover="tempos"><small>História cosmológica · Edição de leitura</small><h3>Os Livros dos Tempos</h3><span class="roman">VII</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Os Livros dos Tempos</h3><p>Cinquenta e quatro obras preservadas por tradições distintas, organizadas em sete coleções que atravessam os grandes tempos da história de Lumyriel.</p><div class="bottom"><span>Beta 1 · 54 livros</span><a class="textlink" href="reader.html?book=tempos&note=1" onclick="event.stopPropagation();event.preventDefault();openBook('tempos')">Ler agora →</a></div></div></article>
+      <article class="card" data-status="dev"><div class="cover-wrap"><div class="cover e real-cover" data-cover="magia"><small>Coleção didática multivolume</small><h3>Livro das Artes Mágicas</h3><span class="roman">AM</span></div></div><div class="meta"><span class="status dev">Em desenvolvimento</span><h3 class="book-name">Livro das Artes Mágicas</h3><p>Coleção didática das Artes Mágicas de Lumyriel. A arquitetura multivolume já abrange fundamentos, Mana, Aura, Runologia, pergaminhos, matrizes e artefatos, com revisão canônica e didática em andamento.</p><div class="bottom"><span>Arquitetura v0.4 · Volumes I–IV em desenvolvimento</span><button class="textlink" disabled>Aguardando edição de leitura</button></div></div></article>
       
     </div>
   </div>
@@ -225,7 +229,7 @@ section+section{position:relative}
   </section>
 
   <section id="destaque"><div class="shell"><div class="feature">
-    <div><div class="cover a" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
+    <div><div class="cover a real-cover" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
     <div><div class="section-kicker"><span>02</span><div class="eyebrow">Em leitura</div></div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openBook('filho')">Abrir leitor</button></div>
   </div></div></section>
 
@@ -307,18 +311,7 @@ section+section{position:relative}
 </main>
 
 <footer><div class="shell footer-row"><span>Biblioteca de Lumyriel · versão alpha</span><span><a href="privacy.html">Privacidade e submissões</a> · As leituras publicadas indicam a edição de origem.</span></div></footer>
-<script src="assets/covers-data.js"></script>
 <script>
-  function applyApprovedCovers(){
-    if(!window.LUMYRIEL_COVERS)return;
-    document.querySelectorAll('[data-cover]').forEach(el=>{
-      const src=window.LUMYRIEL_COVERS[el.dataset.cover];
-      if(!src)return;
-      el.style.backgroundImage='url("'+src+'")';
-      el.classList.add('real-cover');
-    });
-  }
-  applyApprovedCovers();
   const siteHeader=document.getElementById('siteHeader'),menuToggle=document.getElementById('menuToggle');
   function closeSiteMenu(){siteHeader.classList.remove('menu-open');menuToggle.setAttribute('aria-expanded','false')}
   menuToggle.addEventListener('click',()=>{const open=siteHeader.classList.toggle('menu-open');menuToggle.setAttribute('aria-expanded',open?'true':'false')});
