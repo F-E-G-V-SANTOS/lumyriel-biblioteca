@@ -12,7 +12,8 @@
 <meta property="og:description" content="Leia as obras publicadas de Lumyriel em uma edição editorial preservada.">
 <meta name="twitter:card" content="summary">
 <title>Leitor · Biblioteca de Lumyriel</title>
-<style>
+<style>.skip-link{position:fixed;left:12px;top:10px;z-index:1000;transform:translateY(-160%);background:#e6dcc9;color:#17130f;padding:8px 11px;text-decoration:none;border:1px solid #aa8a58}.skip-link:focus{transform:translateY(0)}
+
 :root{--bg:#0b0a08;--panel:#12100d;--paper:#eadfc8;--paper2:#cfbb95;--ink:#292219;--muted:#958b7c;--gold:#aa8a58;--gold2:#cfb785;--line:#3c3328}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:#eee4d2;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,select{font:inherit}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.1;background:repeating-linear-gradient(96deg,rgba(255,255,255,.02) 0 1px,transparent 1px 5px)}
@@ -63,7 +64,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;op
 .nojs{margin:82px auto 20px;width:min(760px,calc(100% - 32px));padding:18px 0;border-top:1px solid #51432f;border-bottom:1px solid #51432f;color:#b8ad9c;display:grid;gap:7px}.nojs strong{font:400 1.25rem Georgia,"Times New Roman",serif;color:#e7dbc7}.nojs span{font-size:.9rem}.nojs a{width:max-content;color:#cfb785;text-decoration:none;border-bottom:1px solid #6f5b3c}
 </style>
 </head>
-<body>
+<body><a class="skip-link" href="#paper">Pular para a leitura</a>
 <header class="topbar">
   <a class="brand" href="index.html"><span>Biblioteca de Lumyriel</span></a>
   <div style="display:flex;gap:8px;align-items:center"><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
