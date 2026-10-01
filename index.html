@@ -169,6 +169,9 @@ section+section{position:relative}
 .origin-card dd{margin:0;color:#aaa194;font-size:.88rem}
 .origin-copy p{line-height:1.72}
 #inspiracoes .section-head,#biblioteca .section-head{border-bottom:0}
+
+.reading-memory{margin-top:13px;color:#8e8577;font:italic .82rem/1.5 Georgia,"Times New Roman",serif;max-width:660px}
+.reading-memory:before{content:"";display:inline-block;width:18px;height:1px;background:#66563e;vertical-align:middle;margin-right:9px}
 </style>
 </head>
 <body>
@@ -186,7 +189,7 @@ section+section{position:relative}
       <div class="eyebrow">Arquivo de Lumyriel</div>
       <h1>Histórias que parecem ter sobrevivido ao próprio mundo.</h1>
       <p>Entre na biblioteca de Lumyriel e percorra romances, crônicas, peregrinações e registros preservados como obras de eras diferentes. Cada livro mantém sua própria voz, matéria e memória.</p>
-      <div class="actions"><a class="btn primary" href="#biblioteca">Explorar a biblioteca</a><div class="hero-links"><button type="button" onclick="openReader()">Começar a ler</button><a href="character-creator.html">Criar personagem</a><a href="#origem">Origem do projeto</a></div></div>
+      <div class="actions"><a class="btn primary" href="#biblioteca">Explorar a biblioteca</a><div class="hero-links"><button id="readingCta" type="button" onclick="openBook('filho')">Começar a ler</button><a href="character-creator.html">Criar personagem</a><a href="#origem">Origem do projeto</a></div></div><div class="reading-memory" id="readingMemoryNote" hidden></div>
     </div>
     <div class="artifact-stage" aria-hidden="true"><div class="hero-books"><div class="book3d hero-book left" data-cover="tempos"><small>Lumyriel</small><h3>Os Livros dos Tempos</h3></div><div class="book3d hero-book right" data-cover="magia"><small>Lumyriel</small><h3>Livro das Artes Mágicas</h3></div><div class="book3d hero-book main" data-cover="filho"><small>Lumyriel</small><h3>O Filho da Montanha</h3><div class="vol">Livro I</div></div></div></div>
   </section>
@@ -197,8 +200,8 @@ section+section{position:relative}
     <div class="section-head"><div><div class="section-kicker"><span>01</span><div class="eyebrow">Acervo editorial</div></div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
     <div class="filters" role="group" aria-label="Filtrar biblioteca"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="live">Leitura disponível</button><button class="filter" data-filter="dev">Em desenvolvimento</button><button class="filter" data-filter="planned">Planejado</button></div>
     <div class="grid" id="libraryGrid">
-      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openReader()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReader()}"><div class="cover-wrap"><div class="cover a" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><button class="textlink" onclick="event.stopPropagation();openReader()">Ler agora →</button></div></div></article>
-      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir Os Livros dos Tempos" onclick="location.href='reader.html?book=tempos&note=1'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='reader.html?book=tempos&note=1'}"><div class="cover-wrap"><div class="cover b" data-cover="tempos"><small>História cosmológica · Edição de leitura</small><h3>Os Livros dos Tempos</h3><span class="roman">VII</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Os Livros dos Tempos</h3><p>Cinquenta e quatro obras preservadas por tradições distintas, organizadas em sete coleções que atravessam os grandes tempos da história de Lumyriel.</p><div class="bottom"><span>Beta 1 · 54 livros</span><button class="textlink" onclick="event.stopPropagation();location.href='reader.html?book=tempos&note=1'">Ler agora →</button></div></div></article>
+      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openBook('filho')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBook('filho')}"><div class="cover-wrap"><div class="cover a" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><button class="textlink" onclick="event.stopPropagation();openBook('filho')">Ler agora →</button></div></div></article>
+      <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir Os Livros dos Tempos" onclick="openBook('tempos')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBook('tempos')}"><div class="cover-wrap"><div class="cover b" data-cover="tempos"><small>História cosmológica · Edição de leitura</small><h3>Os Livros dos Tempos</h3><span class="roman">VII</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Os Livros dos Tempos</h3><p>Cinquenta e quatro obras preservadas por tradições distintas, organizadas em sete coleções que atravessam os grandes tempos da história de Lumyriel.</p><div class="bottom"><span>Beta 1 · 54 livros</span><button class="textlink" onclick="event.stopPropagation();openBook('tempos')">Ler agora →</button></div></div></article>
       <article class="card" data-status="dev"><div class="cover-wrap"><div class="cover e" data-cover="magia"><small>Coleção didática multivolume</small><h3>Livro das Artes Mágicas</h3><span class="roman">AM</span></div></div><div class="meta"><span class="status dev">Em desenvolvimento</span><h3 class="book-name">Livro das Artes Mágicas</h3><p>Coleção didática das Artes Mágicas de Lumyriel. A arquitetura multivolume já abrange fundamentos, Mana, Aura, Runologia, pergaminhos, matrizes e artefatos, com revisão canônica e didática em andamento.</p><div class="bottom"><span>Arquitetura v0.4 · Volumes I–IV em desenvolvimento</span><button class="textlink" disabled>Aguardando edição de leitura</button></div></div></article>
       
     </div>
@@ -211,7 +214,7 @@ section+section{position:relative}
 
   <section id="destaque"><div class="shell"><div class="feature">
     <div><div class="cover a" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
-    <div><div class="section-kicker"><span>02</span><div class="eyebrow">Em leitura</div></div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openReader()">Abrir leitor</button></div>
+    <div><div class="section-kicker"><span>02</span><div class="eyebrow">Em leitura</div></div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openBook('filho')">Abrir leitor</button></div>
   </div></div></section>
 
   <section id="criador"><div class="shell">
@@ -239,13 +242,13 @@ section+section{position:relative}
       </div>
 
       <div class="cover-exhibit">
-        <a class="exhibit-item" href="reader.html?book=filho&ch=0" aria-label="Ler O Filho da Montanha">
+        <a class="exhibit-item" href="reader.html?book=filho&ch=0" onclick="event.preventDefault();openBook('filho')" aria-label="Ler O Filho da Montanha">
           <img src="assets/covers/o-filho-da-montanha.webp" alt="Capa de O Filho da Montanha: uma montanha elevada em pintura texturizada e envelhecida." loading="lazy" decoding="async">
           <span class="exhibit-index">01</span>
           <strong>O Filho da Montanha</strong>
           <small>Romance · leitura disponível</small>
         </a>
-        <a class="exhibit-item" href="reader.html?book=tempos&note=1" aria-label="Ler Os Livros dos Tempos">
+        <a class="exhibit-item" href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook('tempos')" aria-label="Ler Os Livros dos Tempos">
           <img src="assets/covers/os-livros-dos-tempos.webp" alt="Capa de Os Livros dos Tempos: paisagem antiga ao entardecer em pintura escura e envelhecida." loading="lazy" decoding="async">
           <span class="exhibit-index">02</span>
           <strong>Os Livros dos Tempos</strong>
@@ -310,7 +313,31 @@ section+section{position:relative}
   document.getElementById('siteNav').querySelectorAll('a').forEach(a=>a.addEventListener('click',closeSiteMenu));
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSiteMenu()});
   window.addEventListener('resize',()=>{if(window.innerWidth>900)closeSiteMenu()});
-  function openReader(){location.href='reader.html?book=filho&ch=0'}
+  const READING_KEY='lumyriel-reading-progress-v1';
+  function getReadingMemory(){try{return JSON.parse(localStorage.getItem(READING_KEY)||'{}')||{}}catch(e){return {}}}
+  function resumeUrl(saved,fallback){
+    if(!saved||!saved.url)return fallback;
+    return saved.url+(saved.url.includes('?')?'&':'?')+'resume=1';
+  }
+  function openBook(book){
+    const mem=getReadingMemory();
+    const fallback=book==='tempos'?'reader.html?book=tempos&note=1':'reader.html?book=filho&ch=0';
+    location.href=resumeUrl(mem[book],fallback);
+  }
+  function openReader(){
+    const mem=getReadingMemory(),last=mem.last;
+    if(last&&mem[last])location.href=resumeUrl(mem[last],'reader.html?book=filho&ch=0');
+    else location.href='reader.html?book=filho&ch=0';
+  }
+  function renderReadingMemory(){
+    const mem=getReadingMemory(),last=mem.last,saved=last&&mem[last],note=document.getElementById('readingMemoryNote'),cta=document.getElementById('readingCta');
+    if(!saved||!note||!cta)return;
+    cta.textContent='Continuar leitura';
+    const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':'O Filho da Montanha');
+    note.textContent='Última leitura: '+title+(saved.label?' · '+saved.label:'');
+    note.hidden=false;
+  }
+  renderReadingMemory()
   document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
     const f=btn.dataset.filter;document.querySelectorAll('.card').forEach(card=>card.style.display=(f==='all'||card.dataset.status===f)?'':'none');const fs=document.getElementById('futureShelf');if(fs)fs.style.display=(f==='all'||f==='planned')?'':'none';
