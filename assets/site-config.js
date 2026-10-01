@@ -17,8 +17,6 @@ window.LUMYRIEL_CONFIG = {
   readerProtectionEnabled: true
 };
 
-// Carregamento modular por página. Mantém a configuração pequena e evita
-// concentrar toda a lógica do site em um único arquivo.
 (() => {
   function load(src, next) {
     const script = document.createElement('script');
@@ -28,23 +26,18 @@ window.LUMYRIEL_CONFIG = {
     document.head.appendChild(script);
   }
 
-  if (document.getElementById('libraryGrid') || document.getElementById('futureShelf') || document.getElementById('criador')) {
+  if (document.getElementById('libraryGrid') || document.getElementById('futureShelf') || document.getElementById('criador') || document.getElementById('creatorForm')) {
     load('assets/site-catalog.js');
   }
 
-  if (document.getElementById('visualGallery')) {
-    load('assets/gallery-viewer.js');
-  }
+  if (document.getElementById('visualGallery')) load('assets/gallery-viewer.js');
 
   if (document.getElementById('creatorForm')) {
     const initialStatus = document.getElementById('saveStatus');
     if (initialStatus) initialStatus.hidden = true;
-
     load('assets/character-creator-options.js', () => {
       load('assets/character-creator-biology.js', () => {
-        load('assets/character-creator-names.js', () => {
-          load('assets/character-creator-export.js');
-        });
+        load('assets/character-creator-names.js', () => load('assets/character-creator-export.js'));
       });
     });
   }
