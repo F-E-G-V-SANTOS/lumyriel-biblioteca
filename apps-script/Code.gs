@@ -2,23 +2,46 @@ const SUBMISSIONS_FOLDER_ID = '1epajEdS3zafAAMYtTTi9TWN1QMNaUgJL';
 
 function doGet() {
   return ContentService
-    .createTextOutput(JSON.stringify({ ok: true, service: 'Lumyriel Character Intake' }))
+    .createTextOutput(JSON.stringify({
+      ok: true,
+      service: 'Lumyriel Character Intake',
+      version: '1.1'
+    }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
 function doPost(e) {
+  const raw = e && e.postData ? e.postData.contents : '';
+  if (!raw) return json_({ ok: false, error: 'empty_payload' });
+  if (raw.length > 200000) return json_({ ok: false, error: 'payload_too_large' });
+
+  let payload;
+  try {
+    payload = JSON.parse(raw);
+  } catch (err) {
+    return json_({ ok: false, error: 'invalid_json' });
+  }
+
+  if (payload.website) return json_({ ok: true, ignored: true, reason: 'honeypot' });
+
+  const name = sanitize_(payload.name || '');
+  if (!name || name === 'Sem Nome') return json_({ ok: false, error: 'missing_name' });
+
+  const fingerprint = digest_(raw);
+  const cache = CacheService.getScriptCache();
+  if (cache.get('dup_' + fingerprint)) {
+    return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
+  }
+
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    const raw = e && e.postData ? e.postData.contents : '';
-    if (!raw) return json_({ ok: false, error: 'empty_payload' });
-
-    const payload = JSON.parse(raw);
-    if (payload.website) return json_({ ok: true, ignored: true }); // honeypot
+    if (cache.get('dup_' + fingerprint)) {
+      return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
+    }
 
     const id = makeId_();
     const now = new Date();
-    const name = sanitize_(payload.name || 'Sem Nome');
 
     const record = {
       submission_id: id,
@@ -37,12 +60,26 @@ function doPost(e) {
     folder.createFile(jsonName, JSON.stringify(record, null, 2), MimeType.PLAIN_TEXT);
     folder.createFile(txtName, dossier_(record), MimeType.PLAIN_TEXT);
 
+    cache.put('dup_' + fingerprint, '1', 600);
+
     return json_({ ok: true, submission_id: id, status: record.status });
   } catch (err) {
     return json_({ ok: false, error: String(err && err.message ? err.message : err) });
   } finally {
     lock.releaseLock();
   }
+}
+
+function digest_(text) {
+  const bytes = Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256,
+    text,
+    Utilities.Charset.UTF_8
+  );
+  return bytes.map(function(b) {
+    const v = (b + 256) % 256;
+    return ('0' + v.toString(16)).slice(-2);
+  }).join('').slice(0, 32);
 }
 
 function makeId_() {
@@ -68,6 +105,8 @@ function dossier_(record) {
     'ID: ' + record.submission_id,
     'STATUS: PENDENTE DE AVALIAÇÃO / NÃO CANÔNICO',
     'RECEBIDO EM: ' + record.received_at,
+    'VERSÃO DO CRIADOR: ' + record.creator_version,
+    'COERÊNCIA BIOLÓGICA: ' + coherence_(c.biologicalCoherence),
     '',
     'IDENTIDADE',
     'Nome: ' + val_(c.name),
@@ -158,6 +197,12 @@ function dossier_(record) {
     val_(c.bio)
   ];
   return lines.join('\n');
+}
+
+function coherence_(v) {
+  if (!v) return 'Não definida';
+  if (typeof v === 'string') return v;
+  return v.label || v.status || 'Não definida';
 }
 
 function val_(v) {
