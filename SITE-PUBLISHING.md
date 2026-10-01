@@ -164,3 +164,30 @@ readerContentBaseUrl: ''
 ```
 
 Se um dia a arquitetura mudar, o leitor pode consumir o mesmo formato de dados a partir de outra origem. **Nenhum servidor privado está ativo nem é necessário hoje.**
+
+## Proteção da branch `main`
+
+Estado verificado em 01/10/2026: a branch `main` ainda aparece como **não protegida** no GitHub.
+
+Para o fluxo atual de Lumyriel, a proteção inicial recomendada é deliberadamente mínima:
+
+- **Restrict deletions**: ativado;
+- **Block force pushes**: ativado;
+- não exigir Pull Request por enquanto;
+- não exigir status check por enquanto.
+
+Isso protege a branch contra exclusão e reescrita destrutiva sem impedir as atualizações diretas que o fluxo atual do projeto ainda utiliza.
+
+### Configuração pelo GitHub
+
+1. **Settings > Rules > Rulesets**;
+2. **New ruleset > New branch ruleset**;
+3. nome: `Protect main`;
+4. Enforcement status: **Active**;
+5. Target branches: incluir a default branch / `main`;
+6. ativar **Restrict deletions**;
+7. ativar **Block force pushes**;
+8. salvar.
+
+Quando o projeto migrar para um fluxo por Pull Requests, este ruleset pode ser endurecido com revisão obrigatória e checks antes de merge.
+
