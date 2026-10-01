@@ -1312,7 +1312,7 @@ async function submitToLumyriel(){
    btn.disabled=true;btn.textContent='Enviando…';
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
-   s.textContent='Submissão enviada. O personagem entrou na fila de avaliação de Lumyriel; isso não o torna canônico automaticamente.';s.className='status ok';
+   s.textContent='O envio foi encaminhado ao serviço de recebimento. Como o navegador não pode ler a resposta do endpoint neste modo, a confirmação final ocorre no registro do Drive. Isso não torna o personagem canônico automaticamente.';s.className='status ok';
  }catch(err){
    s.textContent='Não foi possível enviar agora. Seu personagem continua disponível neste navegador e pode ser exportado.';s.className='status warn';
  }finally{
