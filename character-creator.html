@@ -514,12 +514,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <script src="assets/site-config.js"></script>
 <script>
 var WEB_APP_URL=(window.LUMYRIEL_CONFIG&&window.LUMYRIEL_CONFIG.characterSubmissionUrl)||'';
+var SUBMISSION_ENABLED=!!(window.LUMYRIEL_CONFIG&&window.LUMYRIEL_CONFIG.characterSubmissionEnabled);
 var currentStep=0;
 var panels=[].slice.call(document.querySelectorAll('.panel'));
 var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
 var form=document.getElementById('creatorForm');
 var submissionStatus=document.getElementById('saveStatus');
-if(WEB_APP_URL){
+if(WEB_APP_URL&&SUBMISSION_ENABLED){
   submissionStatus.textContent='Canal de submissão disponível. Personagens enviados entram como candidatos não canônicos para avaliação autoral.';
   submissionStatus.className='status ok';
 }else{
@@ -963,7 +964,7 @@ function updateBiologicalCoherence(){
  [box,finalBox].forEach(function(el){if(el){el.className='info-box bio-coherence '+s.css;el.innerHTML=biologicalCoherenceHtml(s)}});
  var wrap=document.getElementById('biologyOriginWrap');
  if(wrap)wrap.classList.toggle('show',s.requiresOrigin||s.code==='DESCONHECIDA'||!!selectedText('biologyOrigin'));
- ['downloadJsonBtn','downloadTextBtn'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=!s.finalizable});var submit=document.getElementById('submitCharacterBtn');if(submit)submit.disabled=!s.finalizable||!WEB_APP_URL;
+ ['downloadJsonBtn','downloadTextBtn'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=!s.finalizable});var submit=document.getElementById('submitCharacterBtn');if(submit)submit.disabled=!s.finalizable||!WEB_APP_URL||!SUBMISSION_ENABLED;
  return s;
 }
 function ensureBiologicalFinalization(){
@@ -1301,7 +1302,7 @@ function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus'),btn=document.getElementById('submitCharacterBtn');
  if(!ensureBiologicalFinalization())return;
- if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
+ if(!WEB_APP_URL||!SUBMISSION_ENABLED){s.textContent='O canal público de submissão ainda não está habilitado. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
  var d=formData();d.website=document.getElementById('website').value||'';d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.9',generated_at:new Date().toISOString()};
  try{
    btn.disabled=true;btn.textContent='Enviando…';
