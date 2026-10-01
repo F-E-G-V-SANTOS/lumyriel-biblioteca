@@ -28,13 +28,17 @@
     "submission_public": false
   },
   "static_qa": {
-    "status": "passed",
+    "status": "pending-post-migration-check",
     "date": "2026-10-01"
   },
   "reader": {
-    "content_mode": "static",
-    "protection": "casual-copy-deterrence",
-    "private_service_active": false,
-    "future_content_endpoint_configured": false
+    "mode": "static-encoded",
+    "protection_enabled": true,
+    "content_files": [
+      "books/lmy-odm-b13.dat",
+      "books/lmy-olt-b1.dat"
+    ],
+    "readable_json_in_current_branch": false,
+    "future_content_base_configured": false
   }
 }
