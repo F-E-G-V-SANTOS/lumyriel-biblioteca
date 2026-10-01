@@ -1,0 +1,30 @@
+{
+  "site": "Biblioteca de Lumyriel",
+  "release": "alpha",
+  "release_id": "alpha-2026-10-01",
+  "static_site": true,
+  "build_required": false,
+  "books": {
+    "o-filho-da-montanha": {
+      "edition": "Beta 13 · Base v1.19",
+      "chapters": 16,
+      "public_reading": true
+    },
+    "os-livros-dos-tempos": {
+      "edition": "Beta 1 · Base Editorial v1.0",
+      "collections": 7,
+      "books": 54,
+      "chapters": 1074,
+      "public_reading": true
+    },
+    "livro-das-artes-magicas": {
+      "architecture": "v0.4",
+      "volumes_in_development": "I–IV",
+      "public_reading": false
+    }
+  },
+  "character_creator": {
+    "version": "alpha-0.9",
+    "submission_public": false
+  }
+}
