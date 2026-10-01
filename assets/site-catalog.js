@@ -35,7 +35,9 @@
     if (!el || !path) return;
     const img = new Image();
     img.onload = () => {
-      el.style.backgroundImage = `url("${path}")`;
+      // O HTML legado possui regras de capa com !important. A prioridade aqui
+      // garante que a arte aprovada substitua a capa antiga sem reescrever o HTML.
+      el.style.setProperty('background-image', `url("${path}")`, 'important');
       el.classList.add('real-cover');
       el.classList.remove('placeholder-cover');
     };
@@ -83,6 +85,14 @@
       const actions = heroCopy.querySelector('.actions');
       if (actions) actions.insertAdjacentElement('afterend', credit);
       else heroCopy.appendChild(credit);
+    }
+
+    const originList = document.querySelector('#origem .origin-card dl');
+    if (originList && !originList.querySelector('[data-author-credit]')) {
+      const row = document.createElement('div');
+      row.setAttribute('data-author-credit', 'true');
+      row.innerHTML = `<dt>Criação e autoria</dt><dd>${AUTHOR}</dd>`;
+      originList.appendChild(row);
     }
 
     const footerShell = document.querySelector('footer .shell');
