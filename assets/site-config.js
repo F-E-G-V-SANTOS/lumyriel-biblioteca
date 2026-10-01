@@ -18,3 +18,15 @@ window.LUMYRIEL_CONFIG = {
   readerContentBaseUrl: '',
   readerProtectionEnabled: true
 };
+
+// Transparência editorial do Arquivo Visual.
+(() => {
+  const visualArchive = document.querySelector('#artes .visual-archive');
+  if (!visualArchive || document.querySelector('#artes .visual-ai-disclosure')) return;
+
+  const note = document.createElement('p');
+  note.className = 'visual-gallery-note visual-ai-disclosure';
+  note.setAttribute('role', 'note');
+  note.innerHTML = '<strong>Sobre as imagens:</strong> todas as artes conceituais exibidas nesta seção foram geradas com inteligência artificial a partir de um conjunto próprio de prompts desenvolvido especialmente para Lumyriel. As imagens passam por seleção e curadoria para preservar a identidade visual e a coerência do projeto.';
+  visualArchive.insertAdjacentElement('afterend', note);
+})();
