@@ -26,5 +26,9 @@
   "character_creator": {
     "version": "alpha-0.9",
     "submission_public": false
+  },
+  "static_qa": {
+    "status": "passed",
+    "date": "2026-10-01"
   }
 }
