@@ -112,13 +112,26 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
 <script src="assets/covers-data.js"></script>
 <script src="assets/site-config.js"></script>
 <script>
-const DATA={filho:'books/o-filho-da-montanha.json',tempos:'books/os-livros-dos-tempos.json'};
+const DATA={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat'};
 const READER_CONFIG=window.LUMYRIEL_CONFIG||{};
 const READER_CONTENT_BASE=(READER_CONFIG.readerContentBaseUrl||'').replace(/\/$/,'');
 const READER_PROTECTION=READER_CONFIG.readerProtectionEnabled!==false;
 function readerDataUrl(id){
   if(!READER_CONTENT_BASE)return DATA[id];
   return READER_CONTENT_BASE+'/books/'+encodeURIComponent(id);
+}
+function decodeStaticBook(encoded){
+  const clean=String(encoded||'').replace(/\s+/g,'');
+  const binary=atob(clean);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+}
+async function loadBookData(id){
+  const response=await fetch(readerDataUrl(id),{cache:'no-store'});
+  if(!response.ok)throw new Error('Falha ao abrir o livro');
+  if(READER_CONTENT_BASE)return response.json();
+  return decodeStaticBook(await response.text());
 }
 const q=new URLSearchParams(location.search);
 const bookId=DATA[q.get('book')]?q.get('book'):'filho';
@@ -292,7 +305,7 @@ enableReadingProtection();
 
 paper.addEventListener('scroll',()=>{requestAnimationFrame(updatePages);scheduleReadingSave()},{passive:true});window.addEventListener('resize',()=>requestAnimationFrame(updatePages));window.addEventListener('pagehide',saveReadingProgress);
 document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&e.altKey)goRelative(-1);if(e.key==='ArrowRight'&&e.altKey)goRelative(1);if(e.key==='Escape')closeMenu()});
-fetch(readerDataUrl(bookId)).then(r=>{if(!r.ok)throw new Error('Falha ao abrir o livro');return r.json()}).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class="loading">Não foi possível abrir esta edição agora.</div>';console.error(err)});
+loadBookData(bookId).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class="loading">Não foi possível abrir esta edição agora.</div>';console.error(err)});
 </script>
 </body>
 </html>
