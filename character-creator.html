@@ -39,6 +39,9 @@ header{position:sticky;top:0;z-index:50;background:rgba(11,10,8,.96);border-bott
 footer{border-top:1px solid #30291f;padding:32px 0 50px;color:#777064}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media(max-width:900px){.creator{grid-template-columns:1fr}.steps{position:static;display:flex;overflow:auto;gap:6px;padding:8px}.steps:before{display:none}.step-btn{min-width:max-content;width:auto;border:1px solid #3b3227}.step-btn span{display:none}.profile{grid-template-columns:1fr}}
 @media(max-width:650px){.shell{width:min(100% - 22px,1180px)}.top{min-height:64px;gap:8px}.brand{font-size:.8rem;min-width:0}.hero{padding:36px 0 18px}.hero h1{font-size:2.75rem}.creator{padding-top:12px}.panel{padding:22px 15px}.panel-head{display:block}.panel-head p{margin-top:10px}.grid,.grid.three,.choice-grid,.summary-grid,.name-pair{grid-template-columns:1fr}.field.full{grid-column:auto}.nav-actions{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#eadfc8 30%);padding-top:30px;padding-bottom:5px;z-index:4}.btn{padding:10px 13px}.back{flex:0 0 auto;height:38px;font-size:.76rem;padding:7px 10px;white-space:nowrap}.back-full{display:none}.back-short{display:inline}}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.step-btn{transition:none!important}}
 </style>
 </head>
 <body>
@@ -600,9 +603,9 @@ var HEIGHT_RULES={
 
 function goStep(n){
  currentStep=Math.max(0,Math.min(panels.length-1,n));
- panels.forEach(function(p,i){p.classList.toggle('active',i===currentStep)});
- stepButtons.forEach(function(b,i){b.classList.toggle('active',i===currentStep);b.classList.toggle('done',i<currentStep)});
- window.scrollTo({top:document.querySelector('.creator').offsetTop-80,behavior:'smooth'});
+ panels.forEach(function(p,i){p.classList.toggle('active',i===currentStep);p.setAttribute('aria-hidden',i===currentStep?'false':'true')});
+ stepButtons.forEach(function(b,i){b.classList.toggle('active',i===currentStep);b.classList.toggle('done',i<currentStep);if(i===currentStep)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+ window.scrollTo({top:document.querySelector('.creator').offsetTop-80,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
  if(currentStep===8)renderDossier();
 }
 stepButtons.forEach(function(b){b.addEventListener('click',function(){goStep(Number(b.dataset.step))})});
