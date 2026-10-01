@@ -519,6 +519,7 @@ var currentStep=0;
 var panels=[].slice.call(document.querySelectorAll('.panel'));
 var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
 var form=document.getElementById('creatorForm');
+form.addEventListener('submit',function(e){e.preventDefault()});
 var submissionStatus=document.getElementById('saveStatus');
 if(WEB_APP_URL&&SUBMISSION_ENABLED){
   submissionStatus.textContent='Canal de submissão disponível. Personagens enviados entram como candidatos não canônicos para avaliação autoral.';
