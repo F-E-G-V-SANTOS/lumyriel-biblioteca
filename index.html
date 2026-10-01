@@ -215,14 +215,15 @@ section+section{position:relative}
 .future-card .placeholder-cover h3.future-title-math{font-size:1.12rem!important;line-height:1.05}
 .future-card .placeholder-cover .title-line{display:block}
 .future-card+.future-card{margin-top:0;border-top:0}
+.feedback-fab{position:fixed;right:18px;bottom:18px;z-index:50;border:1px solid #705d42;background:rgba(20,17,13,.96);color:#e9dfcd;text-decoration:none;padding:11px 15px;border-radius:2px;box-shadow:0 14px 34px rgba(0,0,0,.38);font-size:.82rem;letter-spacing:.035em}.feedback-fab:hover{border-color:var(--bronze2);background:#211b14}.feedback-fab:focus-visible{outline:1px solid var(--bronze2);outline-offset:3px}@media(max-width:600px){.feedback-fab{right:12px;bottom:12px;padding:10px 12px;font-size:.76rem}}
 </style>
 </head>
-<body><a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
+<body><a class="skip-link" href="#mainContent">Pular para o conteúdo</a><a href="feedback.html" class="feedback-fab">Enviar feedback</a>
 <header id="siteHeader">
   <div class="shell"><nav>
     <a class="brand" href="#inicio"><span>Biblioteca Lumyrieliana</span></a>
     <button class="menu-toggle" id="menuToggle" type="button" aria-controls="siteNav" aria-expanded="false">Índice</button>
-    <div class="navlinks" id="siteNav"><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#artes">Artes</a><a href="#inspiracoes">Inspirações</a><a href="#origem">Origem</a></div>
+    <div class="navlinks" id="siteNav"><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#artes">Artes</a><a href="#inspiracoes">Inspirações</a><a href="#origem">Origem</a><a href="feedback.html">Feedback</a></div>
   </nav></div>
 </header>
 
@@ -316,7 +317,7 @@ section+section{position:relative}
   </div></section>
 </main>
 
-<footer><div class="shell footer-row"><span>Biblioteca Lumyrieliana · versão alpha</span><span><a href="privacy.html">Privacidade e submissões</a> · As leituras publicadas indicam a edição de origem.</span></div></footer>
+<footer><div class="shell footer-row"><span>Biblioteca Lumyrieliana · versão alpha</span><span><a href="feedback.html">Enviar feedback</a> · <a href="privacy.html">Privacidade e submissões</a> · As leituras publicadas indicam a edição de origem.</span></div></footer>
 <script>
   const siteHeader=document.getElementById('siteHeader'),menuToggle=document.getElementById('menuToggle');
   function closeSiteMenu(){siteHeader.classList.remove('menu-open');menuToggle.setAttribute('aria-expanded','false')}
