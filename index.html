@@ -101,6 +101,63 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:1px s
 @media(max-width:600px){.filters{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;padding-bottom:3px}.filters::-webkit-scrollbar{display:none}.filter{flex:0 0 auto}.card{min-height:0}.cover-wrap{padding-inline:22px}.cover{max-width:245px}.section-head{margin-bottom:22px}.visual-collection{padding-top:24px}.visual-collection-head{margin-bottom:24px}}
 
 @media(max-width:460px){header .brand span{font-size:0}header .brand span:after{content:"Lumyriel";font-size:.88rem}header .brand:before{width:18px}.menu-toggle{min-height:38px}}
+
+/* catálogo editorial: a capa é o objeto; a interface apenas a identifica */
+.actions{align-items:center}
+.hero-links{display:flex;align-items:center;gap:0;margin-left:6px;color:#aaa194}
+.hero-links>*{appearance:none;border:0;background:none;color:inherit;padding:8px 12px;cursor:pointer;font:inherit;text-decoration:none}
+.hero-links>*+*:before{content:"·";position:relative;left:-12px;color:#615543}
+.hero-links>*:hover{color:var(--ivory)}
+
+.filters{border-top:1px solid #393126;border-bottom:1px solid #393126;padding:0;margin:26px 0 40px;gap:0}
+.filter{border:0;border-radius:0;background:transparent;padding:13px 18px 12px;color:#8f877b;position:relative}
+.filter.active,.filter:hover{border:0;background:transparent;color:#e5dac7}
+.filter.active:after{content:"";position:absolute;left:18px;right:18px;bottom:-1px;height:1px;background:var(--bronze)}
+
+.grid{gap:34px}
+.card{background:transparent;border:0;border-radius:0;overflow:visible;min-height:0;box-shadow:none;padding:0 0 24px;position:relative}
+.card:before{display:none}
+.card:hover{transform:none;border-color:transparent;box-shadow:none}
+.card.clickable-book:hover .cover{transform:translateY(-4px)}
+.cover-wrap{padding:0 12px 0}
+.cover{transition:transform .2s ease;box-shadow:16px 20px 34px rgba(0,0,0,.35),inset 8px 0 12px rgba(0,0,0,.2)}
+.meta{padding:24px 4px 0;gap:11px;border-top:1px solid #30291f;margin-top:25px}
+.status{border:0;border-radius:0;padding:0;background:none;font-size:.66rem;letter-spacing:.13em;display:flex;align-items:center;gap:7px}
+.status:before{content:"";width:5px;height:5px;border:1px solid currentColor;transform:rotate(45deg);display:inline-block}
+.status.live,.status.dev,.status.archive,.status.planned{border:0}
+.book-name{font-size:1.6rem}
+.meta p{line-height:1.62}
+.meta .bottom{padding-top:13px;border-top:1px solid #27221b}
+.textlink{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:.015em}
+.textlink:hover{text-decoration:underline;text-underline-offset:4px}
+
+.feature{background:transparent;border:0;border-top:1px solid #4a3e2f;border-bottom:1px solid #4a3e2f;border-radius:0;padding:54px 0;box-shadow:none}
+.feature .quote{font-size:1.7rem}
+.creator-callout{border:0;border-top:1px solid #504331;border-bottom:1px solid #504331;border-radius:0;padding:52px 0;background:transparent}
+
+.future-card{border-top:1px solid #393126;border-bottom:1px solid #393126;background:transparent;padding:14px 0}
+.future-card .meta{margin-top:0;border-top:0}
+.future-card:hover{box-shadow:none}
+
+section+section{position:relative}
+#biblioteca{padding-top:96px}
+#destaque,#criador,#artes,#inspiracoes,#origem{padding-top:92px;padding-bottom:92px}
+
+@media(max-width:600px){
+  .actions{display:block;margin-top:22px}
+  .actions>.btn{width:100%;height:52px;min-height:52px}
+  .hero-links{margin:10px 0 0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #332c22;border-bottom:1px solid #332c22}
+  .hero-links>*{padding:11px 6px;font-size:.78rem;text-align:center}
+  .hero-links>*+*:before{display:none}
+  .filters{margin-bottom:30px}
+  .filter{padding:12px 14px 11px}
+  .filter.active:after{left:14px;right:14px}
+  .grid{gap:42px}
+  .card{padding-bottom:0}
+  .meta{margin-top:22px}
+  .feature,.creator-callout{padding:40px 0}
+  #biblioteca,#destaque,#criador,#artes,#inspiracoes,#origem{padding-top:72px;padding-bottom:72px}
+}
 </style>
 </head>
 <body>
@@ -118,7 +175,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:1px s
       <div class="eyebrow">Arquivo de Lumyriel</div>
       <h1>Histórias que parecem ter sobrevivido ao próprio mundo.</h1>
       <p>Entre na biblioteca de Lumyriel e percorra romances, crônicas, peregrinações e registros preservados como obras de eras diferentes. Cada livro mantém sua própria voz, matéria e memória.</p>
-      <div class="actions"><a class="btn primary" href="#biblioteca">Explorar a biblioteca</a><button class="btn" onclick="openReader()">Começar a ler</button><a class="btn" href="#origem">Como Lumyriel surgiu</a><a class="btn" href="character-creator.html">Abrir criador de personagens</a></div>
+      <div class="actions"><a class="btn primary" href="#biblioteca">Explorar a biblioteca</a><div class="hero-links"><button type="button" onclick="openReader()">Começar a ler</button><a href="character-creator.html">Criar personagem</a><a href="#origem">Origem do projeto</a></div></div>
     </div>
     <div class="artifact-stage" aria-hidden="true"><div class="hero-books"><div class="book3d hero-book left" data-cover="tempos"><small>Lumyriel</small><h3>Os Livros dos Tempos</h3></div><div class="book3d hero-book right" data-cover="magia"><small>Lumyriel</small><h3>Livro das Artes Mágicas</h3></div><div class="book3d hero-book main" data-cover="filho"><small>Lumyriel</small><h3>O Filho da Montanha</h3><div class="vol">Livro I</div></div></div></div>
   </section>
@@ -126,7 +183,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:1px s
   
 
   <section id="biblioteca"><div class="shell">
-    <div class="section-head"><div><div class="eyebrow">Acervo</div><h2>Biblioteca de Lumyriel</h2></div><p>Somente obras e projetos editoriais reais aparecem aqui. Leituras disponíveis, trabalhos em desenvolvimento e projetos planejados têm seu estado indicado de forma explícita.</p></div>
+    <div class="section-head"><div><div class="eyebrow">Acervo editorial</div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
     <div class="filters" role="group" aria-label="Filtrar biblioteca"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="live">Leitura disponível</button><button class="filter" data-filter="dev">Em desenvolvimento</button><button class="filter" data-filter="planned">Planejado</button></div>
     <div class="grid" id="libraryGrid">
       <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openReader()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReader()}"><div class="cover-wrap"><div class="cover a" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><button class="textlink" onclick="event.stopPropagation();openReader()">Ler agora →</button></div></div></article>
@@ -143,7 +200,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:1px s
 
   <section id="destaque"><div class="shell"><div class="feature">
     <div><div class="cover a" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
-    <div><div class="eyebrow">Livro completo disponível</div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Leia os 16 capítulos da Beta 13 diretamente na biblioteca, com navegação por capítulos e contador de páginas.</p><button class="btn primary" onclick="openReader()">Abrir leitor</button></div>
+    <div><div class="eyebrow">Em leitura</div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openReader()">Abrir leitor</button></div>
   </div></div></section>
 
   <section id="criador"><div class="shell">
