@@ -85,6 +85,42 @@ const bookId=DATA[q.get('book')]?q.get('book'):'filho';
 const shell=document.getElementById('shell'),paper=document.getElementById('paper'),paperInner=document.getElementById('paperInner'),chapterList=document.getElementById('chapterList'),hierarchy=document.getElementById('hierarchy'),pageCount=document.getElementById('pageCount'),progress=document.getElementById('progress'),sideCover=document.getElementById('sideCover');
 if(window.LUMYRIEL_COVERS){sideCover.style.backgroundImage='url("'+(bookId==='tempos'?window.LUMYRIEL_COVERS.tempos:window.LUMYRIEL_COVERS.filho)+'")';}
 let data=null,state={c:Math.max(0,Number(q.get('c')||0)),b:Math.max(0,Number(q.get('b')||0)),ch:Math.max(0,Number(q.get('ch')||0)),note:q.get('note')==='1'};
+const READING_KEY='lumyriel-reading-progress-v1';
+let resumeRequested=q.get('resume')==='1',saveTimer=null;
+function getReadingMemory(){try{return JSON.parse(localStorage.getItem(READING_KEY)||'{}')||{}}catch(e){return {}}}
+function currentReaderUrl(){
+  const p=new URLSearchParams({book:bookId});
+  if(bookId==='tempos'){p.set('c',state.c);p.set('b',state.b);p.set('ch',state.ch);if(state.note)p.set('note','1')}
+  else p.set('ch',state.ch);
+  return 'reader.html?'+p.toString();
+}
+function currentReadingLabel(){
+  if(!data)return '';
+  if(state.note&&bookId==='tempos')return 'Nota editorial';
+  if(bookId==='filho'){const ch=data.chapters[state.ch];return ch?'Capítulo '+ch.number+' · '+ch.title:''}
+  const col=data.collections[state.c],bk=col&&col.books[state.b],ch=bk&&bk.chapters[state.ch];
+  return bk&&ch?'Livro '+bk.number+' · Capítulo '+ch.number+' · '+ch.title:'';
+}
+function saveReadingProgress(){
+  if(!data)return;
+  const max=Math.max(0,paper.scrollHeight-paper.clientHeight),ratio=max?Math.min(1,Math.max(0,paper.scrollTop/max)):0;
+  const mem=getReadingMemory();
+  mem[bookId]={book:bookId,title:data.title||'',label:currentReadingLabel(),url:currentReaderUrl(),scrollRatio:ratio,updatedAt:Date.now()};
+  mem.last=bookId;
+  try{localStorage.setItem(READING_KEY,JSON.stringify(mem))}catch(e){}
+}
+function scheduleReadingSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveReadingProgress,180)}
+function restoreReadingPosition(){
+  if(!resumeRequested)return;
+  const mem=getReadingMemory(),saved=mem[bookId];
+  resumeRequested=false;
+  if(!saved||typeof saved.scrollRatio!=='number')return;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const max=Math.max(0,paper.scrollHeight-paper.clientHeight);
+    paper.scrollTop=Math.round(max*Math.min(1,Math.max(0,saved.scrollRatio)));
+    updatePages();
+  }));
+}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function blocks(text){
   return String(text||'').split(/\n{2,}/).map(x=>x.trim()).filter(Boolean).map(block=>{
@@ -159,10 +195,10 @@ function updatePages(){
  const vh=Math.max(1,paper.clientHeight),total=Math.max(1,Math.ceil(paper.scrollHeight/vh)),max=Math.max(0,paper.scrollHeight-vh),ratio=max?Math.min(1,Math.max(0,paper.scrollTop/max)):0,current=total===1?1:Math.min(total,Math.floor(ratio*(total-1))+1);
  pageCount.textContent='Página '+current+' de '+total;
 }
-function render(){renderSidebar();renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(updatePages)}
+function render(){renderSidebar();renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(()=>{updatePages();restoreReadingPosition();saveReadingProgress()})}
 document.getElementById('menuBtn').onclick=()=>{const open=shell.classList.toggle('menu-open');document.getElementById('menuBtn').setAttribute('aria-expanded',open?'true':'false')};document.getElementById('menuBackdrop').onclick=closeMenu;
 ['copy','cut','contextmenu','selectstart','dragstart'].forEach(evt=>paper.addEventListener(evt,e=>e.preventDefault()));
-paper.addEventListener('scroll',()=>requestAnimationFrame(updatePages),{passive:true});window.addEventListener('resize',()=>requestAnimationFrame(updatePages));
+paper.addEventListener('scroll',()=>{requestAnimationFrame(updatePages);scheduleReadingSave()},{passive:true});window.addEventListener('resize',()=>requestAnimationFrame(updatePages));window.addEventListener('pagehide',saveReadingProgress);
 document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&e.altKey)goRelative(-1);if(e.key==='ArrowRight'&&e.altKey)goRelative(1);if(e.key==='Escape')closeMenu()});
 fetch(DATA[bookId]).then(r=>{if(!r.ok)throw new Error('Falha ao abrir o livro');return r.json()}).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class="loading">Não foi possível abrir esta edição agora.</div>';console.error(err)});
 </script>
