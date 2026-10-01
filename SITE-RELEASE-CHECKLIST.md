@@ -27,6 +27,8 @@ A frente visual e funcional principal do site está consolidada.
 - [x] navegação por teclado e preferência por redução de movimento;
 - [x] QA estrutural de HTML/CSS/JavaScript;
 - [x] `site-status.json` para verificação da publicação;
+- [x] deployment do Pages confirmado com sucesso para `f095cb98c9a721ba798c1d190f7c91cf905eb15d`;
+- [x] artefato `github-pages` do deployment baixado e inspecionado; pacote contém home, leitor, Criador, livros, capas, 404, privacidade e status;
 - [x] scripts embutidos validados sintaticamente;
 - [x] IDs duplicados verificados;
 - [x] capas de 300×540 impedidas de ampliar além da largura nativa no Arquivo Visual.
@@ -39,8 +41,8 @@ Este gate NÃO depende do canal de submissões de personagens.
 
 ## Pendências externas
 - [ ] decidir se a Alpha pública pode ser indexada por mecanismos de busca; o estado atual não bloqueia indexação;
-- [ ] confirmar a hospedagem pública definitiva;
-- [ ] registrar a URL pública final;
+- [x] confirmar a hospedagem pública definitiva — GitHub Pages;
+- [x] registrar a URL pública final — `https://f-e-g-v-santos.github.io/lumyriel-biblioteca/`;
 - [ ] testar a versão publicada em navegador real;
 - [ ] testar pelo menos:
   - [ ] Android / Chrome;
@@ -62,7 +64,7 @@ Este gate NÃO depende do canal de submissões de personagens.
 
 ### Critério de fechamento do Gate A
 A Biblioteca pode ser considerada **Alpha Pública** quando:
-1. a URL definitiva estiver ativa;
+1. a URL definitiva estiver ativa e com deployment confirmado;
 2. home, leitor e Criador abrirem sem erro;
 3. o teste visual em celular e desktop não revelar bloqueio de uso;
 4. as edições anunciadas coincidirem com os arquivos servidos.
