@@ -183,6 +183,12 @@ No destaque inicial, as três obras aparecem como coleção física em profundid
 
 Capas futuras sem arte aprovada permanecem deliberadamente como fólio provisório, sem fingir uma ilustração final.
 
+A hierarquia da página inicial também segue a lógica editorial: a experiência principal apresenta primeiro as obras de Lumyriel. As matrizes criativas e a origem acadêmica permanecem públicas, mas aparecem depois da biblioteca, da leitura e do arquivo visual para não interromper a imersão inicial.
+
+A estante principal reúne apenas as três obras com identidade visual aprovada. Projetos planejados sem arte final aparecem em uma prateleira secundária de **Em preparação**, mantendo clara a diferença entre coleção existente e projeto futuro.
+
+A implementação deve preservar navegação por teclado, foco visível e preferência do sistema por redução de movimento; a atmosfera física não justifica perda de acessibilidade.
+
 ---
 
 **Regra final:** o visitante deve reconhecer a atmosfera de Lumyriel antes de precisar ler uma explicação sobre o que Lumyriel é.
