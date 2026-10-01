@@ -34,8 +34,8 @@ assets/
   site-config.js            configuração de serviços externos
 
 books/
-  o-filho-da-montanha.json
-  os-livros-dos-tempos.json
+  lmy-odm-b13.dat           O Filho da Montanha · conteúdo estático codificado
+  lmy-olt-b1.dat            Os Livros dos Tempos · conteúdo estático codificado
 
 apps-script/
   Code.gs                   backend de submissões
@@ -75,7 +75,7 @@ Depois abra:
 http://localhost:8000/
 ```
 
-É preferível usar um servidor local em vez de abrir os HTMLs diretamente com `file://`, porque o leitor carrega os livros JSON com `fetch()`.
+É preferível usar um servidor local em vez de abrir os HTMLs diretamente com `file://`, porque o leitor carrega os arquivos estáticos codificados com `fetch()` e os decodifica no navegador.
 
 ## Serviços externos
 
@@ -95,12 +95,16 @@ As obras e ferramentas publicadas devem seguir as autoridades vigentes do projet
 ## Proteção de leitura estática
 
 O leitor usa barreiras de cópia casual:
-- seleção de texto desativada na página de leitura;
-- eventos de copiar, recortar, arrastar e menu de contexto bloqueados no papel;
-- atalhos comuns de cópia, impressão, salvar e ver código-fonte interceptados enquanto o leitor está ativo;
+- seleção de texto desativada em toda a interface de leitura;
+- eventos de copiar, recortar, arrastar e menu de contexto bloqueados;
+- atalhos comuns de cópia, impressão, salvar, selecionar tudo e ver código-fonte interceptados;
+- atalhos mais óbvios de DevTools recebem bloqueio de conveniência;
 - impressão do conteúdo bloqueada por CSS;
-- política de configuração permite desativar essas barreiras para manutenção.
+- a página do leitor usa `noindex,nofollow`;
+- os manuscritos da branch atual não ficam mais expostos como JSON legível: são publicados em arquivos estáticos codificados `.dat`.
 
-Essas medidas **não são DRM**. Como a Biblioteca continua hospedada como site estático público, o conteúdo entregue ao navegador pode ser recuperado por alguém tecnicamente determinado.
+Essas medidas **não são DRM**. Como a Biblioteca continua hospedada como site estático público, alguém tecnicamente determinado ainda pode recuperar o conteúdo entregue ao navegador.
 
-O modo atual permanece `static`. `readerContentBaseUrl` existe apenas como ponto de extensão futuro e fica vazio; nenhum serviço privado está ativo.
+Importante: versões antigas dos JSONs continuam existindo no histórico público do Git porque elas já haviam sido publicadas. Remover isso exigiria reescrita destrutiva do histórico, operação que não é feita automaticamente.
+
+O modo atual permanece **estático**. `readerContentBaseUrl` existe apenas como ponto de extensão futuro e fica vazio; nenhum servidor privado está ativo ou é necessário hoje.
