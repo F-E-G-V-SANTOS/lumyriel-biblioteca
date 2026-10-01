@@ -216,6 +216,13 @@ section+section{position:relative}
 .future-card .placeholder-cover .title-line{display:block}
 .future-card+.future-card{margin-top:0;border-top:0}
 .feedback-fab{position:fixed;right:18px;bottom:18px;z-index:50;border:1px solid #705d42;background:rgba(20,17,13,.96);color:#e9dfcd;text-decoration:none;padding:11px 15px;border-radius:2px;box-shadow:0 14px 34px rgba(0,0,0,.38);font-size:.82rem;letter-spacing:.035em}.feedback-fab:hover{border-color:var(--bronze2);background:#211b14}.feedback-fab:focus-visible{outline:1px solid var(--bronze2);outline-offset:3px}@media(max-width:600px){.feedback-fab{right:12px;bottom:12px;padding:10px 12px;font-size:.76rem}}
+
+.rpg-preview{border-top:1px solid #30291f}
+.rpg-preview-panel{display:grid;grid-template-columns:1.02fr .98fr;gap:42px;align-items:start;border:1px solid #4a3e2f;border-radius:2px;padding:clamp(30px,5vw,58px);background:radial-gradient(circle at 88% 10%,rgba(105,83,54,.13),transparent 34%),linear-gradient(135deg,#18150f,#0d0c0a)}
+.rpg-preview h2{font-size:clamp(2.6rem,5vw,4.8rem);margin:10px 0 18px}.rpg-preview-copy p{color:#c2b9ab;max-width:700px}.rpg-preview-state{display:inline-block;margin-top:9px;border:1px solid #5e5068;color:#d2c1df;padding:5px 9px;font-size:.67rem;text-transform:uppercase;letter-spacing:.11em}
+.rpg-preview-points{display:grid;border-top:1px solid #3d3529}.rpg-preview-point{padding:14px 2px;border-bottom:1px solid #3d3529;color:#b9b0a3}.rpg-preview-point b{display:block;color:#cfb785;font:400 1.05rem Georgia,"Times New Roman",serif;margin-bottom:4px}
+.rpg-future-card{color:inherit;text-decoration:none}.rpg-cover{background:repeating-linear-gradient(90deg,rgba(46,39,30,.05) 0 1px,transparent 1px 6px),linear-gradient(150deg,#c8b89a,#9f8a69 58%,#6a5842)!important}
+@media(max-width:900px){.rpg-preview-panel{grid-template-columns:1fr}}
 </style>
   <link rel="stylesheet" href="assets/support-widget.css" />
 </head>
@@ -224,7 +231,7 @@ section+section{position:relative}
   <div class="shell"><nav>
     <a class="brand" href="#inicio"><span>Biblioteca Lumyrieliana</span></a>
     <button class="menu-toggle" id="menuToggle" type="button" aria-controls="siteNav" aria-expanded="false">Índice</button>
-    <div class="navlinks" id="siteNav"><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#artes">Artes</a><a href="#inspiracoes">Inspirações</a><a href="#origem">Origem</a><a href="feedback.html">Feedback</a></div>
+    <div class="navlinks" id="siteNav"><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#rpg-preview">RPG</a><a href="#artes">Artes</a><a href="#inspiracoes">Inspirações</a><a href="#origem">Origem</a><a href="feedback.html">Feedback</a></div>
   </nav></div>
 </header>
 
@@ -253,10 +260,10 @@ section+section{position:relative}
     </div>
   </div>
     <div class="future-shelf" id="futureShelf">
-      <div class="future-shelf-head"><div><div class="eyebrow">Em preparação</div><h3>Próximas obras</h3></div><p>Projetos ainda sem arte final permanecem separados da coleção publicada ou em produção ativa.</p></div>
+      <div class="future-shelf-head"><div><div class="eyebrow">Em preparação</div><h3>Próximos projetos</h3></div><p>Livros e experiências ainda em preparação permanecem separados da coleção publicada ou em produção ativa.</p></div>
       <div class="future-list">
         <article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover d placeholder-cover" data-optional-cover="biologia"><small>Arte em preparação</small><h3 class="future-title-biology"><span class="title-line">Biologia</span><span class="title-line">Lumyrieliana</span></h3><span class="roman">BIO</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Biologia Lumyrieliana</h3><p>Futuro livro voltado à natureza biológica de Lumyriel. O título, a estrutura e o escopo editorial ainda serão definidos quando a frente for iniciada.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>
-        <article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover f placeholder-cover" data-optional-cover="matematica"><small>Arte em preparação</small><h3 class="future-title-math"><span class="title-line">Matemática</span><span class="title-line">Lumyrieliana</span></h3><span class="roman">MAT</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Matemática Lumyrieliana</h3><p>Projeto futuro voltado à formalização matemática dos fenômenos mágicos de Lumyriel, conectando linguagem didática, modelos, limites e aplicações sem substituir as autoridades técnicas do mundo.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>
+        <article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover f placeholder-cover" data-optional-cover="matematica"><small>Arte em preparação</small><h3 class="future-title-math"><span class="title-line">Matemática</span><span class="title-line">Lumyrieliana</span></h3><span class="roman">MAT</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Matemática Lumyrieliana</h3><p>Projeto futuro voltado à formalização matemática dos fenômenos mágicos de Lumyriel, conectando linguagem didática, modelos, limites e aplicações sem substituir as autoridades técnicas do mundo.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>\n        <a class="card future-card rpg-future-card" data-status="planned" href="#rpg-preview" aria-label="Ver vislumbre do Lumyriel RPG"><div class="cover-wrap"><div class="cover placeholder-cover rpg-cover"><small>Experiência futura</small><h3><span class="title-line">Lumyriel</span><span class="title-line">RPG</span></h3><span class="roman">RPG</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Lumyriel RPG</h3><p>Experiência single player que pretende usar o Criador de Personagens como ponto de partida para campanhas narradas dinamicamente e coerentes com o mundo de Lumyriel.</p><div class="bottom"><span>projeto futuro</span><span class="textlink">Ver vislumbre →</span></div></div></a>
         
       </div>
     </div>
@@ -277,6 +284,19 @@ section+section{position:relative}
         <div class="creator-point"><b>Ficha extensa.</b> Corpo, olhos, cabelo, crença, origem, ofícios, armas, Aura, Mana e muito mais.</div>
         <div class="creator-point"><b>Biografia editável.</b> Escreva do zero ou gere uma primeira versão a partir das escolhas.</div>
         <div class="creator-point"><b>Randomização.</b> Gere uma base completa e refine somente o que quiser.</div>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="rpg-preview" class="rpg-preview"><div class="shell">
+    <div class="rpg-preview-panel">
+      <div class="rpg-preview-copy"><div class="section-kicker"><span>04</span><div class="eyebrow">Projeto futuro</div></div><h2>Lumyriel RPG</h2><p>O RPG está sendo pensado como uma experiência single player em que o personagem criado no próprio site poderá atravessar aventuras construídas a partir das regras, culturas, lugares e consequências de Lumyriel.</p><p>A proposta é que um narrador baseado em GPT conduza a aventura em tempo real sem tratar o mundo como cenário descartável: escolhas, limites, habilidades, recursos e acontecimentos precisam continuar coerentes com as autoridades do projeto.</p><span class="rpg-preview-state">Em planejamento e prototipagem</span></div>
+      <div class="rpg-preview-points">
+        <div class="rpg-preview-point"><b>Seu personagem entra na campanha.</b> O Criador de Personagens será a ponte entre ficha, histórico, limitações e aventura.</div>
+        <div class="rpg-preview-point"><b>Narrador dinâmico.</b> Aventuras e respostas poderão ser conduzidas por GPT, preservando o cânone e as regras do mundo.</div>
+        <div class="rpg-preview-point"><b>Duração escolhida.</b> A campanha poderá ser ajustada para experiências curtas, como 30 minutos ou 1 hora, e formatos maiores no futuro.</div>
+        <div class="rpg-preview-point"><b>Dificuldade ajustável.</b> História, Fácil, Médio, Difícil e Lumyriel estão previstos como modos com diferentes níveis de exigência.</div>
+        <div class="rpg-preview-point"><b>Referências, não cópias.</b> Dungeons &amp; Dragons, Symbaroum e RuneScape ajudam a formular perguntas de jogo; sistemas e lore continuam pertencendo a Lumyriel.</div>
       </div>
     </div>
   </div></section>
@@ -314,7 +334,7 @@ section+section{position:relative}
 
   <section id="origem"><div class="shell origin">
     <aside class="origin-card" aria-label="Ficha de origem do projeto"><div class="origin-label">Ficha de origem</div><strong>Onde tudo começou</strong><dl><div><dt>Instituição</dt><dd>Faculdade FAVOO · Vilhena, Rondônia</dd></div><div><dt>Curso</dt><dd>Administração · 1º período</dd></div><div><dt>Disciplina</dt><dd>Stakeholders e Seus Interesses</dd></div><div><dt>Professor</dt><dd>Emerson Inacio da Silva</dd></div></dl></aside>
-    <div class="origin-copy"><div class="section-kicker"><span>06</span><div class="eyebrow">Origem do projeto</div></div><h2>De um projeto acadêmico nasceu Lumyriel.</h2><p>Este projeto começou durante a disciplina de Stakeholders e Seus Interesses, ministrada pelo professor Emerson Inacio da Silva no primeiro período do curso de Administração da Faculdade FAVOO, em Vilhena, Rondônia.</p><p>O que nasceu como um projeto acadêmico cresceu para muito além da proposta inicial. Lumyriel se tornou um universo em desenvolvimento contínuo, com histórias, culturas, eras, mapas, documentos e uma memória própria que hoje ultrapassa em muito aquilo que eu imaginava quando comecei.</p></div>
+    <div class="origin-copy"><div class="section-kicker"><span>07</span><div class="eyebrow">Origem do projeto</div></div><h2>De um projeto acadêmico nasceu Lumyriel.</h2><p>Este projeto começou durante a disciplina de Stakeholders e Seus Interesses, ministrada pelo professor Emerson Inacio da Silva no primeiro período do curso de Administração da Faculdade FAVOO, em Vilhena, Rondônia.</p><p>O que nasceu como um projeto acadêmico cresceu para muito além da proposta inicial. Lumyriel se tornou um universo em desenvolvimento contínuo, com histórias, culturas, eras, mapas, documentos e uma memória própria que hoje ultrapassa em muito aquilo que eu imaginava quando comecei.</p></div>
   </div></section>
 </main>
 
