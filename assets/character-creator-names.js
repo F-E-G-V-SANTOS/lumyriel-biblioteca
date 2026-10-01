@@ -1,0 +1,32 @@
+/* Modos de nome do Criador de Personagens de Lumyriel. */
+(function(){
+'use strict';
+function boot(){
+ if(!document.getElementById('creatorForm')||typeof window.updateLumName!=='function')return setTimeout(boot,40);
+ if(window.__LUMYRIEL_NAMES_V2__)return;window.__LUMYRIEL_NAMES_V2__=true;
+ var $=function(id){return document.getElementById(id)},form=$('creatorForm'),pair=document.querySelector('.name-pair');
+ var title=[].slice.call(document.querySelectorAll('.section-title')).find(function(x){return x.textContent.trim()==='Nome'});if(!title||!pair)return;
+ var style=document.createElement('style');style.textContent='.name-mode-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0 0 16px}.name-mode{position:relative}.name-mode input{position:absolute;opacity:0;pointer-events:none}.name-mode label{display:block;height:100%;border:1px solid #a18b69;background:rgba(250,244,231,.48);padding:11px 12px;cursor:pointer;color:#514536}.name-mode input:checked+label{border-color:#785f3a;background:#d6c4a3;color:#2f261c;box-shadow:inset 0 0 0 1px rgba(120,95,58,.18)}.name-generator-row{display:none;gap:9px;align-items:center;flex-wrap:wrap;margin:10px 0 12px}.name-generator-row.show{display:flex}.name-source-hidden{display:none!important}@media(max-width:650px){.name-mode-grid{grid-template-columns:1fr}}';document.head.appendChild(style);
+ var modes=document.createElement('div');modes.className='name-mode-grid';modes.innerHTML='<div class="name-mode"><input type="radio" name="nameMode" id="nameModeAdapt" value="adapt" checked><label for="nameModeAdapt"><strong>Naturalizar meu nome</strong><br><span class="subtle">Usa seu nome como referência e cria uma forma lumyrieliana.</span></label></div><div class="name-mode"><input type="radio" name="nameMode" id="nameModeGenerated" value="generated"><label for="nameModeGenerated"><strong>Gerar nome de Lumyriel</strong><br><span class="subtle">Cria um nome diretamente no padrão linguístico do mundo.</span></label></div><div class="name-mode"><input type="radio" name="nameMode" id="nameModeReal" value="real"><label for="nameModeReal"><strong>Usar meu nome real</strong><br><span class="subtle">Mantém exatamente o nome digitado, sem conversão.</span></label></div>';title.insertAdjacentElement('afterend',modes);
+ var row=document.createElement('div');row.id='nameGeneratorRow';row.className='name-generator-row';row.innerHTML='<button type="button" class="btn" id="generateLumyrielNameBtn">Gerar nome lumyrieliano</button><span class="subtle" id="nameGeneratorHint">Escolha o gênero primeiro. “Não definir” gera um nome de forma neutra.</span>';pair.insertAdjacentElement('afterend',row);
+ var generated='';
+ function mode(){var e=document.querySelector('input[name="nameMode"]:checked');return e?e.value:'adapt'}
+ function source(){return [$('firstName').value.trim(),$('middleName').value.trim(),$('surname').value.trim()].filter(Boolean).join(' ')}
+ var old=window.updateLumName;
+ window.updateLumName=function(){var m=mode();if(m==='adapt')return old();if(m==='real'){$('name').value=source();return}$('name').value=generated||''};
+ var maleOn=['Ka','Va','Ro','Da','Se','Tha','Le','Ma','Ga','Ar','Tor','Ber','Ra','No','Sa'];
+ var femaleOn=['Sa','Ela','Ma','Va','Li','Na','Ari','The','Ka','Ily','Ser','Mira','Rae','Ana','Vel','Eli','Tae','Nya'];
+ var neutralOn=['Ae','El','Va','Ren','Sor','Ka','Iri','Tal','Ner','Lyr','Or','Sel','Mar','Eri','Tha','Rin','Ari','Ven'];
+ var mids=['l','r','v','th','n','m','s','d','k','ly','vr','sh','dr','rn'],vowels=['a','e','i','o','u','ae','ia','ei'];
+ var maleEnd=['or','ar','en','ir','el','an','er','ion','ren','dor'],femaleEnd=['a','ia','ra','ya','is','ela','ira','ena','iel','ara'],neutralEnd=['en','el','is','ar','ir','ven','ren','al','or','ae'],familyEnd=['ar','en','or','al','is','er','an','eth','var','ren'];
+ function pick(a){return a[Math.floor(Math.random()*a.length)]}
+ function piece(g,slot){var on=g==='Homem'?pick(maleOn):(g==='Mulher'?pick(femaleOn):pick(neutralOn)),end=slot===2?pick(familyEnd):(g==='Homem'?pick(maleEnd):(g==='Mulher'?pick(femaleEnd):pick(neutralEnd))),mid=Math.random()<.65?pick(mids)+pick(vowels):pick(vowels),raw=(on+mid+end).replace(/([aeiou])\1+/ig,'$1').replace(/(.)\1\1+/g,'$1$1');return raw.charAt(0).toUpperCase()+raw.slice(1).toLowerCase()}
+ function generate(){var g=$('gender').value,h=$('nameGeneratorHint');if(!g){h.textContent='Escolha o gênero antes de gerar o nome.';h.style.color='#814941';$('gender').focus();return}generated=[piece(g,0),Math.random()<.36?piece(g,1):'',piece('Não definir',2)].filter(Boolean).join(' ');$('name').value=generated;h.textContent='Nome gerado diretamente como candidato onomástico de Lumyriel. Você pode gerar outro quantas vezes quiser.';h.style.color=''}
+ function sync(){var m=mode();pair.classList.toggle('name-source-hidden',m==='generated');row.classList.toggle('show',m==='generated');if(m==='generated')$('name').value=generated||'';else window.updateLumName()}
+ document.querySelectorAll('input[name="nameMode"]').forEach(function(e){e.addEventListener('change',sync)});['firstName','middleName','surname'].forEach(function(id){$(id).addEventListener('input',function(){setTimeout(window.updateLumName,0)})});$('generateLumyrielNameBtn').addEventListener('click',generate);$('gender').addEventListener('change',function(){if(mode()==='generated'&&!generated)$('nameGeneratorHint').textContent='Gênero definido. Agora você já pode gerar o nome.'});
+ try{var raw=localStorage.getItem('lumyriel-character-draft'),d=raw?JSON.parse(raw):null,data=d&&(d.data||d);if(data&&data.nameMode){var n=document.querySelector('input[name="nameMode"][value="'+data.nameMode+'"]');if(n)n.checked=true}if(data&&data.generatedName)generated=data.generatedName}catch(e){}
+ var oldSave=window.saveLocal;window.saveLocal=function(){oldSave();try{var r=localStorage.getItem('lumyriel-character-draft'),o=JSON.parse(r||'{}');o.data=o.data||{};o.data.nameMode=mode();o.data.generatedName=generated||'';localStorage.setItem('lumyriel-character-draft',JSON.stringify(o))}catch(e){}};
+ window.LUMYRIEL_NAME_MODE=mode;window.LUMYRIEL_GENERATED_NAME=function(){return generated};sync();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
