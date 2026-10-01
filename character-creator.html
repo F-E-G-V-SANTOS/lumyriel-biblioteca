@@ -88,6 +88,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <option value="Nerathi">Nerathi — humanoide aquático verdadeiro</option>
 <option value="Feérico">Feérico — família de múltiplas espécies</option>
 <option value="Lupran">Lupran — espécie de morfologia Selvari lupina</option>
+<option value="Felran">Felran — espécie de morfologia Selvari felina</option>
 <option value="Valdrin">Valdrin — espécie humanoide corniforme</option>
 <option value="__other__">Outro / personalizar</option>
 </select>
@@ -100,19 +101,20 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <select id="specialMorphology" name="specialMorphology">
 <option value="">Nenhuma morfologia adicional</option>
 <option>Lupran — morfologia Selvari lupina estável</option>
-<option>Selvari felino — traços felinos funcionais</option>
+<option>Felran — morfologia Selvari felina estável</option>
+<option>Selvari felino — outra origem biologicamente demonstrada</option>
 <option>Selvari lupino não-Lupran — traços lupinos funcionais</option>
 <option>Selvari ursino — traços ursinos funcionais</option>
 <option value="__other__">Outra morfologia / personalizar</option>
 </select>
 <div id="specialMorphologyCustomWrap" class="custom-field"><input id="specialMorphologyCustom" placeholder="Descreva a morfologia"></div>
-<div id="morphologyDescription" class="info-box">Selvari descreve uma morfologia humanoide com traços animais funcionais, não uma espécie única. Lupran é uma espécie Selvari lupina; fenótipos felinos, lupinos e ursinos podem ter outras origens biológicas documentadas.</div>
+<div id="morphologyDescription" class="info-box">Selvari descreve morfologia humanoide animaliforme, não uma espécie única. Lupran é uma espécie Selvari lupina e Felran é uma espécie Selvari felina. Nethra das Sombras / Gatos Sombra são grandes felinos quadrúpedes e não pertencem à taxonomia Selvari por padrão.</div>
 </div>
 
 <div class="field full conditional" id="mutariWrap">
 <div class="grid">
-<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option value="Nareth">Nareth (dragão em corpo humanoide)</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (Selvari lupino)</option><option value="Valdrin">Valdrin</option></select></div>
-<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option value="Nareth">Nareth (dragão em corpo humanoide)</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (Selvari lupino)</option><option value="Valdrin">Valdrin</option></select></div>
+<div class="field"><label for="parentA">Pai / progenitor 1</label><select id="parentA" name="parentA"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option value="Nareth">Nareth (dragão em corpo humanoide)</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (Selvari lupino)</option><option value="Felran">Felran (Selvari felino)</option><option value="Valdrin">Valdrin</option></select></div>
+<div class="field"><label for="parentB">Mãe / progenitor 2</label><select id="parentB" name="parentB"><option value="">Selecione</option><option>Humano</option><option>Elfo</option><option>Anão</option><option value="Nareth">Nareth (dragão em corpo humanoide)</option><option>Korvath</option><option>Ruvani</option><option>Khevran</option><option>Hadrun</option><option>Theryn</option><option>Sairen</option><option>Nerathi</option><option>Feérico</option><option value="Lupran">Lupran (Selvari lupino)</option><option value="Felran">Felran (Selvari felino)</option><option value="Valdrin">Valdrin</option></select></div>
 </div>
 <div id="mutariResult" class="info-box">Escolha duas ancestralidades. Combinações ainda não confirmadas serão tratadas como candidatas, não como biologia canônica.</div>
 </div>
@@ -160,7 +162,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="build">Constituição</label><select id="build" name="build"><option value="">Selecione</option><option>Delicada</option><option>Esbelta</option><option>Mediana</option><option>Atlética</option><option>Robusta</option><option>Musculosa</option><option>Corpulenta</option><option value="__other__">Outra / personalizar</option></select><div id="buildCustomWrap" class="custom-field"><input id="buildCustom" placeholder="Constituição"></div></div>
 <div class="field"><label for="posture">Postura</label><select id="posture" name="posture"><option value="">Selecione</option><option>Relaxada</option><option>Formal</option><option>Vigilante</option><option>Curvada</option><option>Marcial</option><option>Elegante</option><option>Assimétrica</option><option value="__other__">Outra / personalizar</option></select><div id="postureCustomWrap" class="custom-field"><input id="postureCustom" placeholder="Postura"></div></div>
 <div class="field"><label for="headShape">Formato da cabeça</label><select id="headShape" name="headShape"><option value="">Selecione</option><option>Oval</option><option>Redonda</option><option>Alongada</option><option>Quadrada</option><option>Triangular</option><option>Angular</option><option value="__other__">Outro / personalizar</option></select><div id="headShapeCustomWrap" class="custom-field"><input id="headShapeCustom" placeholder="Formato"></div></div>
-<div class="field"><label for="faceShape">Formato do rosto</label><select id="faceShape" name="faceShape"><option value="">Selecione</option><option>Oval</option><option>Redondo</option><option>Quadrado</option><option>Longo</option><option>Coração</option><option>Diamante</option><option>Angular</option><option value="__other__">Outro / personalizar</option></select><div id="faceShapeCustomWrap" class="custom-field"><input id="faceShapeCustom" placeholder="Formato"></div></div>
+<div class="field"><label for="faceShape">Formato do rosto</label><select id="faceShape" name="faceShape"><option value="">Selecione</option><option>Oval</option><option>Redondo</option><option>Quadrado</option><option>Longo</option><option>Coração</option><option>Diamante</option><option>Angular</option><option>Humanoide com focinho curto</option><option value="__other__">Outro / personalizar</option></select><div id="faceShapeCustomWrap" class="custom-field"><input id="faceShapeCustom" placeholder="Formato"></div></div>
 <div class="field"><label for="brows">Formato das sobrancelhas</label><select id="brows" name="brows"><option value="">Selecione</option><option>Retas</option><option>Levemente arqueadas</option><option>Arqueadas</option><option>Angulares</option><option>Grossas</option><option>Finas</option><option>Baixas e marcadas</option><option>Altas e abertas</option><option>Assimétricas</option><option value="__other__">Outro / personalizar</option></select><div id="browsCustomWrap" class="custom-field"><input id="browsCustom" placeholder="Formato das sobrancelhas"></div></div>
 
 <div class="field"><label for="skin">Tonalidade da pele</label>
@@ -278,7 +280,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <div class="field"><label for="teeth">Dentes</label><select id="teeth" name="teeth"><option value="">Selecione</option><option>Regulares</option><option>Levemente irregulares</option><option>Desgastados</option><option>Com falhas visíveis</option><option>Caninos marcados</option><option>Cuidados profissionalmente</option><option value="__other__">Outro / personalizar</option></select><div id="teethCustomWrap" class="custom-field"><input id="teethCustom" placeholder="Dentes"></div></div>
 <div class="field"><label for="ears">Formato das orelhas</label><select id="ears" name="ears"><option value="">Selecione</option><option>Pequenas e arredondadas</option><option>Médias e arredondadas</option><option>Grandes e arredondadas</option><option>Alongadas</option><option>Pontiagudas curtas</option><option>Pontiagudas longas</option><option>Próximas à cabeça</option><option>Projetadas lateralmente</option><option>Assimétricas</option><option>Felinas altas e móveis</option><option>Lupinas altas e móveis</option><option>Ursinas arredondadas</option><option value="__other__">Outro / personalizar</option></select><div id="earsCustomWrap" class="custom-field"><input id="earsCustom" placeholder="Formato das orelhas"></div></div>
 <div class="field"><label for="tail">Cauda</label><select id="tail" name="tail"><option value="">Sem cauda / não definir</option><option>Cauda lupina funcional</option><option>Cauda felina funcional</option><option>Cauda ursina curta</option><option>Cauda fina e longa</option><option>Cauda espessa e longa</option><option value="__other__">Outra / personalizar</option></select><div id="tailCustomWrap" class="custom-field"><input id="tailCustom" placeholder="Formato da cauda"></div></div>
-<div class="field"><label for="nails">Unhas / mãos</label><select id="nails" name="nails"><option value="">Selecione</option><option>Cuidadas</option><option>Marcadas por trabalho manual</option><option>Calos frequentes</option><option>Unhas curtas e funcionais</option><option>Unhas longas</option><option>Cicatrizes nas mãos</option><option value="__other__">Outro / personalizar</option></select><div id="nailsCustomWrap" class="custom-field"><input id="nailsCustom" placeholder="Mãos / unhas"></div></div>
+<div class="field"><label for="nails">Unhas / mãos</label><select id="nails" name="nails"><option value="">Selecione</option><option>Cuidadas</option><option>Marcadas por trabalho manual</option><option>Calos frequentes</option><option>Unhas curtas e funcionais</option><option>Unhas longas</option><option>Garras retráteis funcionais</option><option>Garras semirretráteis funcionais</option><option>Cicatrizes nas mãos</option><option value="__other__">Outro / personalizar</option></select><div id="nailsCustomWrap" class="custom-field"><input id="nailsCustom" placeholder="Mãos / unhas"></div></div>
 <div class="field"><label for="voice">Timbre e ritmo da voz</label><select id="voice" name="voice"><option value="">Selecione</option><option>Baixa e calma</option><option>Grave</option><option>Aguda</option><option>Suave</option><option>Rouca</option><option>Rápida</option><option>Lenta e medida</option><option>Projetada / marcial</option><option>Monótona</option><option>Melódica</option><option value="__other__">Outra / personalizar</option></select><div id="voiceCustomWrap" class="custom-field"><input id="voiceCustom" placeholder="Timbre ou ritmo"></div></div>
 </div>
 <div class="mini-title">Jeito de falar <span class="subtle">· combine quantos quiser</span></div>
@@ -475,7 +477,8 @@ var BIOLOGY_PRINCIPLE='FORMA EXIGE FUNÇÃO · FUNÇÃO EXIGE ESTRUTURA · ESTRU
 var ACQUIRED_OCULAR=['Coroa Parasita','Sangue Rúnico','Olho da Aparição','Brasa Profana','Vazio Corrompido'];
 var SELVARI_EXPECTATIONS={
  'Lupran — morfologia Selvari lupina estável':{kind:'lupino',ear:'Lupinas altas e móveis',tails:['Cauda lupina funcional']},
- 'Selvari felino — traços felinos funcionais':{kind:'felino',ear:'Felinas altas e móveis',tails:['','Cauda felina funcional']},
+ 'Felran — morfologia Selvari felina estável':{kind:'felino',ear:'Felinas altas e móveis',tails:['Cauda felina funcional']},
+ 'Selvari felino — outra origem biologicamente demonstrada':{kind:'felino',ear:'Felinas altas e móveis',tails:['','Cauda felina funcional']},
  'Selvari lupino não-Lupran — traços lupinos funcionais':{kind:'lupino',ear:'Lupinas altas e móveis',tails:['','Cauda lupina funcional']},
  'Selvari ursino — traços ursinos funcionais':{kind:'ursino',ear:'Ursinas arredondadas',tails:['','Cauda ursina curta']}
 };
@@ -494,12 +497,14 @@ var PEOPLE_INFO={
 'Nerathi':'Espécie aquática verdadeira de Umbralis. Corpo humanoide hidrodinâmico, braços manipuladores, pernas adaptadas à natação, pés amplos, brânquias principais e pulmões reduzidos de apoio. Podem permanecer no ar, mas isso custa fisiologicamente; não são “magos de água” por natureza.',
 'Feérico':'Família ampla de múltiplas espécies, algumas sapientes e outras não. Entre linhagens sapientes consolidadas, indivíduos podem nascer em Primeira Estatura, de até cerca de 60 cm, e durante a maturidade permanecer nela ou assumir uma Segunda Estatura humanoide permanente. Isso não é evolução de poder.',
 'Lupran':'Espécie/povo sapiente independente de morfologia Selvari lupina. Possui corpo bípede funcional, mãos manipuladoras, um único par funcional de orelhas lupinas móveis, cauda funcional, caninos desenvolvidos, estrutura facial que pode variar de muito humanoide a focinho curto e pelagem de distribuição variável. Não é humano-lobo, lobisomem, Mutari humano-lobo ou Fenrion humanoide.',
+'Felran':'Espécie sapiente biologicamente estável de morfologia Selvari felina. Possui corpo bípede e mãos manipuladoras, um único par funcional de orelhas felinas móveis, cauda funcional, caninos desenvolvidos e garras retráteis ou semirretráteis conforme a linhagem. O rosto pode variar de fortemente humanoide a focinho curto; pelagem e vibrissas também variam. Tende a bom desempenho em baixa luminosidade, equilíbrio e coordenação, mas não enxerga no escuro absoluto, não possui poder de sombra inato e não é Gato Sombra / Nethra das Sombras.',
 'Valdrin':'Espécie sapiente humanoide independente de morfologia corniforme. Chifres verdadeiros e permanentes integram o crânio e podem variar em forma, curvatura, espessura e orientação. Valdrin é o nome canônico da espécie; “corniforme” é apenas o descritor anatômico. Não é demônio, Mutari ou dracônico por definição.'
 }
 
 var MORPH_INFO={
 'Lupran — morfologia Selvari lupina estável':'Forma corporal natural dos Lupran: anatomia humanoide estável com um único par funcional de orelhas lupinas, cauda funcional, dentição e aparelho sensorial próprios. Não há forma humana oculta nem transformação por lua.',
-'Selvari felino — traços felinos funcionais':'Morfologia Selvari felina: orelhas felinas funcionais substituem o pavilhão humano, podendo coexistir com cauda, caninos, pilosidade e outras adaptações coerentes. Selvari é morfologia, não espécie única; Gatos Sombra podem apresentar esse fenótipo sem criar uma espécie felina separada.',
+'Felran — morfologia Selvari felina estável':'Forma corporal natural dos Felran: anatomia humanoide estável com um único par funcional de orelhas felinas móveis, cauda funcional, caninos desenvolvidos e garras retráteis ou semirretráteis conforme a linhagem. Pelagem, vibrissas e grau de projeção do focinho variam entre populações e indivíduos.',
+'Selvari felino — outra origem biologicamente demonstrada':'Morfologia Selvari felina fora da espécie Felran: orelhas felinas funcionais substituem o pavilhão humano e outros traços só entram quando houver origem corporal compatível. Nethra das Sombras / Gatos Sombra são felinos quadrúpedes e não são uma origem Selvari.',
 'Selvari lupino não-Lupran — traços lupinos funcionais':'Morfologia Selvari lupina fora dos Lupran exige uma origem corporal própria e demonstrável. Sem isso, semelhança com Lupran não transforma automaticamente o personagem em Lupran, Mutari ou lobisomem.',
 'Selvari ursino — traços ursinos funcionais':'Morfologia Selvari ursina pode incluir orelhas arredondadas funcionais, pilosidade localizada, dentição e unhas modificadas conforme a origem biológica. Urso Totem pode apresentar esse fenótipo sem constituir uma espécie ursina separada.'
 }
@@ -574,6 +579,7 @@ var HEIGHT_RULES={
 'Nerathi':[140,220,5],
 'Nareth':[145,220,5],
 'Lupran':null,
+'Felran':null,
 'Valdrin':null
 };
 
@@ -773,6 +779,12 @@ function syncMorphologyAnatomy(){
    if(!tail.value)tail.value='Cauda lupina funcional';
    sm=morph.value;
  }
+ if(sp==='Felran'){
+   if(!sm)morph.value='Felran — morfologia Selvari felina estável';
+   if(!ears.value)ears.value='Felinas altas e móveis';
+   if(!tail.value)tail.value='Cauda felina funcional';
+   sm=morph.value;
+ }
  var rule=SELVARI_EXPECTATIONS[sm];
  if(rule&&rule.ear&&!ears.value)ears.value=rule.ear;
 }
@@ -800,11 +812,15 @@ function biologicalCoherenceState(){
    if(sm==='Lupran — morfologia Selvari lupina estável'&&sp!=='Lupran'){
      blockers.push('A morfologia Lupran estável pertence à espécie Lupran. Para outra espécie, use a opção Selvari lupino não-Lupran e explique sua origem corporal.');
    }
+   if(sm==='Felran — morfologia Selvari felina estável'&&sp!=='Felran'){
+     blockers.push('A morfologia Felran estável pertence à espécie Felran. Para outra espécie, use Selvari felino de outra origem e explique sua biologia.');
+   }
    if(sr){
      if(ear&&ear!==sr.ear)blockers.push('A morfologia '+sr.kind+' escolhida não é compatível com o formato de orelhas selecionado. Um plano Selvari usa um único sistema auricular funcional.');
      if(tail&&!sr.tails.includes(tail))blockers.push('A morfologia '+sr.kind+' escolhida não é compatível com a cauda selecionada. Misturar planos animais independentes não produz uma anatomia funcional por simples soma estética.');
    }
-   if(sm!=='Lupran — morfologia Selvari lupina estável'){
+   var naturalSelvari=(sp==='Lupran'&&sm==='Lupran — morfologia Selvari lupina estável')||(sp==='Felran'&&(sm==='Felran — morfologia Selvari felina estável'||sm==='Selvari felino — outra origem biologicamente demonstrada'));
+   if(!naturalSelvari){
      warnings.push('A morfologia especial precisa de uma origem corporal que explique como esqueleto, musculatura, nervos, circulação e sentidos sustentam o fenótipo.');
      requiresOrigin=true;
    }
@@ -815,17 +831,21 @@ function biologicalCoherenceState(){
  }
 
  var animalEar=/Felinas|Lupinas|Ursinas/.test(ear),animalTail=/lupina|felina|ursina/i.test(tail);
- if(animalEar&&sp!=='Lupran'&&!sm){
+ if(animalEar&&!['Lupran','Felran'].includes(sp)&&!sm){
    warnings.push('Orelhas animais funcionais configuram um traço Selvari ou outra alteração anatômica. Elas precisam de uma origem corporal e substituem o pavilhão auricular humanoide correspondente.');
    requiresOrigin=true;
  }
- if(animalTail&&sp!=='Lupran'&&!sm){
+ if(animalTail&&!['Lupran','Felran'].includes(sp)&&!sm){
    warnings.push('Uma cauda funcional exige integração com coluna, pelve, musculatura, circulação e sistema nervoso; ela precisa de uma origem corporal coerente.');
    requiresOrigin=true;
  }
  if(sp==='Lupran'){
    if(ear&&ear!=='Lupinas altas e móveis')blockers.push('Lupran possui sistema auricular lupino funcional. O formato selecionado contradiz o plano corporal Lupran.');
    if(tail&&tail!=='Cauda lupina funcional')blockers.push('Lupran possui cauda lupina funcional. A cauda selecionada contradiz o plano corporal Lupran.');
+ }
+ if(sp==='Felran'){
+   if(ear&&ear!=='Felinas altas e móveis')blockers.push('Felran possui um único par funcional de orelhas felinas. O formato selecionado contradiz o plano corporal Felran.');
+   if(tail&&tail!=='Cauda felina funcional')blockers.push('Felran possui cauda felina funcional. A cauda selecionada contradiz o plano corporal Felran.');
  }
 
  if(ocular==='Vaelir (H4)'&&!hasDraconicAncestry())blockers.push('Vaelir natural exige ascendência dracônica. Sem ela, a arquitetura selecionada não possui suporte biológico no cânone vigente.');
@@ -909,10 +929,16 @@ function updatePeopleDescription(){
  box.innerHTML=v&&PEOPLE_INFO[v]?'<strong>'+escapeHtml(v)+':</strong> '+escapeHtml(PEOPLE_INFO[v]):(v==='__other__'?'Use o campo de personalização. Espécies novas continuam sujeitas à avaliação do projeto.':'Escolha uma opção para ver uma descrição visual e biológica curta baseada no cânone atual.');
  var morph=document.getElementById('specialMorphology'),ears=document.getElementById('ears'),tail=document.getElementById('tail');
  if(v==='Lupran'&&!morph.value)morph.value='Lupran — morfologia Selvari lupina estável';
+ if(v==='Felran'&&!morph.value)morph.value='Felran — morfologia Selvari felina estável';
  if(v!=='Lupran'&&morph.value==='Lupran — morfologia Selvari lupina estável'){
    morph.value='';
    if(ears.value==='Lupinas altas e móveis')ears.value='';
    if(tail.value==='Cauda lupina funcional')tail.value='';
+ }
+ if(v!=='Felran'&&morph.value==='Felran — morfologia Selvari felina estável'){
+   morph.value='';
+   if(ears.value==='Felinas altas e móveis')ears.value='';
+   if(tail.value==='Cauda felina funcional')tail.value='';
  }
  populateHeightForSpecies(v);
  syncMorphologyAnatomy();
@@ -926,7 +952,8 @@ function updateMorphologyDescription(){
  var v=document.getElementById('specialMorphology').value,box=document.getElementById('morphologyDescription'),sp=document.getElementById('people').value;
  var msg=MORPH_INFO[v]||'Selvari descreve morfologia, não uma espécie única. Espécie, Mutari, Alterado e Metamorfo continuam categorias diferentes e a origem corporal precisa ser coerente.';
  if(v==='Lupran — morfologia Selvari lupina estável'&&sp&&sp!=='Lupran')msg+=' Para uma espécie que não seja Lupran, essa aparência precisa de outra origem corporal e não deve ser tratada como Lupran automático.';
- if(v&&v.indexOf('Selvari')>=0&&v!=='Lupran — morfologia Selvari lupina estável')msg+=' A ficha deve registrar a origem plausível desse fenótipo: linhagem, alteração, metamorfismo ou outro mecanismo já sustentado pelo projeto.';
+ if(v==='Felran — morfologia Selvari felina estável'&&sp&&sp!=='Felran')msg+=' Para uma espécie que não seja Felran, essa aparência precisa de outra origem corporal e não deve ser tratada como Felran automático.';
+ if(v&&v.indexOf('Selvari')>=0&&!['Lupran — morfologia Selvari lupina estável','Felran — morfologia Selvari felina estável'].includes(v))msg+=' A ficha deve registrar a origem plausível desse fenótipo: linhagem, alteração, metamorfismo ou outro mecanismo já sustentado pelo projeto.';
  box.innerHTML='<strong>Morfologia:</strong> '+escapeHtml(msg);
  updateBiologicalCoherence();
 }
@@ -992,6 +1019,7 @@ function updateIdentityRecommendations(){
  if(sp==='Hadrun')items.push('Hadrun: 2,6–3,2 m e 300–500+ kg são coerentes pela escala corporal cúbica e pela anatomia robusta; massa alta não significa obesidade.');
  if(sp==='Nareth')items.push('Nareth: o corpo é humanoide definitivo. Asas, cauda dracônica funcional ou retorno ao corpo primordial não combinam com a biologia vigente.');
  if(sp==='Lupran')items.push('Lupran: a anatomia lupino-convergente é estável e canônica: corpo bípede, mãos manipuladoras, orelhas móveis, cauda funcional, caninos desenvolvidos e pelagem variável. Não é lobisomem nem Mutari humano-lobo.');
+ if(sp==='Felran')items.push('Felran: a anatomia Selvari felina é estável: corpo bípede, mãos manipuladoras, um único par de orelhas felinas móveis, cauda funcional, caninos e garras especializadas. Visão em baixa luz, equilíbrio e coordenação são vantagens médias com custos reais; não são poderes e não tornam o personagem um Gato Sombra.');
  if(sp==='Valdrin')items.push('Valdrin: chifres verdadeiros permanentes são parte do crânio e exigem acomodação física; Valdrin é a espécie, enquanto corniforme é apenas o descritor anatômico. Chifres não indicam demônio, poder, casta ou ascendência dracônica.');
  var sm=selectedText('specialMorphology');
  if(sm)items.push('Morfologia especial: '+(MORPH_INFO[sm]||sm));
@@ -1058,8 +1086,10 @@ function populateHeightForSpecies(species){
  var height=document.getElementById('height'),current=height.value;
  height.innerHTML='<option value="">Selecione</option>';
  var rule=HEIGHT_RULES[species];
- if(species==='Lupran'||species==='Valdrin'){
-   var lu=document.createElement('option');lu.disabled=true;lu.textContent=species==='Lupran'?'Faixa exata de altura ainda não fechada no cânone':'Faixa exata de altura ainda não fechada para Valdrin';height.appendChild(lu);
+ if(species==='Lupran'||species==='Felran'||species==='Valdrin'){
+   var lu=document.createElement('option');lu.disabled=true;
+   lu.textContent=species==='Lupran'?'Faixa exata de altura ainda não fechada no cânone':(species==='Felran'?'Faixa exata de altura Felran ainda não fechada no cânone':'Faixa exata de altura ainda não fechada para Valdrin');
+   height.appendChild(lu);
  }else if(species==='Feérico'){
    var og1=document.createElement('optgroup');og1.label='Primeira Estatura';
    for(var cm=30;cm<=60;cm+=5){var o=document.createElement('option');o.value=(cm/100).toFixed(2).replace('.',',')+' m';o.textContent=o.value;og1.appendChild(o)}
@@ -1089,8 +1119,9 @@ function randomizeCharacter(){
  setValue('ancestryMode','single');
  setValue('age',String(pick([18,21,24,27,31,36,42,51,67])));
  setValue('gender',pick(['Homem','Mulher','Não definir']));
- setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi','Feérico','Lupran','Valdrin']));
- setValue('specialMorphology',document.getElementById('people').value==='Lupran'?'Lupran — morfologia Selvari lupina estável':'');
+ setValue('people',pick(['Humano','Elfo','Anão','Nareth','Korvath','Ruvani','Khevran','Hadrun','Theryn','Sairen','Nerathi','Feérico','Lupran','Felran','Valdrin']));
+ var randomSpecies=document.getElementById('people').value;
+ setValue('specialMorphology',randomSpecies==='Lupran'?'Lupran — morfologia Selvari lupina estável':(randomSpecies==='Felran'?'Felran — morfologia Selvari felina estável':''));
  setValue('originPlace',pick(['Eryndhor','Thalorien','Frosthaven','Umbralis','Aetherion','Solara','Umbrael','Karveth','Valdren','Elaris','Thalassia']));
  setValue('socialOrigin',pick(['Rural','Urbana','Mercantil','Artesã','Militar','Acadêmica','Religiosa','Itinerante']));
  var heightChoices=[].slice.call(document.getElementById('height').options).filter(function(o){return o.value&&o.value!=='__other__'&&!o.disabled}).map(function(o){return o.value});if(heightChoices.length)setValue('height',pick(heightChoices));
@@ -1112,8 +1143,10 @@ function randomizeCharacter(){
  setValue('nose',pick(['Reto e estreito','Reto e largo','Curto','Longo','Arredondado','Aquilino','Levemente desviado']));
  setValue('mouth',pick(['Finos','Médios','Cheios','Arco marcado','Assimétricos']));
  setValue('teeth',pick(['Regulares','Levemente irregulares','Desgastados','Cuidados profissionalmente']));
- setValue('ears',pick(['Pequenas e arredondadas','Médias e arredondadas','Grandes e arredondadas','Alongadas','Pontiagudas curtas','Pontiagudas longas']));
- setValue('nails',pick(['Cuidadas','Marcadas por trabalho manual','Calos frequentes','Unhas curtas e funcionais','Cicatrizes nas mãos']));
+ if(randomSpecies==='Lupran'){setValue('ears','Lupinas altas e móveis');setValue('tail','Cauda lupina funcional');setValue('teeth','Caninos marcados')}
+ else if(randomSpecies==='Felran'){setValue('ears','Felinas altas e móveis');setValue('tail','Cauda felina funcional');setValue('teeth','Caninos marcados')}
+ else {setValue('ears',pick(['Pequenas e arredondadas','Médias e arredondadas','Grandes e arredondadas','Alongadas','Pontiagudas curtas','Pontiagudas longas']));setValue('tail','')}
+ setValue('nails',randomSpecies==='Felran'?pick(['Garras retráteis funcionais','Garras semirretráteis funcionais']):pick(['Cuidadas','Marcadas por trabalho manual','Calos frequentes','Unhas curtas e funcionais','Cicatrizes nas mãos']));
  setValue('voice',pick(['Baixa e calma','Grave','Aguda','Suave','Rouca','Rápida','Lenta e medida','Projetada / marcial']));
  checkRandom('voiceTraits',pick([1,1,2,2,3]));
  setValue('culture',pick(['Cultura urbana cosmopolita','Cultura rural / aldeã','Cultura mercantil','Cultura de ofício','Cultura militar','Cultura acadêmica','Cultura marítima','Mista / multicultural']));
@@ -1211,12 +1244,12 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.6',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.7',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.6',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.7',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
