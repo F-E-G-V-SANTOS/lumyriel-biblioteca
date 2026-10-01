@@ -1,3 +1,4 @@
 window.LUMYRIEL_CONFIG = {
-  characterSubmissionUrl: ''
+  characterSubmissionUrl: '',
+  characterSubmissionEnabled: false
 };
