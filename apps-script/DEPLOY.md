@@ -54,11 +54,14 @@ e preencha:
 
 ```js
 window.LUMYRIEL_CONFIG = {
-  characterSubmissionUrl: 'COLE_A_URL_EXEC_AQUI'
+  characterSubmissionUrl: 'COLE_A_URL_EXEC_AQUI',
+  characterSubmissionEnabled: false
 };
 ```
 
 Depois publique essa alteração no site.
+
+Com `characterSubmissionEnabled: false`, o endpoint pode existir e ser testado sem abrir o botão ao público. **Só altere `characterSubmissionEnabled` para `true` depois de fechar e publicar as regras de contribuição.**
 
 ## Teste de ponta a ponta
 
