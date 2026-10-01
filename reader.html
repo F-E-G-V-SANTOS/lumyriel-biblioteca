@@ -25,19 +25,22 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;op
 .paper-inner{max-width:780px;margin:0 auto}.reader-meta{display:flex;justify-content:space-between;gap:16px;align-items:center;color:#776a58;font-size:.78rem;margin-bottom:34px;padding-bottom:12px;border-bottom:1px solid rgba(82,64,42,.2)}.kicker{text-transform:uppercase;letter-spacing:.17em;font-size:.69rem;color:#8a6b40;margin-bottom:10px}.chapter-title{font:400 clamp(2.2rem,5vw,4rem)/1.04 Georgia,serif;margin:0 0 36px;color:#2e261c}.book-title{font:400 1.05rem Georgia,serif;color:#675846;margin-bottom:8px}
 .content p{font:1.09rem/1.87 Georgia,"Times New Roman",serif;margin:0 0 1.2em}.content p:first-child::first-letter{float:left;font-size:4rem;line-height:.8;padding:9px 9px 0 0;color:#73552d}.content .verse{white-space:normal}.scene{margin:32px 0;text-align:center;letter-spacing:.55em;color:#8c7859}.editorial-title{font:400 2.8rem Georgia,serif;margin:0 0 28px}.nav-bottom{display:flex;justify-content:space-between;gap:12px;margin-top:54px;padding-top:24px;border-top:1px solid rgba(76,61,42,.28)}.nav-bottom button{border:1px solid rgba(84,68,46,.38);background:rgba(255,255,255,.12);color:#4e4232;border-radius:2px;padding:10px 14px;cursor:pointer}.nav-bottom button:disabled{opacity:.35;cursor:not-allowed}
 .page-count,.progress{position:absolute;bottom:16px;z-index:8;border:1px solid rgba(84,68,46,.32);background:rgba(229,214,184,.9);color:#625540;border-radius:2px;padding:8px 11px;font-size:.74rem;pointer-events:none;box-shadow:0 5px 18px rgba(54,42,28,.1)}.page-count{right:18px;min-width:128px;text-align:center;font-weight:650}.progress{left:18px}
-.mobile-menu{display:none;border:1px solid #4c4131;background:#15120e;color:#ddd3c1;border-radius:2px;padding:8px 10px}.loading{min-height:60vh;display:grid;place-items:center;color:#756957;font:italic 1.15rem Georgia,serif}
-@media(max-width:850px){.topbar{gap:8px}.brand{font-size:.9rem}.back{font-size:.75rem;padding:7px 9px}.mobile-menu{display:inline-flex}.shell{display:block}.sidebar{position:fixed;z-index:25;top:64px;bottom:0;left:0;width:min(88vw,330px);transform:translateX(-102%);transition:.22s;box-shadow:18px 0 45px rgba(0,0,0,.45)}.shell.menu-open .sidebar{transform:translateX(0)}.paper-wrap{height:100%}.paper{padding:34px 20px 92px}.chapter-title{font-size:2.55rem}.content p{font-size:1.04rem;line-height:1.76}.page-count{right:12px;bottom:12px;min-width:110px}.progress{left:12px;bottom:12px;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+.mobile-menu{display:none;border:1px solid #4c4131;background:#15120e;color:#ddd3c1;border-radius:2px;padding:8px 10px}.menu-backdrop{display:none;border:0;padding:0}.loading{min-height:60vh;display:grid;place-items:center;color:#756957;font:italic 1.15rem Georgia,serif}
+@media(max-width:850px){.topbar{gap:8px}.brand{font-size:.9rem;min-width:0}.back{font-size:.75rem;padding:7px 9px}.mobile-menu{display:inline-flex}.shell{display:block}.sidebar{position:fixed;z-index:25;top:64px;bottom:0;left:0;width:min(88vw,330px);transform:translateX(-102%);transition:.22s;box-shadow:18px 0 45px rgba(0,0,0,.45)}.menu-backdrop{position:fixed;z-index:24;inset:64px 0 0;background:rgba(0,0,0,.56)}.shell.menu-open .sidebar{transform:translateX(0)}.shell.menu-open .menu-backdrop{display:block}.paper-wrap{height:100%}.paper{padding:34px 20px 92px}.chapter-title{font-size:2.55rem}.content p{font-size:1.04rem;line-height:1.76}.page-count{right:12px;bottom:12px;min-width:110px}.progress{left:12px;bottom:12px;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 
 a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(--gold2);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.paper{scroll-behavior:auto}.sidebar{transition:none!important}}
+
+@media(max-width:480px){.brand span{font-size:0}.brand span:after{content:"Lumyriel";font-size:.86rem}.brand:before{width:18px}.topbar{padding-inline:10px}.mobile-menu,.back{min-height:38px}.paper{padding-inline:17px}.reader-meta{align-items:flex-start;flex-direction:column;gap:4px}.chapter-title{font-size:2.25rem}.side-cover{width:104px}}
 </style>
 </head>
 <body>
 <header class="topbar">
   <a class="brand" href="index.html"><span>Biblioteca de Lumyriel</span></a>
-  <div style="display:flex;gap:8px;align-items:center"><button id="menuBtn" class="mobile-menu" type="button">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
+  <div style="display:flex;gap:8px;align-items:center"><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
 </header>
 <div class="shell" id="shell">
+  <button class="menu-backdrop" id="menuBackdrop" type="button" aria-label="Fechar lista de capítulos"></button>
   <aside class="sidebar" id="sidebar">
     <div class="side-cover" id="sideCover" aria-hidden="true"></div>
     <div class="mini" id="sideKind">Leitura</div>
@@ -69,7 +72,7 @@ function blocks(text){
     return '<p class="'+(block.includes('\n')?'verse':'')+'">'+esc(block).replace(/\n/g,'<br>')+'</p>';
   }).join('');
 }
-function closeMenu(){shell.classList.remove('menu-open')}
+function closeMenu(){shell.classList.remove('menu-open');document.getElementById('menuBtn').setAttribute('aria-expanded','false')}
 function setUrl(){
   const p=new URLSearchParams({book:bookId});
   if(bookId==='tempos'){p.set('c',state.c);p.set('b',state.b);p.set('ch',state.ch);if(state.note)p.set('note','1')}
@@ -137,7 +140,7 @@ function updatePages(){
  pageCount.textContent='Página '+current+' de '+total;
 }
 function render(){renderSidebar();renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(updatePages)}
-document.getElementById('menuBtn').onclick=()=>shell.classList.toggle('menu-open');
+document.getElementById('menuBtn').onclick=()=>{const open=shell.classList.toggle('menu-open');document.getElementById('menuBtn').setAttribute('aria-expanded',open?'true':'false')};document.getElementById('menuBackdrop').onclick=closeMenu;
 ['copy','cut','contextmenu','selectstart','dragstart'].forEach(evt=>paper.addEventListener(evt,e=>e.preventDefault()));
 paper.addEventListener('scroll',()=>requestAnimationFrame(updatePages),{passive:true});window.addEventListener('resize',()=>requestAnimationFrame(updatePages));
 document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&e.altKey)goRelative(-1);if(e.key==='ArrowRight'&&e.altKey)goRelative(1);if(e.key==='Escape')closeMenu()});
