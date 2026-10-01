@@ -503,7 +503,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <button id="downloadTextBtn" type="button" class="btn" onclick="downloadText()">Baixar dossiê</button>
 <button id="submitCharacterBtn" type="button" class="btn" onclick="submitToLumyriel()">Enviar personagem para Lumyriel</button>
 </div>
-<div id="saveStatus" class="status warn">O canal de submissão está preparado, mas ainda precisa da URL pública do serviço de recebimento. O rascunho local e as exportações já funcionam.</div><input name="website" id="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+<div id="saveStatus" class="status warn" role="status" aria-live="polite">O canal de submissão está preparado, mas ainda precisa da URL pública do serviço de recebimento. O rascunho local e as exportações já funcionam.</div><input name="website" id="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
 <div class="nav-actions"><button type="button" class="btn" onclick="goStep(7)">← Editar biografia</button><button type="button" class="btn ghost" onclick="randomizeCharacter();goStep(0)">Criar outro personagem</button></div>
 </section>
 </form>
@@ -511,8 +511,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </section>
 </main>
 <footer><div class="shell footer-row"><span>Criador de Personagens · versão alpha</span><span>Sem níveis · competência por experiência, proficiência, equipamento e histórico.</span></div></footer>
+<script src="assets/site-config.js"></script>
 <script>
-var WEB_APP_URL='';
+var WEB_APP_URL=(window.LUMYRIEL_CONFIG&&window.LUMYRIEL_CONFIG.characterSubmissionUrl)||'';
 var currentStep=0;
 var panels=[].slice.call(document.querySelectorAll('.panel'));
 var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
@@ -1288,12 +1289,12 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.8',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.9',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.8',generated_at:new Date().toISOString()};
+ var d=formData();d.website=document.getElementById('website').value||'';d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.9',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
