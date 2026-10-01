@@ -173,11 +173,15 @@ Antes de adicionar um elemento visual, testar:
 Se falhar em 2, 3 ou 4, não entra.
 
 ## Implementação atual
-A biblioteca, o leitor e o Criador de Personagens já estão em migração para esta linguagem.
+A biblioteca, o leitor e o Criador de Personagens já adotam esta linguagem-base.
 
 Os estados editoriais permanecem fora das capas.
 
-As três capas aprovadas são usadas como referência visual direta na biblioteca e no leitor.
+As três capas aprovadas são ativos reais do site em `assets/covers/`, em versões otimizadas para exibição. A arte não recebe títulos, sigilos ou a assinatura `LUMYRIEL` sobrepostos pela interface: tudo o que aparece impresso na capa pertence ao próprio arquivo de arte.
+
+No destaque inicial, as três obras aparecem como coleção física em profundidade, com **O Filho da Montanha** em primeiro plano. O leitor reutiliza a capa correspondente como referência editorial na navegação lateral.
+
+Capas futuras sem arte aprovada permanecem deliberadamente como fólio provisório, sem fingir uma ilustração final.
 
 ---
 
