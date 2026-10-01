@@ -165,6 +165,11 @@ function currentReadingLabel(){
   const col=data.collections[state.c],bk=col&&col.books[state.b],ch=bk&&bk.chapters[state.ch];
   return bk&&ch?'Livro '+bk.number+' · Capítulo '+ch.number+' · '+ch.title:'';
 }
+if(readerFeedbackLink)readerFeedbackLink.addEventListener('click',()=>{
+  const p=new URLSearchParams({book:bookId});
+  const label=currentReadingLabel();if(label)p.set('location',label);
+  readerFeedbackLink.href='feedback.html?'+p.toString();
+});
 function saveReadingProgress(){
   if(!data)return;
   const max=Math.max(0,paper.scrollHeight-paper.clientHeight),ratio=max?Math.min(1,Math.max(0,paper.scrollTop/max)):0;
