@@ -63,7 +63,9 @@
     "frontend_ready": true,
     "backend_repo_version": "1.2",
     "drive_folder_ready": true,
-    "public_enabled": false,
-    "storage": "Lumyriel / Feedback de Leitores"
+    "public_enabled": true,
+    "storage": "Lumyriel / Feedback de Leitores",
+    "endpoint_configured": true,
+    "endpoint_type": "Google Apps Script Web App"
   }
 }
