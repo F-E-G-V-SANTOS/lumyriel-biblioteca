@@ -88,7 +88,9 @@
     "public_enabled": true,
     "qr_configured": true,
     "variable_amount": true,
-    "copy_paste_enabled": false
+    "copy_paste_enabled": false,
+    "payment_link_configured": true,
+    "qr_asset": "assets/support/pix-apoie-lumyriel-v2.svg"
   },
   "visual_archive": {
     "frontend_ready": true,
