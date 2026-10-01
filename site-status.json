@@ -32,13 +32,16 @@
     "date": "2026-10-01"
   },
   "reader": {
-    "mode": "static-encoded",
-    "protection_enabled": true,
-    "content_files": [
-      "books/lmy-odm-b13.dat",
-      "books/lmy-olt-b1.dat"
-    ],
-    "readable_json_in_current_branch": false,
-    "future_content_base_configured": false
+    "content_mode": "static",
+    "payload_format": "base64-dat",
+    "protection": "casual-copy-deterrence",
+    "selection_blocked": true,
+    "copy_context_drag_blocked": true,
+    "print_blocked": true,
+    "common_devtools_shortcuts_blocked": true,
+    "reader_indexing_disabled": true,
+    "plain_json_current_release": false,
+    "private_service_active": false,
+    "future_content_endpoint_configured": false
   }
 }
