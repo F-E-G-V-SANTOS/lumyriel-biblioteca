@@ -16,6 +16,8 @@ A frente visual e funcional principal do site está consolidada.
 - [x] Livro das Artes Mágicas sincronizado como Arquitetura v0.4 · Volumes I–IV em desenvolvimento;
 - [x] memória de leitura por obra;
 - [x] proteção estática de leitura contra cópia casual;
+- [x] manuscritos da branch atual migrados de JSON legível para arquivos estáticos codificados `.dat`;
+- [x] leitor marcado como `noindex,nofollow`;
 - [x] seletor de obras disponíveis dentro do leitor;
 - [x] porta de configuração futura para outra origem de conteúdo, mantida desativada;
 - [x] retomada aproximada da posição de leitura;
@@ -113,6 +115,7 @@ O botão de envio só deve ser liberado ao público quando:
 ---
 
 # Melhorias pós-lançamento — não bloqueantes
+- [ ] decidir futuramente se vale reescrever o histórico antigo do Git para remover versões históricas dos JSONs legíveis;
 - [ ] criar favicon somente depois de existir marca editorial deliberadamente aprovada;
 - [ ] substituir as capas otimizadas de 300×540 por versões públicas de maior resolução quando houver uma rota binária de atualização conveniente;
 - [ ] ampliar o Arquivo Visual com arte conceitual aprovada;
