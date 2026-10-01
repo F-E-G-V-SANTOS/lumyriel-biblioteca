@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Leitor · Biblioteca de Lumyriel</title>
+<style>
+:root{--bg:#0d0f11;--panel:#141619;--paper:#eee0c5;--paper2:#e8d7b8;--ink:#29241d;--muted:#8f897f;--gold:#b79a61;--gold2:#d3bc87;--line:#2b2c2e}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:#eee7dc;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,select{font:inherit}
+.topbar{height:64px;border-bottom:1px solid #252629;background:rgba(13,15,17,.96);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:fixed;inset:0 0 auto 0;z-index:30}
+.brand{display:flex;align-items:center;gap:10px;color:#e9e1d4;text-decoration:none;font:500 1rem Georgia,serif}.sigil{width:34px;height:34px;border:1px solid #5c513e;border-radius:50%;display:grid;place-items:center;color:var(--gold2)}
+.back{border:1px solid #383733;border-radius:12px;padding:8px 11px;color:#d7d0c4;text-decoration:none;font-size:.82rem}
+.shell{height:calc(100vh - 64px);margin-top:64px;display:grid;grid-template-columns:310px 1fr;overflow:hidden}
+.sidebar{border-right:1px solid #292a2c;background:#111315;overflow:auto;padding:20px}.mini{font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gold2)}.sidebar h1{font:500 1.8rem/1.05 Georgia,serif;margin:8px 0 6px}.edition{color:#8d8982;font-size:.82rem;margin-bottom:18px}
+.selector{margin:12px 0}.selector label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#8f897f;margin-bottom:6px}.selector select{width:100%;background:#17191c;border:1px solid #33353a;color:#ddd5c7;border-radius:10px;padding:10px}
+.chapter-list{display:grid;gap:6px;margin-top:14px}.chapter-btn,.note-btn{width:100%;text-align:left;border:1px solid #2c2d30;background:#16181b;color:#aaa49a;border-radius:10px;padding:9px 10px;cursor:pointer;line-height:1.3}.chapter-btn:hover,.chapter-btn.active,.note-btn:hover,.note-btn.active{border-color:#716044;color:#eee0c5;background:#1d1c19}.chapter-btn small{display:block;color:#77736c;margin-top:3px}
+.paper-wrap{position:relative;background:#191714;overflow:hidden}.paper{height:100%;overflow:auto;background:linear-gradient(90deg,var(--paper2),var(--paper) 7%,var(--paper) 93%,var(--paper2));color:var(--ink);padding:48px clamp(24px,7vw,110px) 94px;scroll-behavior:smooth;user-select:none;-webkit-user-select:none}.paper-inner{max-width:780px;margin:0 auto}.reader-meta{display:flex;justify-content:space-between;gap:16px;align-items:center;color:#756957;font-size:.8rem;margin-bottom:32px}.kicker{text-transform:uppercase;letter-spacing:.15em;font-size:.72rem;color:#8e7045;margin-bottom:10px}.chapter-title{font:500 clamp(2.2rem,5vw,4rem)/1.04 Georgia,serif;margin:0 0 34px;color:#2e261c}.book-title{font:500 1.05rem Georgia,serif;color:#675846;margin-bottom:8px}
+.content p{font:1.08rem/1.82 Georgia,serif;margin:0 0 1.2em}.content .verse{white-space:normal}.scene{margin:30px 0;text-align:center;letter-spacing:.6em;color:#8c7859}.editorial-title{font:500 2.8rem Georgia,serif;margin:0 0 28px}.nav-bottom{display:flex;justify-content:space-between;gap:12px;margin-top:52px;padding-top:24px;border-top:1px solid rgba(76,61,42,.25)}.nav-bottom button{border:1px solid rgba(84,68,46,.3);background:rgba(255,255,255,.18);color:#4e4232;border-radius:12px;padding:10px 14px;cursor:pointer}.nav-bottom button:disabled{opacity:.35;cursor:not-allowed}
+.page-count{position:absolute;right:18px;bottom:16px;z-index:8;min-width:128px;text-align:center;border:1px solid rgba(84,68,46,.28);background:rgba(239,225,199,.9);backdrop-filter:blur(8px);color:#625540;border-radius:12px;padding:8px 11px;font-weight:650;font-size:.76rem;box-shadow:0 5px 18px rgba(54,42,28,.12);pointer-events:none}.progress{position:absolute;left:18px;bottom:16px;z-index:8;border:1px solid rgba(84,68,46,.2);background:rgba(239,225,199,.88);color:#6b5e4a;border-radius:12px;padding:8px 11px;font-size:.74rem;pointer-events:none}
+.mobile-menu{display:none;border:1px solid #47423a;background:#161719;color:#ddd4c6;border-radius:10px;padding:8px 10px}
+.loading{min-height:60vh;display:grid;place-items:center;color:#756957;font:italic 1.15rem Georgia,serif}
+@media(max-width:850px){
+ .topbar{gap:8px}.brand{font-size:.9rem}.back{font-size:.75rem;padding:7px 9px}.mobile-menu{display:inline-flex}.shell{display:block}.sidebar{position:fixed;z-index:25;top:64px;bottom:0;left:0;width:min(88vw,330px);transform:translateX(-102%);transition:.22s;box-shadow:18px 0 45px rgba(0,0,0,.45)}.shell.menu-open .sidebar{transform:translateX(0)}.paper-wrap{height:100%}.paper{padding:34px 20px 92px}.chapter-title{font-size:2.55rem}.content p{font-size:1.04rem;line-height:1.76}.page-count{right:12px;bottom:12px;min-width:110px}.progress{left:12px;bottom:12px;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="sigil">L</span><span>Biblioteca de Lumyriel</span></a>
+  <div style="display:flex;gap:8px;align-items:center"><button id="menuBtn" class="mobile-menu" type="button">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
+</header>
+<div class="shell" id="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="mini" id="sideKind">Leitura</div>
+    <h1 id="sideTitle">Carregando…</h1>
+    <div class="edition" id="sideEdition"></div>
+    <div id="hierarchy"></div>
+    <div class="chapter-list" id="chapterList"></div>
+  </aside>
+  <main class="paper-wrap">
+    <article class="paper" id="paper">
+      <div class="paper-inner" id="paperInner"><div class="loading">Abrindo o livro…</div></div>
+    </article>
+    <div class="progress" id="progress">Carregando…</div>
+    <div class="page-count" id="pageCount">Página 1 de 1</div>
+  </main>
+</div>
+<script>
+const DATA={filho:'books/o-filho-da-montanha.json',tempos:'books/os-livros-dos-tempos.json'};
+const q=new URLSearchParams(location.search);
+const bookId=DATA[q.get('book')]?q.get('book'):'filho';
+const shell=document.getElementById('shell'),paper=document.getElementById('paper'),paperInner=document.getElementById('paperInner'),chapterList=document.getElementById('chapterList'),hierarchy=document.getElementById('hierarchy'),pageCount=document.getElementById('pageCount'),progress=document.getElementById('progress');
+let data=null,state={c:Math.max(0,Number(q.get('c')||0)),b:Math.max(0,Number(q.get('b')||0)),ch:Math.max(0,Number(q.get('ch')||0)),note:q.get('note')==='1'};
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function blocks(text){
+  return String(text||'').split(/\n{2,}/).map(x=>x.trim()).filter(Boolean).map(block=>{
+    if(/^\*\s*\*\s*\*$/.test(block)||/^◆/.test(block))return '<div class="scene">◆ ◆ ◆</div>';
+    return '<p class="'+(block.includes('\n')?'verse':'')+'">'+esc(block).replace(/\n/g,'<br>')+'</p>';
+  }).join('');
+}
+function closeMenu(){shell.classList.remove('menu-open')}
+function setUrl(){
+  const p=new URLSearchParams({book:bookId});
+  if(bookId==='tempos'){p.set('c',state.c);p.set('b',state.b);p.set('ch',state.ch);if(state.note)p.set('note','1')}
+  else p.set('ch',state.ch);
+  history.replaceState(null,'','reader.html?'+p.toString());
+}
+function renderSidebar(){
+  document.getElementById('sideTitle').textContent=data.title;
+  document.getElementById('sideEdition').textContent=data.edition;
+  document.getElementById('sideKind').textContent=data.subtitle||'Leitura';
+  hierarchy.innerHTML='';
+  chapterList.innerHTML='';
+  if(bookId==='filho'){
+    data.chapters.forEach((x,i)=>{
+      const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');b.innerHTML='<strong>'+esc(x.number)+' · '+esc(x.title)+'</strong>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b);
+    });
+    return;
+  }
+  const note=document.createElement('button');note.className='note-btn'+(state.note?' active':'');note.textContent='Nota editorial';note.onclick=()=>{state.note=true;render();closeMenu()};hierarchy.appendChild(note);
+  const cWrap=document.createElement('div');cWrap.className='selector';cWrap.innerHTML='<label>Coleção</label>';
+  const cSel=document.createElement('select');
+  data.collections.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Coleção '+c.roman+' — '+c.title;o.selected=i===state.c;cSel.appendChild(o)});
+  cSel.onchange=()=>{state.c=Number(cSel.value);state.b=0;state.ch=0;state.note=false;render()};
+  cWrap.appendChild(cSel);hierarchy.appendChild(cWrap);
+  const col=data.collections[state.c]||data.collections[0];
+  state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,col.books.length-1);
+  const bWrap=document.createElement('div');bWrap.className='selector';bWrap.innerHTML='<label>Livro</label>';
+  const bSel=document.createElement('select');
+  col.books.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=String(b.number).padStart(2,'0')+' — '+b.title;o.selected=i===state.b;bSel.appendChild(o)});
+  bSel.onchange=()=>{state.b=Number(bSel.value);state.ch=0;state.note=false;render()};
+  bWrap.appendChild(bSel);hierarchy.appendChild(bWrap);
+  const bk=col.books[state.b];state.ch=Math.min(state.ch,Math.max(0,bk.chapters.length-1));
+  bk.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');b.innerHTML='<strong>Capítulo '+x.number+'</strong><small>'+esc(x.title)+'</small>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b)});
+}
+function currentFlatIndex(){
+ if(bookId==='filho')return {index:state.ch,total:data.chapters.length};
+ let flat=[],target=-1;
+ data.collections.forEach((c,ci)=>c.books.forEach((b,bi)=>b.chapters.forEach((ch,hi)=>{if(ci===state.c&&bi===state.b&&hi===state.ch)target=flat.length;flat.push({ci,bi,hi})})));
+ return {index:target,total:flat.length,flat};
+}
+function goRelative(delta){
+ if(state.note){state.note=false;render();return}
+ const f=currentFlatIndex(),n=f.index+delta;if(n<0||n>=f.total)return;
+ if(bookId==='filho')state.ch=n;else{const x=f.flat[n];state.c=x.ci;state.b=x.bi;state.ch=x.hi}
+ render();
+}
+function renderContent(){
+ if(state.note&&bookId==='tempos'){
+   paperInner.innerHTML='<div class="kicker">Os Livros dos Tempos</div><h2 class="editorial-title">Nota Editorial</h2><div class="content">'+blocks(data.editorial)+'</div><div class="nav-bottom"><button disabled>← Anterior</button><button onclick="state.note=false;render()">Começar a leitura →</button></div>';
+   progress.textContent='Nota editorial';return;
+ }
+ let ch,bookLabel='',meta='';
+ if(bookId==='filho'){
+   state.ch=Math.min(state.ch,data.chapters.length-1);ch=data.chapters[state.ch];meta='Capítulo '+(state.ch+1)+' de '+data.chapters.length;bookLabel=data.title;
+ }else{
+   const col=data.collections[state.c],bk=col.books[state.b];state.ch=Math.min(state.ch,bk.chapters.length-1);ch=bk.chapters[state.ch];meta='Livro '+bk.number+' · Capítulo '+ch.number;bookLabel='Coleção '+col.roman+' · Livro '+bk.number+' — '+bk.title;
+ }
+ const f=currentFlatIndex();
+ paperInner.innerHTML='<div class="reader-meta"><span>'+esc(data.edition)+'</span><span>'+esc(meta)+'</span></div><div class="book-title">'+esc(bookLabel)+'</div><div class="kicker">'+(bookId==='filho'?'Capítulo '+esc(ch.number):'Capítulo '+esc(ch.number))+'</div><h2 class="chapter-title">'+esc(ch.title)+'</h2><div class="content">'+blocks(ch.body)+'</div><div class="nav-bottom"><button id="prevBtn">← Anterior</button><button id="nextBtn">Próximo →</button></div>';
+ const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');prev.disabled=f.index<=0;next.disabled=f.index>=f.total-1;prev.onclick=()=>goRelative(-1);next.onclick=()=>goRelative(1);
+ progress.textContent=bookId==='filho'?'Capítulo '+(state.ch+1)+' de '+data.chapters.length:'Capítulo '+(f.index+1)+' de '+f.total;
+}
+function updatePages(){
+ const vh=Math.max(1,paper.clientHeight),total=Math.max(1,Math.ceil(paper.scrollHeight/vh)),max=Math.max(0,paper.scrollHeight-vh),ratio=max?Math.min(1,Math.max(0,paper.scrollTop/max)):0,current=total===1?1:Math.min(total,Math.floor(ratio*(total-1))+1);
+ pageCount.textContent='Página '+current+' de '+total;
+}
+function render(){renderSidebar();renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(updatePages)}
+document.getElementById('menuBtn').onclick=()=>shell.classList.toggle('menu-open');
+['copy','cut','contextmenu','selectstart','dragstart'].forEach(evt=>paper.addEventListener(evt,e=>e.preventDefault()));
+paper.addEventListener('scroll',()=>requestAnimationFrame(updatePages),{passive:true});window.addEventListener('resize',()=>requestAnimationFrame(updatePages));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&e.altKey)goRelative(-1);if(e.key==='ArrowRight'&&e.altKey)goRelative(1);if(e.key==='Escape')closeMenu()});
+fetch(DATA[bookId]).then(r=>{if(!r.ok)throw new Error('Falha ao abrir o livro');return r.json()}).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class="loading">Não foi possível abrir esta edição agora.</div>';console.error(err)});
+</script>
+</body>
+</html>
