@@ -116,7 +116,8 @@ function dossier_(record) {
     'Idade: ' + val_(c.age),
     'Povo / espécie: ' + val_(c.people),
     'Origem biológica: ' + val_(c.ancestryMode),
-    'Traço animaliforme: ' + val_(c.animalMorph),
+    'Origem da exceção biológica: ' + val_(c.biologyOrigin),
+    'Notas biológicas: ' + val_(c.biologyNotes),
     'Ancestralidade 1: ' + val_(c.parentA),
     'Ancestralidade 2: ' + val_(c.parentB),
     'Status Mutari: ' + val_(c.mutariStatus),
@@ -146,7 +147,7 @@ function dossier_(record) {
     'Unhas / mãos: ' + val_(c.nails),
     'Voz: ' + val_(c.voice),
     'Jeito de falar: ' + val_(c.voiceTraits),
-    'Marcas: ' + val_(c.marks),
+    'Marcas: ' + join_(c.markChoices, c.marks),
     '',
     'CULTURA E FÉ',
     'Cultura: ' + val_(c.culture),
@@ -155,14 +156,14 @@ function dossier_(record) {
     'Relação com a fé: ' + val_(c.faithRelation),
     'Formação: ' + val_(c.education),
     'Alfabetização: ' + val_(c.literacy),
-    'Costumes: ' + val_(c.customs),
+    'Hábitos / códigos sociais: ' + join_(c.customChoices, c.customs),
     '',
     'HISTÓRICO',
     'Profissão: ' + val_(c.profession),
     'Fonte de treinamento: ' + val_(c.trainingSource),
     'Tempo de prática: ' + val_(c.yearsTraining),
     'Família / vínculos: ' + val_(c.family),
-    'Passado: ' + val_(c.past),
+    'Passado: ' + join_(c.pastChoices, c.past),
     'Reputação: ' + val_(c.reputation),
     '',
     'HABILIDADES',
@@ -176,8 +177,8 @@ function dossier_(record) {
     'Ofício: ' + val_(c.skillCraft),
     'Conhecimento: ' + val_(c.skillKnowledge),
     'Social: ' + val_(c.skillSocial),
-    'Mestrias: ' + val_(c.masteries),
-    'Limitações: ' + val_(c.limitations),
+    'Mestrias: ' + join_(c.masteryChoices, c.masteries),
+    'Limitações: ' + join_(c.limitationChoices, c.limitations),
     '',
     'EQUIPAMENTO',
     'Principal: ' + val_(c.weapon1),
@@ -190,8 +191,8 @@ function dossier_(record) {
     'PAPEL NARRATIVO',
     'Papel: ' + val_(c.role),
     'Temperamento: ' + val_(c.temperament),
-    'Objetivos: ' + val_(c.goals),
-    'Valores: ' + val_(c.values),
+    'Objetivos: ' + join_(c.goalChoices, c.goals),
+    'Valores: ' + join_(c.valueChoices, c.values),
     'Limites morais: ' + val_(c.limits),
     'Lealdades: ' + val_(c.loyalties),
     'Medos / vulnerabilidades: ' + val_(c.fears),
@@ -200,6 +201,22 @@ function dossier_(record) {
     val_(c.bio)
   ];
   return lines.join('\n');
+}
+
+function join_() {
+  const out = [];
+  for (let i = 0; i < arguments.length; i++) {
+    const v = arguments[i];
+    if (v === undefined || v === null || v === '') continue;
+    if (Array.isArray(v)) {
+      v.forEach(function(item) {
+        if (item !== undefined && item !== null && String(item).trim() !== '') out.push(String(item).trim());
+      });
+    } else if (String(v).trim() !== '') {
+      out.push(String(v).trim());
+    }
+  }
+  return out.length ? out.join(' · ') : 'Não definido';
 }
 
 function coherence_(v) {
