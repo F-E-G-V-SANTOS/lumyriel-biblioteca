@@ -27,6 +27,9 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;op
 .page-count,.progress{position:absolute;bottom:16px;z-index:8;border:1px solid rgba(84,68,46,.32);background:rgba(229,214,184,.9);color:#625540;border-radius:2px;padding:8px 11px;font-size:.74rem;pointer-events:none;box-shadow:0 5px 18px rgba(54,42,28,.1)}.page-count{right:18px;min-width:128px;text-align:center;font-weight:650}.progress{left:18px}
 .mobile-menu{display:none;border:1px solid #4c4131;background:#15120e;color:#ddd3c1;border-radius:2px;padding:8px 10px}.loading{min-height:60vh;display:grid;place-items:center;color:#756957;font:italic 1.15rem Georgia,serif}
 @media(max-width:850px){.topbar{gap:8px}.brand{font-size:.9rem}.back{font-size:.75rem;padding:7px 9px}.mobile-menu{display:inline-flex}.shell{display:block}.sidebar{position:fixed;z-index:25;top:64px;bottom:0;left:0;width:min(88vw,330px);transform:translateX(-102%);transition:.22s;box-shadow:18px 0 45px rgba(0,0,0,.45)}.shell.menu-open .sidebar{transform:translateX(0)}.paper-wrap{height:100%}.paper{padding:34px 20px 92px}.chapter-title{font-size:2.55rem}.content p{font-size:1.04rem;line-height:1.76}.page-count{right:12px;bottom:12px;min-width:110px}.progress{left:12px;bottom:12px;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+
+a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(--gold2);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.paper{scroll-behavior:auto}.sidebar{transition:none!important}}
 </style>
 </head>
 <body>
@@ -81,11 +84,11 @@ function renderSidebar(){
   chapterList.innerHTML='';
   if(bookId==='filho'){
     data.chapters.forEach((x,i)=>{
-      const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');b.innerHTML='<strong>'+esc(x.number)+' · '+esc(x.title)+'</strong>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b);
+      const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');if(i===state.ch&&!state.note)b.setAttribute('aria-current','true');b.innerHTML='<strong>'+esc(x.number)+' · '+esc(x.title)+'</strong>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b);
     });
     return;
   }
-  const note=document.createElement('button');note.className='note-btn'+(state.note?' active':'');note.textContent='Nota editorial';note.onclick=()=>{state.note=true;render();closeMenu()};hierarchy.appendChild(note);
+  const note=document.createElement('button');note.className='note-btn'+(state.note?' active':'');if(state.note)note.setAttribute('aria-current','true');note.textContent='Nota editorial';note.onclick=()=>{state.note=true;render();closeMenu()};hierarchy.appendChild(note);
   const cWrap=document.createElement('div');cWrap.className='selector';cWrap.innerHTML='<label>Coleção</label>';
   const cSel=document.createElement('select');
   data.collections.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Coleção '+c.roman+' — '+c.title;o.selected=i===state.c;cSel.appendChild(o)});
@@ -99,7 +102,7 @@ function renderSidebar(){
   bSel.onchange=()=>{state.b=Number(bSel.value);state.ch=0;state.note=false;render()};
   bWrap.appendChild(bSel);hierarchy.appendChild(bWrap);
   const bk=col.books[state.b];state.ch=Math.min(state.ch,Math.max(0,bk.chapters.length-1));
-  bk.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');b.innerHTML='<strong>Capítulo '+x.number+'</strong><small>'+esc(x.title)+'</small>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b)});
+  bk.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');if(i===state.ch&&!state.note)b.setAttribute('aria-current','true');b.innerHTML='<strong>Capítulo '+x.number+'</strong><small>'+esc(x.title)+'</small>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b)});
 }
 function currentFlatIndex(){
  if(bookId==='filho')return {index:state.ch,total:data.chapters.length};
