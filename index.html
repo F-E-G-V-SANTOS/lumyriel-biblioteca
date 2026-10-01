@@ -194,6 +194,16 @@ section+section{position:relative}
 [data-cover="filho"]{background-image:url("assets/covers/o-filho-da-montanha.webp")!important}
 [data-cover="tempos"]{background-image:url("assets/covers/os-livros-dos-tempos.webp")!important}
 [data-cover="magia"]{background-image:url("assets/covers/livro-das-artes-magicas.webp")!important}
+
+.cover.placeholder-cover{padding:42px 30px 56px;justify-content:center;text-align:center}
+.cover.placeholder-cover small{margin:0 0 14px;max-width:82%;line-height:1.35}
+.cover.placeholder-cover h3{font-size:clamp(1.35rem,2vw,1.72rem)!important;line-height:1.08;max-width:78%;margin:0 auto;overflow-wrap:normal;word-break:normal}
+.future-card .cover-wrap{align-self:start}
+.available-reads{margin-top:24px;padding-top:18px;border-top:1px solid #3b3227;display:grid;gap:0;max-width:620px}
+.available-reads>span{color:#8f806c;text-transform:uppercase;letter-spacing:.14em;font-size:.65rem;margin-bottom:5px}
+.available-reads a{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 2px;border-bottom:1px solid #302920;color:#d7ccba;text-decoration:none;font-family:Georgia,"Times New Roman",serif}
+.available-reads a small{font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#8f877a;font-size:.72rem}
+.available-reads a:hover{color:#fff;border-color:#705a3d}
 </style>
 </head>
 <body><a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
@@ -231,13 +241,15 @@ section+section{position:relative}
   </div>
     <div class="future-shelf" id="futureShelf">
       <div class="future-shelf-head"><div><div class="eyebrow">Em preparação</div><h3>Próximas obras</h3></div><p>Projetos ainda sem arte final permanecem separados da coleção publicada ou em produção ativa.</p></div>
-      <article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover d placeholder-cover"><small>Título provisório</small><h3>Biologia de Lumyriel</h3><span class="roman">BIO</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Biologia de Lumyriel</h3><p>Futuro livro voltado à natureza biológica de Lumyriel. O título, a estrutura e o escopo editorial ainda serão definidos quando a frente for iniciada.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>
+      <article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover d placeholder-cover"><small>Arte em preparação</small><h3>Biologia de Lumyriel</h3><span class="roman">BIO</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Biologia de Lumyriel</h3><p>Futuro livro voltado à natureza biológica de Lumyriel. O título, a estrutura e o escopo editorial ainda serão definidos quando a frente for iniciada.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>
     </div>
   </section>
 
   <section id="destaque"><div class="shell"><div class="feature">
     <div><div class="cover a real-cover" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
-    <div><div class="section-kicker"><span>02</span><div class="eyebrow">Em leitura</div></div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openBook('filho')">Abrir leitor</button></div>
+    <div><div class="section-kicker"><span>02</span><div class="eyebrow">Em leitura</div></div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><a class="btn primary" href="reader.html?book=filho&ch=0" onclick="event.preventDefault();openBook('filho')">Abrir leitor</a>
+      <div class="available-reads"><span>Livros disponíveis no leitor</span><a href="reader.html?book=filho&ch=0" onclick="event.preventDefault();openBook('filho')"><b>O Filho da Montanha</b><small>16 capítulos</small></a><a href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook('tempos')"><b>Os Livros dos Tempos</b><small>54 livros · 1.074 capítulos</small></a></div>
+    </div>
   </div></div></section>
 
   <section id="criador"><div class="shell">
