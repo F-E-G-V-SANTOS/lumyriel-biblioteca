@@ -56,6 +56,21 @@
       "status": "planned",
       "art": "published",
       "cover_file": "assets/covers/matematica-lumyrieliana.webp"
+    },
+    {
+      "title": "Lumyriel RPG",
+      "status": "planned",
+      "character_creator_integration": true,
+      "single_player": true,
+      "dynamic_gpt_narrator": "planned",
+      "duration_selection": "planned",
+      "difficulty_modes": [
+        "História",
+        "Fácil",
+        "Médio",
+        "Difícil",
+        "Lumyriel"
+      ]
     }
   ],
   "feedback": {
@@ -70,8 +85,9 @@
   },
   "support": {
     "pix_ui_ready": true,
-    "public_enabled": false,
-    "qr_configured": false,
-    "variable_amount": true
+    "public_enabled": true,
+    "qr_configured": true,
+    "variable_amount": true,
+    "copy_paste_enabled": false
   }
-}
+}\n
