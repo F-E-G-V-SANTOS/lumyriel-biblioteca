@@ -19,14 +19,195 @@ window.LUMYRIEL_CONFIG = {
   readerProtectionEnabled: true
 };
 
-// Transparência editorial do Arquivo Visual.
+// Transparência editorial e visualizador interno do Arquivo Visual.
 (() => {
   const visualArchive = document.querySelector('#artes .visual-archive');
-  if (!visualArchive || document.querySelector('#artes .visual-ai-disclosure')) return;
+  if (!visualArchive) return;
 
-  const note = document.createElement('p');
-  note.className = 'visual-gallery-note visual-ai-disclosure';
-  note.setAttribute('role', 'note');
-  note.innerHTML = '<strong>Sobre as imagens:</strong> todas as artes conceituais exibidas nesta seção foram geradas com inteligência artificial a partir de um conjunto próprio de prompts desenvolvido especialmente para Lumyriel. As imagens passam por seleção e curadoria para preservar a identidade visual e a coerência do projeto.';
-  visualArchive.insertAdjacentElement('afterend', note);
+  if (!document.querySelector('#artes .visual-ai-disclosure')) {
+    const note = document.createElement('p');
+    note.className = 'visual-gallery-note visual-ai-disclosure';
+    note.setAttribute('role', 'note');
+    note.innerHTML = '<strong>Sobre as imagens:</strong> todas as artes conceituais exibidas nesta seção foram geradas com inteligência artificial a partir de um conjunto próprio de prompts desenvolvido especialmente para Lumyriel. Esse processo faz parte da direção visual do projeto: as imagens passam por seleção, comparação e curadoria antes de serem publicadas, buscando preservar uma identidade visual própria e manter coerência com o cânone, a atmosfera e os registros de Lumyriel.';
+    visualArchive.insertAdjacentElement('afterend', note);
+  }
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .visual-ai-disclosure{
+      margin:22px 0 0!important;
+      padding:17px 19px!important;
+      border:1px solid #4a3e2f;
+      background:linear-gradient(135deg,rgba(28,23,17,.72),rgba(13,12,10,.78));
+      color:#aaa092!important;
+      font-size:.94rem!important;
+      line-height:1.68!important;
+      max-width:980px;
+    }
+    .visual-ai-disclosure strong{
+      color:#d0b783;
+      font:400 1.05rem Georgia,"Times New Roman",serif;
+      letter-spacing:.015em;
+    }
+    .visual-gallery-card{cursor:zoom-in}
+    body.visual-lightbox-open{overflow:hidden}
+    .visual-lightbox[hidden]{display:none!important}
+    .visual-lightbox{
+      position:fixed;inset:0;z-index:1200;
+      display:grid;grid-template-rows:auto minmax(0,1fr) auto;
+      background:rgba(5,5,4,.94);
+      backdrop-filter:blur(7px);
+      color:#e8decc;
+    }
+    .visual-lightbox-top{
+      display:flex;align-items:center;justify-content:space-between;gap:22px;
+      padding:16px 22px;border-bottom:1px solid #3a3126;
+      background:rgba(12,11,9,.88);
+    }
+    .visual-lightbox-heading{min-width:0}
+    .visual-lightbox-title{
+      display:block;font:400 1.25rem/1.2 Georgia,"Times New Roman",serif;
+      color:#eee3d0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .visual-lightbox-category{
+      display:block;margin-top:4px;color:#958b7c;font-size:.65rem;
+      text-transform:uppercase;letter-spacing:.14em;
+    }
+    .visual-lightbox-close,.visual-lightbox-nav{
+      appearance:none;border:1px solid #554735;background:#15120e;color:#d8cebd;
+      cursor:pointer;border-radius:2px;transition:.18s;
+    }
+    .visual-lightbox-close{width:42px;height:42px;font-size:1.35rem;line-height:1}
+    .visual-lightbox-close:hover,.visual-lightbox-nav:hover{border-color:#a98a59;background:#211b14;color:#fff}
+    .visual-lightbox-stage{
+      position:relative;min-height:0;display:grid;place-items:center;padding:22px 76px;
+      overflow:hidden;
+    }
+    .visual-lightbox-image{
+      display:block;max-width:100%;max-height:calc(100vh - 164px);width:auto;height:auto;
+      object-fit:contain;box-shadow:0 26px 70px rgba(0,0,0,.6);background:#0d0c0a;
+    }
+    .visual-lightbox-nav{
+      position:absolute;top:50%;transform:translateY(-50%);width:48px;height:62px;
+      font-size:1.55rem;z-index:2;
+    }
+    .visual-lightbox-prev{left:16px}.visual-lightbox-next{right:16px}
+    .visual-lightbox-bottom{
+      min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+      padding:10px 22px;border-top:1px solid #3a3126;background:rgba(12,11,9,.88);
+      color:#8f877b;font-size:.78rem;
+    }
+    .visual-lightbox-counter{letter-spacing:.08em}
+    .visual-lightbox-original{color:#c7b183;text-decoration:none;font-family:Georgia,"Times New Roman",serif}
+    .visual-lightbox-original:hover{text-decoration:underline;text-underline-offset:4px;color:#eadfc8}
+    @media(max-width:700px){
+      .visual-ai-disclosure{font-size:.9rem!important;padding:15px 16px!important}
+      .visual-lightbox-top{padding:12px 13px}.visual-lightbox-title{font-size:1.05rem}
+      .visual-lightbox-stage{padding:14px 48px}.visual-lightbox-image{max-height:calc(100vh - 146px)}
+      .visual-lightbox-nav{width:38px;height:54px;font-size:1.25rem}
+      .visual-lightbox-prev{left:7px}.visual-lightbox-next{right:7px}
+      .visual-lightbox-bottom{padding:9px 13px;gap:10px}
+    }
+  `;
+  document.head.appendChild(style);
+
+  const viewer = document.createElement('div');
+  viewer.className = 'visual-lightbox';
+  viewer.id = 'visualLightbox';
+  viewer.hidden = true;
+  viewer.setAttribute('role', 'dialog');
+  viewer.setAttribute('aria-modal', 'true');
+  viewer.setAttribute('aria-labelledby', 'visualLightboxTitle');
+  viewer.innerHTML = `
+    <div class="visual-lightbox-top">
+      <div class="visual-lightbox-heading">
+        <strong class="visual-lightbox-title" id="visualLightboxTitle"></strong>
+        <span class="visual-lightbox-category" id="visualLightboxCategory"></span>
+      </div>
+      <button type="button" class="visual-lightbox-close" aria-label="Fechar visualizador">×</button>
+    </div>
+    <div class="visual-lightbox-stage">
+      <button type="button" class="visual-lightbox-nav visual-lightbox-prev" aria-label="Imagem anterior">‹</button>
+      <img class="visual-lightbox-image" alt="" />
+      <button type="button" class="visual-lightbox-nav visual-lightbox-next" aria-label="Próxima imagem">›</button>
+    </div>
+    <div class="visual-lightbox-bottom">
+      <span class="visual-lightbox-counter" aria-live="polite"></span>
+      <a class="visual-lightbox-original" href="#" target="_blank" rel="noopener">Abrir arquivo original ↗</a>
+    </div>
+  `;
+  document.body.appendChild(viewer);
+
+  const gallery = document.getElementById('visualGallery');
+  if (!gallery) return;
+
+  const imageEl = viewer.querySelector('.visual-lightbox-image');
+  const titleEl = viewer.querySelector('.visual-lightbox-title');
+  const categoryEl = viewer.querySelector('.visual-lightbox-category');
+  const counterEl = viewer.querySelector('.visual-lightbox-counter');
+  const originalEl = viewer.querySelector('.visual-lightbox-original');
+  const closeEl = viewer.querySelector('.visual-lightbox-close');
+  const prevEl = viewer.querySelector('.visual-lightbox-prev');
+  const nextEl = viewer.querySelector('.visual-lightbox-next');
+  let currentIndex = 0;
+  let returnFocus = null;
+
+  function getItems(){
+    return Array.from(gallery.querySelectorAll('.visual-gallery-card')).map(card => ({
+      card,
+      src: card.getAttribute('href'),
+      title: card.querySelector('strong')?.textContent?.trim() || 'Arte conceitual de Lumyriel',
+      category: card.querySelector('small')?.textContent?.trim() || 'Arquivo visual'
+    })).filter(item => item.src);
+  }
+
+  function show(index){
+    const items = getItems();
+    if (!items.length) return;
+    currentIndex = (index + items.length) % items.length;
+    const item = items[currentIndex];
+    imageEl.src = item.src;
+    imageEl.alt = item.title;
+    titleEl.textContent = item.title;
+    categoryEl.textContent = item.category;
+    counterEl.textContent = `${currentIndex + 1} / ${items.length}`;
+    originalEl.href = item.src;
+  }
+
+  function openViewer(index, trigger){
+    returnFocus = trigger || document.activeElement;
+    show(index);
+    viewer.hidden = false;
+    document.body.classList.add('visual-lightbox-open');
+    closeEl.focus();
+  }
+
+  function closeViewer(){
+    if (viewer.hidden) return;
+    viewer.hidden = true;
+    imageEl.removeAttribute('src');
+    document.body.classList.remove('visual-lightbox-open');
+    if (returnFocus && typeof returnFocus.focus === 'function') returnFocus.focus();
+  }
+
+  gallery.addEventListener('click', event => {
+    const card = event.target.closest('.visual-gallery-card');
+    if (!card || !gallery.contains(card)) return;
+    event.preventDefault();
+    const cards = Array.from(gallery.querySelectorAll('.visual-gallery-card'));
+    openViewer(cards.indexOf(card), card);
+  });
+
+  closeEl.addEventListener('click', closeViewer);
+  prevEl.addEventListener('click', () => show(currentIndex - 1));
+  nextEl.addEventListener('click', () => show(currentIndex + 1));
+  viewer.addEventListener('click', event => {
+    if (event.target === viewer || event.target.classList.contains('visual-lightbox-stage')) closeViewer();
+  });
+  document.addEventListener('keydown', event => {
+    if (viewer.hidden) return;
+    if (event.key === 'Escape') closeViewer();
+    if (event.key === 'ArrowLeft') show(currentIndex - 1);
+    if (event.key === 'ArrowRight') show(currentIndex + 1);
+  });
 })();
