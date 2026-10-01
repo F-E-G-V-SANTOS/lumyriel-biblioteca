@@ -226,3 +226,25 @@ Em telas pequenas, a composição deve simplificar sem abandonar a identidade f�
 ---
 
 **Regra final:** o visitante deve reconhecer a atmosfera de Lumyriel antes de precisar ler uma explicação sobre o que Lumyriel é.
+
+## Continuidade de leitura
+A Biblioteca pode guardar no navegador o ponto de leitura de cada obra.
+
+- a memória é local ao navegador;
+- cada obra preserva seu próprio capítulo e posição aproximada;
+- a abertura principal pode oferecer **Continuar leitura** usando a última obra lida;
+- entrar por uma capa específica retoma aquela obra, não necessariamente a última do acervo;
+- essa função é de conveniência e não cria conta, perfil ou sincronização entre dispositivos.
+
+A memória de leitura não deve dominar visualmente a home: ela aparece como informação editorial discreta.
+
+## Resolução das capas
+Os ativos públicos vigentes em `assets/covers/` estão otimizados em **300×540 px**.
+
+Enquanto esses arquivos forem os ativos publicados:
+- não ampliar a capa acima de aproximadamente 300 px de largura nas galerias;
+- hero e biblioteca permanecem dentro da faixa segura;
+- o Arquivo Visual deve respeitar a largura nativa para evitar perda perceptível de nitidez.
+
+As fontes aprovadas existem em resolução maior e podem substituir esses ativos futuramente sem alterar layout, identidade ou conteúdo.
+
