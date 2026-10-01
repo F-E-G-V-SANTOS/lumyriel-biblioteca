@@ -89,5 +89,13 @@
     "qr_configured": true,
     "variable_amount": true,
     "copy_paste_enabled": false
+  },
+  "visual_archive": {
+    "frontend_ready": true,
+    "gallery_index": "assets/gallery/gallery-data.json",
+    "prepared_items": 13,
+    "published_items": 0,
+    "map_reserved_for_last_stage": true,
+    "canonical_review_items": 3
   }
-}\n
+}
