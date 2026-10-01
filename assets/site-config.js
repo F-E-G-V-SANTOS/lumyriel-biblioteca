@@ -28,6 +28,10 @@ window.LUMYRIEL_CONFIG = {
     document.head.appendChild(script);
   }
 
+  if (document.getElementById('libraryGrid') || document.getElementById('futureShelf') || document.getElementById('criador')) {
+    load('assets/site-catalog.js');
+  }
+
   if (document.getElementById('visualGallery')) {
     load('assets/gallery-viewer.js');
   }
