@@ -26,6 +26,7 @@ A frente visual e funcional principal do site está consolidada.
 - [x] aviso de privacidade e submissões;
 - [x] navegação por teclado e preferência por redução de movimento;
 - [x] QA estrutural de HTML/CSS/JavaScript;
+- [x] `site-status.json` para verificação da publicação;
 - [x] scripts embutidos validados sintaticamente;
 - [x] IDs duplicados verificados;
 - [x] capas de 300×540 impedidas de ampliar além da largura nativa no Arquivo Visual.
@@ -106,6 +107,7 @@ O botão de envio só deve ser liberado ao público quando:
 ---
 
 # Melhorias pós-lançamento — não bloqueantes
+- [ ] criar favicon somente depois de existir marca editorial deliberadamente aprovada;
 - [ ] substituir as capas otimizadas de 300×540 por versões públicas de maior resolução quando houver uma rota binária de atualização conveniente;
 - [ ] ampliar o Arquivo Visual com arte conceitual aprovada;
 - [ ] publicar cartografia em coleção própria;
