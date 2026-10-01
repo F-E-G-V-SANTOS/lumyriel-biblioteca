@@ -3,6 +3,12 @@
 ## Estado
 Direção aprovada em 01/10/2026 para a Biblioteca de Lumyriel.
 
+**Autoridade visual confirmada:** Bíblia Visual de Lumyriel v1.13 — REC-WPN-02 · Armamento de Elite.
+
+Frase-mãe preservada da autoridade visual:
+
+> “Não parecer realista como fotografia. Parecer real como mundo.”
+
 Esta diretriz governa a interface do site. Ela não cria cânone de mundo e não substitui a Bíblia Visual vigente do projeto. Quando houver dúvida de lore, a autoridade canônica continua sendo consultada antes de qualquer elemento visual específico ser introduzido.
 
 ## Referência visual aprovada
