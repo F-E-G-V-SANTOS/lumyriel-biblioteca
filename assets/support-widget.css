@@ -9,3 +9,7 @@
 @media(max-width:600px){.support-actions{right:12px;bottom:12px;gap:6px}.feedback-fab,.support-fab{padding:10px 12px;font-size:.74rem}.lumy-support-inner{padding:22px}.lumy-support-code-wrap{grid-template-columns:1fr}.lumy-support-copy-btn{width:100%}}
 
 button.feedback-reader{font:inherit;cursor:pointer}
+
+.lumy-support-link-wrap{display:flex;justify-content:center;margin-top:16px}
+.lumy-support-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:1px solid #6d5a3f;background:#b69863;color:#17120d;text-decoration:none;border-radius:2px;padding:10px 16px;font-weight:700}
+.lumy-support-link:hover{background:#cfb785;border-color:#cfb785}
