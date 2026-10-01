@@ -214,7 +214,7 @@ section+section{position:relative}
 
   <section id="biblioteca"><div class="shell">
     <div class="section-head"><div><div class="section-kicker"><span>01</span><div class="eyebrow">Acervo editorial</div></div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
-    <div class="filters" role="group" aria-label="Filtrar biblioteca"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="live">Leitura disponível</button><button class="filter" data-filter="dev">Em desenvolvimento</button><button class="filter" data-filter="planned">Planejado</button></div>
+    <div class="filters" role="group" aria-label="Filtrar biblioteca"><button type="button" class="filter active" data-filter="all" aria-pressed="true">Todos</button><button type="button" class="filter" data-filter="live" aria-pressed="false">Leitura disponível</button><button type="button" class="filter" data-filter="dev" aria-pressed="false">Em desenvolvimento</button><button type="button" class="filter" data-filter="planned" aria-pressed="false">Planejado</button></div>
     <div class="grid" id="libraryGrid">
       <a class="card clickable-book" data-status="live" href="reader.html?book=filho&ch=0" aria-label="Abrir O Filho da Montanha" onclick="event.preventDefault();openBook('filho')"><div class="cover-wrap"><div class="cover a real-cover" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><span class="textlink">Ler agora →</span></div></div></a>
       <a class="card clickable-book" data-status="live" href="reader.html?book=tempos&note=1" aria-label="Abrir Os Livros dos Tempos" onclick="event.preventDefault();openBook('tempos')"><div class="cover-wrap"><div class="cover b real-cover" data-cover="tempos"><small>História cosmológica · Edição de leitura</small><h3>Os Livros dos Tempos</h3><span class="roman">VII</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Os Livros dos Tempos</h3><p>Cinquenta e quatro obras preservadas por tradições distintas, organizadas em sete coleções que atravessam os grandes tempos da história de Lumyriel.</p><div class="bottom"><span>Beta 1 · 54 livros</span><span class="textlink">Ler agora →</span></div></div></a>
@@ -344,7 +344,7 @@ section+section{position:relative}
   }
   renderReadingMemory()
   document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{
-    document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+    document.querySelectorAll('.filter').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false')});btn.classList.add('active');btn.setAttribute('aria-pressed','true');
     const f=btn.dataset.filter;document.querySelectorAll('.card').forEach(card=>card.style.display=(f==='all'||card.dataset.status===f)?'':'none');const fs=document.getElementById('futureShelf');if(fs)fs.style.display=(f==='all'||f==='planned')?'':'none';
   }));
 </script>
