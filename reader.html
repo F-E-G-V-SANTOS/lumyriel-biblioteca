@@ -32,6 +32,26 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
 @media(prefers-reduced-motion:reduce){.paper{scroll-behavior:auto}.sidebar{transition:none!important}}
 
 @media(max-width:480px){.brand span{font-size:0}.brand span:after{content:"Lumyriel";font-size:.86rem}.brand:before{width:18px}.topbar{padding-inline:10px}.mobile-menu,.back{min-height:38px}.paper{padding-inline:17px}.reader-meta{align-items:flex-start;flex-direction:column;gap:4px}.chapter-title{font-size:2.25rem}.side-cover{width:104px}}
+
+/* índice editorial: capítulos como sumário, não como botões de aplicativo */
+.sidebar{padding:24px 20px 28px}
+.sidebar .mini{padding-top:4px}
+.sidebar h1{margin-top:7px;margin-bottom:7px}
+.edition{padding-bottom:15px;border-bottom:1px solid #30291f}
+.chapter-list{gap:0;margin-top:16px;border-top:1px solid #30291f}
+.chapter-btn,.note-btn{border:0;border-bottom:1px solid #2c261e;background:transparent;border-radius:0;padding:10px 4px;color:#9f9689}
+.chapter-btn:hover,.note-btn:hover{border-color:#51432f;background:transparent;color:#e8dcc8}
+.chapter-btn.active,.note-btn.active{border-color:#6c5739;background:transparent;color:#efe3cf;box-shadow:inset 2px 0 0 #9a7c4e;padding-left:11px}
+.chapter-btn strong{font-family:Georgia,"Times New Roman",serif;font-weight:400}
+.chapter-btn small{font-size:.72rem;margin-top:4px}
+.selector{padding-bottom:12px;border-bottom:1px solid #30291f}
+.selector select{border:0;border-bottom:1px solid #594936;border-radius:0;padding:9px 2px;background:transparent}
+.page-count,.progress{border:0;background:transparent;box-shadow:none;border-radius:0;padding:0;color:#7a6c58;font:500 .71rem/1 Georgia,"Times New Roman",serif;letter-spacing:.04em}
+.page-count{min-width:0}
+.paper-inner{position:relative}
+.paper-inner:before{content:"";display:block;width:42px;height:1px;background:rgba(91,69,43,.35);margin:0 0 30px}
+.nav-bottom button{border:0;border-bottom:1px solid rgba(84,68,46,.42);background:transparent;border-radius:0;padding:10px 2px}
+.nav-bottom button:hover:not(:disabled){border-color:#765c38}
 </style>
 </head>
 <body>
