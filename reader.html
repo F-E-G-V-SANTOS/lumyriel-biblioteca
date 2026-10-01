@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Leitor editorial da Biblioteca de Lumyriel.">
+<meta name="description" content="Leitor editorial da Biblioteca Lumyrieliana.">
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
 <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
 <meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet">
@@ -13,10 +13,10 @@
 <meta name="color-scheme" content="dark">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leitor · Biblioteca de Lumyriel">
+<meta property="og:title" content="Leitor · Biblioteca Lumyrieliana">
 <meta property="og:description" content="Leia as obras publicadas de Lumyriel em uma edição editorial preservada.">
 <meta name="twitter:card" content="summary">
-<title>Leitor · Biblioteca de Lumyriel</title>
+<title>Leitor · Biblioteca Lumyrieliana</title>
 <style>.skip-link{position:fixed;left:12px;top:10px;z-index:1000;transform:translateY(-160%);background:#e6dcc9;color:#17130f;padding:8px 11px;text-decoration:none;border:1px solid #aa8a58}.skip-link:focus{transform:translateY(0)}
 
 :root{--bg:#0b0a08;--panel:#12100d;--paper:#eadfc8;--paper2:#cfbb95;--ink:#292219;--muted:#958b7c;--gold:#aa8a58;--gold2:#cfb785;--line:#3c3328}
@@ -44,7 +44,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;op
 a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(--gold2);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.paper{scroll-behavior:auto}.sidebar{transition:none!important}}
 
-@media(max-width:480px){.brand span{font-size:0}.brand span:after{content:"Lumyriel";font-size:.86rem}.brand:before{width:18px}.topbar{padding-inline:10px}.mobile-menu,.back{min-height:44px}.paper{padding-inline:17px}.reader-meta{align-items:flex-start;flex-direction:column;gap:4px}.chapter-title{font-size:2.25rem}.side-cover{width:104px}}
+@media(max-width:480px){.brand span{font-size:.74rem}.brand:before{width:18px}.topbar{padding-inline:10px}.mobile-menu,.back{min-height:44px}.paper{padding-inline:17px}.reader-meta{align-items:flex-start;flex-direction:column;gap:4px}.chapter-title{font-size:2.25rem}.side-cover{width:104px}}
 
 /* índice editorial: capítulos como sumário, não como botões de aplicativo */
 .sidebar{padding:24px 20px 28px}
@@ -76,13 +76,13 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
 ::selection{background:transparent;color:inherit}
 @media print{
   body>*{display:none!important}
-  body:after{content:"A edição de leitura está disponível somente na Biblioteca de Lumyriel.";display:block!important;padding:48px;font:18px/1.6 Georgia,serif;color:#111;background:#fff}
+  body:after{content:"A edição de leitura está disponível somente na Biblioteca Lumyrieliana.";display:block!important;padding:48px;font:18px/1.6 Georgia,serif;color:#111;background:#fff}
 }
 </style>
 </head>
 <body><a class="skip-link" href="#paper">Pular para a leitura</a>
 <header class="topbar">
-  <a class="brand" href="index.html"><span>Biblioteca de Lumyriel</span></a>
+  <a class="brand" href="index.html"><span>Biblioteca Lumyrieliana</span></a>
   <div style="display:flex;gap:8px;align-items:center"><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
 </header>
 <noscript><div class="nojs"><strong>Leitor indisponível sem JavaScript.</strong><span>Os livros são arquivos locais do próprio site, mas esta página precisa de JavaScript para carregar capítulos e navegação.</span><a href="index.html">Voltar à Biblioteca</a></div></noscript>
@@ -299,7 +299,7 @@ function enableReadingProtection(){
   // Evita incorporação casual do leitor em outra página.
   if(window.top!==window.self){
     try{window.top.location=window.self.location.href}catch(err){
-      document.body.innerHTML='<div class="loading">Abra esta edição diretamente na Biblioteca de Lumyriel.</div>';
+      document.body.innerHTML='<div class="loading">Abra esta edição diretamente na Biblioteca Lumyrieliana.</div>';
     }
   }
 }
