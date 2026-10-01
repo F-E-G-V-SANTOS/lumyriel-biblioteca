@@ -3,7 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Leitor editorial da Biblioteca de Lumyriel.">
+<meta name="theme-color" content="#0b0a08">
 <meta name="color-scheme" content="dark">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leitor · Biblioteca de Lumyriel">
+<meta property="og:description" content="Leia as obras publicadas de Lumyriel em uma edição editorial preservada.">
+<meta name="twitter:card" content="summary">
 <title>Leitor · Biblioteca de Lumyriel</title>
 <style>
 :root{--bg:#0b0a08;--panel:#12100d;--paper:#eadfc8;--paper2:#cfbb95;--ink:#292219;--muted:#958b7c;--gold:#aa8a58;--gold2:#cfb785;--line:#3c3328}
@@ -136,7 +143,7 @@ function setUrl(){
   history.replaceState(null,'','reader.html?'+p.toString());
 }
 function renderSidebar(){
-  document.getElementById('sideTitle').textContent=data.title;
+  document.getElementById('sideTitle').textContent=data.title;document.title=data.title+' · Lumyriel';
   document.getElementById('sideEdition').textContent=data.edition;
   document.getElementById('sideKind').textContent=data.subtitle||'Leitura';
   hierarchy.innerHTML='';
