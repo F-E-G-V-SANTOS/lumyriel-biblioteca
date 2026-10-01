@@ -108,7 +108,7 @@ footer{border-top:1px solid #242527;padding:32px 0 50px;color:#77736c}.footer-ro
 <option value="__other__">Outra morfologia / personalizar</option>
 </select>
 <div id="specialMorphologyCustomWrap" class="custom-field"><input id="specialMorphologyCustom" placeholder="Descreva a morfologia"></div>
-<div id="morphologyDescription" class="info-box">Selvari descreve morfologia humanoide animaliforme, não uma espécie única. Lupran é uma espécie Selvari lupina e Felran é uma espécie Selvari felina. Nethra das Sombras / Gatos Sombra são grandes felinos quadrúpedes e não pertencem à taxonomia Selvari por padrão.</div>
+<div id="morphologyDescription" class="info-box">Selvari descreve morfologia humanoide animaliforme, não uma espécie única. Lupran é uma espécie Selvari lupina e Felran é uma espécie Selvari felina; outras morfologias semelhantes podem ter origens próprias.</div>
 </div>
 
 <div class="field full conditional" id="mutariWrap">
@@ -497,14 +497,14 @@ var PEOPLE_INFO={
 'Nerathi':'Espécie aquática verdadeira de Umbralis. Corpo humanoide hidrodinâmico, braços manipuladores, pernas adaptadas à natação, pés amplos, brânquias principais e pulmões reduzidos de apoio. Podem permanecer no ar, mas isso custa fisiologicamente; não são “magos de água” por natureza.',
 'Feérico':'Família ampla de múltiplas espécies, algumas sapientes e outras não. Entre linhagens sapientes consolidadas, indivíduos podem nascer em Primeira Estatura, de até cerca de 60 cm, e durante a maturidade permanecer nela ou assumir uma Segunda Estatura humanoide permanente. Isso não é evolução de poder.',
 'Lupran':'Espécie/povo sapiente independente de morfologia Selvari lupina. Possui corpo bípede funcional, mãos manipuladoras, um único par funcional de orelhas lupinas móveis, cauda funcional, caninos desenvolvidos, estrutura facial que pode variar de muito humanoide a focinho curto e pelagem de distribuição variável. Não é humano-lobo, lobisomem, Mutari humano-lobo ou Fenrion humanoide.',
-'Felran':'Espécie sapiente biologicamente estável de morfologia Selvari felina. Possui corpo bípede e mãos manipuladoras, um único par funcional de orelhas felinas móveis, cauda funcional, caninos desenvolvidos e garras retráteis ou semirretráteis conforme a linhagem. O rosto pode variar de fortemente humanoide a focinho curto; pelagem e vibrissas também variam. Tende a bom desempenho em baixa luminosidade, equilíbrio e coordenação, mas não enxerga no escuro absoluto, não possui poder de sombra inato e não é Gato Sombra / Nethra das Sombras.',
+'Felran':'Espécie sapiente biologicamente estável de morfologia Selvari felina. Possui corpo bípede e mãos manipuladoras, um único par funcional de orelhas felinas móveis, cauda funcional, caninos desenvolvidos e garras retráteis ou semirretráteis conforme a linhagem. O rosto pode variar de fortemente humanoide a focinho curto; pelagem e vibrissas também variam. Visão em baixa luminosidade, equilíbrio, coordenação e mobilidade corporal podem se destacar conforme população e indivíduo.',
 'Valdrin':'Espécie sapiente humanoide independente de morfologia corniforme. Chifres verdadeiros e permanentes integram o crânio e podem variar em forma, curvatura, espessura e orientação. Valdrin é o nome canônico da espécie; “corniforme” é apenas o descritor anatômico. Não é demônio, Mutari ou dracônico por definição.'
 }
 
 var MORPH_INFO={
 'Lupran — morfologia Selvari lupina estável':'Forma corporal natural dos Lupran: anatomia humanoide estável com um único par funcional de orelhas lupinas, cauda funcional, dentição e aparelho sensorial próprios. Não há forma humana oculta nem transformação por lua.',
 'Felran — morfologia Selvari felina estável':'Forma corporal natural dos Felran: anatomia humanoide estável com um único par funcional de orelhas felinas móveis, cauda funcional, caninos desenvolvidos e garras retráteis ou semirretráteis conforme a linhagem. Pelagem, vibrissas e grau de projeção do focinho variam entre populações e indivíduos.',
-'Selvari felino — outra origem biologicamente demonstrada':'Morfologia Selvari felina fora da espécie Felran: orelhas felinas funcionais substituem o pavilhão humano e outros traços só entram quando houver origem corporal compatível. Nethra das Sombras / Gatos Sombra são felinos quadrúpedes e não são uma origem Selvari.',
+'Selvari felino — outra origem biologicamente demonstrada':'Morfologia Selvari felina fora da espécie Felran: orelhas felinas funcionais substituem o pavilhão humano e outros traços só entram quando houver uma origem corporal compatível.',
 'Selvari lupino não-Lupran — traços lupinos funcionais':'Morfologia Selvari lupina fora dos Lupran exige uma origem corporal própria e demonstrável. Sem isso, semelhança com Lupran não transforma automaticamente o personagem em Lupran, Mutari ou lobisomem.',
 'Selvari ursino — traços ursinos funcionais':'Morfologia Selvari ursina pode incluir orelhas arredondadas funcionais, pilosidade localizada, dentição e unhas modificadas conforme a origem biológica. Urso Totem pode apresentar esse fenótipo sem constituir uma espécie ursina separada.'
 }
@@ -1019,7 +1019,7 @@ function updateIdentityRecommendations(){
  if(sp==='Hadrun')items.push('Hadrun: 2,6–3,2 m e 300–500+ kg são coerentes pela escala corporal cúbica e pela anatomia robusta; massa alta não significa obesidade.');
  if(sp==='Nareth')items.push('Nareth: o corpo é humanoide definitivo. Asas, cauda dracônica funcional ou retorno ao corpo primordial não combinam com a biologia vigente.');
  if(sp==='Lupran')items.push('Lupran: a anatomia lupino-convergente é estável e canônica: corpo bípede, mãos manipuladoras, orelhas móveis, cauda funcional, caninos desenvolvidos e pelagem variável. Não é lobisomem nem Mutari humano-lobo.');
- if(sp==='Felran')items.push('Felran: a anatomia Selvari felina é estável: corpo bípede, mãos manipuladoras, um único par de orelhas felinas móveis, cauda funcional, caninos e garras especializadas. Visão em baixa luz, equilíbrio e coordenação são vantagens médias com custos reais; não são poderes e não tornam o personagem um Gato Sombra.');
+ if(sp==='Felran')items.push('Felran: a anatomia Selvari felina é estável: corpo bípede, mãos manipuladoras, um único par de orelhas felinas móveis, cauda funcional, caninos e garras especializadas. Visão em baixa luz, equilíbrio e coordenação podem variar bastante entre indivíduos.');
  if(sp==='Valdrin')items.push('Valdrin: chifres verdadeiros permanentes são parte do crânio e exigem acomodação física; Valdrin é a espécie, enquanto corniforme é apenas o descritor anatômico. Chifres não indicam demônio, poder, casta ou ascendência dracônica.');
  var sm=selectedText('specialMorphology');
  if(sm)items.push('Morfologia especial: '+(MORPH_INFO[sm]||sm));
@@ -1244,12 +1244,12 @@ function loadLocal(){
 }
 function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').replace(/[^a-zA-Z0-9À-ÿ_-]+/g,'_')+'.'+ext}
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
-function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.7',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
+function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.8',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
  var s=document.getElementById('saveStatus');
  if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
- var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.7',generated_at:new Date().toISOString()};
+ var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.8',generated_at:new Date().toISOString()};
  try{
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
