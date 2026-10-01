@@ -80,11 +80,12 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
 }
 .feedback-reader{border:1px solid #5f4f39;border-radius:2px;padding:8px 11px;color:#dbcdb7;text-decoration:none;font-size:.8rem;background:#1a1611}.feedback-reader:hover{border-color:var(--gold2);color:#fff}
 </style>
+<link rel="stylesheet" href="assets/support-widget.css">
 </head>
 <body><a class="skip-link" href="#paper">Pular para a leitura</a>
 <header class="topbar">
   <a class="brand" href="index.html"><span>Biblioteca Lumyrieliana</span></a>
-  <div style="display:flex;gap:8px;align-items:center"><a id="readerFeedbackLink" class="feedback-reader" href="feedback.html">Feedback</a><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
+  <div style="display:flex;gap:8px;align-items:center"><a id="readerFeedbackLink" class="feedback-reader" href="feedback.html">Feedback</a><button type="button" class="feedback-reader" data-support-project>Apoie</button><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
 </header>
 <noscript><div class="nojs"><strong>Leitor indisponível sem JavaScript.</strong><span>Os livros são arquivos locais do próprio site, mas esta página precisa de JavaScript para carregar capítulos e navegação.</span><a href="index.html">Voltar à Biblioteca</a></div></noscript>
 <div class="shell" id="shell">
@@ -114,6 +115,7 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
 </div>
 <script src="assets/covers-data.js"></script>
 <script src="assets/site-config.js"></script>
+<script src="assets/support-widget.js"></script>
 <script>
 const DATA={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat'};
 const READER_CONFIG=window.LUMYRIEL_CONFIG||{};
