@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /lumyriel-biblioteca/books/
-
-# O catálogo público permanece rastreável.
-# O leitor aplica noindex/noarchive em sua própria página.
