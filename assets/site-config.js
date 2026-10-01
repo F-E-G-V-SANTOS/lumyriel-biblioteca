@@ -8,8 +8,9 @@ window.LUMYRIEL_CONFIG = {
 
   // Apoio voluntário via Pix. Ative somente depois de publicar um QR e payload válidos.
   supportPixEnabled: true,
-  supportPixQrImage: 'assets/support/pix-apoie-lumyriel.png',
+  supportPixQrImage: 'assets/support/pix-apoie-lumyriel-v2.svg',
   supportPixCopyPaste: '',
+  supportPixLink: 'https://nubank.com.br/cobrar/ljz8/6abe9835-21ea-4483-a475-09dec8cf3ff3',
   supportPixRecipient: '',
 
   // O leitor continua 100% estático. Se um dia houver um serviço de conteúdo,
