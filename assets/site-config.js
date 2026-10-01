@@ -7,8 +7,8 @@ window.LUMYRIEL_CONFIG = {
   feedbackSubmissionEnabled: true,
 
   // Apoio voluntário via Pix. Ative somente depois de publicar um QR e payload válidos.
-  supportPixEnabled: false,
-  supportPixQrImage: '',
+  supportPixEnabled: true,
+  supportPixQrImage: 'assets/support/pix-apoie-lumyriel.png',
   supportPixCopyPaste: '',
   supportPixRecipient: '',
 
