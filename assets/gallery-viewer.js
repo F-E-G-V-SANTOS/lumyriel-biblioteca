@@ -25,3 +25,15 @@
   gallery.addEventListener('click',event=>{const card=event.target.closest('.visual-gallery-card');if(!card||!gallery.contains(card))return;event.preventDefault();const cards=Array.from(gallery.querySelectorAll('.visual-gallery-card'));openViewer(cards.indexOf(card),card)});
   closeEl.addEventListener('click',closeViewer);prevEl.addEventListener('click',()=>show(currentIndex-1));nextEl.addEventListener('click',()=>show(currentIndex+1));viewer.addEventListener('click',event=>{if(event.target===viewer||event.target.classList.contains('visual-lightbox-stage'))closeViewer()});document.addEventListener('keydown',event=>{if(viewer.hidden)return;if(event.key==='Escape')closeViewer();if(event.key==='ArrowLeft')show(currentIndex-1);if(event.key==='ArrowRight')show(currentIndex+1)});
 })();
+
+// O Arquivo Visual é carregado na página principal; aproveitamos o mesmo ponto
+// modular para ligar a publicação Beta de Artes Mágicas ao catálogo sem
+// reescrever o HTML principal.
+(() => {
+  if (!document.getElementById('libraryGrid') || window.__LUMYRIEL_MAGIC_LOADER__) return;
+  window.__LUMYRIEL_MAGIC_LOADER__ = true;
+  const script = document.createElement('script');
+  script.src = 'assets/magic-site-integration.js';
+  script.defer = true;
+  document.head.appendChild(script);
+})();
