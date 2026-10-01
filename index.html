@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Biblioteca de Lumyriel — romances, história cosmológica, livros didáticos, arquivo visual e ferramentas do universo de Lumyriel." />
+  <meta name="description" content="Biblioteca Lumyrieliana — romances, história cosmológica, livros didáticos, arquivo visual e ferramentas do universo de Lumyriel." />
   <meta name="theme-color" content="#0b0a08" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Biblioteca de Lumyriel" />
+  <meta property="og:title" content="Biblioteca Lumyrieliana" />
   <meta property="og:description" content="Romances, história cosmológica, livros didáticos, arquivo visual e ferramentas do universo de Lumyriel." />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Biblioteca de Lumyriel" />
+  <meta name="twitter:title" content="Biblioteca Lumyrieliana" />
   <meta name="twitter:description" content="Romances, história cosmológica, livros didáticos, arquivo visual e ferramentas do universo de Lumyriel." />
-  <title>Biblioteca de Lumyriel</title>
+  <title>Biblioteca Lumyrieliana</title>
   <link rel="preload" as="image" href="assets/covers/o-filho-da-montanha.webp" />
   <link rel="preload" as="image" href="assets/covers/os-livros-dos-tempos.webp" />
   <link rel="preload" as="image" href="assets/covers/livro-das-artes-magicas.webp" />
@@ -116,7 +116,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:1px s
 
 @media(max-width:600px){.filters{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;padding-bottom:3px}.filters::-webkit-scrollbar{display:none}.filter{flex:0 0 auto}.card{min-height:0}.cover-wrap{padding-inline:22px}.cover{max-width:245px}.section-head{margin-bottom:22px}}
 
-@media(max-width:460px){header .brand span{font-size:0}header .brand span:after{content:"Lumyriel";font-size:.88rem}header .brand:before{width:18px}.menu-toggle{min-height:44px}}
+@media(max-width:460px){header .brand span{font-size:.76rem}header .brand:before{width:18px}.menu-toggle{min-height:44px}}
 
 /* catálogo editorial: a capa é o objeto; a interface apenas a identifica */
 .actions{align-items:center}
@@ -220,7 +220,7 @@ section+section{position:relative}
 <body><a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 <header id="siteHeader">
   <div class="shell"><nav>
-    <a class="brand" href="#inicio"><span>Biblioteca de Lumyriel</span></a>
+    <a class="brand" href="#inicio"><span>Biblioteca Lumyrieliana</span></a>
     <button class="menu-toggle" id="menuToggle" type="button" aria-controls="siteNav" aria-expanded="false">Índice</button>
     <div class="navlinks" id="siteNav"><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#artes">Artes</a><a href="#inspiracoes">Inspirações</a><a href="#origem">Origem</a></div>
   </nav></div>
@@ -241,7 +241,7 @@ section+section{position:relative}
   
 
   <section id="biblioteca"><div class="shell">
-    <div class="section-head"><div><div class="section-kicker"><span>01</span><div class="eyebrow">Acervo editorial</div></div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
+    <div class="section-head"><div><div class="section-kicker"><span>01</span><div class="eyebrow">Acervo editorial</div></div><h2>Biblioteca Lumyrieliana</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
     <div class="filters" role="group" aria-label="Filtrar biblioteca"><button type="button" class="filter active" data-filter="all" aria-pressed="true">Todos</button><button type="button" class="filter" data-filter="live" aria-pressed="false">Leitura disponível</button><button type="button" class="filter" data-filter="dev" aria-pressed="false">Em desenvolvimento</button><button type="button" class="filter" data-filter="planned" aria-pressed="false">Planejado</button></div>
     <div class="grid" id="libraryGrid">
       <a class="card clickable-book" data-status="live" href="reader.html?book=filho&ch=0" aria-label="Abrir O Filho da Montanha" onclick="event.preventDefault();openBook('filho')"><div class="cover-wrap"><div class="cover a real-cover" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><span class="textlink">Ler agora →</span></div></div></a>
@@ -316,7 +316,7 @@ section+section{position:relative}
   </div></section>
 </main>
 
-<footer><div class="shell footer-row"><span>Biblioteca de Lumyriel · versão alpha</span><span><a href="privacy.html">Privacidade e submissões</a> · As leituras publicadas indicam a edição de origem.</span></div></footer>
+<footer><div class="shell footer-row"><span>Biblioteca Lumyrieliana · versão alpha</span><span><a href="privacy.html">Privacidade e submissões</a> · As leituras publicadas indicam a edição de origem.</span></div></footer>
 <script>
   const siteHeader=document.getElementById('siteHeader'),menuToggle=document.getElementById('menuToggle');
   function closeSiteMenu(){siteHeader.classList.remove('menu-open');menuToggle.setAttribute('aria-expanded','false')}
