@@ -121,3 +121,29 @@ O Gate A só fecha depois de:
 - teste real em celular;
 - teste real em desktop;
 - navegação e leitura sem bloqueios.
+
+
+## Indexação
+
+O estado atual do repositório **não bloqueia mecanismos de busca**: não existe `robots.txt` e as páginas principais não usam `noindex`.
+
+Antes de ativar o Pages, decidir entre:
+
+### Alpha indexável
+Não adicionar bloqueio. Depois da URL pública:
+- criar `sitemap.xml`;
+- definir canonical;
+- completar `og:url` e imagem social.
+
+### Alpha não indexável
+Adicionar temporariamente:
+
+```html
+<meta name="robots" content="noindex,nofollow">
+```
+
+às páginas públicas principais.
+
+Não publicar um `robots.txt` como substituto de `noindex` se a intenção for impedir indexação: robots controla rastreamento, não garante remoção de URLs do índice.
+
+A decisão deve ser deliberada antes do Gate A.
