@@ -17,7 +17,8 @@
   <link rel="preload" as="image" href="assets/covers/o-filho-da-montanha.webp" />
   <link rel="preload" as="image" href="assets/covers/os-livros-dos-tempos.webp" />
   <link rel="preload" as="image" href="assets/covers/livro-das-artes-magicas.webp" />
-  <style>
+  <style>.skip-link{position:fixed;left:12px;top:10px;z-index:1000;transform:translateY(-160%);background:#e6dcc9;color:#17130f;padding:8px 11px;text-decoration:none;border:1px solid #aa8a58}.skip-link:focus{transform:translateY(0)}
+
 :root{
   --coal:#0b0a08;--coal2:#11100d;--cloth:#17140f;--edge:#4b4030;--edge2:#6a5940;
   --bronze:#aa8a58;--bronze2:#cfb785;--ivory:#e6dcc9;--muted:#a79e8f;
@@ -189,7 +190,7 @@ section+section{position:relative}
 [data-cover="magia"]{background-image:url("assets/covers/livro-das-artes-magicas.webp")!important}
 </style>
 </head>
-<body>
+<body><a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 <header id="siteHeader">
   <div class="shell"><nav>
     <a class="brand" href="#inicio"><span>Biblioteca de Lumyriel</span></a>
@@ -199,7 +200,7 @@ section+section{position:relative}
 </header>
 
 <noscript><div class="shell noscript-note">O JavaScript está desativado. A biblioteca continua disponível pelos links de leitura, mas filtros, memória de leitura e interações avançadas ficam indisponíveis.</div></noscript>
-<main>
+<main id="mainContent">
   <section class="hero shell" id="inicio">
     <div>
       <div class="eyebrow">Arquivo de Lumyriel</div>
