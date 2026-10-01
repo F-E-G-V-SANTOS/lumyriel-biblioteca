@@ -26,6 +26,7 @@ index.html                  catálogo editorial
 reader.html                 leitor das obras
 character-creator.html      Criador de Personagens
 privacy.html                privacidade e submissões
+site-status.json              estado editorial/publicável da versão estática
 
 assets/
   covers/                   capas públicas
