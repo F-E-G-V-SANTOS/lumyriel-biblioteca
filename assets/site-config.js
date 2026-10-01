@@ -33,6 +33,9 @@ window.LUMYRIEL_CONFIG = {
   }
 
   if (document.getElementById('creatorForm')) {
+    const initialStatus = document.getElementById('saveStatus');
+    if (initialStatus) initialStatus.hidden = true;
+
     load('assets/character-creator-options.js', () => {
       load('assets/character-creator-biology.js', () => {
         load('assets/character-creator-names.js', () => {
