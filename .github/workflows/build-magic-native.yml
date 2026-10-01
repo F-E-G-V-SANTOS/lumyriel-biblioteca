@@ -1,0 +1,35 @@
+name: Build native magic reader
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/build_magic_native.py'
+      - 'tools/magic-reader-template.html.gz.b64'
+      - '.github/workflows/build-magic-native.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install document tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils webp
+      - name: Build native edition
+        run: python tools/build_magic_native.py
+      - name: Commit generated reader
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reader.html magic-reader.html assets/magic-site-integration.js assets/site-config.js books/lmy-aml-b1.dat assets/books/artes-magicas
+          if git diff --cached --quiet; then
+            echo 'No generated changes.'
+            exit 0
+          fi
+          git commit -m 'Migra Artes Mágicas para leitor nativo'
+          git push
