@@ -39,7 +39,7 @@ function corsHeaders(config, req) {
   };
 }
 
-export function createHandler({ repository, config, now = () => new Date() }) {
+export function createHandler({ repository, config, narrator = null, now = () => new Date() }) {
   return async function handler(req, res) {
     const cors = corsHeaders(config, req);
     if (req.method === 'OPTIONS') {
@@ -50,7 +50,7 @@ export function createHandler({ repository, config, now = () => new Date() }) {
     try {
       const url = new URL(req.url, 'http://localhost');
       if (url.pathname === '/health' && req.method === 'GET') {
-        return json(res, 200, { ok: true, service: 'Lumyriel RPG Backend', phase: '1-3', narrator: false }, cors);
+        return json(res, 200, { ok: true, service: 'Lumyriel RPG Backend', phase: narrator ? '4' : '1-3', narrator: Boolean(narrator) }, cors);
       }
 
       const auth = resolveAnonymousUser(req, config.cookieSecret);
@@ -90,13 +90,21 @@ export function createHandler({ repository, config, now = () => new Date() }) {
         if (!body.player_input || typeof body.player_input !== 'object') {
           return json(res, 400, { error: 'player_input_required' }, headers);
         }
-        const result = await repository.applyMockTurn({
-          userId: auth.userId,
-          campaignId: turnMatch[1],
-          idempotencyKey,
-          expectedStateVersion,
-          playerInput: body.player_input
-        });
+        const result = narrator
+          ? await narrator.runTurn({
+              userId: auth.userId,
+              campaignId: turnMatch[1],
+              idempotencyKey,
+              expectedStateVersion,
+              playerInput: body.player_input
+            })
+          : await repository.applyMockTurn({
+              userId: auth.userId,
+              campaignId: turnMatch[1],
+              idempotencyKey,
+              expectedStateVersion,
+              playerInput: body.player_input
+            });
         return json(res, result.status, result.body, headers);
       }
 
