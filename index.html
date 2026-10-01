@@ -193,7 +193,7 @@ section+section{position:relative}
 
 [data-cover="filho"]{background-image:url("assets/covers/o-filho-da-montanha.webp")!important}
 [data-cover="tempos"]{background-image:url("assets/covers/os-livros-dos-tempos.webp")!important}
-[data-cover="magia"]{background-image:url("assets/covers/livro-das-artes-magicas.webp")!important}
+[data-cover="magia"]{background-image:linear-gradient(180deg,#21180f,#0c0a08)!important}
 
 .cover.placeholder-cover{padding:42px 30px 56px;justify-content:center;text-align:center}
 .cover.placeholder-cover small{margin:0 0 14px;max-width:82%;line-height:1.35}
@@ -302,8 +302,14 @@ section+section{position:relative}
 </main>
 
 <footer><div class="shell footer-row"><span>Biblioteca de Lumyriel · versão alpha</span><span><a href="privacy.html">Privacidade e submissões</a> · As leituras publicadas indicam a edição de origem.</span></div></footer>
+<script src="assets/magia-cover-inline.js"></script>
 <script>
   const siteHeader=document.getElementById('siteHeader'),menuToggle=document.getElementById('menuToggle');
+  if(window.LUMYRIEL_COVER_MAGIA_INLINE){
+    document.querySelectorAll('[data-cover="magia"]').forEach(el=>{
+      el.style.setProperty('background-image','url("'+window.LUMYRIEL_COVER_MAGIA_INLINE+'")','important');
+    });
+  }
   function closeSiteMenu(){siteHeader.classList.remove('menu-open');menuToggle.setAttribute('aria-expanded','false')}
   menuToggle.addEventListener('click',()=>{const open=siteHeader.classList.toggle('menu-open');menuToggle.setAttribute('aria-expanded',open?'true':'false')});
   document.getElementById('siteNav').querySelectorAll('a').forEach(a=>a.addEventListener('click',closeSiteMenu));
