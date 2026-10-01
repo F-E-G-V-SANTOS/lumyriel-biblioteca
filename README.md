@@ -80,7 +80,7 @@ http://localhost:8000/
 
 O site principal funciona sem backend.
 
-O Criador só habilita submissão direta quando `assets/site-config.js` contém uma URL de Apps Script válida.
+O Criador só habilita submissão direta quando `assets/site-config.js` contém uma URL de Apps Script válida **e** `characterSubmissionEnabled: true`.
 
 Enquanto o canal público de contribuições não tiver regras autorais fechadas, a configuração deve permanecer vazia.
 
