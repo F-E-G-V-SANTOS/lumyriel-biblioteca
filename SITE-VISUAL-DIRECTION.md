@@ -189,6 +189,24 @@ A estante principal reúne apenas as três obras com identidade visual aprovada.
 
 A implementação deve preservar navegação por teclado, foco visível e preferência do sistema por redução de movimento; a atmosfera física não justifica perda de acessibilidade.
 
+## Arquivo visual público
+O arquivo visual deixa de ser uma seção vazia a partir do primeiro conjunto legitimamente publicável: as três capas editoriais aprovadas.
+
+- capas são classificadas como **design editorial**, não como arte conceitual;
+- arte conceitual, cartografia e documentos permanecem categorias distintas;
+- um mapa técnico não vira “arte” apenas para preencher galeria;
+- cada nova coleção visual precisa ter contexto e função definidos antes de ser publicada.
+
+## Mobile
+Em telas pequenas, a composição deve simplificar sem abandonar a identidade física.
+
+- as três capas do destaque continuam perceptíveis como coleção;
+- controles não podem esmagar a arte;
+- a navegação principal usa **Índice** como linguagem editorial, em vez de simplesmente desaparecer;
+- leitor e criador podem abreviar a marca de cabeçalho para **Lumyriel** quando o espaço exigir;
+- o índice de etapas do Criador permanece acessível horizontalmente e acompanha a etapa ativa;
+- o leitor usa fundo de fechamento atrás da lista de capítulos para deixar claro quando a navegação lateral está aberta.
+
 ---
 
 **Regra final:** o visitante deve reconhecer a atmosfera de Lumyriel antes de precisar ler uma explicação sobre o que Lumyriel é.
