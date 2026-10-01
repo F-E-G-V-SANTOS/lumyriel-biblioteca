@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { OpenAIResponsesClient } from '../src/openai-responses.js';
 
-test('cliente Responses mantém chave no servidor e envia payload ao endpoint /responses', async () => {
+test('cliente Responses mantém credencial no servidor e envia payload ao endpoint /responses', async () => {
   let seenUrl;
   let seenOptions;
   const fetchImpl = async (url, options) => {
@@ -14,7 +14,7 @@ test('cliente Responses mantém chave no servidor e envia payload ao endpoint /r
     });
   };
   const client = new OpenAIResponsesClient({
-    apiKey:'sk-test-server-only',
+    apiKey:'TEST_ONLY_NOT_A_SECRET',
     model:'gpt-6-astra',
     baseUrl:'https://api.openai.com/v1',
     timeoutMs:5000,
@@ -22,7 +22,7 @@ test('cliente Responses mantém chave no servidor e envia payload ao endpoint /r
   });
   const response = await client.create({ input:'QA', store:true });
   assert.equal(seenUrl, 'https://api.openai.com/v1/responses');
-  assert.equal(seenOptions.headers.authorization, 'Bearer sk-test-server-only');
+  assert.equal(seenOptions.headers.authorization, 'Bearer TEST_ONLY_NOT_A_SECRET');
   const body = JSON.parse(seenOptions.body);
   assert.equal(body.model, 'gpt-6-astra');
   assert.equal(body.input, 'QA');
