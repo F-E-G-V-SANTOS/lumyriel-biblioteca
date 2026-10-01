@@ -1291,16 +1291,19 @@ function filename(d,ext){return 'Lumyriel_Personagem_'+(d.name||'Sem_Nome').repl
 function download(content,name,type){var blob=new Blob([content],{type:type});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)}
 function downloadJson(){if(!ensureBiologicalFinalization())return;var d=formData();d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.9',generated_at:new Date().toISOString()};download(JSON.stringify(d,null,2),filename(d,'json'),'application/json')}
 async function submitToLumyriel(){
- var s=document.getElementById('saveStatus');
+ var s=document.getElementById('saveStatus'),btn=document.getElementById('submitCharacterBtn');
  if(!ensureBiologicalFinalization())return;
  if(!WEB_APP_URL){s.textContent='A submissão direta ao Drive ainda aguarda a URL do Apps Script. Use “Salvar rascunho” ou baixe o dossiê enquanto isso.';s.className='status warn';return}
  var d=formData();d.website=document.getElementById('website').value||'';d._meta={status:'candidato_nao_canonico',creator_version:'alpha-0.9',generated_at:new Date().toISOString()};
  try{
+   btn.disabled=true;btn.textContent='Enviando…';
    s.textContent='Enviando personagem para avaliação...';s.className='status';
    await fetch(WEB_APP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
    s.textContent='Submissão enviada. O personagem entrou na fila de avaliação de Lumyriel; isso não o torna canônico automaticamente.';s.className='status ok';
  }catch(err){
    s.textContent='Não foi possível enviar agora. Seu personagem continua disponível neste navegador e pode ser exportado.';s.className='status warn';
+ }finally{
+   btn.disabled=false;btn.textContent='Enviar personagem para Lumyriel';
  }
 }
 function downloadText(){
