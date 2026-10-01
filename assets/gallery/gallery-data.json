@@ -3,78 +3,117 @@
     "file": "assets/gallery/casa-na-floresta.webp",
     "title": "Casa na floresta",
     "category": "lugares",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 2048,
+    "height": 1152,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/conselho-em-torno-do-mapa.webp",
     "title": "Conselho em torno do mapa",
     "category": "cenas",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/viajante-entre-ruinas.webp",
     "title": "Viajante entre ruínas",
     "category": "cenas",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/diante-da-muralha.webp",
     "title": "Diante da muralha",
     "category": "lugares",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 2000,
+    "height": 1125,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/cidade-sob-neve.webp",
     "title": "Cidade sob neve",
     "category": "lugares",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/porto-entre-montanhas.webp",
     "title": "Porto entre montanhas",
     "category": "lugares",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/terras-cinzentas.webp",
     "title": "Terras cinzentas",
     "category": "cenas",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/peregrino-e-ecos.webp",
     "title": "Peregrino e ecos",
     "category": "cenas",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/ruinas-espectrais.webp",
     "title": "Ruínas espectrais",
     "category": "lugares",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/catarata-espectral.webp",
     "title": "Catarata espectral",
     "category": "lugares",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/dois-viajantes-em-ruinas.webp",
     "title": "Dois viajantes nas ruínas",
     "category": "cenas",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1853,
+    "height": 1390,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/estudo-de-viajante.webp",
     "title": "Estudo de viajante",
     "category": "personagens",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1605,
+    "height": 1605,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   },
   {
     "file": "assets/gallery/viajante-sob-guarda-chuva.webp",
     "title": "Viajante sob guarda-chuva",
     "category": "personagens",
-    "canonical_title": false
+    "canonical_title": false,
+    "width": 1024,
+    "height": 2048,
+    "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
   }
 ]
