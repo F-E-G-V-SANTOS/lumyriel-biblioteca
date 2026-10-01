@@ -158,6 +158,17 @@ section+section{position:relative}
   .feature,.creator-callout{padding:40px 0}
   #biblioteca,#destaque,#criador,#artes,#inspiracoes,#origem{padding-top:72px;padding-bottom:72px}
 }
+
+.section-kicker{display:flex;align-items:center;gap:12px}
+.section-kicker>span{font:600 .62rem/1 Inter,sans-serif;letter-spacing:.14em;color:#6f604a;border-right:1px solid #514432;padding-right:12px}
+.origin-card{border:0;border-top:1px solid #4a3e2f;border-bottom:1px solid #4a3e2f;border-radius:0;padding:22px 0;background:transparent}
+.origin-label{color:#7f725f;text-transform:uppercase;letter-spacing:.16em;font-size:.62rem;margin-bottom:8px}
+.origin-card strong{font-size:1.45rem;margin-bottom:18px}
+.origin-card dl{margin:0}.origin-card dl>div{display:grid;grid-template-columns:92px 1fr;gap:14px;border-top:1px solid #30291f;padding:9px 0}
+.origin-card dt{color:#786d5e;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}
+.origin-card dd{margin:0;color:#aaa194;font-size:.88rem}
+.origin-copy p{line-height:1.72}
+#inspiracoes .section-head,#biblioteca .section-head{border-bottom:0}
 </style>
 </head>
 <body>
@@ -183,7 +194,7 @@ section+section{position:relative}
   
 
   <section id="biblioteca"><div class="shell">
-    <div class="section-head"><div><div class="eyebrow">Acervo editorial</div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
+    <div class="section-head"><div><div class="section-kicker"><span>01</span><div class="eyebrow">Acervo editorial</div></div><h2>Biblioteca de Lumyriel</h2></div><p>Romances, registros históricos e obras didáticas do universo de Lumyriel. O estado editorial permanece fora das capas para que cada obra conserve sua identidade.</p></div>
     <div class="filters" role="group" aria-label="Filtrar biblioteca"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="live">Leitura disponível</button><button class="filter" data-filter="dev">Em desenvolvimento</button><button class="filter" data-filter="planned">Planejado</button></div>
     <div class="grid" id="libraryGrid">
       <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openReader()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReader()}"><div class="cover-wrap"><div class="cover a" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><button class="textlink" onclick="event.stopPropagation();openReader()">Ler agora →</button></div></div></article>
@@ -200,12 +211,12 @@ section+section{position:relative}
 
   <section id="destaque"><div class="shell"><div class="feature">
     <div><div class="cover a" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
-    <div><div class="eyebrow">Em leitura</div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openReader()">Abrir leitor</button></div>
+    <div><div class="section-kicker"><span>02</span><div class="eyebrow">Em leitura</div></div><h2 style="font-size:clamp(2.5rem,5vw,4.5rem);margin:10px 0 24px">O Filho da Montanha</h2><div class="quote">“O primeiro som que Helior aprendeu a reconhecer não foi a voz do pai. Foi o martelo.”</div><p>Os 16 capítulos da edição atual estão disponíveis no leitor da biblioteca, com navegação por capítulos e continuidade de leitura.</p><button class="btn primary" onclick="openReader()">Abrir leitor</button></div>
   </div></div></section>
 
   <section id="criador"><div class="shell">
     <div class="creator-callout">
-      <div><div class="eyebrow">Entre no mundo</div><h2>Crie um personagem de Lumyriel.</h2><p>O Criador de Personagens trabalha com origem, aparência, cultura, fé, treinamento, proficiências, equipamentos, limitações e histórico. Não existem níveis: competência surge da combinação do que o personagem viveu, aprendeu e consegue sustentar.</p><a class="btn primary" href="character-creator.html">Abrir Criador de Personagens →</a></div>
+      <div><div class="section-kicker"><span>03</span><div class="eyebrow">Entre no mundo</div></div><h2>Crie um personagem de Lumyriel.</h2><p>O Criador de Personagens trabalha com origem, aparência, cultura, fé, treinamento, proficiências, equipamentos, limitações e histórico. Não existem níveis: competência surge da combinação do que o personagem viveu, aprendeu e consegue sustentar.</p><a class="btn primary" href="character-creator.html">Abrir Criador de Personagens →</a></div>
       <div class="creator-points">
         <div class="creator-point"><b>Sem níveis.</b> Experiência e contexto importam mais que uma pontuação.</div>
         <div class="creator-point"><b>Ficha extensa.</b> Corpo, olhos, cabelo, crença, origem, ofícios, armas, Aura, Mana e muito mais.</div>
@@ -217,7 +228,7 @@ section+section{position:relative}
 
   <section id="artes" class="art-section"><div class="shell">
     <div class="art-intro">
-      <div><div class="eyebrow">Arquivo visual</div><h2>Imagens publicadas de Lumyriel</h2></div>
+      <div><div class="section-kicker"><span>04</span><div class="eyebrow">Arquivo visual</div></div><h2>Imagens publicadas de Lumyriel</h2></div>
       <p>O arquivo visual separa design editorial, arte conceitual, cartografia e documentos. Só entra aqui o que já possui função e contexto definidos no projeto.</p>
     </div>
 
@@ -263,7 +274,7 @@ section+section{position:relative}
   </div></section>
 
   <section id="inspiracoes" class="inspiration-section"><div class="shell">
-    <div class="section-head"><div><div class="eyebrow">Matrizes criativas</div><h2>Algumas das raízes de Lumyriel</h2></div><p>Lumyriel nasceu do encontro entre muitas referências. Elas servem como perguntas, métodos e contrastes; as respostas precisam pertencer ao próprio mundo.</p></div>
+    <div class="section-head"><div><div class="section-kicker"><span>05</span><div class="eyebrow">Matrizes criativas</div></div><h2>Algumas das raízes de Lumyriel</h2></div><p>Lumyriel nasceu do encontro entre referências literárias, jogos, história, filosofia e animação. Cada influência funciona como ponto de partida; as respostas pertencem ao próprio mundo.</p></div>
     <div class="inspiration-grid">
       <article class="inspiration-card"><small>História profunda</small><strong>J. R. R. Tolkien</strong><p>A sensação de que o mundo existia muito antes do protagonista: povos, ruínas, línguas, memórias e acontecimentos que não dependem da câmera para existir.</p></article>
       <article class="inspiration-card"><small>Worldbuilding e jogo</small><strong>Dungeons &amp; Dragons</strong><p>Uma biblioteca de perguntas sobre viagem, equipamento, instituições, perigos e cotidiano. Lumyriel não importa classes, níveis ou regras de mesa.</p></article>
@@ -271,12 +282,12 @@ section+section{position:relative}
       <article class="inspiration-card"><small>Ambiente e poder</small><strong>Duna</strong><p>Uma referência para pensar como ambiente, cultura, religião, recursos e política podem se entrelaçar sem existir como camadas isoladas.</p></article>
       <article class="inspiration-card"><small>Tempo e crescimento</small><strong>Animes e mangás</strong><p>Frieren, Fullmetal Alchemist e Mushoku Tensei estão entre as referências para passagem do tempo, aprendizado gradual, consequência, técnica e vida cotidiana.</p></article>
     </div>
-    <p class="inspiration-note">A regra de distância criativa do projeto é simples: uma referência pode ensinar a fazer uma pergunta; nomes, sistemas, cosmologias e soluções específicas não são transplantados para Lumyriel.</p>
+    <p class="inspiration-note">As referências orientam perguntas, métodos e contrastes. Nomes, sistemas, cosmologias e soluções específicas não são transplantados para Lumyriel.</p>
   </div></section>
 
   <section id="origem"><div class="shell origin">
-    <div class="origin-card"><strong>Onde tudo começou</strong><span>Faculdade FAVOO · Vilhena, Rondônia</span><span>Administração · 1º período</span><span>Disciplina: Stakeholders e Seus Interesses</span><span>Professor: Emerson Inacio da Silva</span></div>
-    <div class="origin-copy"><div class="eyebrow">Origem do projeto</div><h2>De um trabalho acadêmico nasceu Lumyriel.</h2><p>Este projeto começou durante a disciplina de Stakeholders e Seus Interesses, ministrada pelo professor Emerson Inacio da Silva no primeiro período do curso de Administração da Faculdade FAVOO, em Vilhena, Rondônia.</p><p>O que nasceu como um trabalho acadêmico cresceu para muito além da proposta inicial. Lumyriel se tornou um universo em desenvolvimento contínuo, com histórias, culturas, eras, mapas, documentos e uma memória própria que hoje ultrapassa em muito aquilo que eu imaginava quando comecei.</p></div>
+    <aside class="origin-card" aria-label="Ficha de origem do projeto"><div class="origin-label">Ficha de origem</div><strong>Onde tudo começou</strong><dl><div><dt>Instituição</dt><dd>Faculdade FAVOO · Vilhena, Rondônia</dd></div><div><dt>Curso</dt><dd>Administração · 1º período</dd></div><div><dt>Disciplina</dt><dd>Stakeholders e Seus Interesses</dd></div><div><dt>Professor</dt><dd>Emerson Inacio da Silva</dd></div></dl></aside>
+    <div class="origin-copy"><div class="section-kicker"><span>06</span><div class="eyebrow">Origem do projeto</div></div><h2>De um trabalho acadêmico nasceu Lumyriel.</h2><p>Este projeto começou durante a disciplina de Stakeholders e Seus Interesses, ministrada pelo professor Emerson Inacio da Silva no primeiro período do curso de Administração da Faculdade FAVOO, em Vilhena, Rondônia.</p><p>O que nasceu como um trabalho acadêmico cresceu para muito além da proposta inicial. Lumyriel se tornou um universo em desenvolvimento contínuo, com histórias, culturas, eras, mapas, documentos e uma memória própria que hoje ultrapassa em muito aquilo que eu imaginava quando comecei.</p></div>
   </div></section>
 </main>
 
