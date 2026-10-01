@@ -43,5 +43,22 @@
     "plain_json_current_release": false,
     "private_service_active": false,
     "future_content_endpoint_configured": false
-  }
+  },
+  "future_works": [
+    {
+      "title": "Biologia de Lumyriel",
+      "status": "planned",
+      "art": "in preparation"
+    },
+    {
+      "title": "Matemática Mágica Lumyrieliana",
+      "status": "planned",
+      "art": "in preparation"
+    },
+    {
+      "title": "A Magia Lumyrieliana",
+      "status": "planned",
+      "art": "in preparation"
+    }
+  ]
 }
