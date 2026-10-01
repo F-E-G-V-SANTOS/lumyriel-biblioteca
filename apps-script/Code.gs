@@ -27,7 +27,10 @@ function doPost(e) {
   const name = sanitize_(payload.name || '');
   if (!name || name === 'Sem Nome') return json_({ ok: false, error: 'missing_name' });
 
-  const fingerprint = digest_(raw);
+  const fingerprintPayload = JSON.parse(JSON.stringify(payload));
+  if (fingerprintPayload._meta) delete fingerprintPayload._meta.generated_at;
+  delete fingerprintPayload.website;
+  const fingerprint = digest_(JSON.stringify(fingerprintPayload));
   const cache = CacheService.getScriptCache();
   if (cache.get('dup_' + fingerprint)) {
     return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
