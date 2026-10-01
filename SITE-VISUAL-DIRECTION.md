@@ -197,6 +197,22 @@ O arquivo visual deixa de ser uma seção vazia a partir do primeiro conjunto le
 - um mapa técnico não vira “arte” apenas para preencher galeria;
 - cada nova coleção visual precisa ter contexto e função definidos antes de ser publicada.
 
+## Gramática editorial da interface
+A interface principal passa a seguir três metáforas físicas distintas, mas compatíveis:
+
+- **Home = catálogo editorial:** as capas aparecem como obras, não como cards de aplicativo. Filtros funcionam como abas de catálogo e estados editoriais ficam tipograficamente subordinados às capas.
+- **Leitor = sumário + fólio:** capítulos são apresentados como índice editorial; paginação e progresso funcionam como marcações discretas de página, não como widgets flutuantes.
+- **Criador = dossiê:** as nove etapas funcionam como índice documental, não como wizard gamificado.
+
+Evitar reintroduzir:
+- contêineres escuros ao redor de cada livro apenas por organização;
+- pílulas decorativas para estado;
+- blocos com bordas e sombras onde divisores editoriais resolvem;
+- círculos de progresso típicos de onboarding;
+- excesso de botões equivalentes na mesma hierarquia.
+
+A capa, o texto e a hierarquia devem resolver a composição antes de qualquer componente visual extra.
+
 ## Mobile
 Em telas pequenas, a composição deve simplificar sem abandonar a identidade física.
 
