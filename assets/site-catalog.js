@@ -114,7 +114,7 @@
     el.dataset.status = statusClass === 'live' ? 'live' : (statusClass === 'dev' ? 'dev' : 'planned');
     if (href) el.href = href;
     el.innerHTML = `
-      <div class="cover-wrap"><div class="cover placeholder-cover" data-project-cover="${coverKey}"><small>Arte aprovada</small><h3>${title}</h3></div></div>
+      <div class="cover-wrap"><div class="cover placeholder-cover" data-project-cover="${coverKey}"><small>Lumyriel</small><h3>${title}</h3></div></div>
       <div class="meta">
         <span class="status ${statusClass}">${statusLabel}</span>
         <h3 class="book-name">${title}</h3>
@@ -175,7 +175,7 @@
     if (!callout || callout.querySelector('.creator-cover-strip')) return;
     const wrap = document.createElement('div');
     wrap.className = 'creator-cover-strip';
-    wrap.innerHTML = `<img src="${COVERS.criador}" alt="Capa do Criador de Personagens" loading="lazy" onerror="this.parentElement.hidden=true"><span><b>Criador de Personagens</b>Ferramenta de Lumyriel por ${AUTHOR}. A capa aprovada passa a integrar a identidade visual da ferramenta.</span>`;
+    wrap.innerHTML = `<img src="${COVERS.criador}" alt="Capa do Criador de Personagens" loading="lazy" onerror="this.parentElement.hidden=true"><span><b>Criador de Personagens</b>Crie personagens com anatomia, cultura, linguagem, passado, valores e equipamentos de Lumyriel.</span>`;
     const btn = callout.querySelector('.btn');
     if (btn) btn.insertAdjacentElement('afterend', wrap);
     else callout.appendChild(wrap);
@@ -186,7 +186,7 @@
     if (!copy || copy.querySelector('.rpg-cover-strip')) return;
     const wrap = document.createElement('div');
     wrap.className = 'creator-cover-strip rpg-cover-strip';
-    wrap.innerHTML = `<img src="${COVERS.rpg}" alt="Capa de Lumyriel RPG" loading="lazy" onerror="this.parentElement.hidden=true"><span><b>Lumyriel RPG</b>Arte oficial de apresentação do projeto futuro, por ${AUTHOR}.</span>`;
+    wrap.innerHTML = `<img src="${COVERS.rpg}" alt="Capa de Lumyriel RPG" loading="lazy" onerror="this.parentElement.hidden=true"><span><b>Lumyriel RPG</b>Projeto single player em desenvolvimento no universo de Lumyriel.</span>`;
     copy.appendChild(wrap);
   }
 
@@ -196,7 +196,7 @@
     if (!hero || hero.querySelector('.creator-page-identity')) return;
     const block = document.createElement('div');
     block.className = 'creator-page-identity';
-    block.innerHTML = `<img src="${COVERS.criador}" alt="Capa do Criador de Personagens" loading="lazy" onerror="this.parentElement.hidden=true"><span><strong>Criador de Personagens · ${AUTHOR}</strong>Ferramenta oficial de construção de personagens de Lumyriel. A arte aprovada passa a identificar também esta página.</span>`;
+    block.innerHTML = `<img src="${COVERS.criador}" alt="Capa do Criador de Personagens" loading="lazy" onerror="this.parentElement.hidden=true"><span><strong>Criador de Personagens · ${AUTHOR}</strong>Ferramenta de construção de personagens de Lumyriel.</span>`;
     const notice = hero.querySelector('.notice');
     if (notice) notice.insertAdjacentElement('afterend', block);
     else hero.appendChild(block);
