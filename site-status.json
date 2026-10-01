@@ -48,12 +48,14 @@
     {
       "title": "Biologia Lumyrieliana",
       "status": "planned",
-      "art": "in preparation"
+      "art": "approved — asset prepared for publication",
+      "cover_file": "assets/covers/biologia-lumyrieliana.webp"
     },
     {
       "title": "Matemática Lumyrieliana",
       "status": "planned",
-      "art": "in preparation"
+      "art": "approved — asset prepared for publication",
+      "cover_file": "assets/covers/matematica-lumyrieliana.webp"
     }
   ]
 }
