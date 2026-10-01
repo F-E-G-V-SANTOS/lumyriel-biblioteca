@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { resolveMockTurn } from './engine.js';
+import { resolveMockTurn, resolveNarratorTest } from './engine.js';
 
 function visibleCampaign(row) {
   return {
@@ -108,6 +108,102 @@ export class MemoryRepository {
     };
     this.turns.set(idemKey, structuredClone(body));
     return { status: 200, body };
+  }
+
+  async beginNarratedTurn({ userId, campaignId, idempotencyKey, expectedStateVersion, playerInput }) {
+    const row = this.campaigns.get(campaignId);
+    if (!row || row.user_id !== userId) return { kind: 'error', status: 404, body: { error: 'campaign_not_found' } };
+    const key = `${campaignId}:${idempotencyKey}`;
+    const existing = this.turns.get(key);
+    if (existing?.status === 'completed' && existing?.final_output_json) {
+      return { kind: 'replay', body: structuredClone(existing.final_output_json) };
+    }
+    if (existing) {
+      return { kind: 'error', status: 409, body: { error: 'idempotency_key_not_replayable', turn_status: existing.status } };
+    }
+    if (Number(row.latest_state_version) !== Number(expectedStateVersion)) {
+      return { kind: 'error', status: 409, body: { error: 'state_version_conflict', latest_state_version: Number(row.latest_state_version) } };
+    }
+
+    const lastCompleted = [...this.turns.values()]
+      .filter(x => x?.mode === 'narrated' && x?.campaign_id === campaignId && x?.status === 'completed' && x?.final_output_json)
+      .sort((a,b) => String(b.completed_at || '').localeCompare(String(a.completed_at || '')))[0] || null;
+    const turnId = randomUUID();
+    this.turns.set(key, {
+      mode: 'narrated', turn_id: turnId, campaign_id: campaignId, idempotency_key: idempotencyKey,
+      request_state_version: expectedStateVersion, player_input_json: structuredClone(playerInput), status: 'waiting_model',
+      model_response_id: null, tool_step: 0, final_output_json: null, error_json: null, completed_at: null
+    });
+    return {
+      kind: 'started', turnId,
+      loaded: visibleLoad(row, structuredClone(this.states.get(campaignId))),
+      lastNarratorOutput: lastCompleted ? structuredClone(lastCompleted.final_output_json) : null
+    };
+  }
+
+  async applyNarratorTest({ userId, campaignId, turnId, expectedStateVersion, args }) {
+    const row = this.campaigns.get(campaignId);
+    if (!row || row.user_id !== userId) return { status: 404, body: { error: 'campaign_not_found' } };
+    const turn = [...this.turns.values()].find(x => x?.turn_id === turnId && x?.campaign_id === campaignId);
+    if (!turn || turn.status === 'completed') return { status: 409, body: { error: 'turn_not_active' } };
+    if (Number(row.latest_state_version) !== Number(expectedStateVersion)) {
+      return { status: 409, body: { error: 'state_version_conflict', latest_state_version: Number(row.latest_state_version) } };
+    }
+    const state = structuredClone(this.states.get(campaignId));
+    const resolved = resolveNarratorTest({ state, args, rng: this.rng });
+    turn.tool_step += 1;
+    turn.status = 'waiting_model';
+    if (!resolved.ok) return { status: 422, body: { error: resolved.code, message: resolved.message, details: resolved } };
+
+    const nextVersion = Number(row.latest_state_version) + 1;
+    const nextSequence = Number(row.latest_event_sequence) + 1;
+    resolved.nextState.state_version = nextVersion;
+    row.latest_state_version = nextVersion;
+    row.latest_event_sequence = nextSequence;
+    row.updated_at = new Date().toISOString();
+    row.last_played_at = row.updated_at;
+    this.states.set(campaignId, structuredClone(resolved.nextState));
+    return {
+      status: 200,
+      body: {
+        tool_output: { ...resolved.toolOutput, state_version_after: nextVersion },
+        mechanical_event: resolved.event.result,
+        loaded: visibleLoad(row, structuredClone(resolved.nextState))
+      }
+    };
+  }
+
+  async markNarratedTurnProgress({ userId, campaignId, turnId, modelResponseId, status }) {
+    const campaign = this.campaigns.get(campaignId);
+    if (!campaign || campaign.user_id !== userId) return false;
+    const turn = [...this.turns.values()].find(x => x?.turn_id === turnId && x?.campaign_id === campaignId);
+    if (!turn) return false;
+    turn.model_response_id = modelResponseId || turn.model_response_id;
+    turn.status = status;
+    return true;
+  }
+
+  async completeNarratedTurn({ userId, campaignId, turnId, modelResponseId, finalOutput }) {
+    const campaign = this.campaigns.get(campaignId);
+    if (!campaign || campaign.user_id !== userId) return false;
+    const turn = [...this.turns.values()].find(x => x?.turn_id === turnId && x?.campaign_id === campaignId);
+    if (!turn) return false;
+    turn.model_response_id = modelResponseId || turn.model_response_id;
+    turn.status = 'completed';
+    turn.final_output_json = structuredClone(finalOutput);
+    turn.completed_at = new Date().toISOString();
+    return true;
+  }
+
+  async failNarratedTurn({ userId, campaignId, turnId, modelResponseId, error }) {
+    const campaign = this.campaigns.get(campaignId);
+    if (!campaign || campaign.user_id !== userId) return false;
+    const turn = [...this.turns.values()].find(x => x?.turn_id === turnId && x?.campaign_id === campaignId);
+    if (!turn) return false;
+    turn.model_response_id = modelResponseId || turn.model_response_id;
+    turn.status = 'recoverable_error';
+    turn.error_json = structuredClone(error);
+    return true;
   }
 }
 
@@ -282,5 +378,162 @@ export class PostgresRepository {
     } finally {
       client.release();
     }
+  }
+
+  async beginNarratedTurn({ userId, campaignId, idempotencyKey, expectedStateVersion, playerInput }) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const locked = await client.query(`
+        SELECT c.*, s.state_json
+        FROM rpg_campaigns c
+        JOIN rpg_campaign_states s ON s.campaign_id=c.campaign_id AND s.state_version=c.latest_state_version
+        WHERE c.campaign_id=$1 AND c.user_id=$2
+        FOR UPDATE OF c
+      `, [campaignId,userId]);
+      const campaign = locked.rows[0];
+      if (!campaign) {
+        await client.query('ROLLBACK');
+        return { kind: 'error', status: 404, body: { error: 'campaign_not_found' } };
+      }
+
+      const existing = await client.query(`
+        SELECT turn_id,status,final_output_json FROM rpg_turns
+        WHERE campaign_id=$1 AND idempotency_key=$2
+      `, [campaignId,idempotencyKey]);
+      if (existing.rows[0]?.status === 'completed' && existing.rows[0].final_output_json) {
+        await client.query('COMMIT');
+        return { kind: 'replay', body: existing.rows[0].final_output_json };
+      }
+      if (existing.rows[0]) {
+        await client.query('ROLLBACK');
+        return { kind: 'error', status: 409, body: { error: 'idempotency_key_not_replayable', turn_status: existing.rows[0].status } };
+      }
+      if (Number(campaign.latest_state_version) !== Number(expectedStateVersion)) {
+        await client.query('ROLLBACK');
+        return { kind: 'error', status: 409, body: { error: 'state_version_conflict', latest_state_version: Number(campaign.latest_state_version) } };
+      }
+
+      const previous = await client.query(`
+        SELECT final_output_json FROM rpg_turns
+        WHERE campaign_id=$1 AND status='completed' AND final_output_json IS NOT NULL
+        ORDER BY completed_at DESC NULLS LAST LIMIT 1
+      `, [campaignId]);
+      const turnId = randomUUID();
+      await client.query(`
+        INSERT INTO rpg_turns (turn_id,campaign_id,idempotency_key,request_state_version,player_input_json,status)
+        VALUES ($1,$2,$3,$4,$5,'waiting_model')
+      `, [turnId,campaignId,idempotencyKey,expectedStateVersion,playerInput]);
+      await client.query('COMMIT');
+      return {
+        kind: 'started', turnId,
+        loaded: visibleLoad(campaign, campaign.state_json),
+        lastNarratorOutput: previous.rows[0]?.final_output_json || null
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async applyNarratorTest({ userId, campaignId, turnId, expectedStateVersion, args }) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const locked = await client.query(`
+        SELECT c.*, s.state_json
+        FROM rpg_campaigns c
+        JOIN rpg_campaign_states s ON s.campaign_id=c.campaign_id AND s.state_version=c.latest_state_version
+        WHERE c.campaign_id=$1 AND c.user_id=$2
+        FOR UPDATE OF c
+      `, [campaignId,userId]);
+      const campaign = locked.rows[0];
+      if (!campaign) {
+        await client.query('ROLLBACK');
+        return { status: 404, body: { error: 'campaign_not_found' } };
+      }
+      const turnQ = await client.query(`
+        SELECT * FROM rpg_turns WHERE turn_id=$1 AND campaign_id=$2 FOR UPDATE
+      `, [turnId,campaignId]);
+      const turn = turnQ.rows[0];
+      if (!turn || turn.status === 'completed') {
+        await client.query('ROLLBACK');
+        return { status: 409, body: { error: 'turn_not_active' } };
+      }
+      if (Number(campaign.latest_state_version) !== Number(expectedStateVersion)) {
+        await client.query('ROLLBACK');
+        return { status: 409, body: { error: 'state_version_conflict', latest_state_version: Number(campaign.latest_state_version) } };
+      }
+
+      const resolved = resolveNarratorTest({ state: campaign.state_json, args, rng: this.rng });
+      if (!resolved.ok) {
+        await client.query(`UPDATE rpg_turns SET status='waiting_model', tool_step=tool_step+1 WHERE turn_id=$1`, [turnId]);
+        await client.query('COMMIT');
+        return { status: 422, body: { error: resolved.code, message: resolved.message, details: resolved } };
+      }
+
+      const nextVersion = Number(campaign.latest_state_version) + 1;
+      const nextSequence = Number(campaign.latest_event_sequence) + 1;
+      resolved.nextState.state_version = nextVersion;
+      const eventId = randomUUID();
+      await client.query('INSERT INTO rpg_campaign_states (campaign_id,state_version,state_json) VALUES ($1,$2,$3)', [campaignId,nextVersion,resolved.nextState]);
+      await client.query(`
+        INSERT INTO rpg_campaign_events (
+          event_id,campaign_id,sequence,turn_id,operation_id,tool_name,state_version_before,state_version_after,arguments_json,result_json
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
+      `, [eventId,campaignId,nextSequence,turnId,resolved.event.operation_id,resolved.event.tool_name,expectedStateVersion,nextVersion,resolved.event.arguments,resolved.event.result]);
+      await client.query(`
+        UPDATE rpg_campaigns SET latest_state_version=$3,latest_event_sequence=$4,updated_at=now(),last_played_at=now()
+        WHERE campaign_id=$1 AND user_id=$2
+      `, [campaignId,userId,nextVersion,nextSequence]);
+      await client.query(`UPDATE rpg_turns SET status='waiting_model',tool_step=tool_step+1 WHERE turn_id=$1`, [turnId]);
+      await client.query('COMMIT');
+
+      campaign.latest_state_version = nextVersion;
+      campaign.latest_event_sequence = nextSequence;
+      campaign.updated_at = new Date().toISOString();
+      return {
+        status: 200,
+        body: {
+          tool_output: { ...resolved.toolOutput, state_version_after: nextVersion },
+          mechanical_event: resolved.event.result,
+          loaded: visibleLoad(campaign, resolved.nextState)
+        }
+      };
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async markNarratedTurnProgress({ userId, campaignId, turnId, modelResponseId, status }) {
+    const result = await this.pool.query(`
+      UPDATE rpg_turns t SET model_response_id=$4,status=$5
+      WHERE t.turn_id=$1 AND t.campaign_id=$2
+        AND EXISTS (SELECT 1 FROM rpg_campaigns c WHERE c.campaign_id=t.campaign_id AND c.user_id=$3)
+    `, [turnId,campaignId,userId,modelResponseId,status]);
+    return result.rowCount === 1;
+  }
+
+  async completeNarratedTurn({ userId, campaignId, turnId, modelResponseId, finalOutput }) {
+    const result = await this.pool.query(`
+      UPDATE rpg_turns t SET status='completed',model_response_id=$4,final_output_json=$5,completed_at=now()
+      WHERE t.turn_id=$1 AND t.campaign_id=$2
+        AND EXISTS (SELECT 1 FROM rpg_campaigns c WHERE c.campaign_id=t.campaign_id AND c.user_id=$3)
+    `, [turnId,campaignId,userId,modelResponseId,finalOutput]);
+    return result.rowCount === 1;
+  }
+
+  async failNarratedTurn({ userId, campaignId, turnId, modelResponseId, error }) {
+    const result = await this.pool.query(`
+      UPDATE rpg_turns t SET status='recoverable_error',model_response_id=$4,error_json=$5
+      WHERE t.turn_id=$1 AND t.campaign_id=$2
+        AND EXISTS (SELECT 1 FROM rpg_campaigns c WHERE c.campaign_id=t.campaign_id AND c.user_id=$3)
+    `, [turnId,campaignId,userId,modelResponseId,error]);
+    return result.rowCount === 1;
   }
 }
