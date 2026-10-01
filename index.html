@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Biblioteca de Lumyriel — livros, crônicas e fragmentos do universo em versão alpha." />
   <title>Biblioteca de Lumyriel</title>
+  <link rel="preload" as="image" href="assets/covers/o-filho-da-montanha.webp" />
+  <link rel="preload" as="image" href="assets/covers/os-livros-dos-tempos.webp" />
+  <link rel="preload" as="image" href="assets/covers/livro-das-artes-magicas.webp" />
   <style>
 :root{
   --coal:#0b0a08;--coal2:#11100d;--cloth:#17140f;--edge:#4b4030;--edge2:#6a5940;
@@ -78,13 +81,26 @@ dialog{width:min(1050px,calc(100% - 24px));height:min(88vh,900px);padding:0;bord
 .reader-page-count{position:absolute;right:22px;bottom:18px;z-index:8;min-width:112px;text-align:center;border:1px solid rgba(84,68,46,.38);background:rgba(231,216,187,.9);color:#625540;border-radius:2px;padding:7px 11px;font:600 .76rem/1.2 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 5px 18px rgba(54,42,28,.12);pointer-events:none}.reader-top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:38px;color:#6d6252;font-size:.85rem}.close{border:1px solid rgba(60,48,33,.35);background:rgba(255,255,255,.14);color:#4b4033;border-radius:2px;width:36px;height:36px;cursor:pointer}.chapter{max-width:720px;margin:auto}.chapter .kicker{text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:#765f3c;text-align:center}.chapter h2{text-align:center;font-size:2.65rem;margin:10px 0 36px}.chapter p{font:1.14rem/1.88 Georgia,"Times New Roman",serif;margin:0 0 1.05em}.chapter p:first-of-type::first-letter{float:left;font-size:4rem;line-height:.8;padding:8px 9px 0 0;color:#72542d}.scene-break{text-align:center;margin:2.6em 0;color:#745f45;letter-spacing:.55em;font-size:.9rem}.chapter-end{margin:3.2em 0 1em;padding-top:1.2em;border-top:1px solid rgba(65,52,35,.25);text-align:center;font:italic .95rem Georgia,serif;color:#6d5d47}.demo-end{margin:42px 0 10px;padding:18px;border-top:1px solid rgba(65,52,35,.28);border-bottom:1px solid rgba(65,52,35,.28);text-align:center;font:italic 1rem Georgia,serif;color:#6d5d47}
 @media(max-width:900px){.hero,.feature,.origin,.art-intro,.creator-callout,.visual-archive{grid-template-columns:1fr}.inspiration-grid{grid-template-columns:1fr}.inspiration-card:last-child{grid-column:auto}.artifact-stage{min-height:470px}.grid{grid-template-columns:repeat(2,1fr)}.world-grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}.reader-shell{display:block;position:relative}.reader-side{display:block;height:100%;border-right:0;padding:24px 20px}.reader-side-close{display:grid;place-items:center}.reader-paper{display:none;height:100%}.reader-page-count{display:none;right:14px;bottom:14px;min-width:104px;padding:7px 10px}.reader-shell.reading .reader-side{display:none}.reader-shell.reading .reader-paper{display:block}.reader-shell.reading .reader-page-count{display:block}.reader-chapters-toggle{display:inline-flex;align-items:center}}
 @media(max-width:600px){.grid,.world-grid,.inspiration-grid{grid-template-columns:1fr}.visual-archive-row{grid-template-columns:1fr;gap:4px}.hero{min-height:auto;padding:34px 0 42px;gap:18px}.hero h1{font-size:clamp(2.55rem,11vw,3.35rem);margin:10px 0 14px}.hero p{font-size:.96rem;line-height:1.58;margin:0}.actions{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:56px;gap:8px;margin-top:18px}.actions .btn{width:100%;height:56px;min-height:56px;padding:7px 9px;border-radius:2px;font-size:.82rem;line-height:1.2;text-align:center;white-space:normal;display:flex;align-items:center;justify-content:center}.artifact-stage{min-height:390px;margin-top:34px}.hero-books{width:330px;height:365px}.book3d.hero-book{width:155px;top:54px}.hero-book.left{transform:translateX(-111%) rotate(-6deg) scale(.9)}.hero-book.right{transform:translateX(11%) rotate(6deg) scale(.9)}.hero-book.main{top:18px;width:205px;transform:translateX(-50%) rotate(1.2deg)}.hero-books:hover .hero-book.left{transform:translateX(-111%) rotate(-6deg) scale(.9)}.hero-books:hover .hero-book.right{transform:translateX(11%) rotate(6deg) scale(.9)}.section-head{align-items:start;flex-direction:column}.cover h3{font-size:1.85rem}.reader-paper{padding:24px 18px}.reader-top{margin-bottom:26px}.chapter h2{font-size:2rem;margin-bottom:28px}.chapter p{font-size:1.05rem}.reader-side h3{font-size:1.45rem;margin:8px 0 12px}.reader-side .chapter-note{margin:8px 2px 14px}.reader-side button{padding:9px 10px;margin-bottom:5px}}
+
+.future-shelf{margin-top:34px;padding-top:30px;border-top:1px solid #393126}
+.future-shelf-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:18px}
+.future-shelf-head h3{font:400 2rem/1.05 Georgia,"Times New Roman",serif;color:#e7dcc9;margin:7px 0 0}
+.future-shelf-head p{max-width:520px;margin:0;color:#8f877b;font-size:.9rem}
+.future-card{display:grid;grid-template-columns:185px minmax(0,1fr);min-height:0;max-width:780px;background:linear-gradient(180deg,rgba(21,18,14,.82),rgba(11,10,8,.9))}
+.future-card .cover-wrap{padding:14px 10px 14px 18px;display:grid;place-items:center}
+.future-card .cover{width:145px}
+.future-card .meta{padding:20px 22px 20px 14px}
+.future-card:hover{transform:translateY(-2px)}
+a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:1px solid var(--bronze2);outline-offset:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card,.btn,.hero-book{transition:none!important}.card:hover,.btn:hover{transform:none}.hero-books:hover .hero-book.left{transform:translateX(-108%) rotate(-6deg) scale(.88)}.hero-books:hover .hero-book.right{transform:translateX(8%) rotate(6deg) scale(.88)}}
+@media(max-width:700px){.future-shelf-head{align-items:start;flex-direction:column}.future-card{grid-template-columns:1fr;max-width:360px}.future-card .cover-wrap{padding:18px 18px 0}.future-card .cover{width:min(100%,210px)}.future-card .meta{padding:20px 22px 24px}}
 </style>
 </head>
 <body>
 <header>
   <div class="shell"><nav>
     <a class="brand" href="#inicio"><span>Biblioteca de Lumyriel</span></a>
-    <div class="navlinks"><a href="#inspiracoes">Inspirações</a><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#artes">Artes</a><a href="#origem">Origem</a></div>
+    <div class="navlinks"><a href="#biblioteca">Biblioteca</a><a href="#destaque">Leitura</a><a href="character-creator.html">Criar personagem</a><a href="#artes">Artes</a><a href="#inspiracoes">Inspirações</a><a href="#origem">Origem</a></div>
   </nav></div>
 </header>
 
@@ -99,17 +115,7 @@ dialog{width:min(1050px,calc(100% - 24px));height:min(88vh,900px);padding:0;bord
     <div class="artifact-stage" aria-hidden="true"><div class="hero-books"><div class="book3d hero-book left" data-cover="tempos"><small>Lumyriel</small><h3>Os Livros dos Tempos</h3></div><div class="book3d hero-book right" data-cover="magia"><small>Lumyriel</small><h3>Livro das Artes Mágicas</h3></div><div class="book3d hero-book main" data-cover="filho"><small>Lumyriel</small><h3>O Filho da Montanha</h3><div class="vol">Livro I</div></div></div></div>
   </section>
 
-  <section id="inspiracoes" class="inspiration-section"><div class="shell">
-    <div class="section-head"><div><div class="eyebrow">Matrizes criativas</div><h2>Algumas das raízes de Lumyriel</h2></div><p>Lumyriel nasceu do encontro entre muitas referências. Elas servem como perguntas, métodos e contrastes; as respostas precisam pertencer ao próprio mundo.</p></div>
-    <div class="inspiration-grid">
-      <article class="inspiration-card"><small>História profunda</small><strong>J. R. R. Tolkien</strong><p>A sensação de que o mundo existia muito antes do protagonista: povos, ruínas, línguas, memórias e acontecimentos que não dependem da câmera para existir.</p></article>
-      <article class="inspiration-card"><small>Worldbuilding e jogo</small><strong>Dungeons &amp; Dragons</strong><p>Uma biblioteca de perguntas sobre viagem, equipamento, instituições, perigos e cotidiano. Lumyriel não importa classes, níveis ou regras de mesa.</p></article>
-      <article class="inspiration-card"><small>Historiografia</small><strong>RuneScape</strong><p>Fontes parciais, documentos, versões concorrentes, memória histórica e um mundo em que o sobrenatural deixa marcas sociais e administrativas.</p></article>
-      <article class="inspiration-card"><small>Ambiente e poder</small><strong>Duna</strong><p>Uma referência para pensar como ambiente, cultura, religião, recursos e política podem se entrelaçar sem existir como camadas isoladas.</p></article>
-      <article class="inspiration-card"><small>Tempo e crescimento</small><strong>Animes e mangás</strong><p>Frieren, Fullmetal Alchemist e Mushoku Tensei estão entre as referências para passagem do tempo, aprendizado gradual, consequência, técnica e vida cotidiana.</p></article>
-    </div>
-    <p class="inspiration-note">A regra de distância criativa do projeto é simples: uma referência pode ensinar a fazer uma pergunta; nomes, sistemas, cosmologias e soluções específicas não são transplantados para Lumyriel.</p>
-  </div></section>
+  
 
   <section id="biblioteca"><div class="shell">
     <div class="section-head"><div><div class="eyebrow">Acervo</div><h2>Biblioteca de Lumyriel</h2></div><p>Somente obras e projetos editoriais reais aparecem aqui. Leituras disponíveis, trabalhos em desenvolvimento e projetos planejados têm seu estado indicado de forma explícita.</p></div>
@@ -118,9 +124,14 @@ dialog{width:min(1050px,calc(100% - 24px));height:min(88vh,900px);padding:0;bord
       <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir O Filho da Montanha" onclick="openReader()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReader()}"><div class="cover-wrap"><div class="cover a" data-cover="filho"><small>Romance · Livro I</small><h3>O Filho da Montanha</h3><span class="roman">I</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">O Filho da Montanha</h3><p>Helior cresce entre o som do martelo, os segredos da montanha e um mundo muito maior do que aquilo que consegue ver do vale.</p><div class="bottom"><span>Beta 13 · 16 capítulos</span><button class="textlink" onclick="event.stopPropagation();openReader()">Ler agora →</button></div></div></article>
       <article class="card clickable-book" data-status="live" role="button" tabindex="0" aria-label="Abrir Os Livros dos Tempos" onclick="location.href='reader.html?book=tempos&note=1'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='reader.html?book=tempos&note=1'}"><div class="cover-wrap"><div class="cover b" data-cover="tempos"><small>História cosmológica · Edição de leitura</small><h3>Os Livros dos Tempos</h3><span class="roman">VII</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Os Livros dos Tempos</h3><p>Cinquenta e quatro obras preservadas por tradições distintas, organizadas em sete coleções que atravessam os grandes tempos da história de Lumyriel.</p><div class="bottom"><span>Beta 1 · 54 livros</span><button class="textlink" onclick="event.stopPropagation();location.href='reader.html?book=tempos&note=1'">Ler agora →</button></div></div></article>
       <article class="card" data-status="dev"><div class="cover-wrap"><div class="cover e" data-cover="magia"><small>Coleção didática multivolume</small><h3>Livro das Artes Mágicas</h3><span class="roman">AM</span></div></div><div class="meta"><span class="status dev">Em desenvolvimento</span><h3 class="book-name">Livro das Artes Mágicas</h3><p>Projeto didático das Artes Mágicas de Lumyriel, organizado para ensinar fundamentos, Mana, Aura, Runologia, investigação e áreas avançadas sem substituir as autoridades técnicas do mundo.</p><div class="bottom"><span>Em desenvolvimento · v0.4</span><button class="textlink" disabled>Aguardando conclusão</button></div></div></article>
-      <article class="card" data-status="planned"><div class="cover-wrap"><div class="cover d placeholder-cover"><small>Título provisório</small><h3>Biologia de Lumyriel</h3><span class="roman">BIO</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Biologia de Lumyriel</h3><p>Futuro livro voltado à natureza biológica de Lumyriel. O título, a estrutura e o escopo editorial ainda serão definidos quando a frente for iniciada.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>
+      
     </div>
-  </div></section>
+  </div>
+    <div class="future-shelf" id="futureShelf">
+      <div class="future-shelf-head"><div><div class="eyebrow">Em preparação</div><h3>Próximas obras</h3></div><p>Projetos ainda sem arte final permanecem separados da coleção publicada ou em produção ativa.</p></div>
+      <article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover d placeholder-cover"><small>Título provisório</small><h3>Biologia de Lumyriel</h3><span class="roman">BIO</span></div></div><div class="meta"><span class="status planned">Planejado</span><h3 class="book-name">Biologia de Lumyriel</h3><p>Futuro livro voltado à natureza biológica de Lumyriel. O título, a estrutura e o escopo editorial ainda serão definidos quando a frente for iniciada.</p><div class="bottom"><span>projeto futuro</span><button class="textlink" disabled>Ainda não iniciado</button></div></div></article>
+    </div>
+  </section>
 
   <section id="destaque"><div class="shell"><div class="feature">
     <div><div class="cover a" data-cover="filho" style="height:430px;max-width:240px;margin:auto"><small>Edição de leitura</small><h3 style="font-size:2.25rem">O Filho da Montanha</h3><span class="roman">I</span></div></div>
@@ -157,6 +168,18 @@ dialog{width:min(1050px,calc(100% - 24px));height:min(88vh,900px);padding:0;bord
     </div>
   </div></section>
 
+  <section id="inspiracoes" class="inspiration-section"><div class="shell">
+    <div class="section-head"><div><div class="eyebrow">Matrizes criativas</div><h2>Algumas das raízes de Lumyriel</h2></div><p>Lumyriel nasceu do encontro entre muitas referências. Elas servem como perguntas, métodos e contrastes; as respostas precisam pertencer ao próprio mundo.</p></div>
+    <div class="inspiration-grid">
+      <article class="inspiration-card"><small>História profunda</small><strong>J. R. R. Tolkien</strong><p>A sensação de que o mundo existia muito antes do protagonista: povos, ruínas, línguas, memórias e acontecimentos que não dependem da câmera para existir.</p></article>
+      <article class="inspiration-card"><small>Worldbuilding e jogo</small><strong>Dungeons &amp; Dragons</strong><p>Uma biblioteca de perguntas sobre viagem, equipamento, instituições, perigos e cotidiano. Lumyriel não importa classes, níveis ou regras de mesa.</p></article>
+      <article class="inspiration-card"><small>Historiografia</small><strong>RuneScape</strong><p>Fontes parciais, documentos, versões concorrentes, memória histórica e um mundo em que o sobrenatural deixa marcas sociais e administrativas.</p></article>
+      <article class="inspiration-card"><small>Ambiente e poder</small><strong>Duna</strong><p>Uma referência para pensar como ambiente, cultura, religião, recursos e política podem se entrelaçar sem existir como camadas isoladas.</p></article>
+      <article class="inspiration-card"><small>Tempo e crescimento</small><strong>Animes e mangás</strong><p>Frieren, Fullmetal Alchemist e Mushoku Tensei estão entre as referências para passagem do tempo, aprendizado gradual, consequência, técnica e vida cotidiana.</p></article>
+    </div>
+    <p class="inspiration-note">A regra de distância criativa do projeto é simples: uma referência pode ensinar a fazer uma pergunta; nomes, sistemas, cosmologias e soluções específicas não são transplantados para Lumyriel.</p>
+  </div></section>
+
   <section id="origem"><div class="shell origin">
     <div class="origin-card"><strong>Onde tudo começou</strong><span>Faculdade FAVOO · Vilhena, Rondônia</span><span>Administração · 1º período</span><span>Disciplina: Stakeholders e Seus Interesses</span><span>Professor: Emerson Inacio da Silva</span></div>
     <div class="origin-copy"><div class="eyebrow">Origem do projeto</div><h2>De um trabalho acadêmico nasceu Lumyriel.</h2><p>Este projeto começou durante a disciplina de Stakeholders e Seus Interesses, ministrada pelo professor Emerson Inacio da Silva no primeiro período do curso de Administração da Faculdade FAVOO, em Vilhena, Rondônia.</p><p>O que nasceu como um trabalho acadêmico cresceu para muito além da proposta inicial. Lumyriel se tornou um universo em desenvolvimento contínuo, com histórias, culturas, eras, mapas, documentos e uma memória própria que hoje ultrapassa em muito aquilo que eu imaginava quando comecei.</p></div>
@@ -179,7 +202,7 @@ dialog{width:min(1050px,calc(100% - 24px));height:min(88vh,900px);padding:0;bord
   function openReader(){location.href='reader.html?book=filho&ch=0'}
   document.querySelectorAll('.filter').forEach(btn=>btn.addEventListener('click',()=>{
     document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-    const f=btn.dataset.filter;document.querySelectorAll('.card').forEach(card=>card.style.display=(f==='all'||card.dataset.status===f)?'flex':'none');
+    const f=btn.dataset.filter;document.querySelectorAll('.card').forEach(card=>card.style.display=(f==='all'||card.dataset.status===f)?'':'none');const fs=document.getElementById('futureShelf');if(fs)fs.style.display=(f==='all'||f==='planned')?'':'none';
   }));
 </script>
 </body>
