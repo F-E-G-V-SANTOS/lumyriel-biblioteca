@@ -41,8 +41,8 @@ Confirmar também que estes ativos respondem:
 - `assets/covers/o-filho-da-montanha.webp`
 - `assets/covers/os-livros-dos-tempos.webp`
 - `assets/covers/livro-das-artes-magicas.webp`
-- `books/o-filho-da-montanha.json`
-- `books/os-livros-dos-tempos.json`
+- `books/lmy-odm-b13.dat`
+- `books/lmy-olt-b1.dat`
 
 ## Teste funcional
 
@@ -151,9 +151,11 @@ A decisão deve ser deliberada antes do Gate A.
 
 ## Proteção do leitor estático
 
-A Alpha mantém o conteúdo no próprio GitHub Pages. Para reduzir cópia casual, o leitor bloqueia seleção, copiar/recortar, menu de contexto, arraste e impressão do texto.
+A Alpha mantém o conteúdo no próprio GitHub Pages. Para reduzir cópia casual, o leitor bloqueia seleção, copiar/recortar, menu de contexto, arraste, impressão e alguns atalhos comuns de inspeção.
 
-Limite técnico: um site estático público não consegue impedir de forma absoluta que o conteúdo recebido pelo navegador seja recuperado. Os arquivos de leitura continuam públicos por necessidade arquitetural.
+Os manuscritos atuais são publicados como arquivos `.dat` codificados e decodificados somente pelo leitor. Isso remove a exposição trivial de JSON legível na branch atual, mas continua sendo ofuscação, não criptografia segura.
+
+Limite técnico: um site estático público não consegue impedir de forma absoluta que o conteúdo recebido pelo navegador seja recuperado. Além disso, JSONs já publicados anteriormente continuam presentes no histórico antigo do Git até que uma reescrita deliberada de histórico seja feita.
 
 A configuração já reserva:
 
