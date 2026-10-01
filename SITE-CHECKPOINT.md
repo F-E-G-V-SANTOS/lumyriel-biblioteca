@@ -1,6 +1,6 @@
 # Lumyriel Site — Checkpoint
 
-Estado consolidado em 01/10/2026 após atualização das capas e do Criador de Personagens.
+Estado consolidado em 01/10/2026 após atualização das capas, do Criador de Personagens e da publicação Beta de Artes Mágicas Lumyrielianas.
 
 ## Capas oficiais aprovadas
 
@@ -18,6 +18,30 @@ O site usa atualmente estas oito capas em `assets/covers/`:
 Autoria exibida: **F E G V Santos**.
 
 O título editorial vigente da coleção de magia no site é **Artes Mágicas Lumyrielianas**.
+
+## Artes Mágicas Lumyrielianas — publicação Beta
+
+Coleção inicial fechada e publicada para leitura Beta no site:
+
+- RC1 aprovado;
+- 6/6 volumes com QA PDF PASS;
+- 392 páginas A4 no conjunto;
+- acesso integral por leitura incorporada no próprio site;
+- sem botão próprio de download integral do PDF nesta primeira Beta;
+- versões técnicas preservadas em metadados e no manifesto do projeto.
+
+Página pública de leitura: `magic-reader.html`.
+
+Volumes publicados:
+
+1. Volume I — Fundamentos v1.5 — 65 páginas;
+2. Volume II — Mana, Acoplamento e Construção de Técnicas v1.5 — 68 páginas;
+3. Volume III — Aura, Corpo e Presença v1.8 — 53 páginas;
+4. Volume IV — Runologia, Pergaminhos, Matrizes e Artefatos v1.12 — 74 páginas;
+5. Volume V — Fenomenologia, Campo e Investigação Mágica v0.21 — 66 páginas;
+6. Volume VI — Artes Avançadas, Alto Risco e Fronteiras do Conhecimento v0.20 — 66 páginas.
+
+O catálogo principal passa a apresentar a coleção como `Leitura disponível · Beta`, com acesso ao leitor dos seis volumes.
 
 ## Criador de Personagens
 
