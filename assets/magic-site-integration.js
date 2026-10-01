@@ -4,7 +4,7 @@
   if (window.__LUMYRIEL_MAGIC_PUBLICATION__) return;
   window.__LUMYRIEL_MAGIC_PUBLICATION__ = true;
 
-  const READER_URL = 'magic-reader.html';
+  const READER_URL = 'reader.html?book=magia&v=0&intro=1';
   const TITLE = 'Artes Mágicas Lumyrielianas';
 
   function publishCard() {

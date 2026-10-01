@@ -27,7 +27,9 @@ window.LUMYRIEL_CONFIG = {
   }
 
   if (document.getElementById('libraryGrid') || document.getElementById('futureShelf') || document.getElementById('criador') || document.getElementById('creatorForm')) {
-    load('assets/site-catalog.js');
+    load('assets/site-catalog.js', () => {
+      if (document.getElementById('libraryGrid')) load('assets/magic-site-integration.js');
+    });
   }
 
   if (document.getElementById('visualGallery')) load('assets/gallery-viewer.js');
