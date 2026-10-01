@@ -518,6 +518,14 @@ var currentStep=0;
 var panels=[].slice.call(document.querySelectorAll('.panel'));
 var stepButtons=[].slice.call(document.querySelectorAll('.step-btn'));
 var form=document.getElementById('creatorForm');
+var submissionStatus=document.getElementById('saveStatus');
+if(WEB_APP_URL){
+  submissionStatus.textContent='Canal de submissão disponível. Personagens enviados entram como candidatos não canônicos para avaliação autoral.';
+  submissionStatus.className='status ok';
+}else{
+  var initialSubmit=document.getElementById('submitCharacterBtn');
+  if(initialSubmit)initialSubmit.disabled=true;
+}
 var BIOLOGY_PRINCIPLE='FORMA EXIGE FUNÇÃO · FUNÇÃO EXIGE ESTRUTURA · ESTRUTURA EXIGE CUSTO.';
 var ACQUIRED_OCULAR=['Coroa Parasita','Sangue Rúnico','Olho da Aparição','Brasa Profana','Vazio Corrompido'];
 var SELVARI_EXPECTATIONS={
@@ -955,7 +963,7 @@ function updateBiologicalCoherence(){
  [box,finalBox].forEach(function(el){if(el){el.className='info-box bio-coherence '+s.css;el.innerHTML=biologicalCoherenceHtml(s)}});
  var wrap=document.getElementById('biologyOriginWrap');
  if(wrap)wrap.classList.toggle('show',s.requiresOrigin||s.code==='DESCONHECIDA'||!!selectedText('biologyOrigin'));
- ['downloadJsonBtn','downloadTextBtn','submitCharacterBtn'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=!s.finalizable});
+ ['downloadJsonBtn','downloadTextBtn'].forEach(function(id){var b=document.getElementById(id);if(b)b.disabled=!s.finalizable});var submit=document.getElementById('submitCharacterBtn');if(submit)submit.disabled=!s.finalizable||!WEB_APP_URL;
  return s;
 }
 function ensureBiologicalFinalization(){
