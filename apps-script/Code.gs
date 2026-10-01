@@ -1,11 +1,13 @@
 const SUBMISSIONS_FOLDER_ID = '1epajEdS3zafAAMYtTTi9TWN1QMNaUgJL';
+const FEEDBACK_FOLDER_ID = '10HRr9GxboFhhl2M7WrcxQlm0nvdYpG5W';
 
 function doGet() {
   return ContentService
     .createTextOutput(JSON.stringify({
       ok: true,
-      service: 'Lumyriel Character Intake',
-      version: '1.1'
+      service: 'Lumyriel Intake',
+      version: '1.2',
+      accepts: ['character_submission', 'reader_feedback']
     }))
     .setMimeType(ContentService.MimeType.JSON);
 }
@@ -24,6 +26,11 @@ function doPost(e) {
 
   if (payload.website) return json_({ ok: true, ignored: true, reason: 'honeypot' });
 
+  if (payload.type === 'reader_feedback') return handleFeedback_(payload);
+  return handleCharacter_(payload);
+}
+
+function handleCharacter_(payload) {
   const name = sanitize_(payload.name || '');
   if (!name || name === 'Sem Nome') return json_({ ok: false, error: 'missing_name' });
 
@@ -32,14 +39,14 @@ function doPost(e) {
   delete fingerprintPayload.website;
   const fingerprint = digest_(JSON.stringify(fingerprintPayload));
   const cache = CacheService.getScriptCache();
-  if (cache.get('dup_' + fingerprint)) {
+  if (cache.get('char_dup_' + fingerprint)) {
     return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
   }
 
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
-    if (cache.get('dup_' + fingerprint)) {
+    if (cache.get('char_dup_' + fingerprint)) {
       return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
     }
 
@@ -50,7 +57,7 @@ function doPost(e) {
       submission_id: id,
       status: 'PENDENTE_DE_AVALIACAO',
       canonical: false,
-      source: 'Biblioteca de Lumyriel — Criador de Personagens',
+      source: 'Biblioteca Lumyrieliana — Criador de Personagens',
       received_at: now.toISOString(),
       creator_version: payload._meta && payload._meta.creator_version ? payload._meta.creator_version : 'alpha',
       character: payload
@@ -63,7 +70,7 @@ function doPost(e) {
     folder.createFile(jsonName, JSON.stringify(record, null, 2), MimeType.PLAIN_TEXT);
     folder.createFile(txtName, dossier_(record), MimeType.PLAIN_TEXT);
 
-    cache.put('dup_' + fingerprint, '1', 600);
+    cache.put('char_dup_' + fingerprint, '1', 600);
 
     return json_({ ok: true, submission_id: id, status: record.status });
   } catch (err) {
@@ -71,6 +78,137 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function handleFeedback_(payload) {
+  const normalized = {
+    work: clip_(payload.work, 140),
+    location: clip_(payload.location, 180),
+    progress: clip_(payload.progress, 120),
+    overall: clip_(payload.overall, 8),
+    worked_well: list_(payload.worked_well, 24, 120),
+    could_improve: list_(payload.could_improve, 24, 120),
+    liked: clip_(payload.liked, 4000),
+    confused: clip_(payload.confused, 4000),
+    change: clip_(payload.change, 4000),
+    other: clip_(payload.other, 6000),
+    name: clip_(payload.name, 80),
+    email: clip_(payload.email, 160),
+    may_contact: payload.may_contact === true,
+    meta: payload._meta || {}
+  };
+
+  if (!hasFeedbackContent_(normalized)) {
+    return json_({ ok: false, error: 'empty_feedback' });
+  }
+
+  const fingerprintPayload = JSON.parse(JSON.stringify(normalized));
+  if (fingerprintPayload.meta) delete fingerprintPayload.meta.submitted_at;
+  const fingerprint = digest_(JSON.stringify(fingerprintPayload));
+  const cache = CacheService.getScriptCache();
+  if (cache.get('feedback_dup_' + fingerprint)) {
+    return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
+  }
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    if (cache.get('feedback_dup_' + fingerprint)) {
+      return json_({ ok: true, ignored: true, reason: 'duplicate_recent' });
+    }
+
+    const id = makeFeedbackId_();
+    const now = new Date();
+    const record = {
+      feedback_id: id,
+      status: 'RECEBIDO',
+      source: 'Biblioteca Lumyrieliana — Feedback Editorial',
+      received_at: now.toISOString(),
+      feedback_version: normalized.meta.feedback_version || '1.0',
+      feedback: normalized
+    };
+
+    const folder = DriveApp.getFolderById(FEEDBACK_FOLDER_ID);
+    const workName = sanitize_(normalized.work || 'Feedback geral');
+    folder.createFile(id + ' — ' + workName + '.json', JSON.stringify(record, null, 2), MimeType.PLAIN_TEXT);
+    folder.createFile(id + ' — ' + workName + ' — Feedback.txt', feedbackDossier_(record), MimeType.PLAIN_TEXT);
+
+    cache.put('feedback_dup_' + fingerprint, '1', 600);
+    return json_({ ok: true, feedback_id: id, status: record.status });
+  } catch (err) {
+    return json_({ ok: false, error: String(err && err.message ? err.message : err) });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function makeFeedbackId_() {
+  const tz = Session.getScriptTimeZone() || 'America/Porto_Velho';
+  const date = Utilities.formatDate(new Date(), tz, 'yyyyMMdd');
+  const suffix = Utilities.getUuid().replace(/-/g, '').slice(0, 6).toUpperCase();
+  return 'LUM-FDBK-' + date + '-' + suffix;
+}
+
+function feedbackDossier_(record) {
+  const f = record.feedback || {};
+  return [
+    'LUMYRIEL — FEEDBACK EDITORIAL DE LEITOR',
+    '',
+    'ID: ' + record.feedback_id,
+    'STATUS: ' + record.status,
+    'RECEBIDO EM: ' + record.received_at,
+    'VERSÃO DO FORMULÁRIO: ' + record.feedback_version,
+    '',
+    'CONTEXTO',
+    'Obra / área: ' + val_(f.work),
+    'Capítulo / seção: ' + val_(f.location),
+    'Progresso de leitura: ' + val_(f.progress),
+    'Nota geral: ' + val_(f.overall),
+    '',
+    'FUNCIONOU BEM',
+    join_(f.worked_well),
+    '',
+    'PODERIA MELHORAR',
+    join_(f.could_improve),
+    '',
+    'O QUE MAIS GOSTOU',
+    val_(f.liked),
+    '',
+    'CONFUSÕES / QUEBRA DE IMERSÃO',
+    val_(f.confused),
+    '',
+    'SE PUDESSE MELHORAR UMA COISA',
+    val_(f.change),
+    '',
+    'OUTROS COMENTÁRIOS',
+    val_(f.other),
+    '',
+    'CONTATO OPCIONAL',
+    'Nome / apelido: ' + val_(f.name),
+    'E-mail: ' + val_(f.email),
+    'Autoriza contato: ' + (f.may_contact ? 'Sim' : 'Não')
+  ].join('\n');
+}
+
+function hasFeedbackContent_(f) {
+  return !!(
+    f.work || f.overall ||
+    (f.worked_well && f.worked_well.length) ||
+    (f.could_improve && f.could_improve.length) ||
+    f.liked || f.confused || f.change || f.other
+  );
+}
+
+function clip_(value, max) {
+  if (value === undefined || value === null) return '';
+  return String(value).trim().slice(0, max);
+}
+
+function list_(value, maxItems, maxChars) {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, maxItems).map(function(item) {
+    return clip_(item, maxChars);
+  }).filter(Boolean);
 }
 
 function digest_(text) {
