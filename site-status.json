@@ -1,5 +1,5 @@
 {
-  "site": "Biblioteca de Lumyriel",
+  "site": "Biblioteca Lumyrieliana",
   "release": "alpha",
   "release_id": "alpha-2026-10-01",
   "static_site": true,
@@ -57,5 +57,13 @@
       "art": "published",
       "cover_file": "assets/covers/matematica-lumyrieliana.webp"
     }
-  ]
+  ],
+  "feedback": {
+    "form_version": "1.0",
+    "frontend_ready": true,
+    "backend_repo_version": "1.2",
+    "drive_folder_ready": true,
+    "public_enabled": false,
+    "storage": "Lumyriel / Feedback de Leitores"
+  }
 }
