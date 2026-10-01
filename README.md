@@ -1,4 +1,4 @@
-# Biblioteca de Lumyriel Disponível em: 
+# Biblioteca de Lumyriel
 https://f-e-g-v-santos.github.io/lumyriel-biblioteca/
 
 Site editorial do universo de **Lumyriel**.
