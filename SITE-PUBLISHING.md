@@ -94,13 +94,16 @@ Para habilitar submissões:
 3. implantar `apps-script/Code.gs`;
 4. testar o endpoint;
 5. colocar a URL `/exec` em `assets/site-config.js`;
-6. executar o teste ponta a ponta descrito em `apps-script/DEPLOY.md`.
+6. testar o endpoint com `characterSubmissionEnabled: false`;
+7. executar o teste ponta a ponta controlado;
+8. somente depois das regras públicas, alterar `characterSubmissionEnabled` para `true`.
 
 Até lá:
 
 ```js
 window.LUMYRIEL_CONFIG = {
-  characterSubmissionUrl: ''
+  characterSubmissionUrl: '',
+  characterSubmissionEnabled: false
 };
 ```
 
