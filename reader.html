@@ -78,12 +78,13 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:1px solid var(
   body>*{display:none!important}
   body:after{content:"A edição de leitura está disponível somente na Biblioteca Lumyrieliana.";display:block!important;padding:48px;font:18px/1.6 Georgia,serif;color:#111;background:#fff}
 }
+.feedback-reader{border:1px solid #5f4f39;border-radius:2px;padding:8px 11px;color:#dbcdb7;text-decoration:none;font-size:.8rem;background:#1a1611}.feedback-reader:hover{border-color:var(--gold2);color:#fff}
 </style>
 </head>
 <body><a class="skip-link" href="#paper">Pular para a leitura</a>
 <header class="topbar">
   <a class="brand" href="index.html"><span>Biblioteca Lumyrieliana</span></a>
-  <div style="display:flex;gap:8px;align-items:center"><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
+  <div style="display:flex;gap:8px;align-items:center"><a id="readerFeedbackLink" class="feedback-reader" href="feedback.html">Feedback</a><button id="menuBtn" class="mobile-menu" type="button" aria-controls="sidebar" aria-expanded="false">Capítulos</button><a class="back" href="index.html">← Biblioteca</a></div>
 </header>
 <noscript><div class="nojs"><strong>Leitor indisponível sem JavaScript.</strong><span>Os livros são arquivos locais do próprio site, mas esta página precisa de JavaScript para carregar capítulos e navegação.</span><a href="index.html">Voltar à Biblioteca</a></div></noscript>
 <div class="shell" id="shell">
@@ -137,6 +138,7 @@ async function loadBookData(id){
 }
 const q=new URLSearchParams(location.search);
 const bookId=DATA[q.get('book')]?q.get('book'):'filho';
+const readerFeedbackLink=document.getElementById('readerFeedbackLink');if(readerFeedbackLink)readerFeedbackLink.href='feedback.html?book='+encodeURIComponent(bookId);
 const shell=document.getElementById('shell'),paper=document.getElementById('paper'),paperInner=document.getElementById('paperInner'),chapterList=document.getElementById('chapterList'),hierarchy=document.getElementById('hierarchy'),pageCount=document.getElementById('pageCount'),progress=document.getElementById('progress'),sideCover=document.getElementById('sideCover'),bookSelector=document.getElementById('bookSelector');
 if(window.LUMYRIEL_COVERS){sideCover.style.backgroundImage='url("'+(bookId==='tempos'?window.LUMYRIEL_COVERS.tempos:window.LUMYRIEL_COVERS.filho)+'")';}
 bookSelector.value=bookId;
