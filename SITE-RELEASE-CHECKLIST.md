@@ -19,6 +19,7 @@ A frente visual e funcional principal do site está consolidada.
 - [x] rascunho local do Criador;
 - [x] exportação JSON e TXT do personagem;
 - [x] configuração externa para o endpoint de submissão;
+- [x] gate explícito separado para habilitar submissões públicas;
 - [x] backend Apps Script preparado em v1.1;
 - [x] honeypot e proteção básica contra duplicação;
 - [x] metadados básicos de compartilhamento;
@@ -83,8 +84,10 @@ Este gate pode permanecer fechado sem bloquear a Biblioteca pública.
 - [ ] publicar o Apps Script como Web App;
 - [ ] obter a URL `/exec`;
 - [ ] testar o health-check;
-- [ ] inserir a URL em `assets/site-config.js`;
-- [ ] testar envio real para o Drive;
+- [ ] inserir a URL em `assets/site-config.js` mantendo `characterSubmissionEnabled: false`;
+- [ ] testar envio real para o Drive em modo controlado;
+- [ ] publicar as regras de contribuição;
+- [ ] alterar `characterSubmissionEnabled` para `true` somente no lançamento do canal;
 - [ ] testar envio duplicado;
 - [ ] confirmar criação do JSON e do Dossiê TXT.
 
