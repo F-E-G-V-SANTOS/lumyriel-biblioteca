@@ -15,6 +15,9 @@ A frente visual e funcional principal do site está consolidada.
 - [x] Os Livros dos Tempos publicado como Beta 1 · Base Editorial v1.0 · 54 livros · 1.074 capítulos;
 - [x] Livro das Artes Mágicas sincronizado como Arquitetura v0.4 · Volumes I–IV em desenvolvimento;
 - [x] memória de leitura por obra;
+- [x] proteção estática de leitura contra cópia casual;
+- [x] seletor de obras disponíveis dentro do leitor;
+- [x] porta de configuração futura para outra origem de conteúdo, mantida desativada;
 - [x] retomada aproximada da posição de leitura;
 - [x] rascunho local do Criador;
 - [x] exportação JSON e TXT do personagem;
