@@ -6,3 +6,16 @@ window.printDossier=function(){if(typeof window.ensureBiologicalFinalization==='
 var status=$('saveStatus');function clean(){if(!status)return;var t=(status.textContent||'').trim().toLowerCase(),tech=t.indexOf('precisa da url pública')>=0||t.indexOf('canal de submissão está preparado')>=0||t.indexOf('canal público de submissão ainda não está habilitado')>=0;status.hidden=tech||!t;status.classList.toggle('technical-status-hidden',tech||!t)}if(status){clean();new MutationObserver(clean).observe(status,{childList:true,subtree:true,characterData:true})}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot()})();
+
+/* O preview visual fica em módulo separado para poder evoluir sem inflar o Criador. */
+(function(){
+  function loadPreview(){
+    if(!document.getElementById('creatorForm')||document.querySelector('script[data-lumyriel-character-preview]'))return;
+    var s=document.createElement('script');
+    s.src='assets/character-preview/character-preview.js';
+    s.defer=true;
+    s.dataset.lumyrielCharacterPreview='1';
+    document.head.appendChild(s);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadPreview,{once:true});else loadPreview();
+})();
