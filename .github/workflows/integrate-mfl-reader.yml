@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/integrate-mfl-reader.yml'
+      - 'scripts/integrate-mfl-reader.py'
 
 permissions:
   contents: write
@@ -15,175 +16,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Validar blocos e integrar leitor
+      - name: Integrar e validar
+        run: python scripts/integrate-mfl-reader.py
+      - name: Publicar integração
         shell: bash
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          import base64, gzip, json, re
-
-          def decode_dat(path):
-              payload = Path(path).read_text(encoding='utf-8').strip()
-              raw = base64.b64decode(payload, validate=True)
-              return json.loads(gzip.decompress(raw).decode('utf-8'))
-
-          def replace_once(text, old, new, label):
-              count = text.count(old)
-              if count != 1:
-                  raise SystemExit(f'{label}: esperado 1 alvo, encontrado {count}')
-              return text.replace(old, new, 1)
-
-          def sub_once(text, pattern, repl, label):
-              out, count = re.subn(pattern, repl, text, count=1, flags=re.S)
-              if count != 1:
-                  raise SystemExit(f'{label}: esperado 1 alvo, encontrado {count}')
-              return out
-
-          manifest = decode_dat('books/lmy-mfl-rc1.dat')
-          if manifest.get('schema') != 'lumyriel-reader-math-split-v1':
-              raise SystemExit('Manifesto MFL com schema inesperado')
-          if manifest.get('intro_file') != 'books/lmy-mfl-intro.00.dat':
-              raise SystemExit('Referência da abertura MFL não está normalizada')
-          if len(manifest.get('sections', [])) != 14:
-              raise SystemExit('Manifesto MFL não possui 14 blocos')
-          if sum(len(s.get('chapters', [])) for s in manifest['sections']) != 56:
-              raise SystemExit('Manifesto MFL não fecha 48 capítulos + 8 apêndices')
-          decode_dat(manifest['intro_file'])
-          for i, section in enumerate(manifest['sections']):
-              obj = decode_dat(section['file'])
-              if obj.get('schema') != 'lumyriel-reader-math-section-v1':
-                  raise SystemExit(f'Schema inválido no bloco {i:02d}')
-              if not isinstance(obj.get('chapters'), list) or not obj['chapters']:
-                  raise SystemExit(f'Bloco vazio em {i:02d}')
-
-          reader_path = Path('reader.html')
-          reader = reader_path.read_text(encoding='utf-8')
-          reader = replace_once(
-              reader,
-              '<option value="magia">Artes Mágicas Lumyrielianas</option></select>',
-              '<option value="magia">Artes Mágicas Lumyrielianas</option><option value="matematica">Matemática e Física de Lumyriel</option></select>',
-              'seletor do leitor'
-          )
-          reader = replace_once(
-              reader,
-              "const DATA={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat',magia:'books/lmy-aml-b1.dat'};",
-              "const DATA={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat',magia:'books/lmy-aml-b1.dat',matematica:'books/lmy-mfl-rc1.dat'};",
-              'mapa DATA'
-          )
-
-          loader = r'''async function fetchGzipJson(path,label){const response=await fetch(path,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir '+label);return decodeGzipBase64(await response.text())}
-function mathIntroText(obj){if(!obj)return '';for(const key of ['body','intro','text','content'])if(typeof obj[key]==='string'&&obj[key].trim())return obj[key];const out=[],skip=new Set(['schema','title','subtitle','edition','version','id','slug','file','intro_file']);function visit(node,key,root){if(node==null)return;if(typeof node==='string'){if(!skip.has(key)&&node.trim())out.push(node.trim());return}if(Array.isArray(node)){node.forEach(x=>visit(x,key,false));return}if(typeof node==='object'){if(!root&&typeof node.title==='string'&&node.title.trim())out.push('## '+node.title.trim());for(const [k,v] of Object.entries(node)){if(k==='title'||skip.has(k))continue;visit(v,k,false)}}}visit(obj,'root',true);return out.join('\n\n')}
-async function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const sections=await Promise.all(manifest.sections.map(s=>fetchGzipJson(s.file,s.label||s.title||'uma seção de Matemática e Física')));const chapters=[];sections.forEach(section=>section.chapters.forEach((ch,i)=>chapters.push({...ch,part:section.label||section.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||'',sectionTitle:section.title||''})));return {...manifest,intro:mathIntroText(introObj),sections,chapters}}
-async function loadBookData(id){if(id==='magia'){const response=await fetch(DATA.magia,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir Artes Mágicas');return decodeGzipBase64(await response.text())}if(id==='matematica')return loadMathBookData();const response=await fetch(readerDataUrl(id),{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir o livro');if(READER_CONTENT_BASE)return response.json();return decodeStaticBook(await response.text())}
-const q='''
-          reader = sub_once(
-              reader,
-              r"async function loadBookData\(id\)\{.*?\}\nconst q=",
-              lambda m: loader,
-              'loader MFL'
-          )
-          reader = replace_once(
-              reader,
-              "const coverKey=bookId==='tempos'?'tempos':bookId==='magia'?'magia':'filho';if(window.LUMYRIEL_COVERS&&window.LUMYRIEL_COVERS[coverKey])sideCover.style.backgroundImage='url(\"'+window.LUMYRIEL_COVERS[coverKey]+'\")';",
-              "const coverKey=bookId==='tempos'?'tempos':bookId==='magia'?'magia':bookId==='matematica'?'matematica':'filho';if(window.LUMYRIEL_COVERS&&window.LUMYRIEL_COVERS[coverKey])sideCover.style.backgroundImage='url(\"'+window.LUMYRIEL_COVERS[coverKey]+'\")';",
-              'capa MFL'
-          )
-          reader = replace_once(
-              reader,
-              "bookSelector.addEventListener('change',()=>{const id=bookSelector.value,mem=getReadingMemory(),saved=mem[id];const fallback=id==='tempos'?'reader.html?book=tempos&note=1':id==='magia'?'reader.html?book=magia&v=0&intro=1':'reader.html?book=filho&ch=0';location.href=saved&&saved.url?saved.url+(saved.url.includes('?')?'&':'?')+'resume=1':fallback});",
-              "bookSelector.addEventListener('change',()=>{const id=bookSelector.value,mem=getReadingMemory(),saved=mem[id];const fallback=id==='tempos'?'reader.html?book=tempos&note=1':id==='magia'?'reader.html?book=magia&v=0&intro=1':id==='matematica'?'reader.html?book=matematica&intro=1':'reader.html?book=filho&ch=0';location.href=saved&&saved.url?saved.url+(saved.url.includes('?')?'&':'?')+'resume=1':fallback});",
-              'fallback do seletor'
-          )
-
-          reader = sub_once(
-              reader,
-              r"function currentReaderUrl\(\)\{.*?\}\nfunction currentReadingLabel",
-              "function currentReaderUrl(){const p=new URLSearchParams({book:bookId});if(bookId==='tempos'){p.set('c',state.c);p.set('b',state.b);p.set('ch',state.ch);if(state.note)p.set('note','1')}else if(bookId==='magia'){p.set('v',state.v);p.set('ch',state.ch);if(state.intro)p.set('intro','1')}else if(bookId==='matematica'){p.set('ch',state.ch);if(state.intro)p.set('intro','1')}else p.set('ch',state.ch);return 'reader.html?'+p.toString()}\nfunction currentReadingLabel",
-              'URL de leitura MFL'
-          )
-          reader = sub_once(
-              reader,
-              r"function currentReadingLabel\(\)\{.*?\}\nif\(readerFeedbackLink\)",
-              "function currentReadingLabel(){if(!data)return '';if(bookId==='tempos'){if(state.note)return 'Nota editorial';const col=data.collections[state.c],bk=col&&col.books[state.b],ch=bk&&bk.chapters[state.ch];return bk&&ch?'Livro '+bk.number+' · Capítulo '+ch.number+' · '+ch.title:''}if(bookId==='magia'){const v=data.volumes[state.v];if(!v)return '';if(state.intro)return 'Volume '+v.roman+' · Abertura';const ch=v.chapters[state.ch];return ch?'Volume '+v.roman+' · Capítulo '+ch.number+' · '+ch.title:''}if(bookId==='matematica'){if(state.intro)return 'Abertura';const ch=data.chapters[state.ch];return ch?(ch.appendix?'Apêndice ':'Capítulo ')+ch.number+' · '+ch.title:''}const ch=data.chapters[state.ch];return ch?'Capítulo '+ch.number+' · '+ch.title:''}\nif(readerFeedbackLink)",
-              'rótulo de progresso MFL'
-          )
-
-          sidebar = r'''function renderSidebar(){document.getElementById('sideTitle').textContent=data.title;document.title=data.title+' · Lumyriel';document.getElementById('sideEdition').textContent=data.edition;document.getElementById('sideKind').textContent=data.subtitle||'Leitura';hierarchy.innerHTML='';chapterList.innerHTML='';if(bookId==='filho'){data.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch?' active':'');if(i===state.ch)b.setAttribute('aria-current','true');b.innerHTML='<strong>'+esc(x.number)+' · '+esc(x.title)+'</strong>';b.onclick=()=>{state.ch=i;render();closeMenu()};chapterList.appendChild(b)});return}if(bookId==='matematica'){const intro=document.createElement('button');intro.className='note-btn'+(state.intro?' active':'');intro.textContent='Abertura da Primeira Edição';intro.onclick=()=>{state.intro=true;render();closeMenu()};hierarchy.appendChild(intro);data.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.intro?' active':'');if(i===state.ch&&!state.intro)b.setAttribute('aria-current','true');const lead=x.appendix?'Apêndice '+x.number:'Capítulo '+x.number;b.innerHTML='<strong>'+esc(lead)+'</strong><small>'+esc(x.title)+(x.sectionRoman?' · '+esc(x.sectionRoman):'')+'</small>';b.onclick=()=>{state.ch=i;state.intro=false;render();closeMenu()};chapterList.appendChild(b)});return}if(bookId==='magia'){const v=data.volumes[state.v]||data.volumes[0];state.v=Math.min(state.v,data.volumes.length-1);const intro=document.createElement('button');intro.className='note-btn'+(state.intro?' active':'');intro.textContent='Abertura do volume';intro.onclick=()=>{state.intro=true;render();closeMenu()};hierarchy.appendChild(intro);const wrap=document.createElement('div');wrap.className='selector';wrap.innerHTML='<label>Volume</label>';const sel=document.createElement('select');data.volumes.forEach((x,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Volume '+x.roman+' — '+x.title;o.selected=i===state.v;sel.appendChild(o)});sel.onchange=()=>{state.v=Number(sel.value);state.ch=0;state.intro=true;render()};wrap.appendChild(sel);hierarchy.appendChild(wrap);state.ch=Math.min(state.ch,Math.max(0,v.chapters.length-1));v.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.intro?' active':'');b.innerHTML='<strong>Capítulo '+esc(x.number)+'</strong><small>'+esc(x.title)+'</small>';b.onclick=()=>{state.ch=i;state.intro=false;render();closeMenu()};chapterList.appendChild(b)});return}const note=document.createElement('button');note.className='note-btn'+(state.note?' active':'');note.textContent='Nota editorial';note.onclick=()=>{state.note=true;render();closeMenu()};hierarchy.appendChild(note);const cWrap=document.createElement('div');cWrap.className='selector';cWrap.innerHTML='<label>Coleção</label>';const cSel=document.createElement('select');data.collections.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent='Coleção '+c.roman+' — '+c.title;o.selected=i===state.c;cSel.appendChild(o)});cSel.onchange=()=>{state.c=Number(cSel.value);state.b=0;state.ch=0;state.note=false;render()};cWrap.appendChild(cSel);hierarchy.appendChild(cWrap);const col=data.collections[state.c]||data.collections[0];state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,col.books.length-1);const bWrap=document.createElement('div');bWrap.className='selector';bWrap.innerHTML='<label>Livro</label>';const bSel=document.createElement('select');col.books.forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=String(b.number).padStart(2,'0')+' — '+b.title;o.selected=i===state.b;bSel.appendChild(o)});bSel.onchange=()=>{state.b=Number(bSel.value);state.ch=0;state.note=false;render()};bWrap.appendChild(bSel);hierarchy.appendChild(bWrap);const bk=col.books[state.b];state.ch=Math.min(state.ch,Math.max(0,bk.chapters.length-1));bk.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.note?' active':'');b.innerHTML='<strong>Capítulo '+esc(x.number)+'</strong><small>'+esc(x.title)+'</small>';b.onclick=()=>{state.ch=i;state.note=false;render();closeMenu()};chapterList.appendChild(b)})}
-function currentFlatIndex'''
-          reader = sub_once(reader, r"function renderSidebar\(\)\{.*?\}\nfunction currentFlatIndex", sidebar, 'sidebar MFL')
-          reader = sub_once(
-              reader,
-              r"function currentFlatIndex\(\)\{.*?\}\nfunction goRelative",
-              "function currentFlatIndex(){if(bookId==='filho'||bookId==='matematica')return {index:state.ch,total:data.chapters.length};let flat=[],target=-1;if(bookId==='magia'){data.volumes.forEach((v,vi)=>v.chapters.forEach((ch,hi)=>{if(vi===state.v&&hi===state.ch)target=flat.length;flat.push({vi,hi})}));return {index:target,total:flat.length,flat}}data.collections.forEach((c,ci)=>c.books.forEach((b,bi)=>b.chapters.forEach((ch,hi)=>{if(ci===state.c&&bi===state.b&&hi===state.ch)target=flat.length;flat.push({ci,bi,hi})})));return {index:target,total:flat.length,flat}}\nfunction goRelative",
-              'índice plano MFL'
-          )
-          reader = sub_once(
-              reader,
-              r"function goRelative\(delta\)\{.*?\}\nfunction partHtml",
-              "function goRelative(delta){if(bookId==='tempos'&&state.note){state.note=false;render();return}if((bookId==='magia'||bookId==='matematica')&&state.intro){state.intro=false;state.ch=0;render();return}const f=currentFlatIndex(),n=f.index+delta;if(n<0||n>=f.total)return;if(bookId==='filho'||bookId==='matematica')state.ch=n;else if(bookId==='magia'){const x=f.flat[n];state.v=x.vi;state.ch=x.hi;state.intro=false}else{const x=f.flat[n];state.c=x.ci;state.b=x.bi;state.ch=x.hi}render()}\nfunction partHtml",
-              'navegação relativa MFL'
-          )
-
-          render_content = r'''function renderContent(){if(bookId==='tempos'&&state.note){paperInner.innerHTML='<div class="kicker">Os Livros dos Tempos</div><h2 class="editorial-title">Nota Editorial</h2><div class="content">'+blocks(data.editorial)+'</div><div class="nav-bottom"><button disabled>← Anterior</button><button onclick="state.note=false;render()">Começar a leitura →</button></div>';progress.textContent='Nota editorial';return}if(bookId==='matematica'&&state.intro){paperInner.innerHTML='<div class="reader-meta"><span>'+esc(data.edition)+'</span><span>48 capítulos · 13 partes · 8 apêndices</span></div><div class="book-title">Matemática e Física de Lumyriel</div><div class="kicker">Primeira Edição</div><h2 class="editorial-title">Abertura</h2><div class="content">'+blocks(data.intro)+'</div><div class="nav-bottom"><button disabled>← Anterior</button><button id="startMath">Começar a leitura →</button></div>';document.getElementById('startMath').onclick=()=>{state.intro=false;state.ch=0;render()};progress.textContent='Abertura';return}if(bookId==='magia'&&state.intro){const v=data.volumes[state.v];paperInner.innerHTML='<div class="reader-meta"><span>'+esc(data.edition)+'</span><span>'+esc(v.version)+' · '+esc(v.pages)+' páginas</span></div><div class="book-title">Artes Mágicas Lumyrielianas</div><div class="kicker">Volume '+esc(v.roman)+'</div><h2 class="editorial-title">'+esc(v.title)+'</h2><div class="content">'+blocks(v.intro)+'</div><div class="nav-bottom"><button '+(state.v===0?'disabled':'id="prevVolumeIntro"')+'>← Volume anterior</button><button id="startVolume">Começar o volume →</button></div>';const start=document.getElementById('startVolume');start.onclick=()=>{state.intro=false;state.ch=0;render()};const prev=document.getElementById('prevVolumeIntro');if(prev)prev.onclick=()=>{state.v--;state.ch=0;state.intro=true;render()};progress.textContent='Volume '+v.roman+' · abertura';return}let ch,bookLabel='',meta='';if(bookId==='filho'){state.ch=Math.min(state.ch,data.chapters.length-1);ch=data.chapters[state.ch];meta='Capítulo '+(state.ch+1)+' de '+data.chapters.length;bookLabel=data.title}else if(bookId==='matematica'){state.ch=Math.min(state.ch,data.chapters.length-1);ch=data.chapters[state.ch];meta='Leitura '+(state.ch+1)+' de '+data.chapters.length;bookLabel=data.title}else if(bookId==='magia'){const v=data.volumes[state.v];state.ch=Math.min(state.ch,v.chapters.length-1);ch=v.chapters[state.ch];meta='Volume '+v.roman+' · Capítulo '+ch.number;bookLabel='Volume '+v.roman+' — '+v.title}else{const col=data.collections[state.c],bk=col.books[state.b];state.ch=Math.min(state.ch,bk.chapters.length-1);ch=bk.chapters[state.ch];meta='Livro '+bk.number+' · Capítulo '+ch.number;bookLabel='Coleção '+col.roman+' · Livro '+bk.number+' — '+bk.title}const f=currentFlatIndex(),unit=(bookId==='matematica'&&ch.appendix?'Apêndice ':'Capítulo ');paperInner.innerHTML='<div class="reader-meta"><span>'+esc(data.edition)+'</span><span>'+esc(meta)+'</span></div>'+partHtml(ch)+'<div class="book-title">'+esc(bookLabel)+'</div><div class="kicker">'+esc(unit+ch.number)+'</div><h2 class="chapter-title">'+esc(ch.title)+'</h2><div class="content">'+blocks(ch.body)+'</div><div class="nav-bottom"><button id="prevBtn">← Anterior</button><button id="nextBtn">Próximo →</button></div>';const prev=document.getElementById('prevBtn'),next=document.getElementById('nextBtn');prev.disabled=f.index<=0;next.disabled=f.index>=f.total-1;prev.onclick=()=>goRelative(-1);next.onclick=()=>goRelative(1);progress.textContent=bookId==='filho'?'Capítulo '+(state.ch+1)+' de '+data.chapters.length:bookId==='magia'?'Capítulo '+(f.index+1)+' de '+f.total+' · 6 volumes':bookId==='matematica'?'Leitura '+(state.ch+1)+' de '+data.chapters.length:'Capítulo '+(f.index+1)+' de '+f.total}
-function updatePages'''
-          reader = sub_once(reader, r"function renderContent\(\)\{.*?\}\nfunction updatePages", render_content, 'renderização MFL')
-          reader = replace_once(
-              reader,
-              "loadBookData(bookId).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else if(bookId==='magia'){state.v=Math.min(state.v,data.volumes.length-1);state.ch=Math.min(state.ch,data.volumes[state.v].chapters.length-1)}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class=\"loading\">Não foi possível abrir esta edição agora.</div>';console.error(err)});",
-              "loadBookData(bookId).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else if(bookId==='magia'){state.v=Math.min(state.v,data.volumes.length-1);state.ch=Math.min(state.ch,data.volumes[state.v].chapters.length-1)}else if(bookId==='matematica'){state.ch=Math.min(state.ch,data.chapters.length-1);if(!location.search.includes('intro=')&&!location.search.includes('ch='))state.intro=true}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class=\"loading\">Não foi possível abrir esta edição agora.</div>';console.error(err)});",
-              'inicialização MFL'
-          )
-          reader_path.write_text(reader, encoding='utf-8')
-
-          index_path = Path('index.html')
-          index = index_path.read_text(encoding='utf-8')
-          math_card = '''\n      <a class="card clickable-book" data-status="live" href="reader.html?book=matematica&intro=1" aria-label="Abrir Matemática e Física de Lumyriel" onclick="event.preventDefault();openBook('matematica')"><div class="cover-wrap"><div class="cover f real-cover" data-cover="matematica"><small>Obra didática · Primeira Edição</small><h3>Matemática e Física de Lumyriel</h3><span class="roman">MFL</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Matemática e Física de Lumyriel</h3><p>Obra didática que constrói matemática e física passo a passo e aplica essas ferramentas aos fenômenos de Lumyriel sem transformar modelos em novas leis canônicas.</p><div class="bottom"><span>RC1 · Primeira Edição · 48 capítulos · 8 apêndices</span><span class="textlink">Ler agora →</span></div></div></a>'''
-          magic_match = re.search(r'(<article class="card" data-status="dev">.*?<h3 class="book-name">Livro das Artes Mágicas</h3>.*?</article>)', index, flags=re.S)
-          if not magic_match:
-              raise SystemExit('Card de Artes Mágicas não encontrado para inserir MFL')
-          if 'aria-label="Abrir Matemática e Física de Lumyriel"' not in index:
-              index = index[:magic_match.end()] + math_card + index[magic_match.end():]
-          index, removed = re.subn(r'<article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover f placeholder-cover" data-optional-cover="matematica">.*?</article>', '', index, count=1, flags=re.S)
-          if removed != 1:
-              raise SystemExit(f'Card planejado de Matemática: esperado 1, removido {removed}')
-          index = replace_once(
-              index,
-              "const fallback=book==='tempos'?'reader.html?book=tempos&note=1':'reader.html?book=filho&ch=0';",
-              "const fallback=book==='tempos'?'reader.html?book=tempos&note=1':book==='matematica'?'reader.html?book=matematica&intro=1':'reader.html?book=filho&ch=0';",
-              'fallback openBook MFL'
-          )
-          index = replace_once(
-              index,
-              "const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':'O Filho da Montanha');",
-              "const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':(last==='matematica')?'Matemática e Física de Lumyriel':'O Filho da Montanha');",
-              'memória de leitura MFL'
-          )
-          reads = '''<div class="available-reads"><span>Livros disponíveis no leitor</span><a href="reader.html?book=filho&ch=0" onclick="event.preventDefault();openBook('filho')"><b>O Filho da Montanha</b><small>16 capítulos</small></a><a href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook('tempos')"><b>Os Livros dos Tempos</b><small>54 livros · 1.074 capítulos</small></a><a href="reader.html?book=matematica&intro=1" onclick="event.preventDefault();openBook('matematica')"><b>Matemática e Física de Lumyriel</b><small>48 capítulos · 8 apêndices</small></a></div>'''
-          index = sub_once(index, r'<div class="available-reads">.*?</div>', reads, 'lista de leituras disponíveis')
-          index_path.write_text(index, encoding='utf-8')
-
-          # QA estático pós-patch.
-          check = reader_path.read_text(encoding='utf-8')
-          required = [
-              "matematica:'books/lmy-mfl-rc1.dat'",
-              '<option value="matematica">Matemática e Física de Lumyriel</option>',
-              "id==='matematica'",
-              "bookId==='matematica'",
-              'loadMathBookData'
-          ]
-          for token in required:
-              if token not in check:
-                  raise SystemExit(f'QA reader falhou: {token}')
-          page = index_path.read_text(encoding='utf-8')
-          if page.count('aria-label="Abrir Matemática e Física de Lumyriel"') != 1:
-              raise SystemExit('QA catálogo falhou: card MFL não é único')
-          if 'data-optional-cover="matematica"' in page:
-              raise SystemExit('QA catálogo falhou: card planejado ainda existe')
-          if "openBook('matematica')" not in page:
-              raise SystemExit('QA catálogo falhou: link MFL ausente')
-          print('QA estático PASS: 14 blocos + abertura + reader + catálogo')
-          PY
-
+          rm -f scripts/integrate-mfl-reader.py
           rm -f .github/workflows/integrate-mfl-reader.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
