@@ -16,21 +16,26 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Normalizar payloads apenas para o QA
+      - name: Sanear Base64 da abertura e normalizar QA
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
+          allowed = set('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=')
           for p in Path('books').glob('lmy-mfl-*.dat'):
               text = p.read_text(encoding='utf-8-sig')
-              p.write_text(''.join(text.split()), encoding='utf-8')
+              clean = ''.join(ch for ch in text if ch in allowed)
+              removed = [ch for ch in text if ch not in allowed and not ch.isspace() and ch != '\ufeff']
+              if removed:
+                  print(f'{p}: removidos {len(removed)} caracteres não-Base64; códigos={sorted(set(map(ord, removed)))}')
+              p.write_text(clean, encoding='utf-8')
           PY
       - name: Integrar e validar
         run: python scripts/integrate-mfl-reader.py
       - name: Publicar integração
         shell: bash
         run: |
-          git restore books/lmy-mfl-*.dat
+          git restore books/lmy-mfl-rc1.dat books/lmy-mfl-s*.dat
           rm -f scripts/integrate-mfl-reader.py
           rm -f .github/workflows/integrate-mfl-reader.yml
           git config user.name 'github-actions[bot]'
