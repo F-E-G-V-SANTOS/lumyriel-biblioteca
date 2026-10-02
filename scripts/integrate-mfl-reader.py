@@ -61,7 +61,8 @@ reader = replace_once(
 
 loader = r'''async function fetchGzipJson(path,label){const response=await fetch(path,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir '+label);return decodeGzipBase64(await response.text())}
 function mathIntroText(obj){if(!obj)return '';for(const key of ['body','intro','text','content'])if(typeof obj[key]==='string'&&obj[key].trim())return obj[key];const out=[],skip=new Set(['schema','title','subtitle','edition','version','id','slug','file','intro_file']);function visit(node,key,root){if(node==null)return;if(typeof node==='string'){if(!skip.has(key)&&node.trim())out.push(node.trim());return}if(Array.isArray(node)){node.forEach(x=>visit(x,key,false));return}if(typeof node==='object'){if(!root&&typeof node.title==='string'&&node.title.trim())out.push('## '+node.title.trim());for(const [k,v] of Object.entries(node)){if(k==='title'||skip.has(k))continue;visit(v,k,false)}}}visit(obj,'root',true);return out.join('\n\n')}
-async function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const sections=await Promise.all(manifest.sections.map(s=>fetchGzipJson(s.file,s.label||s.title||'uma seção de Matemática e Física')));const chapters=[];sections.forEach(section=>section.chapters.forEach((ch,i)=>chapters.push({...ch,part:section.label||section.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||'',sectionTitle:section.title||''})));return {...manifest,intro:mathIntroText(introObj),sections,chapters}}
+async function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const chapters=[];let offset=0;manifest.sections.forEach((section,sectionIndex)=>{section.start=offset;section.chapters.forEach((ch,sectionChapterIndex)=>chapters.push({...ch,sectionIndex,sectionChapterIndex,part:section.label||section.title||'',partIntro:'',sectionRoman:section.roman||'',sectionTitle:section.title||''}));offset+=section.chapters.length});return {...manifest,intro:mathIntroText(introObj),chapters,mathSectionCache:[]}}
+async function ensureMathChapter(index){const meta=data.chapters[index];if(!meta)throw new Error('Leitura matemática inexistente');if(typeof meta.body==='string')return meta;const sectionMeta=data.sections[meta.sectionIndex],cache=data.mathSectionCache||(data.mathSectionCache=[]);let section=cache[meta.sectionIndex];if(!section){section=fetchGzipJson(sectionMeta.file,sectionMeta.label||sectionMeta.title||'uma seção de Matemática e Física');cache[meta.sectionIndex]=section}try{section=await section}catch(err){cache[meta.sectionIndex]=null;throw err}cache[meta.sectionIndex]=section;if(section.schema!=='lumyriel-reader-math-section-v1')throw new Error('Bloco matemático com formato inesperado');if(!Array.isArray(section.chapters)||section.chapters.length!==sectionMeta.chapters.length)throw new Error('Bloco matemático incompleto');const start=sectionMeta.start||0;section.chapters.forEach((ch,i)=>{const target=data.chapters[start+i];if(target)Object.assign(target,ch,{part:section.label||sectionMeta.label||section.title||sectionMeta.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||sectionMeta.roman||'',sectionTitle:section.title||sectionMeta.title||''})});return data.chapters[index]}
 async function loadBookData(id){if(id==='magia'){const response=await fetch(DATA.magia,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir Artes Mágicas');return decodeGzipBase64(await response.text())}if(id==='matematica')return loadMathBookData();const response=await fetch(readerDataUrl(id),{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir o livro');if(READER_CONTENT_BASE)return response.json();return decodeStaticBook(await response.text())}
 const q='''
 reader = sub_once(
@@ -69,7 +70,7 @@ reader = sub_once(
     r"async function loadBookData\(id\)\{.*?\}\nconst q=",
     loader,
     'loader MFL',
-    already='async function loadMathBookData()',
+    already='async function ensureMathChapter(index)',
 )
 reader = replace_once(
     reader,
@@ -137,6 +138,19 @@ reader = replace_once(
     "loadBookData(bookId).then(x=>{data=x;if(bookId==='tempos'){state.c=Math.min(state.c,data.collections.length-1);state.b=Math.min(state.b,data.collections[state.c].books.length-1);state.ch=Math.min(state.ch,data.collections[state.c].books[state.b].chapters.length-1)}else if(bookId==='magia'){state.v=Math.min(state.v,data.volumes.length-1);state.ch=Math.min(state.ch,data.volumes[state.v].chapters.length-1)}else if(bookId==='matematica'){state.ch=Math.min(state.ch,data.chapters.length-1);if(!location.search.includes('intro=')&&!location.search.includes('ch='))state.intro=true}else state.ch=Math.min(state.ch,data.chapters.length-1);render()}).catch(err=>{paperInner.innerHTML='<div class=\"loading\">Não foi possível abrir esta edição agora.</div>';console.error(err)});",
     'inicialização MFL',
 )
+lazy_render = (
+    "let renderToken=0;\n"
+    "async function render(){const token=++renderToken;renderSidebar();if(bookId==='matematica'&&!state.intro){paperInner.innerHTML='<div class=\"loading\" role=\"status\" aria-live=\"polite\">Abrindo esta parte…</div>';try{await ensureMathChapter(state.ch)}catch(err){if(token!==renderToken)return;paperInner.innerHTML='<div class=\"loading\">Não foi possível abrir esta parte agora.</div>';console.error(err);return}}if(token!==renderToken)return;renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(()=>{updatePages();if(!restoreReadingPosition())saveReadingProgress()})}\n"
+    "document.getElementById('menuBtn')"
+)
+reader = sub_once(
+    reader,
+    r"function render\(\)\{.*?\}\ndocument.getElementById\('menuBtn'\)",
+    lazy_render,
+    'carregamento sob demanda MFL',
+    already='let renderToken=0;',
+)
+
 reader_path.write_text(reader, encoding='utf-8')
 
 index_path = Path('index.html')
@@ -188,6 +202,8 @@ required = [
 for token in required:
     if token not in check:
         raise SystemExit(f'QA reader falhou: {token}')
+if 'Promise.all(manifest.sections' in check:
+    raise SystemExit('QA reader falhou: carregamento ansioso de todos os blocos')
 page = index_path.read_text(encoding='utf-8')
 if page.count('aria-label="Abrir Matemática e Física de Lumyriel"') != 1:
     raise SystemExit('QA catálogo falhou: card MFL não é único')
