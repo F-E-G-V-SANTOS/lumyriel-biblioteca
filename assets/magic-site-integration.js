@@ -4,6 +4,7 @@
   if (window.__LUMYRIEL_MAGIC_PUBLICATION__) return;
   window.__LUMYRIEL_MAGIC_PUBLICATION__ = true;
 
+  // A rota de leitura pertence exclusivamente a book-navigation.js.
   const READER_URL = 'reader.html?book=magia&v=0&intro=1';
   const TITLE = 'Artes Mágicas Lumyrielianas';
 
@@ -17,8 +18,6 @@
     if (!card) return;
     card.dataset.status = 'live';
     card.classList.add('clickable-book');
-    card.setAttribute('role', 'link');
-    card.setAttribute('tabindex', '0');
     card.setAttribute('aria-label', 'Abrir Artes Mágicas Lumyrielianas, leitura Beta');
 
     const status = card.querySelector('.status');
@@ -32,15 +31,6 @@
 
     const bottom = card.querySelector('.bottom');
     if (bottom) bottom.innerHTML = '<span>Beta · 6 volumes · 392 páginas</span><span class="textlink">Ler agora →</span>';
-
-    const open = () => { location.href = READER_URL; };
-    card.addEventListener('click', open);
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        open();
-      }
-    });
   }
 
   function addAvailableRead() {
@@ -62,7 +52,7 @@
   function loadBiologyPublication() {
     if (document.querySelector('script[data-lumyriel-biology-publication]')) return;
     const script = document.createElement('script');
-    script.src = 'assets/biology-site-integration.js?v=20261002-1';
+    script.src = 'assets/biology-site-integration.js?v=20261002-2';
     script.defer = true;
     script.dataset.lumyrielBiologyPublication = '1';
     document.head.appendChild(script);
@@ -71,7 +61,7 @@
   function loadBookNavigation() {
     if (document.querySelector('script[data-lumyriel-book-navigation]')) return;
     const script = document.createElement('script');
-    script.src = 'assets/book-navigation.js?v=20261002-1';
+    script.src = 'assets/book-navigation.js?v=20261002-2';
     script.defer = true;
     script.dataset.lumyrielBookNavigation = '1';
     document.head.appendChild(script);
