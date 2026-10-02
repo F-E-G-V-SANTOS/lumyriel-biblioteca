@@ -1,5 +1,5 @@
 name: Integrar RC1 de Matemática e Física ao leitor
-# Gate final reexecutado após restauração determinística de s01 e s06.
+# Gate final reexecutado após carregamento sob demanda por Parte.
 
 on:
   push:
