@@ -20,89 +20,77 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import base64, gzip, json, re
+          import base64,gzip,json,re
 
-          def decode_dat(path):
-              payload=Path(path).read_text(encoding='utf-8').strip()
-              raw=base64.b64decode(payload,validate=True)
-              return json.loads(gzip.decompress(raw).decode('utf-8'))
+          def decode(path):
+              s=''.join(Path(path).read_text(encoding='utf-8').split())
+              return json.loads(gzip.decompress(base64.b64decode(s)).decode('utf-8'))
+          def encode(obj):
+              raw=json.dumps(obj,ensure_ascii=False,separators=(',',':')).encode()
+              return base64.b64encode(gzip.compress(raw,9,mtime=0)).decode()
+          def rep(t,a,b,label):
+              if b in t:return t
+              n=t.count(a)
+              if n!=1:raise SystemExit(f'{label}: alvo={n}')
+              return t.replace(a,b,1)
 
-          def encode_dat(obj):
-              raw=json.dumps(obj,ensure_ascii=False,separators=(',',':')).encode('utf-8')
-              return base64.b64encode(gzip.compress(raw,compresslevel=9,mtime=0)).decode('ascii')
+          mp=Path('books/lmy-mfl-rc1.dat'); m=decode(mp)
+          if m.get('schema')!='lumyriel-reader-math-split-v1':raise SystemExit('manifesto inválido')
+          if m.get('intro_file')!='books/lmy-mfl-intro.00.dat':
+              m['intro_file']='books/lmy-mfl-intro.00.dat';mp.write_text(encode(m),encoding='utf-8')
+          secs=m.get('sections',[])
+          if len(secs)!=14 or sum(len(x.get('chapters',[])) for x in secs)!=56:raise SystemExit('estrutura MFL inválida')
+          decode(m['intro_file'])
+          for i,s in enumerate(secs):
+              o=decode(s['file'])
+              if o.get('schema')!='lumyriel-reader-math-section-v1' or not o.get('chapters'):raise SystemExit(f's{i:02d} inválido')
 
-          def rep(text,old,new,label):
-              if new in text: return text
-              if text.count(old)!=1: raise SystemExit(f'{label}: alvo inesperado ({text.count(old)})')
-              return text.replace(old,new,1)
-
-          manifest_path=Path('books/lmy-mfl-rc1.dat')
-          manifest=decode_dat(manifest_path)
-          if manifest.get('schema')!='lumyriel-reader-math-split-v1': raise SystemExit('schema do manifesto MFL inválido')
-          if manifest.get('intro_file')!='books/lmy-mfl-intro.00.dat':
-              manifest['intro_file']='books/lmy-mfl-intro.00.dat'
-              manifest_path.write_text(encode_dat(manifest),encoding='utf-8')
-          sections=manifest.get('sections',[])
-          if len(sections)!=14: raise SystemExit(f'esperado 14 blocos, encontrados {len(sections)}')
-          if sum(len(s.get('chapters',[])) for s in sections)!=56: raise SystemExit('manifesto não fecha 48 capítulos + 8 apêndices')
-          decode_dat(manifest['intro_file'])
-          for i,s in enumerate(sections):
-              obj=decode_dat(s['file'])
-              if obj.get('schema')!='lumyriel-reader-math-section-v1': raise SystemExit(f'schema inválido em s{i:02d}')
-              if not obj.get('chapters'): raise SystemExit(f'bloco vazio em s{i:02d}')
-
-          rp=Path('reader.html'); r=rp.read_text(encoding='utf-8')
-          r=rep(r,'<option value="magia">Artes Mágicas Lumyrielianas</option></select>','<option value="magia">Artes Mágicas Lumyrielianas</option><option value="matematica">Matemática e Física de Lumyriel</option></select>','seletor')
+          p=Path('reader.html');r=p.read_text(encoding='utf-8')
+          r=rep(r,'<option value="magia">Artes Mágicas Lumyrielianas</option></select>','<option value="magia">Artes Mágicas Lumyrielianas</option><option value="matematica">Matemática e Física de Lumyriel</option></select>','selector')
           r=rep(r,"const DATA={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat',magia:'books/lmy-aml-b1.dat'};","const DATA={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat',magia:'books/lmy-aml-b1.dat',matematica:'books/lmy-mfl-rc1.dat'};",'DATA')
           old="async function loadBookData(id){if(id==='magia'){const response=await fetch(DATA.magia,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir Artes Mágicas');return decodeGzipBase64(await response.text())}const response=await fetch(readerDataUrl(id),{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir o livro');if(READER_CONTENT_BASE)return response.json();return decodeStaticBook(await response.text())}"
-          helper="async function fetchGzipJson(path,label){const response=await fetch(path,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir '+label);return decodeGzipBase64(await response.text())}\nfunction mathIntroText(obj){if(!obj)return '';for(const key of ['body','intro','text','content'])if(typeof obj[key]==='string'&&obj[key].trim())return obj[key];const out=[],skip=new Set(['schema','title','subtitle','edition','version','id','slug','file','intro_file']);function visit(node,key,root){if(node==null)return;if(typeof node==='string'){if(!skip.has(key)&&node.trim())out.push(node.trim());return}if(Array.isArray(node)){node.forEach(x=>visit(x,key,false));return}if(typeof node==='object'){if(!root&&typeof node.title==='string'&&node.title.trim())out.push('## '+node.title.trim());for(const [k,v] of Object.entries(node)){if(k==='title'||skip.has(k))continue;visit(v,k,false)}}}visit(obj,'root',true);return out.join('\\n\\n')}\nasync function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const sections=await Promise.all(manifest.sections.map(s=>fetchGzipJson(s.file,s.label||s.title||'uma seção de Matemática e Física')));const chapters=[];sections.forEach(section=>section.chapters.forEach((ch,i)=>chapters.push({...ch,part:section.label||section.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||'',sectionTitle:section.title||''})));return {...manifest,intro:mathIntroText(introObj),sections,chapters}}\nasync function loadBookData(id){if(id==='magia'){const response=await fetch(DATA.magia,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir Artes Mágicas');return decodeGzipBase64(await response.text())}if(id==='matematica')return loadMathBookData();const response=await fetch(readerDataUrl(id),{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir o livro');if(READER_CONTENT_BASE)return response.json();return decodeStaticBook(await response.text())}"
-          r=rep(r,old,helper,'loader')
-          r=rep(r,"const coverKey=bookId==='tempos'?'tempos':bookId==='magia'?'magia':'filho';","const coverKey=bookId==='tempos'?'tempos':bookId==='magia'?'magia':bookId==='matematica'?'matematica':'filho';",'capa')
+          new="async function fetchGzipJson(path,label){const response=await fetch(path,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir '+label);return decodeGzipBase64(await response.text())}\nfunction mathIntroText(obj){if(!obj)return '';for(const key of ['body','intro','text','content'])if(typeof obj[key]==='string'&&obj[key].trim())return obj[key];const out=[],skip=new Set(['schema','title','subtitle','edition','version','id','slug','file','intro_file']);function visit(node,key,root){if(node==null)return;if(typeof node==='string'){if(!skip.has(key)&&node.trim())out.push(node.trim());return}if(Array.isArray(node)){node.forEach(x=>visit(x,key,false));return}if(typeof node==='object'){if(!root&&typeof node.title==='string'&&node.title.trim())out.push('## '+node.title.trim());for(const [k,v] of Object.entries(node)){if(k==='title'||skip.has(k))continue;visit(v,k,false)}}}visit(obj,'root',true);return out.join('\\n\\n')}\nasync function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const sections=await Promise.all(manifest.sections.map(s=>fetchGzipJson(s.file,s.label||s.title||'uma seção de Matemática e Física')));const chapters=[];sections.forEach(section=>section.chapters.forEach((ch,i)=>chapters.push({...ch,part:section.label||section.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||'',sectionTitle:section.title||''})));return {...manifest,intro:mathIntroText(introObj),sections,chapters}}\nasync function loadBookData(id){if(id==='magia'){const response=await fetch(DATA.magia,{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir Artes Mágicas');return decodeGzipBase64(await response.text())}if(id==='matematica')return loadMathBookData();const response=await fetch(readerDataUrl(id),{cache:'no-store'});if(!response.ok)throw new Error('Falha ao abrir o livro');if(READER_CONTENT_BASE)return response.json();return decodeStaticBook(await response.text())}"
+          r=rep(r,old,new,'loader')
+          r=rep(r,"const coverKey=bookId==='tempos'?'tempos':bookId==='magia'?'magia':'filho';","const coverKey=bookId==='tempos'?'tempos':bookId==='magia'?'magia':bookId==='matematica'?'matematica':'filho';",'cover')
           r=rep(r,"const fallback=id==='tempos'?'reader.html?book=tempos&note=1':id==='magia'?'reader.html?book=magia&v=0&intro=1':'reader.html?book=filho&ch=0';","const fallback=id==='tempos'?'reader.html?book=tempos&note=1':id==='magia'?'reader.html?book=magia&v=0&intro=1':id==='matematica'?'reader.html?book=matematica&intro=1':'reader.html?book=filho&ch=0';",'fallback')
           r=rep(r,"else if(bookId==='magia'){p.set('v',state.v);p.set('ch',state.ch);if(state.intro)p.set('intro','1')}else p.set('ch',state.ch);","else if(bookId==='magia'){p.set('v',state.v);p.set('ch',state.ch);if(state.intro)p.set('intro','1')}else if(bookId==='matematica'){p.set('ch',state.ch);if(state.intro)p.set('intro','1')}else p.set('ch',state.ch);",'url')
           r=rep(r,"if(bookId==='magia'){const v=data.volumes[state.v];if(!v)return '';if(state.intro)return 'Volume '+v.roman+' · Abertura';const ch=v.chapters[state.ch];return ch?'Volume '+v.roman+' · Capítulo '+ch.number+' · '+ch.title:''}const ch=data.chapters[state.ch];","if(bookId==='magia'){const v=data.volumes[state.v];if(!v)return '';if(state.intro)return 'Volume '+v.roman+' · Abertura';const ch=v.chapters[state.ch];return ch?'Volume '+v.roman+' · Capítulo '+ch.number+' · '+ch.title:''}if(bookId==='matematica'){if(state.intro)return 'Abertura';const ch=data.chapters[state.ch];return ch?(ch.appendix?'Apêndice ':'Capítulo ')+ch.number+' · '+ch.title:''}const ch=data.chapters[state.ch];",'label')
-          math_side="if(bookId==='matematica'){const intro=document.createElement('button');intro.className='note-btn'+(state.intro?' active':'');intro.textContent='Abertura da Primeira Edição';intro.onclick=()=>{state.intro=true;render();closeMenu()};hierarchy.appendChild(intro);data.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.intro?' active':'');if(i===state.ch&&!state.intro)b.setAttribute('aria-current','true');const lead=x.appendix?'Apêndice '+x.number:'Capítulo '+x.number;b.innerHTML='<strong>'+esc(lead)+'</strong><small>'+esc(x.title)+(x.sectionRoman?' · '+esc(x.sectionRoman):'')+'</small>';b.onclick=()=>{state.ch=i;state.intro=false;render();closeMenu()};chapterList.appendChild(b)});return}"
-          r=rep(r,"chapterList.innerHTML='';if(bookId==='filho')","chapterList.innerHTML='';"+math_side+"if(bookId==='filho')",'sidebar')
+          side="if(bookId==='matematica'){const intro=document.createElement('button');intro.className='note-btn'+(state.intro?' active':'');intro.textContent='Abertura da Primeira Edição';intro.onclick=()=>{state.intro=true;render();closeMenu()};hierarchy.appendChild(intro);data.chapters.forEach((x,i)=>{const b=document.createElement('button');b.className='chapter-btn'+(i===state.ch&&!state.intro?' active':'');const lead=x.appendix?'Apêndice '+x.number:'Capítulo '+x.number;b.innerHTML='<strong>'+esc(lead)+'</strong><small>'+esc(x.title)+(x.sectionRoman?' · '+esc(x.sectionRoman):'')+'</small>';b.onclick=()=>{state.ch=i;state.intro=false;render();closeMenu()};chapterList.appendChild(b)});return}"
+          r=rep(r,"chapterList.innerHTML='';if(bookId==='filho')","chapterList.innerHTML='';"+side+"if(bookId==='filho')",'sidebar')
           r=rep(r,"function currentFlatIndex(){if(bookId==='filho')return {index:state.ch,total:data.chapters.length};","function currentFlatIndex(){if(bookId==='filho'||bookId==='matematica')return {index:state.ch,total:data.chapters.length};",'flat')
-          r=rep(r,"if(bookId==='magia'&&state.intro){state.intro=false;state.ch=0;render();return}","if((bookId==='magia'||bookId==='matematica')&&state.intro){state.intro=false;state.ch=0;render();return}",'intro nav')
+          r=rep(r,"if(bookId==='magia'&&state.intro){state.intro=false;state.ch=0;render();return}","if((bookId==='magia'||bookId==='matematica')&&state.intro){state.intro=false;state.ch=0;render();return}",'intro-nav')
           r=rep(r,"if(bookId==='filho')state.ch=n;else if(bookId==='magia')","if(bookId==='filho'||bookId==='matematica')state.ch=n;else if(bookId==='magia')",'relative')
-          math_intro="if(bookId==='matematica'&&state.intro){paperInner.innerHTML='<div class=\"reader-meta\"><span>'+esc(data.edition)+'</span><span>48 capítulos · 13 partes · 8 apêndices</span></div><div class=\"book-title\">Matemática e Física de Lumyriel</div><div class=\"kicker\">Primeira Edição</div><h2 class=\"editorial-title\">Abertura</h2><div class=\"content\">'+blocks(data.intro)+'</div><div class=\"nav-bottom\"><button disabled>← Anterior</button><button id=\"startMath\">Começar a leitura →</button></div>';document.getElementById('startMath').onclick=()=>{state.intro=false;state.ch=0;render()};progress.textContent='Abertura';return}"
-          r=rep(r,"return}if(bookId==='magia'&&state.intro)","return}"+math_intro+"if(bookId==='magia'&&state.intro)",'intro render')
-          r=rep(r,"bookLabel=data.title}else if(bookId==='magia')","bookLabel=data.title}else if(bookId==='matematica'){state.ch=Math.min(state.ch,data.chapters.length-1);ch=data.chapters[state.ch];meta='Leitura '+(state.ch+1)+' de '+data.chapters.length;bookLabel=data.title}else if(bookId==='magia')",'math branch')
-          r=rep(r,"<div class=\"kicker\">Capítulo '+esc(ch.number)+'</div>","<div class=\"kicker\">'+esc(bookId==='matematica'&&ch.appendix?'Apêndice '+ch.number:'Capítulo '+ch.number)+'</div>",'kicker')
+          mi="if(bookId==='matematica'&&state.intro){paperInner.innerHTML='<div class=\"reader-meta\"><span>'+esc(data.edition)+'</span><span>48 capítulos · 13 partes · 8 apêndices</span></div><div class=\"book-title\">Matemática e Física de Lumyriel</div><div class=\"kicker\">Primeira Edição</div><h2 class=\"editorial-title\">Abertura</h2><div class=\"content\">'+blocks(data.intro)+'</div><div class=\"nav-bottom\"><button disabled>← Anterior</button><button id=\"startMath\">Começar a leitura →</button></div>';document.getElementById('startMath').onclick=()=>{state.intro=false;state.ch=0;render()};progress.textContent='Abertura';return}"
+          r=rep(r,"return}if(bookId==='magia'&&state.intro)","return}"+mi+"if(bookId==='magia'&&state.intro)",'intro-render')
+          r=rep(r,"bookLabel=data.title}else if(bookId==='magia')","bookLabel=data.title}else if(bookId==='matematica'){state.ch=Math.min(state.ch,data.chapters.length-1);ch=data.chapters[state.ch];meta='Leitura '+(state.ch+1)+' de '+data.chapters.length;bookLabel=data.title}else if(bookId==='magia')",'branch')
+          r=rep(r,"<div class=\"kicker\">Capítulo '+esc(ch.number)+'</div>","<div class=\"kicker\">'+esc(bookId==='matematica'&&ch.appendix?'Apêndice '+ch.number:'Capítulo '+ch.number)+'</div>",'unit')
           r=rep(r,"bookId==='magia'?'Capítulo '+(f.index+1)+' de '+f.total+' · 6 volumes':'Capítulo '+(f.index+1)+' de '+f.total","bookId==='magia'?'Capítulo '+(f.index+1)+' de '+f.total+' · 6 volumes':bookId==='matematica'?'Leitura '+(state.ch+1)+' de '+data.chapters.length:'Capítulo '+(f.index+1)+' de '+f.total",'progress')
           r=rep(r,"else if(bookId==='magia'){state.v=Math.min(state.v,data.volumes.length-1);state.ch=Math.min(state.ch,data.volumes[state.v].chapters.length-1)}else state.ch=Math.min(state.ch,data.chapters.length-1);render()","else if(bookId==='magia'){state.v=Math.min(state.v,data.volumes.length-1);state.ch=Math.min(state.ch,data.volumes[state.v].chapters.length-1)}else if(bookId==='matematica'){state.ch=Math.min(state.ch,data.chapters.length-1);if(!location.search.includes('intro=')&&!location.search.includes('ch='))state.intro=true}else state.ch=Math.min(state.ch,data.chapters.length-1);render()",'init')
-          rp.write_text(r,encoding='utf-8')
+          p.write_text(r,encoding='utf-8')
 
-          ip=Path('index.html'); page=ip.read_text(encoding='utf-8')
-          if 'aria-label="Abrir Matemática e Física de Lumyriel"' not in page:
+          p=Path('index.html');x=p.read_text(encoding='utf-8')
+          if 'aria-label="Abrir Matemática e Física de Lumyriel"' not in x:
               card='\n      <a class="card clickable-book" data-status="live" href="reader.html?book=matematica&intro=1" aria-label="Abrir Matemática e Física de Lumyriel" onclick="event.preventDefault();openBook(\'matematica\')"><div class="cover-wrap"><div class="cover f real-cover" data-cover="matematica"><small>Obra didática · Primeira Edição</small><h3>Matemática e Física de Lumyriel</h3><span class="roman">MFL</span></div></div><div class="meta"><span class="status live">Leitura disponível</span><h3 class="book-name">Matemática e Física de Lumyriel</h3><p>Obra didática que constrói matemática e física passo a passo e aplica essas ferramentas aos fenômenos de Lumyriel sem transformar modelos em novas leis canônicas.</p><div class="bottom"><span>RC1 · Primeira Edição · 48 capítulos · 8 apêndices</span><span class="textlink">Ler agora →</span></div></div></a>'
-              m=re.search(r'(<article class="card" data-status="dev">.*?<h3 class="book-name">Livro das Artes Mágicas</h3>.*?</article>)',page,re.S)
-              if not m: raise SystemExit('card de Artes Mágicas não encontrado')
-              page=page[:m.end()]+card+page[m.end():]
-          page,n=re.subn(r'<article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover f placeholder-cover" data-optional-cover="matematica">.*?</article>','',page,count=1,flags=re.S)
-          if n not in (0,1): raise SystemExit('remoção do card planejado inconsistente')
-          page=rep(page,"const fallback=book==='tempos'?'reader.html?book=tempos&note=1':'reader.html?book=filho&ch=0';","const fallback=book==='tempos'?'reader.html?book=tempos&note=1':book==='matematica'?'reader.html?book=matematica&intro=1':'reader.html?book=filho&ch=0';",'openBook')
-          page=rep(page,"const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':'O Filho da Montanha');","const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':(last==='matematica')?'Matemática e Física de Lumyriel':'O Filho da Montanha');",'memory')
-          if '<b>Matemática e Física de Lumyriel</b><small>48 capítulos · 8 apêndices</small>' not in page:
-              old='<a href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook(\'tempos\')"><b>Os Livros dos Tempos</b><small>54 livros · 1.074 capítulos</small></a></div>'
-              new='<a href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook(\'tempos\')"><b>Os Livros dos Tempos</b><small>54 livros · 1.074 capítulos</small></a><a href="reader.html?book=matematica&intro=1" onclick="event.preventDefault();openBook(\'matematica\')"><b>Matemática e Física de Lumyriel</b><small>48 capítulos · 8 apêndices</small></a></div>'
-              page=rep(page,old,new,'available reads')
-          ip.write_text(page,encoding='utf-8')
+              q=re.search(r'(<article class="card" data-status="dev">.*?<h3 class="book-name">Livro das Artes Mágicas</h3>.*?</article>)',x,re.S)
+              if not q:raise SystemExit('card magia não encontrado')
+              x=x[:q.end()]+card+x[q.end():]
+          x=re.sub(r'<article class="card future-card" data-status="planned"><div class="cover-wrap"><div class="cover f placeholder-cover" data-optional-cover="matematica">.*?</article>','',x,count=1,flags=re.S)
+          x=rep(x,"const fallback=book==='tempos'?'reader.html?book=tempos&note=1':'reader.html?book=filho&ch=0';","const fallback=book==='tempos'?'reader.html?book=tempos&note=1':book==='matematica'?'reader.html?book=matematica&intro=1':'reader.html?book=filho&ch=0';",'openBook')
+          x=rep(x,"const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':'O Filho da Montanha');","const title=saved.title||((last==='tempos')?'Os Livros dos Tempos':(last==='matematica')?'Matemática e Física de Lumyriel':'O Filho da Montanha');",'memory')
+          if '<b>Matemática e Física de Lumyriel</b><small>48 capítulos · 8 apêndices</small>' not in x:
+              a='<a href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook(\'tempos\')"><b>Os Livros dos Tempos</b><small>54 livros · 1.074 capítulos</small></a></div>'
+              b='<a href="reader.html?book=tempos&note=1" onclick="event.preventDefault();openBook(\'tempos\')"><b>Os Livros dos Tempos</b><small>54 livros · 1.074 capítulos</small></a><a href="reader.html?book=matematica&intro=1" onclick="event.preventDefault();openBook(\'matematica\')"><b>Matemática e Física de Lumyriel</b><small>48 capítulos · 8 apêndices</small></a></div>'
+              x=rep(x,a,b,'reads')
+          p.write_text(x,encoding='utf-8')
 
-          # QA estático final
-          rr=rp.read_text(encoding='utf-8'); ii=ip.read_text(encoding='utf-8')
-          for token in ["matematica:'books/lmy-mfl-rc1.dat'",'<option value="matematica">Matemática e Física de Lumyriel</option>','loadMathBookData',"bookId==='matematica'"]:
-              if token not in rr: raise SystemExit('QA reader falhou: '+token)
-          if ii.count('aria-label="Abrir Matemática e Física de Lumyriel"')!=1: raise SystemExit('QA catálogo: card não único')
-          if 'data-optional-cover="matematica"' in ii: raise SystemExit('QA catálogo: card planejado ainda presente')
-          print('QA PASS: manifesto + abertura + 14 blocos + reader + catálogo')
+          if "matematica:'books/lmy-mfl-rc1.dat'" not in Path('reader.html').read_text():raise SystemExit('QA reader')
+          z=Path('index.html').read_text()
+          if z.count('aria-label="Abrir Matemática e Física de Lumyriel"')!=1 or 'data-optional-cover="matematica"' in z:raise SystemExit('QA catálogo')
+          print('QA PASS: 14 blocos + abertura + reader + catálogo')
           PY
-
-          rm -f .github/workflows/integrate-mfl-reader-once.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
+          git add reader.html index.html books/lmy-mfl-rc1.dat
           if git diff --cached --quiet; then
             echo 'Nada a integrar.'
           else
