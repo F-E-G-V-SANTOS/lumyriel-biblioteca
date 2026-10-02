@@ -42,8 +42,10 @@ jobs:
               indexes = [i for i, _ in items]
               if indexes != list(range(len(items))):
                   continue
-              # Os fragmentos intermediários têm 12.000 caracteres; o último é menor.
-              if items[-1][1].stat().st_size >= 12000:
+              # Fragmentos intermediários têm 4.000 caracteres; o último é menor.
+              if items[-1][1].stat().st_size >= 4000:
+                  continue
+              if any(p.stat().st_size != 4000 for _, p in items[:-1]):
                   continue
               payload = ''.join(p.read_text(encoding='utf-8') for _, p in items)
               raw = base64.b64decode(payload, validate=True)
