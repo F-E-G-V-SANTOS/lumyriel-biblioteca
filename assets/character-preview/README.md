@@ -1,6 +1,6 @@
 # Preview Visual Modular do Criador de Personagens
 
-Versão inicial: v0.1.
+Versão vigente: **v0.3**.
 
 ## Objetivo
 
@@ -8,56 +8,72 @@ Montar o retrato do personagem em tempo real a partir de peças visuais padroniz
 
 ## Estado atual
 
-Motor funcional ligado ao Criador. O retrato responde às escolhas da ficha e também é levado para o dossiê de impressão / salvar em PDF.
+O motor está funcional e ligado ao Criador. O retrato responde às escolhas da ficha, usa uma biblioteca visual fixa e pode gerar um **snapshot SVG autocontido** para o dossiê final e para impressão / salvar em PDF.
+
+A v0.3 também iniciou a transição do manequim técnico para uma linguagem de **ilustração editorial envelhecida**, mais coerente com Lumyriel: paleta menos saturada, textura de pintura, linhas orgânicas, papel envelhecido, sombra e acabamento de manuscrito.
 
 ## Regra de arquitetura
 
-Todas as peças usam a mesma prancha lógica de 800 × 1000. O motor sobrepõe camadas; portanto olhos, cabelo, orelhas, chifres, roupa e acessórios permanecem alinhados entre si.
+Todas as peças usam a mesma prancha lógica de **800 × 1000**. O motor sobrepõe camadas; portanto olhos, cabelo, orelhas, chifres, roupa, traços faciais e acessórios permanecem alinhados entre si.
 
-O pacote inicial usa vetores no arquivo `sprite.svg`. Essa solução serve como base técnica e pode receber arte final mais detalhada depois sem alterar a lógica do Criador.
+O pacote usa vetores no arquivo `sprite.svg`. A composição visível pode evoluir artisticamente sem reescrever o motor ou os campos do Criador.
 
-## Ordem das camadas
+## Ordem das camadas v0.3
 
 1. roupa / busto;
 2. orelhas;
 3. base de pele / cabeça;
 4. olhos esquerdo e direito;
-5. linhas faciais;
-6. marcas;
-7. cabelo;
-8. chifres;
-9. acessórios que cobrem o rosto.
+5. estrutura facial;
+6. sobrancelhas;
+7. nariz;
+8. boca;
+9. marcas;
+10. cabelo;
+11. chifres;
+12. acessórios que cobrem o rosto.
 
-## Campos já conectados na v0.1
+## Campos conectados
 
 - espécie / povo;
 - origem Mutari como base humanoide;
-- formato geral de cabeça/rosto;
+- formato geral de cabeça e rosto;
 - cor de pele;
 - orelhas e morfologia Selvari;
 - chifres Valdrin;
 - formato dos olhos;
 - cor de cada olho separadamente, incluindo heterocromia;
-- cor, estrutura/comprimento e penteado do cabelo;
+- sobrancelhas;
+- nariz;
+- boca;
+- cor, estrutura, comprimento e penteado do cabelo;
 - proteção / vestimenta;
 - itens especiais de rosto, incluindo óculos, lentes opacas, véu, máscara e capuz;
 - cicatriz facial;
 - estado de coerência biológica;
-- dossiê impresso / PDF.
+- snapshot do retrato para dossiê impresso / PDF.
 
-## Limites deliberados da v0.1
+## Exportação
 
-O primeiro gate é validar alinhamento, leitura visual e resposta em tempo real. Cauda, corpo inteiro, mãos, armas e detalhes finos de espécie ficam para lotes posteriores. Não serão produzidas combinações infinitas: cada lote visual precisa ter função clara e compatibilidade definida.
+A ficha final não depende mais de copiar referências externas do preview. O motor resolve as peças escolhidas e monta um **SVG independente**, com as formas e o filtro artístico necessários dentro da própria composição. Esse snapshot é inserido no bloco `Retrato` do dossiê antes da impressão.
 
-## Próximos lotes
+## Limites deliberados
 
-- Lote A: bases anatômicas adicionais e variações de rosto;
-- Lote B: olhos e arquiteturas oculares;
-- Lote C: cabelos e penteados;
-- Lote D: orelhas, chifres e particularidades de espécie;
-- Lote E: roupas e acessórios;
-- Lote F: marcas, cicatrizes e elementos raros;
-- Lote G: integração do retrato no dossiê impresso/PDF — **implementado na v0.1**;
-- Lote H: corpo parcial, mãos e equipamento visível, somente após o retrato-base estar estável.
+O foco continua sendo **retrato / busto**. Cauda, corpo inteiro, mãos, armas e equipamento corporal complexo ficam fora desta fase.
 
-Regra editorial: `primeiro encaixe e coerência; depois variedade`.
+Não serão produzidas combinações infinitas. Cada novo lote precisa:
+
+- representar uma escolha real existente na ficha;
+- manter o mesmo enquadramento e coordenadas;
+- respeitar a biologia e o cânone;
+- melhorar variedade ou identificação visual de modo perceptível.
+
+## Próximos gates
+
+1. validar no site se o snapshot aparece no dossiê e no PDF;
+2. avaliar se a linguagem visual v0.3 já se aproxima o suficiente da identidade de Lumyriel;
+3. refinar primeiro as bases de rosto e cabelos que ainda pareçam genéricos;
+4. só então expandir arquiteturas oculares, traços de espécie, roupas e acessórios;
+5. corpo parcial só será reavaliado depois de o retrato-base estar estável.
+
+Regra editorial: **primeiro encaixe, identidade visual e coerência; depois variedade**.
