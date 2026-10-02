@@ -21,16 +21,40 @@ window.LUMYRIEL_CONFIG = {
     document.head.appendChild(script);
   }
 
+  function fixRpgProjectCovers() {
+    const covers = {
+      rpgMestre: 'assets/covers/lumyriel-rpg-livro-do-mestre-card.svg',
+      rpgJogador: 'assets/covers/lumyriel-rpg-guia-do-jogador-card-v2.svg',
+      rpgBestiario: 'assets/covers/lumyriel-rpg-bestiario-card.svg',
+      rpgRacas: 'assets/covers/lumyriel-rpg-racas-card.svg'
+    };
+    const apply = () => {
+      Object.entries(covers).forEach(([key, path]) => {
+        document.querySelectorAll(`[data-project-cover="${key}"],[data-cover="${key}"],[data-optional-cover="${key}"]`).forEach(el => {
+          el.style.setProperty('background-image', `url("${path}?v=20261002-3")`, 'important');
+          el.style.setProperty('background-size', 'cover', 'important');
+          el.style.setProperty('background-position', 'center', 'important');
+          el.style.setProperty('background-repeat', 'no-repeat', 'important');
+          el.classList.add('real-cover');
+          el.classList.remove('placeholder-cover');
+        });
+      });
+    };
+    apply();
+    requestAnimationFrame(apply);
+    setTimeout(apply, 250);
+    setTimeout(apply, 1000);
+  }
+
   const hasCatalog = document.getElementById('libraryGrid') || document.getElementById('futureShelf') || document.getElementById('criador') || document.getElementById('creatorForm');
   if (hasCatalog) {
     load('assets/site-catalog.js', () => {
+      fixRpgProjectCovers();
       if (document.getElementById('libraryGrid')) load('assets/magic-site-integration.js');
-      // Importante: a vitrine RPG entra só depois do catálogo. Assim ela remove
-      // a versão provisória criada pelo catálogo e evita duas bibliotecas concorrentes.
-      if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js?v=20261002-2');
+      if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js?v=20261002-3');
     });
   } else if (document.getElementById('rpg-preview')) {
-    load('assets/rpg-books-showcase.js?v=20261002-2');
+    load('assets/rpg-books-showcase.js?v=20261002-3');
   }
 
   if (document.getElementById('visualGallery')) load('assets/gallery-viewer.js');
