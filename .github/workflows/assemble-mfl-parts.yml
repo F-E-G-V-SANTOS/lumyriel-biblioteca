@@ -1,0 +1,68 @@
+name: Montar blocos RC1 de Matemática e Física
+
+on:
+  push:
+    paths:
+      - 'books/lmy-mfl-s*.part'
+      - '.github/workflows/assemble-mfl-parts.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Consolidar fragmentos completos
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, gzip, json, re
+
+          books = Path('books')
+          groups = {}
+          pat = re.compile(r'^(lmy-mfl-s\d{2})\.(\d{2})\.part$')
+          for p in books.glob('lmy-mfl-s*.part'):
+              m = pat.match(p.name)
+              if m:
+                  groups.setdefault(m.group(1), []).append((int(m.group(2)), p))
+
+          changed = []
+          for base, items in sorted(groups.items()):
+              items.sort()
+              indexes = [i for i, _ in items]
+              if indexes != list(range(len(items))):
+                  continue
+              # Os fragmentos intermediários têm 12.000 caracteres; o último é menor.
+              if items[-1][1].stat().st_size >= 12000:
+                  continue
+              payload = ''.join(p.read_text(encoding='utf-8') for _, p in items)
+              raw = base64.b64decode(payload, validate=True)
+              obj = json.loads(gzip.decompress(raw).decode('utf-8'))
+              if obj.get('schema') != 'lumyriel-reader-math-section-v1':
+                  raise SystemExit(f'Schema inválido em {base}')
+              if not isinstance(obj.get('chapters'), list) or not obj['chapters']:
+                  raise SystemExit(f'Conteúdo vazio em {base}')
+              target = books / f'{base}.dat'
+              target.write_text(payload, encoding='utf-8')
+              for _, p in items:
+                  p.unlink()
+              changed.append(target.name)
+
+          if changed:
+              print('Consolidados:', ', '.join(changed))
+          else:
+              print('Nenhum bloco completo para consolidar.')
+          PY
+
+          if git status --porcelain | grep -q .; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -A
+            git commit -m 'Consolida blocos RC1 de Matemática e Física'
+            git push
+          fi
