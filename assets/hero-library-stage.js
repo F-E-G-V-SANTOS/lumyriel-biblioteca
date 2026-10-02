@@ -1,4 +1,4 @@
-/* Palco flutuante da Biblioteca Lumyrieliana — home v1.4. */
+/* Palco flutuante da Biblioteca Lumyrieliana — home v1.5. */
 (() => {
   'use strict';
   if (window.__LUMYRIEL_HERO_LIBRARY_STAGE__) return;
@@ -214,7 +214,7 @@
       .lumyriel-hero-deck-item{width:102px;transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot));transition:transform .24s ease,opacity .2s ease;filter:none!important}
       .lumyriel-hero-deck-item.is-last-selected{z-index:28!important}
       .lumyriel-hero-deck-float{animation:none!important}
-      .lumyriel-hero-deck-cover{background-size:contain;background-position:center top;background-repeat:no-repeat;background-color:#0d0b09;box-shadow:8px 12px 20px rgba(0,0,0,.42),-2px 0 6px rgba(0,0,0,.28);transition:none}
+      .lumyriel-hero-deck-cover{background-size:cover;background-position:center;background-repeat:no-repeat;background-color:transparent;box-shadow:8px 12px 20px rgba(0,0,0,.42),-2px 0 6px rgba(0,0,0,.28);transition:none}
       .lumyriel-hero-deck-item.is-last-selected .lumyriel-hero-deck-cover{border-color:rgba(194,157,98,.72);box-shadow:10px 15px 24px rgba(0,0,0,.5),0 0 0 1px rgba(170,138,88,.16)}
       .lumyriel-hero-deck.is-engaged .lumyriel-hero-deck-item:not(.is-active){filter:none!important;opacity:.34;transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot)) scale(.93)}
       .lumyriel-hero-deck-item.is-active,.lumyriel-hero-deck-item:focus-visible{z-index:40!important;transform:translate(-50%,-50%) translate(0,-34px) rotate(0deg) scale(1.24)!important}
