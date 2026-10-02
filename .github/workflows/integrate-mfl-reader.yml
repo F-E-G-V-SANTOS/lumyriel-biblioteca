@@ -22,7 +22,8 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           for p in Path('books').glob('lmy-mfl-*.dat'):
-              p.write_text(''.join(p.read_text(encoding='utf-8').split()), encoding='utf-8')
+              text = p.read_text(encoding='utf-8-sig')
+              p.write_text(''.join(text.split()), encoding='utf-8')
           PY
       - name: Integrar e validar
         run: python scripts/integrate-mfl-reader.py
