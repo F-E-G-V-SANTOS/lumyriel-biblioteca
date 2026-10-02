@@ -4,6 +4,7 @@
   if (window.__LUMYRIEL_BIOLOGY_PUBLICATION__) return;
   window.__LUMYRIEL_BIOLOGY_PUBLICATION__ = true;
 
+  // O site não lê PDF. A edição pública usa o payload nativo .dat do leitor.
   const READER_URL = 'biology-reader.html?v=0&mode=intro';
   const TITLE = 'Biologia de Lumyriel';
 
@@ -39,7 +40,7 @@
     if (description) description.textContent = 'Coleção didática em seis volumes sobre fundamentos da vida, hereditariedade e evolução, fisiologia comparada, ecologia, diversidade, doença, reparo, regeneração e medicina em Lumyriel.';
 
     const bottom = card.querySelector('.bottom');
-    if (bottom) bottom.innerHTML = '<span>RC1 · 6 volumes · 138 capítulos · 514 páginas</span><span class="textlink">Ler agora →</span>';
+    if (bottom) bottom.innerHTML = '<span>RC1 · 6 volumes · 33 partes · 138 capítulos</span><span class="textlink">Ler agora →</span>';
 
     if (card.parentElement !== grid) grid.appendChild(card);
     const open = () => { location.href = READER_URL; };
@@ -58,7 +59,7 @@
     const link = document.createElement('a');
     link.href = READER_URL;
     link.setAttribute('data-biology-rc1', 'true');
-    link.innerHTML = '<b>Biologia de Lumyriel</b><small>RC1 · 6 volumes · 138 capítulos · 514 páginas</small>';
+    link.innerHTML = '<b>Biologia de Lumyriel</b><small>RC1 · 6 volumes · 33 partes · 138 capítulos</small>';
     reads.appendChild(link);
   }
 
