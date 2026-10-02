@@ -5,6 +5,9 @@ on:
     paths:
       - '.github/workflows/integrate-mfl-reader.yml'
       - 'scripts/integrate-mfl-reader.py'
+      - 'books/lmy-mfl-rc1.dat'
+      - 'books/lmy-mfl-intro.00.dat'
+      - 'books/lmy-mfl-s*.dat'
 
 permissions:
   contents: write
@@ -16,32 +19,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Recuperar candidatos íntegros do histórico
-        shell: bash
-        run: |
-          git show 932749d726e471e89f14988f54f3f103069bd700:books/lmy-mfl-s10.dat > /tmp/lmy-mfl-s10.dat
-          git show c20b4816bd199bc3b1042448ed7584a9d631443b:books/lmy-mfl-s13.dat > /tmp/lmy-mfl-s13.dat
-          python - <<'PY'
-          from pathlib import Path
-          import base64, gzip, json
-
-          def decode(path):
-              text=Path(path).read_text(encoding='utf-8-sig')
-              clean=''.join(text.split())
-              raw=base64.b64decode(clean, validate=True)
-              return json.loads(gzip.decompress(raw).decode('utf-8'))
-
-          for p in ['/tmp/lmy-mfl-s10.dat','/tmp/lmy-mfl-s13.dat']:
-              obj=decode(p)
-              if obj.get('schema')!='lumyriel-reader-math-section-v1':
-                  raise SystemExit(f'{p}: schema inesperado')
-              if not obj.get('chapters'):
-                  raise SystemExit(f'{p}: sem capítulos')
-              print(p, 'PASS', len(obj['chapters']))
-          PY
-          cp /tmp/lmy-mfl-s10.dat books/lmy-mfl-s10.dat
-          cp /tmp/lmy-mfl-s13.dat books/lmy-mfl-s13.dat
 
       - name: Validar payloads MFL
         shell: bash
@@ -98,10 +75,10 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add reader.html index.html books/lmy-mfl-s10.dat books/lmy-mfl-s13.dat
+          git add reader.html index.html
           if git diff --cached --quiet; then
-            echo 'Reader, catálogo e payloads já estavam íntegros.'
+            echo 'Reader e catálogo já estavam integrados.'
           else
-            git commit -m 'Restaura blocos MFL e publica RC1 no leitor'
+            git commit -m 'Publica Matemática e Física RC1 no leitor'
             git push
           fi
