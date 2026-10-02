@@ -1,4 +1,4 @@
-/* Publicação Beta de Artes Mágicas Lumyrielianas no catálogo do site. */
+/* Publicação Beta de Artes Mágicas Lumyrielianas e integrações editoriais da home. */
 (() => {
   'use strict';
   if (window.__LUMYRIEL_MAGIC_PUBLICATION__) return;
@@ -59,7 +59,17 @@
     });
   }
 
+  function loadRpgProjects() {
+    if (!document.getElementById('rpg-preview') || document.querySelector('script[data-lumyriel-rpg-projects]')) return;
+    const script = document.createElement('script');
+    script.src = 'assets/rpg-projects.js';
+    script.defer = true;
+    script.dataset.lumyrielRpgProjects = '1';
+    document.head.appendChild(script);
+  }
+
   publishCard();
   addAvailableRead();
   updateHeroMagicTitle();
+  loadRpgProjects();
 })();
