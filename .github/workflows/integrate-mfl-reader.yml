@@ -35,16 +35,25 @@ jobs:
 
           marker='[... ELLIPSIZATION ...]'
           decoded={}
+          errors=[]
           for p in expected:
               text=p.read_text(encoding='utf-8-sig')
               if marker in text:
-                  raise SystemExit(f'{p}: marcador de truncamento ainda presente')
+                  errors.append(f'{p}: marcador de truncamento presente')
+                  continue
               clean=''.join(text.split())
               try:
                   raw=base64.b64decode(clean, validate=True)
                   decoded[str(p)]=json.loads(gzip.decompress(raw).decode('utf-8'))
+                  print(f'{p}: PASS')
               except Exception as exc:
-                  raise SystemExit(f'{p}: payload inválido: {exc}')
+                  errors.append(f'{p}: {type(exc).__name__}: {exc}')
+
+          if errors:
+              print('PAYLOADS INVÁLIDOS:')
+              for e in errors:
+                  print(' - '+e)
+              raise SystemExit(f'{len(errors)} payload(s) inválido(s)')
 
           manifest=decoded['books/lmy-mfl-rc1.dat']
           if manifest.get('schema')!='lumyriel-reader-math-split-v1':
