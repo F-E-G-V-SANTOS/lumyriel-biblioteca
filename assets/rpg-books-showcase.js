@@ -1,16 +1,16 @@
 /*
   Os quatro livros futuros do Lumyriel RPG pertencem somente ao catálogo geral
   de Próximos Projetos. Este módulo elimina vitrines duplicadas antigas e garante
-  que as capas aprovadas sejam exibidas sem depender dos JPGs problemáticos.
+  que as capas HQ aprovadas sejam exibidas diretamente dos arquivos publicados.
 */
 (() => {
   'use strict';
 
   const RPG_COVERS = [
-    { match: 'livro do mestre', path: 'assets/covers/lumyriel-rpg-livro-do-mestre-card.svg' },
-    { match: 'guia do jogador', path: 'assets/covers/lumyriel-rpg-guia-do-jogador-card-v2.svg' },
-    { match: 'bestiário', path: 'assets/covers/lumyriel-rpg-bestiario-card.svg' },
-    { match: 'raças', path: 'assets/covers/lumyriel-rpg-racas-card.svg' }
+    { match: 'livro do mestre', path: 'assets/covers/lumyriel-rpg-livro-do-mestre-hq.jpg' },
+    { match: 'guia do jogador', path: 'assets/covers/lumyriel-rpg-guia-do-jogador-hq.jpg' },
+    { match: 'bestiário', path: 'assets/covers/lumyriel-rpg-bestiario-hq.jpg' },
+    { match: 'raças', path: 'assets/covers/lumyriel-rpg-racas-hq.jpg' }
   ];
 
   const normalized = value => (value || '').replace(/\s+/g, ' ').trim().toLowerCase();
@@ -24,7 +24,7 @@
       if (!cover) return;
       const coverBox = card.querySelector('.cover, [data-project-cover]');
       if (coverBox) {
-        coverBox.style.setProperty('background-image', `url("${cover.path}?v=20261002-rpg-cover-fix")`, 'important');
+        coverBox.style.setProperty('background-image', `url("${cover.path}?v=20261002-hq-final")`, 'important');
         coverBox.style.setProperty('background-size', 'cover', 'important');
         coverBox.style.setProperty('background-position', 'center', 'important');
         coverBox.style.setProperty('background-repeat', 'no-repeat', 'important');
@@ -33,7 +33,7 @@
       }
       const img = card.querySelector('img');
       if (img && /rpg-(?:livro-do-mestre|guia-do-jogador|bestiario|racas)|lumyriel-rpg-(?:livro-do-mestre|guia-do-jogador|bestiario|racas)/i.test(img.getAttribute('src') || '')) {
-        img.src = `${cover.path}?v=20261002-rpg-cover-fix`;
+        img.src = `${cover.path}?v=20261002-hq-final`;
       }
     });
   };
@@ -52,13 +52,10 @@
     repairRpgProjectCovers();
   };
 
-  /* Índice móvel: usa a mesma lógica visual do menu de capítulos do leitor.
-     O painel fica acima do conteúdo, nunca dentro do fluxo da página. */
   const installMobileIndex = () => {
     const toggle = document.querySelector('.menu-toggle');
     const navlinks = document.querySelector('.navlinks');
     if (!toggle || !navlinks || document.getElementById('lumyriel-mobile-index-style')) return;
-
     const style = document.createElement('style');
     style.id = 'lumyriel-mobile-index-style';
     style.textContent = `
@@ -76,23 +73,14 @@
       @media(max-width:390px){.navlinks{top:66px!important}.mobile-index-backdrop{inset:66px 0 0}.menu-toggle{padding-inline:12px!important}}
     `;
     document.head.appendChild(style);
-
     const backdrop = document.createElement('div');
     backdrop.className = 'mobile-index-backdrop';
     backdrop.setAttribute('aria-hidden', 'true');
     document.body.appendChild(backdrop);
-
-    const close = () => {
-      document.body.classList.remove('mobile-index-open');
-      toggle.setAttribute('aria-expanded', 'false');
-    };
-    const open = () => {
-      document.body.classList.add('mobile-index-open');
-      toggle.setAttribute('aria-expanded', 'true');
-    };
+    const close = () => { document.body.classList.remove('mobile-index-open'); toggle.setAttribute('aria-expanded', 'false'); };
+    const open = () => { document.body.classList.add('mobile-index-open'); toggle.setAttribute('aria-expanded', 'true'); };
     toggle.setAttribute('aria-haspopup', 'true');
     toggle.setAttribute('aria-expanded', 'false');
-
     toggle.addEventListener('click', event => {
       if (window.innerWidth > 850) return;
       event.preventDefault();
@@ -107,7 +95,6 @@
 
   installMobileIndex();
   removeDuplicateRpgShelf();
-
   const observer = new MutationObserver(removeDuplicateRpgShelf);
   observer.observe(document.documentElement, { childList: true, subtree: true });
   window.addEventListener('load', () => { installMobileIndex(); removeDuplicateRpgShelf(); }, { once: true });
