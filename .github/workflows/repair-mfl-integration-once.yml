@@ -1,0 +1,36 @@
+name: Corrigir validação MFL
+
+on:
+  push:
+    paths:
+      - '.github/workflows/repair-mfl-integration-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Aceitar whitespace no Base64 da abertura
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('.github/workflows/integrate-mfl-reader-once.yml')
+          text=p.read_text(encoding='utf-8')
+          old="payload=Path(path).read_text(encoding='utf-8').strip()"
+          new="payload=''.join(Path(path).read_text(encoding='utf-8').split())"
+          if old not in text:
+              raise SystemExit('Alvo de correção não encontrado')
+          p.write_text(text.replace(old,new,1),encoding='utf-8')
+          PY
+          rm -f .github/workflows/repair-mfl-integration-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Ajusta validação Base64 da abertura MFL'
+          git push
