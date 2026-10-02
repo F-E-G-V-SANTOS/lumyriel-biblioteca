@@ -1,4 +1,4 @@
-/* Palco flutuante da Biblioteca Lumyrieliana — home v1.2. */
+/* Palco flutuante da Biblioteca Lumyrieliana — home v1.3. */
 (() => {
   'use strict';
   if (window.__LUMYRIEL_HERO_LIBRARY_STAGE__) return;
@@ -23,13 +23,13 @@
 
   const items = [
     {key:'filho',title:'O Filho da Montanha',desc:'Romance de abertura de Lumyriel e ponto de entrada para a trajetória de Helior.',dx:'0px',dy:'-68px',mdx:'0px',mdy:'-50px',rot:'1deg',z:8},
-    {key:'tempos',title:'Os Livros dos Tempos',desc:'História cosmológica preservada como uma grande coleção de eras, registros e tradições de Lumyriel.',dx:'-112px',dy:'-38px',mdx:'-82px',mdy:'-28px',rot:'-8deg',z:6},
-    {key:'magia',title:'Artes Mágicas Lumyrielianas',desc:'Coleção didática em seis volumes sobre fundamentos, Mana, Aura, runologia, investigação e artes de alto risco.',dx:'112px',dy:'-32px',mdx:'82px',mdy:'-25px',rot:'8deg',z:6},
-    {key:'biologia',title:'Biologia Lumyrieliana',desc:'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.',dx:'-164px',dy:'64px',mdx:'-118px',mdy:'46px',rot:'-12deg',z:4},
-    {key:'matematica',title:'Matemática Lumyrieliana',desc:'Matemática e física usadas para explicar, medir e modelar fenômenos reais e mágicos de Lumyriel.',dx:'164px',dy:'70px',mdx:'118px',mdy:'50px',rot:'12deg',z:4},
-    {key:'criador',title:'Criador de Personagens',desc:'Ferramenta interativa para construir personagens com anatomia, cultura, história, valores e equipamentos coerentes.',dx:'-78px',dy:'116px',mdx:'-56px',mdy:'86px',rot:'-5deg',z:5},
-    {key:'rpg',title:'Lumyriel RPG',desc:'Projeto de RPG single player com narrador, campanhas e integração com o Criador de Personagens.',dx:'84px',dy:'122px',mdx:'60px',mdy:'90px',rot:'6deg',z:5},
-    {key:'construindo',title:'Construindo Mundos',desc:'Coleção metodológica sobre mundo físico, ecologia, povos, culturas, línguas e ferramentas de worldbuilding.',dx:'4px',dy:'164px',mdx:'0px',mdy:'118px',rot:'0deg',z:3}
+    {key:'tempos',title:'Os Livros dos Tempos',desc:'História cosmológica preservada como uma grande coleção de eras, registros e tradições de Lumyriel.',dx:'-112px',dy:'-38px',mdx:'-70px',mdy:'-26px',rot:'-7deg',z:6},
+    {key:'magia',title:'Artes Mágicas Lumyrielianas',desc:'Coleção didática em seis volumes sobre fundamentos, Mana, Aura, runologia, investigação e artes de alto risco.',dx:'112px',dy:'-32px',mdx:'70px',mdy:'-24px',rot:'7deg',z:6},
+    {key:'biologia',title:'Biologia Lumyrieliana',desc:'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.',dx:'-164px',dy:'64px',mdx:'-94px',mdy:'48px',rot:'-9deg',z:4},
+    {key:'matematica',title:'Matemática Lumyrieliana',desc:'Matemática e física usadas para explicar, medir e modelar fenômenos reais e mágicos de Lumyriel.',dx:'164px',dy:'70px',mdx:'94px',mdy:'50px',rot:'9deg',z:4},
+    {key:'criador',title:'Criador de Personagens',desc:'Ferramenta interativa para construir personagens com anatomia, cultura, história, valores e equipamentos coerentes.',dx:'-78px',dy:'116px',mdx:'-50px',mdy:'88px',rot:'-4deg',z:5},
+    {key:'rpg',title:'Lumyriel RPG',desc:'Projeto de RPG single player com narrador, campanhas e integração com o Criador de Personagens.',dx:'84px',dy:'122px',mdx:'52px',mdy:'90px',rot:'4deg',z:5},
+    {key:'construindo',title:'Construindo Mundos',desc:'Coleção metodológica sobre mundo físico, ecologia, povos, culturas, línguas e ferramentas de worldbuilding.',dx:'4px',dy:'164px',mdx:'0px',mdy:'116px',rot:'0deg',z:3}
   ];
 
   const targetFor = key => {
@@ -57,7 +57,8 @@
 
   const status = document.createElement('div');
   status.className = 'lumyriel-hero-deck-status';
-  status.innerHTML = '<strong>Explore o acervo</strong><span>Passe sobre uma capa. Clique para localizar o projeto na página.</span>';
+  status.setAttribute('aria-live','polite');
+  status.innerHTML = '';
 
   let armedKey = null;
 
@@ -67,9 +68,7 @@
     stage.classList.remove('has-mobile-detail');
     status.classList.remove('is-detail');
     deck.querySelectorAll('.lumyriel-hero-deck-item').forEach(el => el.classList.remove('is-active'));
-    status.innerHTML = mobileMode.matches
-      ? '<strong>Explore o acervo</strong><span>Toque em uma capa para ver os detalhes.</span>'
-      : '<strong>Explore o acervo</strong><span>Passe sobre uma capa. Clique para localizar o projeto na página.</span>';
+    status.innerHTML = '';
     delete stage.dataset.activeProject;
   };
 
@@ -178,6 +177,7 @@
     .lumyriel-hero-deck-item.is-active .lumyriel-hero-deck-float,.lumyriel-hero-deck-item:focus-visible .lumyriel-hero-deck-float{animation-play-state:paused}
     .lumyriel-hero-deck-item.is-active .lumyriel-hero-deck-cover,.lumyriel-hero-deck-item:focus-visible .lumyriel-hero-deck-cover{border-color:rgba(222,191,135,.9);box-shadow:0 30px 70px rgba(0,0,0,.68),0 0 32px rgba(170,138,88,.2),-8px 0 18px rgba(0,0,0,.44);filter:brightness(1.04) saturate(1.03)}
     .lumyriel-hero-deck-status{position:absolute;left:50%;bottom:22px;z-index:60;width:min(330px,86%);transform:translateX(-50%);text-align:center;pointer-events:none;text-shadow:0 2px 8px #000}
+    .lumyriel-hero-deck-status:empty{display:none}
     .lumyriel-hero-deck-status strong{display:block;color:#eadcc4;font:400 1rem Georgia,"Times New Roman",serif;letter-spacing:.035em}
     .lumyriel-hero-deck-status span{display:block;margin-top:3px;color:#a99d8c;font-size:.7rem;line-height:1.35}
     .lumyriel-hero-deck-status em{display:block;margin-top:7px;color:#c9ad79;font:normal 600 .65rem/1.35 Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:.025em}
@@ -186,19 +186,17 @@
     @media(max-width:900px){.lumyriel-hero-library-stage{min-height:500px}.lumyriel-hero-deck{width:min(430px,100%);height:440px}.lumyriel-hero-deck-item{width:136px}.lumyriel-hero-deck-status{bottom:4px}}
     @media(max-width:600px), (hover:none) and (pointer:coarse){
       .lumyriel-world-backdrop{position:absolute;top:0;left:0;right:0;bottom:auto;width:100%;height:100svh;inset:auto;opacity:.15;background-position:58% 28%;filter:none;transform:none;animation:none;will-change:auto}
-      .lumyriel-hero-library-stage{width:100%;min-width:0;max-width:100%;min-height:420px;margin-top:24px;perspective:none;overflow:clip}
+      .lumyriel-hero-library-stage{width:100%;min-width:0;max-width:100%;min-height:390px;margin-top:24px;perspective:none;overflow:clip}
       .lumyriel-hero-library-stage.has-mobile-detail{min-height:470px}
       .lumyriel-hero-library-stage:before{inset:10% 0;filter:none;opacity:.7}
-      .lumyriel-hero-deck{width:min(320px,calc(100vw - 42px));max-width:100%;height:340px;transform:none;transform-style:flat}
-      .lumyriel-hero-deck-item{width:108px;transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot));transition:transform .24s ease,opacity .2s ease;filter:none!important}
+      .lumyriel-hero-deck{width:min(310px,calc(100vw - 54px));max-width:100%;height:336px;transform:none;transform-style:flat}
+      .lumyriel-hero-deck-item{width:104px;transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot));transition:transform .24s ease,opacity .2s ease;filter:none!important}
       .lumyriel-hero-deck-float{animation:none!important}
       .lumyriel-hero-deck-cover{box-shadow:8px 12px 20px rgba(0,0,0,.42),-2px 0 6px rgba(0,0,0,.28);transition:none}
       .lumyriel-hero-deck.is-engaged .lumyriel-hero-deck-item:not(.is-active){filter:none!important;opacity:.38;transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot)) scale(.94)}
       .lumyriel-hero-deck-item.is-active,.lumyriel-hero-deck-item:focus-visible{transform:translate(-50%,-50%) translate(0,-30px) rotate(0deg) scale(1.23)!important}
       .lumyriel-hero-deck-item.is-active .lumyriel-hero-deck-cover,.lumyriel-hero-deck-item:focus-visible .lumyriel-hero-deck-cover{box-shadow:0 20px 38px rgba(0,0,0,.62),0 0 0 1px rgba(207,183,133,.45);filter:none}
-      .lumyriel-hero-deck-status{bottom:0;width:min(300px,calc(100% - 24px));padding:0 8px}
-      .lumyriel-hero-deck-status span{display:block}
-      .lumyriel-hero-deck-status:not(.is-detail) span{font-size:.66rem}
+      .lumyriel-hero-deck-status{bottom:-4px;width:min(300px,calc(100% - 24px));padding:0 8px}
       .lumyriel-hero-deck-status.is-detail{padding:11px 13px 12px;border:1px solid rgba(170,138,88,.38);border-radius:5px;background:rgba(14,12,9,.94);box-shadow:0 16px 32px rgba(0,0,0,.34);text-align:left;text-shadow:none}
       .lumyriel-hero-deck-status.is-detail strong{font-size:.96rem;color:#eadcc4}
       .lumyriel-hero-deck-status.is-detail span{margin-top:5px;color:#bdb2a2;font-size:.69rem;line-height:1.42}
