@@ -9,6 +9,14 @@
   const status = stage && stage.querySelector('.lumyriel-hero-deck-status');
   if (!stage || !deck || !status) return;
 
+  /* O palco inicial funciona como uma vitrine de leitura, não como catálogo de projetos.
+     Só permanecem aqui obras que possuem leitor publicado no site. */
+  const readableBooks = new Set(['filho','tempos','magia','biologia','matematica']);
+  [...deck.querySelectorAll('.lumyriel-hero-deck-item')].forEach(card => {
+    if (!readableBooks.has(card.dataset.key)) card.remove();
+  });
+  deck.setAttribute('aria-label','Livros disponíveis para leitura em Lumyriel');
+
   const covers = window.LUMYRIEL_COVERS || {};
   const coarsePointer = matchMedia('(hover:none) and (pointer:coarse)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -18,10 +26,7 @@
     tempos: 'História cosmológica preservada como uma grande coleção de eras, registros e tradições de Lumyriel.',
     magia: 'Coleção didática em seis volumes sobre fundamentos, Mana, Aura, runologia, investigação e artes de alto risco.',
     biologia: 'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.',
-    matematica: 'Matemática e física usadas para explicar, medir e modelar fenômenos reais e mágicos de Lumyriel.',
-    criador: 'Ferramenta interativa para construir personagens com anatomia, cultura, história, valores e equipamentos coerentes.',
-    rpg: 'Projeto de RPG single player com narrador, campanhas e integração com o Criador de Personagens.',
-    construindo: 'Coleção metodológica sobre mundo físico, ecologia, povos, culturas, línguas e ferramentas de worldbuilding.'
+    matematica: 'Matemática e física usadas para explicar, medir e modelar fenômenos reais e mágicos de Lumyriel.'
   };
 
   const titles = {
@@ -29,16 +34,10 @@
     tempos: 'Os Livros dos Tempos',
     magia: 'Artes Mágicas Lumyrielianas',
     biologia: 'Biologia Lumyrieliana',
-    matematica: 'Matemática Lumyrieliana',
-    criador: 'Criador de Personagens',
-    rpg: 'Lumyriel RPG',
-    construindo: 'Construindo Mundos'
+    matematica: 'Matemática Lumyrieliana'
   };
 
   const targetFor = key => {
-    if (key === 'criador') return document.getElementById('criador') || document.getElementById('creator-project-card');
-    if (key === 'rpg') return document.getElementById('rpg-preview');
-    if (key === 'construindo') return document.getElementById('construindo-project-card') || document.getElementById('futureShelf');
     const cover = document.querySelector(`[data-cover="${key}"],[data-optional-cover="${key}"],[data-project-cover="${key}"]`);
     return cover ? (cover.closest('.card,.future-card,section') || cover) : document.getElementById('biblioteca');
   };
@@ -106,15 +105,15 @@
     status.classList.add('is-detail');
 
     const again = coarsePointer.matches
-      ? 'Toque novamente na capa para localizar este projeto.'
-      : 'Clique novamente na capa para localizar este projeto.';
+      ? 'Toque novamente na capa para abrir este livro.'
+      : 'Clique novamente na capa para abrir este livro.';
 
     status.innerHTML = `<strong>${titles[key] || key}</strong><span>${descriptions[key] || ''}</span><em>${again}</em>`;
   };
 
   cards.forEach(card => {
     const key = card.dataset.key;
-    card.setAttribute('aria-label', `${titles[key] || key}. Selecionar para ver detalhes; ativar novamente para localizar na página.`);
+    card.setAttribute('aria-label', `${titles[key] || key}. Selecionar para ver detalhes; ativar novamente para abrir o livro.`);
 
     card.addEventListener('click', event => {
       event.preventDefault();
