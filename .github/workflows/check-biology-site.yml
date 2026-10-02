@@ -1,0 +1,30 @@
+name: Check Biology Native Site
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - biologia-rc1-reader
+    paths:
+      - biology-reader.html
+      - assets/biology-site-integration.js
+      - books/lmy-bio-rc1.dat
+      - books/lmy-bio-rc1.qa.json
+      - site-status.json
+      - tools/check_biology_site.py
+      - .github/workflows/check-biology-site.yml
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: biologia-rc1-reader
+
+      - name: Validate native DAT publication
+        run: python3 tools/check_biology_site.py
