@@ -68,6 +68,15 @@
     document.head.appendChild(script);
   }
 
+  function loadBookNavigation() {
+    if (document.querySelector('script[data-lumyriel-book-navigation]')) return;
+    const script = document.createElement('script');
+    script.src = 'assets/book-navigation.js?v=20261002-1';
+    script.defer = true;
+    script.dataset.lumyrielBookNavigation = '1';
+    document.head.appendChild(script);
+  }
+
   function loadRpgProjects() {
     if (!document.getElementById('rpg-preview') || document.querySelector('script[data-lumyriel-rpg-projects]')) return;
     const script = document.createElement('script');
@@ -81,5 +90,6 @@
   addAvailableRead();
   updateHeroMagicTitle();
   loadBiologyPublication();
+  loadBookNavigation();
   loadRpgProjects();
 })();
