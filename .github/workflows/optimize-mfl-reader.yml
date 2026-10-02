@@ -23,64 +23,46 @@ jobs:
           from pathlib import Path
           import re
 
-          new_loader = r'''async function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const chapters=[];let offset=0;manifest.sections.forEach((section,sectionIndex)=>{section.start=offset;section.chapters.forEach((ch,sectionChapterIndex)=>chapters.push({...ch,sectionIndex,sectionChapterIndex,part:section.label||section.title||'',partIntro:'',sectionRoman:section.roman||'',sectionTitle:section.title||''}));offset+=section.chapters.length});return {...manifest,intro:mathIntroText(introObj),chapters,mathSectionCache:[]}}
-async function ensureMathChapter(index){const meta=data.chapters[index];if(!meta)throw new Error('Leitura matemática inexistente');if(typeof meta.body==='string')return meta;const sectionMeta=data.sections[meta.sectionIndex],cache=data.mathSectionCache||(data.mathSectionCache=[]);let section=cache[meta.sectionIndex];if(!section){section=fetchGzipJson(sectionMeta.file,sectionMeta.label||sectionMeta.title||'uma seção de Matemática e Física');cache[meta.sectionIndex]=section}try{section=await section}catch(err){cache[meta.sectionIndex]=null;throw err}cache[meta.sectionIndex]=section;if(section.schema!=='lumyriel-reader-math-section-v1')throw new Error('Bloco matemático com formato inesperado');if(!Array.isArray(section.chapters)||section.chapters.length!==sectionMeta.chapters.length)throw new Error('Bloco matemático incompleto');const start=sectionMeta.start||0;section.chapters.forEach((ch,i)=>{const target=data.chapters[start+i];if(target)Object.assign(target,ch,{part:section.label||sectionMeta.label||section.title||sectionMeta.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||sectionMeta.roman||'',sectionTitle:section.title||sectionMeta.title||''})});return data.chapters[index]}'''
+          new_loader = "async function loadMathBookData(){const manifest=await fetchGzipJson(DATA.matematica,'o manifesto de Matemática e Física');const introObj=await fetchGzipJson(manifest.intro_file,'a abertura de Matemática e Física');const chapters=[];let offset=0;manifest.sections.forEach((section,sectionIndex)=>{section.start=offset;section.chapters.forEach((ch,sectionChapterIndex)=>chapters.push({...ch,sectionIndex,sectionChapterIndex,part:section.label||section.title||'',partIntro:'',sectionRoman:section.roman||'',sectionTitle:section.title||''}));offset+=section.chapters.length});return {...manifest,intro:mathIntroText(introObj),chapters,mathSectionCache:[]}}\nasync function ensureMathChapter(index){const meta=data.chapters[index];if(!meta)throw new Error('Leitura matemática inexistente');if(typeof meta.body==='string')return meta;const sectionMeta=data.sections[meta.sectionIndex],cache=data.mathSectionCache||(data.mathSectionCache=[]);let section=cache[meta.sectionIndex];if(!section){section=fetchGzipJson(sectionMeta.file,sectionMeta.label||sectionMeta.title||'uma seção de Matemática e Física');cache[meta.sectionIndex]=section}try{section=await section}catch(err){cache[meta.sectionIndex]=null;throw err}cache[meta.sectionIndex]=section;if(section.schema!=='lumyriel-reader-math-section-v1')throw new Error('Bloco matemático com formato inesperado');if(!Array.isArray(section.chapters)||section.chapters.length!==sectionMeta.chapters.length)throw new Error('Bloco matemático incompleto');const start=sectionMeta.start||0;section.chapters.forEach((ch,i)=>{const target=data.chapters[start+i];if(target)Object.assign(target,ch,{part:section.label||sectionMeta.label||section.title||sectionMeta.title||'',partIntro:i===0?(section.intro||''):'',sectionRoman:section.roman||sectionMeta.roman||'',sectionTitle:section.title||sectionMeta.title||''})});return data.chapters[index]}"
+          lazy_render = "let renderToken=0;\nasync function render(){const token=++renderToken;renderSidebar();if(bookId==='matematica'&&!state.intro){paperInner.innerHTML='<div class=\"loading\" role=\"status\" aria-live=\"polite\">Abrindo esta parte…</div>';try{await ensureMathChapter(state.ch)}catch(err){if(token!==renderToken)return;paperInner.innerHTML='<div class=\"loading\">Não foi possível abrir esta parte agora.</div>';console.error(err);return}}if(token!==renderToken)return;renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(()=>{updatePages();if(!restoreReadingPosition())saveReadingProgress()})}\ndocument.getElementById('menuBtn')"
 
-          lazy_render = r'''let renderToken=0;
-async function render(){const token=++renderToken;renderSidebar();if(bookId==='matematica'&&!state.intro){paperInner.innerHTML='<div class="loading" role="status" aria-live="polite">Abrindo esta parte…</div>';try{await ensureMathChapter(state.ch)}catch(err){if(token!==renderToken)return;paperInner.innerHTML='<div class="loading">Não foi possível abrir esta parte agora.</div>';console.error(err);return}}if(token!==renderToken)return;renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(()=>{updatePages();if(!restoreReadingPosition())saveReadingProgress()})}
-document.getElementById('menuBtn')'''
-
-          # 1) Atualiza o integrador durável.
           sp=Path('scripts/integrate-mfl-reader.py')
           script=sp.read_text(encoding='utf-8')
-          script,n=re.subn(r"async function loadMathBookData\(\)\{[^\n]*\}",new_loader,script,count=1)
+          script,n=re.subn(r"async function loadMathBookData\(\)\{[^\n]*\}",lambda m:new_loader,script,count=1)
           if n!=1:
               raise SystemExit(f'Integrador: loader esperado 1, encontrado {n}')
           script=script.replace("already='async function loadMathBookData()'","already='async function ensureMathChapter(index)'",1)
           if "already='async function ensureMathChapter(index)'" not in script:
               raise SystemExit('Integrador: marcador lazy não foi atualizado')
 
-          if "lazy_render = r'''let renderToken=0;" not in script:
-              marker="reader_path.write_text(reader, encoding='utf-8')"
-              patch=r'''lazy_render = r\'''let renderToken=0;
-async function render(){const token=++renderToken;renderSidebar();if(bookId==='matematica'&&!state.intro){paperInner.innerHTML='<div class="loading" role="status" aria-live="polite">Abrindo esta parte…</div>';try{await ensureMathChapter(state.ch)}catch(err){if(token!==renderToken)return;paperInner.innerHTML='<div class="loading">Não foi possível abrir esta parte agora.</div>';console.error(err);return}}if(token!==renderToken)return;renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(()=>{updatePages();if(!restoreReadingPosition())saveReadingProgress()})}
-document.getElementById('menuBtn')\'''
-reader = sub_once(
-    reader,
-    r"function render\(\)\{.*?\}\\ndocument.getElementById\('menuBtn'\)",
-    lazy_render,
-    'carregamento sob demanda MFL',
-    already='let renderToken=0;',
-)
-'''
+          marker="reader_path.write_text(reader, encoding='utf-8')"
+          if "already='let renderToken=0;'" not in script:
+              patch_code = "lazy_render = (\n    \"let renderToken=0;\\n\"\n    \"async function render(){const token=++renderToken;renderSidebar();if(bookId==='matematica'&&!state.intro){paperInner.innerHTML='<div class=\\\"loading\\\" role=\\\"status\\\" aria-live=\\\"polite\\\">Abrindo esta parte…</div>';try{await ensureMathChapter(state.ch)}catch(err){if(token!==renderToken)return;paperInner.innerHTML='<div class=\\\"loading\\\">Não foi possível abrir esta parte agora.</div>';console.error(err);return}}if(token!==renderToken)return;renderContent();paper.scrollTop=0;setUrl();requestAnimationFrame(()=>{updatePages();if(!restoreReadingPosition())saveReadingProgress()})}\\n\"\n    \"document.getElementById('menuBtn')\"\n)\nreader = sub_once(\n    reader,\n    r\"function render\\(\\)\\{.*?\\}\\ndocument.getElementById\\('menuBtn'\\)\",\n    lazy_render,\n    'carregamento sob demanda MFL',\n    already='let renderToken=0;',\n)\n\n"
               if marker not in script:
                   raise SystemExit('Integrador: ponto de inserção do render não encontrado')
-              script=script.replace(marker,patch+marker,1)
+              script=script.replace(marker,patch_code+marker,1)
 
-          script=script.replace("        'loadMathBookData',\n", "        'loadMathBookData',\n        'ensureMathChapter',\n        'let renderToken=0;',\n",1)
+          if "'ensureMathChapter'," not in script:
+              script=script.replace("        'loadMathBookData',\n","        'loadMathBookData',\n        'ensureMathChapter',\n        'let renderToken=0;',\n",1)
           qa_marker="for token in required:\n    if token not in check:\n        raise SystemExit(f'QA reader falhou: {token}')\n"
-          if "QA reader falhou: carregamento ansioso" not in script:
-              qa_extra="if 'Promise.all(manifest.sections' in check:\n    raise SystemExit('QA reader falhou: carregamento ansioso de todos os blocos')\n"
+          if "carregamento ansioso de todos os blocos" not in script:
               if qa_marker not in script:
                   raise SystemExit('Integrador: ponto de QA não encontrado')
-              script=script.replace(qa_marker,qa_marker+qa_extra,1)
+              script=script.replace(qa_marker,qa_marker+"if 'Promise.all(manifest.sections' in check:\n    raise SystemExit('QA reader falhou: carregamento ansioso de todos os blocos')\n",1)
           sp.write_text(script,encoding='utf-8')
 
-          # 2) Migra o reader atual para o mesmo comportamento.
           rp=Path('reader.html')
           reader=rp.read_text(encoding='utf-8')
-          reader,n=re.subn(r"async function loadMathBookData\(\)\{[^\n]*\}",new_loader,reader,count=1)
+          reader,n=re.subn(r"async function loadMathBookData\(\)\{[^\n]*\}",lambda m:new_loader,reader,count=1)
           if n!=1:
               raise SystemExit(f'Reader: loader esperado 1, encontrado {n}')
-          reader,n=re.subn(r"function render\(\)\{.*?\}\ndocument.getElementById\('menuBtn'\)",lazy_render,reader,count=1,flags=re.S)
+          reader,n=re.subn(r"function render\(\)\{.*?\}\ndocument.getElementById\('menuBtn'\)",lambda m:lazy_render,reader,count=1,flags=re.S)
           if n!=1:
               raise SystemExit(f'Reader: render esperado 1, encontrado {n}')
           rp.write_text(reader,encoding='utf-8')
 
-          # 3) QA local da migração antes do integrador principal.
           check=rp.read_text(encoding='utf-8')
-          required=['async function ensureMathChapter(index)','mathSectionCache:[]','let renderToken=0;','Abrindo esta parte…']
-          for token in required:
+          for token in ['async function ensureMathChapter(index)','mathSectionCache:[]','let renderToken=0;','Abrindo esta parte…']:
               if token not in check:
                   raise SystemExit('QA lazy ausente: '+token)
           if 'Promise.all(manifest.sections' in check:
