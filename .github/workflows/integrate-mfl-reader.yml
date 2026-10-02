@@ -17,6 +17,32 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Recuperar candidatos íntegros do histórico
+        shell: bash
+        run: |
+          git show 932749d726e471e89f14988f54f3f103069bd700:books/lmy-mfl-s10.dat > /tmp/lmy-mfl-s10.dat
+          git show c20b4816bd199bc3b1042448ed7584a9d631443b:books/lmy-mfl-s13.dat > /tmp/lmy-mfl-s13.dat
+          python - <<'PY'
+          from pathlib import Path
+          import base64, gzip, json
+
+          def decode(path):
+              text=Path(path).read_text(encoding='utf-8-sig')
+              clean=''.join(text.split())
+              raw=base64.b64decode(clean, validate=True)
+              return json.loads(gzip.decompress(raw).decode('utf-8'))
+
+          for p in ['/tmp/lmy-mfl-s10.dat','/tmp/lmy-mfl-s13.dat']:
+              obj=decode(p)
+              if obj.get('schema')!='lumyriel-reader-math-section-v1':
+                  raise SystemExit(f'{p}: schema inesperado')
+              if not obj.get('chapters'):
+                  raise SystemExit(f'{p}: sem capítulos')
+              print(p, 'PASS', len(obj['chapters']))
+          PY
+          cp /tmp/lmy-mfl-s10.dat books/lmy-mfl-s10.dat
+          cp /tmp/lmy-mfl-s13.dat books/lmy-mfl-s13.dat
+
       - name: Validar payloads MFL
         shell: bash
         run: |
@@ -24,24 +50,44 @@ jobs:
           from pathlib import Path
           import base64, gzip, json
 
-          allowed = set('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=')
-          marker = '[... ELLIPSIZATION ...]'
+          expected=[Path('books/lmy-mfl-rc1.dat'),Path('books/lmy-mfl-intro.00.dat')]
+          expected += [Path(f'books/lmy-mfl-s{i:02d}.dat') for i in range(14)]
+          missing=[str(p) for p in expected if not p.exists()]
+          if missing:
+              raise SystemExit('Arquivos MFL ausentes: '+', '.join(missing))
 
-          for p in Path('books').glob('lmy-mfl-*.dat'):
-              text = p.read_text(encoding='utf-8-sig')
+          marker='[... ELLIPSIZATION ...]'
+          decoded={}
+          for p in expected:
+              text=p.read_text(encoding='utf-8-sig')
               if marker in text:
                   raise SystemExit(f'{p}: marcador de truncamento ainda presente')
-              bad = [ch for ch in text if ch not in allowed and not ch.isspace()]
-              if bad:
-                  raise SystemExit(f'{p}: caracteres não-Base64 inesperados')
-              clean = ''.join(ch for ch in text if ch in allowed)
+              clean=''.join(text.split())
               try:
-                  raw = base64.b64decode(clean, validate=True)
-                  json.loads(gzip.decompress(raw).decode('utf-8'))
+                  raw=base64.b64decode(clean, validate=True)
+                  decoded[str(p)]=json.loads(gzip.decompress(raw).decode('utf-8'))
               except Exception as exc:
                   raise SystemExit(f'{p}: payload inválido: {exc}')
 
-          print('Payloads MFL: PASS')
+          manifest=decoded['books/lmy-mfl-rc1.dat']
+          if manifest.get('schema')!='lumyriel-reader-math-split-v1':
+              raise SystemExit('Manifesto MFL com schema inesperado')
+          if manifest.get('intro_file')!='books/lmy-mfl-intro.00.dat':
+              raise SystemExit('Referência da abertura MFL não está normalizada')
+          sections=manifest.get('sections',[])
+          if len(sections)!=14:
+              raise SystemExit(f'Manifesto MFL possui {len(sections)} blocos; esperado 14')
+          if sum(len(s.get('chapters',[])) for s in sections)!=56:
+              raise SystemExit('Manifesto MFL não fecha 48 capítulos + 8 apêndices')
+          for i,s in enumerate(sections):
+              obj=decoded.get(s.get('file',''))
+              if not obj:
+                  raise SystemExit(f's{i:02d}: arquivo do manifesto não carregado')
+              if obj.get('schema')!='lumyriel-reader-math-section-v1':
+                  raise SystemExit(f's{i:02d}: schema inválido')
+              if len(obj.get('chapters',[]))!=len(s.get('chapters',[])):
+                  raise SystemExit(f's{i:02d}: contagem diverge do manifesto')
+          print('Payloads MFL: PASS — abertura + 14 blocos + 56 leituras')
           PY
 
       - name: Integrar e validar reader/catalog
@@ -50,13 +96,12 @@ jobs:
       - name: Publicar integração
         shell: bash
         run: |
-          git restore -- 'books/lmy-mfl-'*.dat
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add reader.html index.html
+          git add reader.html index.html books/lmy-mfl-s10.dat books/lmy-mfl-s13.dat
           if git diff --cached --quiet; then
-            echo 'Reader e catálogo já estavam integrados.'
+            echo 'Reader, catálogo e payloads já estavam íntegros.'
           else
-            git commit -m 'Publica Matemática e Física RC1 no leitor e catálogo'
+            git commit -m 'Restaura blocos MFL e publica RC1 no leitor'
             git push
           fi
