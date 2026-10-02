@@ -1,6 +1,6 @@
 # Lumyriel Site — Checkpoint
 
-Estado consolidado em 02/10/2026 após a migração nativa de Artes Mágicas, evolução do Criador de Personagens, revisão do leitor e nova interface viva da home.
+Estado consolidado em 02/10/2026 após a migração nativa de Artes Mágicas, evolução do Criador de Personagens, revisão do leitor, nova interface viva da home e publicação de **Matemática e Física de Lumyriel — RC1**.
 
 ## Capas oficiais aprovadas
 
@@ -87,6 +87,25 @@ O catálogo apresenta a coleção como `Leitura disponível · Beta` e abre dire
 
 A migração é reproduzível por `.github/workflows/build-magic-native.yml` e `tools/build_magic_native.py`, que validam a estrutura dos volumes antes de publicar uma nova conversão.
 
+## Matemática e Física de Lumyriel — leitor nativo
+
+A Primeira Edição RC1 está publicada no mesmo leitor editorial da Biblioteca:
+
+- fonte editorial: `Lumyriel — MAT-FIS-MAN-01 — Manuscrito Mestre da Primeira Edição RC1 — Congelado`;
+- 13 Partes;
+- 48 capítulos;
+- 8 apêndices;
+- 14 blocos de leitura (`s00`–`s13`), além do manifesto e da abertura;
+- manifesto: `books/lmy-mfl-rc1.dat`;
+- abertura: `books/lmy-mfl-intro.00.dat`;
+- acesso público pelo leitor: `reader.html?book=matematica&intro=1`;
+- capa vigente: `assets/covers/matematica-lumyrieliana.webp`;
+- carregamento dividido e sob demanda por Parte, evitando carregar a obra inteira de uma vez;
+- memória de leitura, navegação entre capítulos/apêndices e progresso integrados ao leitor comum;
+- catálogo atualizado para `Leitura disponível` com `RC1 · Primeira Edição · 48 capítulos · 8 apêndices`.
+
+Os payloads finais `s09`, `s10` e `s13`, que haviam apresentado truncamento em tentativas anteriores, foram regenerados diretamente do manuscrito congelado. O workflow confirmou a exportação-fonte com **525.479 bytes** e passou o QA canônico dos três blocos antes da publicação. O `main` vigente preserva essa regeneração e o GitHub Pages está com build/deploy concluído com sucesso.
+
 ## Criador de Personagens
 
 Bloco estrutural vigente:
@@ -119,7 +138,8 @@ Bloco estrutural vigente:
 
 - Lumyriel RPG: capa oficial integrada e seção de apresentação mantida.
 - Construindo Mundos: incluído como projeto editorial em desenvolvimento.
-- Biologia Lumyrieliana e Matemática Lumyrieliana: capas oficiais disponíveis.
+- Biologia Lumyrieliana: capa oficial disponível; projeto ainda em preparação.
+- Matemática e Física de Lumyriel: RC1 publicada e disponível no leitor nativo.
 
 ## Arquivo Visual
 
