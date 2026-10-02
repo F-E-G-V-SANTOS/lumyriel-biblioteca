@@ -202,6 +202,15 @@
     else hero.appendChild(block);
   }
 
+  function loadHeroLibraryStage() {
+    if (!document.getElementById('inicio') || document.querySelector('script[data-lumyriel-hero-library-stage]')) return;
+    const script = document.createElement('script');
+    script.src = 'assets/hero-library-stage.js';
+    script.defer = true;
+    script.dataset.lumyrielHeroLibraryStage = '1';
+    document.head.appendChild(script);
+  }
+
   renameMagic();
   applyExistingCovers();
   updateProjectShelf();
@@ -209,4 +218,5 @@
   updateCreatorCallout();
   updateRpgPreview();
   updateCreatorPage();
+  loadHeroLibraryStage();
 })();
