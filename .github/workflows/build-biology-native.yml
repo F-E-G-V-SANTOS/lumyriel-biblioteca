@@ -1,0 +1,40 @@
+name: Build Biology Native Reader
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - biologia-rc1-reader
+    paths:
+      - tools/build_biology_native.py
+      - .github/workflows/build-biology-native.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: biologia-rc1-reader
+
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Build and validate biology payload
+        run: python3 tools/build_biology_native.py
+
+      - name: Commit generated reader payload
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add books/lmy-bio-rc1.dat books/lmy-bio-rc1.qa.json
+          if git diff --cached --quiet; then
+            echo "Payload já está atualizado."
+          else
+            git commit -m "Gera payload nativo de Biologia RC1"
+            git push origin HEAD:biologia-rc1-reader
+          fi

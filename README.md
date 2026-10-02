@@ -10,9 +10,9 @@ O projeto reúne obras de leitura, arquivo visual, Criador de Personagens e ferr
 ### Leitura disponível
 - **O Filho da Montanha** — Beta 13 · Base v1.19 · 16 capítulos
 - **Os Livros dos Tempos** — Beta 1 · Base Editorial v1.0 · 54 livros · 1.074 capítulos
-
-### Em desenvolvimento
-- **Livro das Artes Mágicas** — Arquitetura v0.4 · Volumes I–IV em desenvolvimento
+- **Artes Mágicas Lumyrielianas** — Beta · 6 volumes · leitor nativo
+- **Matemática e Física de Lumyriel** — RC1 · Primeira Edição · 48 capítulos · 8 apêndices
+- **Biologia de Lumyriel** — RC1 · Primeira Edição · 6 volumes · 33 partes · 138 capítulos · 514 páginas-fonte
 
 ### Ferramentas
 - Criador de Personagens — versão alpha
@@ -24,10 +24,11 @@ O projeto reúne obras de leitura, arquivo visual, Criador de Personagens e ferr
 
 ```
 index.html                  catálogo editorial
-reader.html                 leitor das obras
+reader.html                 leitor principal das obras
+biology-reader.html         leitor da coleção Biologia de Lumyriel
 character-creator.html      Criador de Personagens
 privacy.html                privacidade e submissões
-site-status.json              estado editorial/publicável da versão estática
+site-status.json            estado editorial/publicável da versão estática
 
 assets/
   covers/                   capas públicas
@@ -37,11 +38,29 @@ assets/
 books/
   lmy-odm-b13.dat           O Filho da Montanha · conteúdo estático codificado
   lmy-olt-b1.dat            Os Livros dos Tempos · conteúdo estático codificado
+  lmy-aml-b1.dat            Artes Mágicas Lumyrielianas · conteúdo estático codificado
+  lmy-mfl-rc1.dat           manifesto de Matemática e Física de Lumyriel
+  lmy-bio-rc1.dat           Biologia de Lumyriel · conteúdo nativo codificado
+  lmy-bio-rc1.qa.json       QA estrutural e hashes da conversão de Biologia
 
 apps-script/
   Code.gs                   backend de submissões
   DEPLOY.md                 implantação do Apps Script
 ```
+
+## Biologia de Lumyriel
+
+A edição pública de **Biologia de Lumyriel** não usa PDF no site. Os seis PDFs RC1 permanecem no Drive como fontes editoriais congeladas e referência de QA. A leitura pública usa `books/lmy-bio-rc1.dat`, gerado de forma reproduzível por `tools/build_biology_native.py`.
+
+O builder valida:
+- 6 volumes;
+- 33 partes;
+- 138 capítulos;
+- 514 páginas-fonte;
+- equivalência textual normalizada entre cada PDF RC1 e o conteúdo convertido;
+- hashes SHA-256 canônicos por volume.
+
+O QA estático da publicação é executado por `tools/check_biology_site.py`.
 
 ## Documentação do projeto
 
@@ -62,7 +81,7 @@ A arte conduz e a interface serve. Elementos decorativos não podem criar lore.
 
 ## Executar localmente
 
-O site não exige processo de build.
+O site não exige processo de build para leitura do conteúdo já gerado.
 
 Na raiz do repositório:
 
@@ -92,7 +111,6 @@ O site não é autoridade canônica autônoma.
 
 As obras e ferramentas publicadas devem seguir as autoridades vigentes do projeto Lumyriel. Uma submissão de personagem nunca se torna canônica automaticamente.
 
-
 ## Proteção de leitura estática
 
 O leitor usa barreiras de cópia casual:
@@ -101,8 +119,8 @@ O leitor usa barreiras de cópia casual:
 - atalhos comuns de cópia, impressão, salvar, selecionar tudo e ver código-fonte interceptados;
 - atalhos mais óbvios de DevTools recebem bloqueio de conveniência;
 - impressão do conteúdo bloqueada por CSS;
-- a página do leitor usa `noindex,nofollow`;
-- os manuscritos da branch atual não ficam mais expostos como JSON legível: são publicados em arquivos estáticos codificados `.dat`.
+- as páginas de leitura usam `noindex,nofollow`;
+- os manuscritos da branch atual não ficam expostos como JSON legível: são publicados em arquivos estáticos codificados `.dat`.
 
 Essas medidas **não são DRM**. Como a Biblioteca continua hospedada como site estático público, alguém tecnicamente determinado ainda pode recuperar o conteúdo entregue ao navegador.
 

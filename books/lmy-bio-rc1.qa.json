@@ -1,0 +1,80 @@
+{
+  "schema": "lumyriel-reader-biology-qa-v1",
+  "status": "PASS",
+  "volumes": 6,
+  "parts": 33,
+  "chapters": 138,
+  "pages": 514,
+  "raw_json_bytes": 861153,
+  "payload_bytes": 373464,
+  "sources": [
+    {
+      "volume": "I",
+      "drive_file_id": "1_AMlW7irgSX5UZaWe0UaVo_isgfnXE_I",
+      "bytes": 1009706
+    },
+    {
+      "volume": "II",
+      "drive_file_id": "1Voz8TrxM1Be8LZUezKMcKgvihiwpukeq",
+      "bytes": 1056220
+    },
+    {
+      "volume": "III",
+      "drive_file_id": "1gpJDru_PGeFFbbD84rjg8m0re3vOm8nb",
+      "bytes": 1748266
+    },
+    {
+      "volume": "IV",
+      "drive_file_id": "1XbRQzR0c0F7tX6sy20Yuo2hFEBsSj4TG",
+      "bytes": 1007311
+    },
+    {
+      "volume": "V",
+      "drive_file_id": "1Tuz7UTOjTCl4hg15l_Y1jJK5_qocaQAb",
+      "bytes": 616375
+    },
+    {
+      "volume": "VI",
+      "drive_file_id": "19CE7C_xn1GsbUh6WKlkSyiyer4TFqzd6",
+      "bytes": 461132
+    }
+  ],
+  "volume_checks": [
+    {
+      "roman": "I",
+      "chapters": 19,
+      "canonical_tokens": 19373,
+      "canonical_sha256": "a569cb55d6052d733f18143575edc2bab6ac33cd1aa294e3a1138036153ff286"
+    },
+    {
+      "roman": "II",
+      "chapters": 22,
+      "canonical_tokens": 19207,
+      "canonical_sha256": "afa8bbff60754102d1313d8b727a6d289eba9d632ab89b9e6ece288b58c362f6"
+    },
+    {
+      "roman": "III",
+      "chapters": 23,
+      "canonical_tokens": 35626,
+      "canonical_sha256": "f4b2e938b9a37f8284d5bcaf1b3b3d36a88f2f984ce23c90fc723db3cdd9269a"
+    },
+    {
+      "roman": "IV",
+      "chapters": 27,
+      "canonical_tokens": 17330,
+      "canonical_sha256": "4b43684b83e3f391fbbf6cc906ec9d66f0797ea536e3f945d227191806cfa4ff"
+    },
+    {
+      "roman": "V",
+      "chapters": 22,
+      "canonical_tokens": 10919,
+      "canonical_sha256": "795c441d1f1631f984afb1f3ba095e0c36f0d59f382c9df8d908a2be2cd972f3"
+    },
+    {
+      "roman": "VI",
+      "chapters": 25,
+      "canonical_tokens": 8659,
+      "canonical_sha256": "5edc691416fc3cfdd363aed487ae626d74115b3483f87a9ac18c93a740ddec84"
+    }
+  ]
+}

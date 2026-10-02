@@ -1,7 +1,7 @@
 {
   "site": "Biblioteca Lumyrieliana",
   "release": "alpha",
-  "release_id": "alpha-2026-10-01",
+  "release_id": "alpha-2026-10-02",
   "static_site": true,
   "build_required": false,
   "books": {
@@ -30,6 +30,18 @@
       "reader_sections": 14,
       "public_reading": true,
       "reader_loading": "split-on-demand"
+    },
+    "biologia-de-lumyriel": {
+      "edition": "RC1 · Primeira Edição",
+      "volumes": 6,
+      "parts": 33,
+      "chapters": 138,
+      "pages": 514,
+      "public_reading": true,
+      "reader": "biology-reader.html",
+      "reader_payload": "books/lmy-bio-rc1.dat",
+      "reader_qa": "books/lmy-bio-rc1.qa.json",
+      "pdf_web_equivalence": "PASS"
     }
   },
   "character_creator": {
@@ -38,7 +50,7 @@
   },
   "static_qa": {
     "status": "passed",
-    "date": "2026-10-01"
+    "date": "2026-10-02"
   },
   "reader": {
     "content_mode": "static",
@@ -54,12 +66,6 @@
     "future_content_endpoint_configured": false
   },
   "future_works": [
-    {
-      "title": "Biologia Lumyrieliana",
-      "status": "planned",
-      "art": "published",
-      "cover_file": "assets/covers/biologia-lumyrieliana.webp"
-    },
     {
       "title": "Lumyriel RPG",
       "status": "planned",
