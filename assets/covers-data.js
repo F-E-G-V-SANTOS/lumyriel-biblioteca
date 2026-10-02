@@ -9,8 +9,7 @@ window.LUMYRIEL_COVERS={
   criador:"assets/covers/criador-de-personagens.webp"
 };
 
-// Refinamento visual do leitor no mobile. Este arquivo carrega antes do módulo da barra,
-// então as regras usam !important apenas para garantir geometria consistente entre ações.
+// Refinamento visual e integração comum dos leitores no mobile.
 (() => {
   if (!document.getElementById('paper') || document.getElementById('reader-mobile-actions-fix')) return;
   const style=document.createElement('style');
@@ -31,11 +30,15 @@ window.LUMYRIEL_COVERS={
   `;
   document.head.appendChild(style);
 
-  // Rede de segurança: o leitor principal deve assumir normalmente; se uma falha de sintaxe
-  // ou inicialização o deixar preso em "Abrindo o livro…", o módulo de recuperação entra.
+  const integration=document.createElement('script');
+  integration.src='assets/reader-integration.js?v=20261002-1';
+  integration.defer=true;
+  document.head.appendChild(integration);
+
+  // Rede de segurança: só assume se o leitor principal permanecer preso na abertura.
   if (!document.querySelector('script[data-reader-recovery]')) {
     const recovery=document.createElement('script');
-    recovery.src='assets/reader-recovery.js?v=20261002-1';
+    recovery.src='assets/reader-recovery.js?v=20261002-2';
     recovery.defer=true;
     recovery.dataset.readerRecovery='1';
     document.head.appendChild(recovery);
