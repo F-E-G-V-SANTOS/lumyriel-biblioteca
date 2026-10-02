@@ -1,0 +1,841 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "state_version": {
+      "type": "integer"
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "difficulty_mode": {
+      "type": "string",
+      "enum": [
+        "historia",
+        "facil",
+        "medio",
+        "dificil",
+        "lumyriel"
+      ]
+    },
+    "timing": {
+      "type": "object",
+      "properties": {
+        "target_minutes": {
+          "type": "integer"
+        },
+        "elapsed_seconds": {
+          "type": "integer"
+        },
+        "remaining_seconds": {
+          "type": "integer"
+        },
+        "pacing_phase": {
+          "type": "string",
+          "enum": [
+            "abertura",
+            "desenvolvimento",
+            "convergencia",
+            "climax",
+            "epilogo"
+          ]
+        }
+      },
+      "required": [
+        "target_minutes",
+        "elapsed_seconds",
+        "remaining_seconds",
+        "pacing_phase"
+      ],
+      "additionalProperties": false
+    },
+    "world_time": {
+      "type": "object",
+      "properties": {
+        "calendar_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "date_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "epoch_minutes": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "segment_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "calendar_id",
+        "date_label",
+        "epoch_minutes",
+        "segment_label"
+      ],
+      "additionalProperties": false
+    },
+    "current_location_id": {
+      "type": "string"
+    },
+    "character": {
+      "type": "object",
+      "properties": {
+        "character_id": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "potencia": {
+              "type": "integer"
+            },
+            "agilidade": {
+              "type": "integer"
+            },
+            "vigor": {
+              "type": "integer"
+            },
+            "intelecto": {
+              "type": "integer"
+            },
+            "percepcao": {
+              "type": "integer"
+            },
+            "presenca": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "potencia",
+            "agilidade",
+            "vigor",
+            "intelecto",
+            "percepcao",
+            "presenca"
+          ],
+          "additionalProperties": false
+        },
+        "vitality": {
+          "type": "integer"
+        },
+        "vitality_max": {
+          "type": "integer"
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "folego": {
+              "type": "object",
+              "properties": {
+                "applicable": {
+                  "type": "boolean"
+                },
+                "current": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "maximum": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "state": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "applicable",
+                "current",
+                "maximum",
+                "state"
+              ],
+              "additionalProperties": false
+            },
+            "mana": {
+              "type": "object",
+              "properties": {
+                "applicable": {
+                  "type": "boolean"
+                },
+                "current": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "maximum": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "state": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "applicable",
+                "current",
+                "maximum",
+                "state"
+              ],
+              "additionalProperties": false
+            },
+            "aura": {
+              "type": "object",
+              "properties": {
+                "applicable": {
+                  "type": "boolean"
+                },
+                "current": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "maximum": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "state": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "applicable",
+                "current",
+                "maximum",
+                "state"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "folego",
+            "mana",
+            "aura"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "character_id",
+        "attributes",
+        "vitality",
+        "vitality_max",
+        "resources"
+      ],
+      "additionalProperties": false
+    },
+    "injuries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "injury_id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "leve",
+              "moderado",
+              "grave",
+              "critico"
+            ]
+          },
+          "region": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "effect_summary": {
+            "type": "string"
+          },
+          "treated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "injury_id",
+          "severity",
+          "region",
+          "effect_summary",
+          "treated"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "leve",
+              "moderada",
+              "forte"
+            ]
+          },
+          "source_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "expires_at_world_time": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "condition_id",
+          "label",
+          "severity",
+          "source_id",
+          "expires_at_world_time"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "condition": {
+            "type": "string",
+            "enum": [
+              "integro",
+              "desgastado",
+              "danificado",
+              "inoperante"
+            ]
+          },
+          "container_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "item_id",
+          "quantity",
+          "condition",
+          "container_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "competencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "competence_id": {
+            "type": "string"
+          },
+          "level": {
+            "type": "integer"
+          },
+          "practice_marks": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "competence_id",
+          "level",
+          "practice_marks"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "technique_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target_id": {
+            "type": "string"
+          },
+          "trust": {
+            "type": "integer"
+          },
+          "respect": {
+            "type": "integer"
+          },
+          "fear": {
+            "type": "integer"
+          },
+          "gratitude": {
+            "type": "integer"
+          },
+          "resentment": {
+            "type": "integer"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "target_id",
+          "trust",
+          "respect",
+          "fear",
+          "gratitude",
+          "resentment",
+          "notes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "reputation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "group_id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "privada",
+              "limitada",
+              "local",
+              "regional",
+              "ampla"
+            ]
+          },
+          "basis": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "group_id",
+          "value",
+          "visibility",
+          "basis"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "objective_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ativo",
+              "concluido",
+              "falhou",
+              "abandonado",
+              "suspenso"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "canonico",
+              "sessao",
+              "jogador"
+            ]
+          },
+          "deadline_world_time": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "objective_id",
+          "label",
+          "status",
+          "source",
+          "deadline_world_time"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "session_facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "fact_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "CANONICO",
+              "SESSAO",
+              "JOGADOR",
+              "INFERIDO"
+            ]
+          },
+          "truth_status": {
+            "type": "string",
+            "enum": [
+              "confirmado",
+              "provavel",
+              "incerto",
+              "contestado"
+            ]
+          },
+          "known_to_character": {
+            "type": "boolean"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "alta",
+              "media",
+              "baixa",
+              "desconhecida"
+            ]
+          },
+          "local_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "fact_id",
+          "text",
+          "origin",
+          "truth_status",
+          "known_to_character",
+          "confidence",
+          "local_id",
+          "dependencies"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "rumors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rumor_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "classification_engine": {
+            "type": "string",
+            "enum": [
+              "verdadeiro",
+              "falso",
+              "exagerado",
+              "desatualizado",
+              "interpretativo",
+              "desconhecido"
+            ]
+          },
+          "known_to_character": {
+            "type": "boolean"
+          },
+          "reach": {
+            "type": "string",
+            "enum": [
+              "privado",
+              "grupo_pequeno",
+              "local",
+              "regional"
+            ]
+          }
+        },
+        "required": [
+          "rumor_id",
+          "text",
+          "source_id",
+          "classification_engine",
+          "known_to_character",
+          "reach"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "clues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "clue_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "known": {
+            "type": "boolean"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "alta",
+              "media",
+              "baixa",
+              "desconhecida"
+            ]
+          },
+          "source_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "related_fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "clue_id",
+          "text",
+          "known",
+          "confidence",
+          "source_id",
+          "related_fact_ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "clocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "clock_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "current": {
+            "type": "integer"
+          },
+          "maximum": {
+            "type": "integer"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "oculto",
+              "percebido",
+              "visivel"
+            ]
+          },
+          "trigger_summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "clock_id",
+          "label",
+          "current",
+          "maximum",
+          "visibility",
+          "trigger_summary"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "npc_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "location_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity_id",
+          "status",
+          "location_id",
+          "notes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "creature_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "location_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entity_id",
+          "status",
+          "location_id",
+          "notes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "open_hooks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scene_summary": {
+      "type": "string"
+    },
+    "campaign_summary": {
+      "type": "string"
+    },
+    "canonical_context_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "state_version",
+    "campaign_id",
+    "character_id",
+    "difficulty_mode",
+    "timing",
+    "world_time",
+    "current_location_id",
+    "character",
+    "injuries",
+    "conditions",
+    "inventory",
+    "competencies",
+    "technique_ids",
+    "relationships",
+    "reputation",
+    "objectives",
+    "session_facts",
+    "rumors",
+    "clues",
+    "clocks",
+    "npc_states",
+    "creature_states",
+    "open_hooks",
+    "scene_summary",
+    "campaign_summary",
+    "canonical_context_refs"
+  ],
+  "additionalProperties": false
+}

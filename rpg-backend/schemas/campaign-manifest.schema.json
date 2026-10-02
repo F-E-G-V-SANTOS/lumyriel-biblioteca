@@ -1,0 +1,99 @@
+{
+  "type": "object",
+  "properties": {
+    "campaign_id": {
+      "type": "string"
+    },
+    "campaign_schema_version": {
+      "type": "string"
+    },
+    "state_schema_version": {
+      "type": "string"
+    },
+    "character_id": {
+      "type": "string"
+    },
+    "character_source_revision": {
+      "type": "integer"
+    },
+    "character_snapshot_id": {
+      "type": "string"
+    },
+    "canon_package_id": {
+      "type": "string"
+    },
+    "canon_package_version": {
+      "type": "string"
+    },
+    "canon_policy": {
+      "type": "string",
+      "enum": [
+        "pinned",
+        "migrate_if_compatible"
+      ]
+    },
+    "situation_id": {
+      "type": "string"
+    },
+    "situation_version": {
+      "type": "integer"
+    },
+    "difficulty_mode": {
+      "type": "string",
+      "enum": [
+        "historia",
+        "facil",
+        "medio",
+        "dificil",
+        "lumyriel"
+      ]
+    },
+    "duration_mode": {
+      "type": "string",
+      "enum": [
+        "30",
+        "60",
+        "90",
+        "120",
+        "240",
+        "continua"
+      ]
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "last_saved_at": {
+      "type": "string"
+    },
+    "latest_state_version": {
+      "type": "integer"
+    },
+    "latest_event_sequence": {
+      "type": "integer"
+    },
+    "latest_checkpoint_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "campaign_id",
+    "campaign_schema_version",
+    "state_schema_version",
+    "character_id",
+    "character_source_revision",
+    "character_snapshot_id",
+    "canon_package_id",
+    "canon_package_version",
+    "canon_policy",
+    "situation_id",
+    "situation_version",
+    "difficulty_mode",
+    "duration_mode",
+    "created_at",
+    "last_saved_at",
+    "latest_state_version",
+    "latest_event_sequence",
+    "latest_checkpoint_id"
+  ],
+  "additionalProperties": false
+}
