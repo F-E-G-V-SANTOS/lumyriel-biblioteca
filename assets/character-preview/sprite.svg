@@ -1,40 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
   <defs>
-    <symbol id="base-oval" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="400" cy="330" rx="145" ry="195"/><rect x="340" y="485" width="120" height="185" rx="44"/><path d="M120 920c42-155 140-245 280-245s238 90 280 245H120z"/></g></symbol>
-    <symbol id="base-wide" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="400" cy="335" rx="170" ry="190"/><rect x="335" y="490" width="130" height="180" rx="44"/><path d="M100 920c50-160 155-245 300-245s250 85 300 245H100z"/></g></symbol>
-    <symbol id="base-narrow" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="400" cy="328" rx="126" ry="205"/><rect x="345" y="495" width="110" height="178" rx="40"/><path d="M140 920c38-150 130-240 260-240s222 90 260 240H140z"/></g></symbol>
+    <filter id="paint" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".009 .022" numOctaves="2" seed="13" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
 
-    <symbol id="ears-human" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="245" cy="345" rx="24" ry="48"/><ellipse cx="555" cy="345" rx="24" ry="48"/></g></symbol>
-    <symbol id="ears-elf" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M255 334L115 265q52 100 135 140z"/><path d="M545 334l140-69q-52 100-135 140z"/></g></symbol>
-    <symbol id="ears-feline" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M280 210l-70-120 15 176z"/><path d="M520 210l70-120-15 176z"/></g></symbol>
-    <symbol id="ears-lupine" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M290 215L205 55l8 200z"/><path d="M510 215L595 55l-8 200z"/></g></symbol>
-    <symbol id="ears-reduced" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="253" cy="350" rx="11" ry="31"/><ellipse cx="547" cy="350" rx="11" ry="31"/></g></symbol>
+    <symbol id="base-oval" viewBox="0 0 800 1000">
+      <g filter="url(#paint)">
+        <path fill="currentColor" stroke="#2d211a" stroke-opacity=".22" stroke-width="4" d="M400 116c-91 0-150 54-163 150-10 73 1 166 27 227 28 66 82 118 136 118s108-52 136-118c26-61 37-154 27-227-13-96-72-150-163-150z"/>
+        <path fill="currentColor" d="M342 561c18 32 38 50 58 50s40-18 58-50l18 144H324z"/>
+        <path fill="#fff" fill-opacity=".10" d="M279 239c18-63 54-98 108-110-49 40-76 105-76 190 0 95 22 173 65 234-64-33-104-116-112-211-3-41 2-76 15-103z"/>
+        <path fill="#000" fill-opacity=".09" d="M448 129c65 21 103 73 114 149 12 84-4 180-39 246-23 43-57 72-95 84 48-61 72-136 73-224 2-104-16-188-53-255z"/>
+      </g>
+    </symbol>
 
-    <symbol id="horns-short" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M300 205q-85-65-62-150 75 55 92 143z"/><path d="M500 205q85-65 62-150-75 55-92 143z"/></g></symbol>
-    <symbol id="horns-medium" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M305 210Q185 165 165 45q118 44 165 154z"/><path d="M495 210Q615 165 635 45q-118 44-165 154z"/></g></symbol>
-    <symbol id="horns-long" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M310 215Q155 145 118 10q156 60 214 196z"/><path d="M490 215Q645 145 682 10q-156 60-214 196z"/></g></symbol>
-    <symbol id="horns-spiral" viewBox="0 0 800 1000"><g fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round"><path d="M305 205c-100-20-135-130-60-170 68-36 124 42 82 96-29 38-78 9-58-26"/><path d="M495 205c100-20 135-130 60-170-68-36-124 42-82 96 29 38 78 9 58-26"/></g></symbol>
+    <symbol id="base-wide" viewBox="0 0 800 1000">
+      <g filter="url(#paint)">
+        <path fill="currentColor" stroke="#2d211a" stroke-opacity=".22" stroke-width="4" d="M400 123c-108 0-177 55-187 153-7 70 9 165 40 222 34 63 91 108 147 108s113-45 147-108c31-57 47-152 40-222-10-98-79-153-187-153z"/>
+        <path fill="currentColor" d="M330 557c23 33 47 49 70 49s47-16 70-49l24 150H306z"/>
+        <path fill="#fff" fill-opacity=".09" d="M252 252c22-69 67-104 129-115-62 45-91 113-87 202 5 91 33 165 82 214-74-27-123-101-144-193-10-44-3-81 20-108z"/>
+        <path fill="#000" fill-opacity=".09" d="M461 139c74 24 114 79 123 159 9 80-10 167-47 224-26 41-62 69-100 80 51-58 77-134 78-221 1-102-18-183-54-242z"/>
+      </g>
+    </symbol>
 
-    <symbol id="eye-left-almond" viewBox="0 0 800 1000"><path fill="currentColor" d="M270 335q40-34 92 0-46 42-92 0z"/></symbol>
-    <symbol id="eye-right-almond" viewBox="0 0 800 1000"><path fill="currentColor" d="M438 335q52-34 92 0-46 42-92 0z"/></symbol>
-    <symbol id="eye-left-round" viewBox="0 0 800 1000"><ellipse fill="currentColor" cx="318" cy="336" rx="29" ry="24"/></symbol>
-    <symbol id="eye-right-round" viewBox="0 0 800 1000"><ellipse fill="currentColor" cx="482" cy="336" rx="29" ry="24"/></symbol>
+    <symbol id="base-narrow" viewBox="0 0 800 1000">
+      <g filter="url(#paint)">
+        <path fill="currentColor" stroke="#2d211a" stroke-opacity=".22" stroke-width="4" d="M400 111c-80 0-133 50-149 147-11 69-2 168 21 231 25 69 75 128 128 128s103-59 128-128c23-63 32-162 21-231-16-97-69-147-149-147z"/>
+        <path fill="currentColor" d="M350 566c13 32 31 51 50 51s37-19 50-51l16 140H334z"/>
+        <path fill="#fff" fill-opacity=".09" d="M286 232c16-62 52-96 103-108-50 46-72 113-66 205 6 95 27 170 62 224-58-39-92-121-98-214-3-44-4-79-1-107z"/>
+        <path fill="#000" fill-opacity=".09" d="M441 124c56 24 90 76 103 151 15 89 0 192-30 257-20 45-49 72-80 82 36-62 55-139 57-225 2-107-15-196-50-265z"/>
+      </g>
+    </symbol>
 
-    <symbol id="hair-short" viewBox="0 0 800 1000"><path fill="currentColor" d="M258 300q-22-190 142-208 171 20 145 210l-38-75-46 42-50-52-47 49-54-48z"/></symbol>
-    <symbol id="hair-long" viewBox="0 0 800 1000"><path fill="currentColor" d="M252 305Q225 95 400 82q180 18 150 235l35 320-118-74-67-170-66 170-119 74 36-332z"/></symbol>
-    <symbol id="hair-curly" viewBox="0 0 800 1000"><g fill="currentColor"><circle cx="285" cy="190" r="54"/><circle cx="345" cy="142" r="62"/><circle cx="415" cy="138" r="66"/><circle cx="485" cy="170" r="60"/><circle cx="530" cy="230" r="52"/><circle cx="260" cy="250" r="48"/><circle cx="545" cy="290" r="42"/><circle cx="250" cy="305" r="39"/></g></symbol>
+    <symbol id="ears-human" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="currentColor" stroke="#2d211a" stroke-opacity=".2" stroke-width="3"><ellipse cx="244" cy="350" rx="28" ry="52"/><ellipse cx="556" cy="350" rx="28" ry="52"/><g fill="#000" fill-opacity=".09" stroke="none"><ellipse cx="246" cy="350" rx="11" ry="29"/><ellipse cx="554" cy="350" rx="11" ry="29"/></g></g></symbol>
+    <symbol id="ears-elf" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#2d211a" stroke-opacity=".21" stroke-width="3" d="M260 338L106 258q53 114 148 158z"/><path fill="currentColor" stroke="#2d211a" stroke-opacity=".21" stroke-width="3" d="M540 338l154-80q-53 114-148 158z"/><path fill="#000" fill-opacity=".07" d="M236 342l-88-50q37 58 86 80zM564 342l88-50q-37 58-86 80z"/></g></symbol>
+    <symbol id="ears-feline" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#2d211a" stroke-opacity=".24" stroke-width="4" d="M294 230L207 70l12 210z"/><path fill="currentColor" stroke="#2d211a" stroke-opacity=".24" stroke-width="4" d="M506 230L593 70l-12 210z"/><path fill="#000" fill-opacity=".13" d="M276 211l-47-92 7 128zM524 211l47-92-7 128z"/><path fill="#fff" fill-opacity=".11" d="M235 108l25 99-35 45zM565 108l-25 99 35 45z"/></g></symbol>
+    <symbol id="ears-lupine" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#2d211a" stroke-opacity=".24" stroke-width="4" d="M298 231L198 41l13 232z"/><path fill="currentColor" stroke="#2d211a" stroke-opacity=".24" stroke-width="4" d="M502 231L602 41l-13 232z"/><path fill="#000" fill-opacity=".14" d="M277 207l-54-115 7 152zM523 207l54-115-7 152z"/><path fill="#fff" fill-opacity=".10" d="M218 70l31 122-39 53zM582 70l-31 122 39 53z"/></g></symbol>
+    <symbol id="ears-reduced" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="currentColor"><ellipse cx="255" cy="354" rx="13" ry="32"/><ellipse cx="545" cy="354" rx="13" ry="32"/><path fill="#000" fill-opacity=".12" d="M251 342q8 12 0 26M549 342q-8 12 0 26"/></g></symbol>
 
-    <symbol id="garment-tunic" viewBox="0 0 800 1000"><path fill="currentColor" d="M120 920q42-150 215-230l65 82 65-82q173 80 215 230H120z"/><path fill="#000" fill-opacity=".18" d="M335 690l65 82 65-82-22 178h-86z"/></symbol>
-    <symbol id="garment-cloak" viewBox="0 0 800 1000"><path fill="currentColor" d="M85 925q38-205 250-266l65 102 65-102q212 61 250 266H85z"/><path fill="#000" fill-opacity=".2" d="M335 659l65 102 65-102-14 254H349z"/></symbol>
-    <symbol id="garment-armor" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M112 920q50-170 220-225l68 67 68-67q170 55 220 225H112z"/><path d="M245 740l155 60 155-60-22 150-133 36-133-36z"/></g><g fill="#000" fill-opacity=".2"><path d="M270 770h260v24H270zM250 832h300v20H250z"/></g></symbol>
+    <symbol id="horns-short" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#241b15" stroke-opacity=".34" stroke-width="4" d="M307 219q-89-63-66-158 79 50 99 145z"/><path fill="currentColor" stroke="#241b15" stroke-opacity=".34" stroke-width="4" d="M493 219q89-63 66-158-79 50-99 145z"/><g fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="7"><path d="M274 176l48-9M263 139l51-8M526 176l-48-9M537 139l-51-8"/></g></g></symbol>
+    <symbol id="horns-medium" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#241b15" stroke-opacity=".34" stroke-width="4" d="M309 220Q181 171 157 40q126 47 177 164z"/><path fill="currentColor" stroke="#241b15" stroke-opacity=".34" stroke-width="4" d="M491 220Q619 171 643 40q-126 47-177 164z"/><g fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="7"><path d="M201 93l71 24M186 132l84 23M599 93l-71 24M614 132l-84 23"/></g></g></symbol>
+    <symbol id="horns-long" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#241b15" stroke-opacity=".34" stroke-width="4" d="M313 222Q145 148 105 4q168 63 231 204z"/><path fill="currentColor" stroke="#241b15" stroke-opacity=".34" stroke-width="4" d="M487 222Q655 148 695 4q-168 63-231 204z"/><g fill="none" stroke="#fff" stroke-opacity=".11" stroke-width="7"><path d="M144 52l92 36M127 96l114 43M656 52l-92 36M673 96l-114 43"/></g></g></symbol>
+    <symbol id="horns-spiral" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="none" stroke="currentColor" stroke-width="30" stroke-linecap="round"><path d="M306 211c-107-19-143-135-63-180 73-41 134 42 89 101-31 40-84 11-62-27"/><path d="M494 211c107-19 143-135 63-180-73-41-134 42-89 101 31 40 84 11 62-27"/></g></symbol>
 
-    <symbol id="accessory-glasses" viewBox="0 0 800 1000"><g fill="none" stroke="currentColor" stroke-width="12"><rect x="265" y="305" width="105" height="70" rx="24"/><rect x="430" y="305" width="105" height="70" rx="24"/><path d="M370 335h60M265 330l-55-20M535 330l55-20"/></g></symbol>
-    <symbol id="accessory-dark-glasses" viewBox="0 0 800 1000"><g fill="currentColor"><rect x="260" y="302" width="112" height="76" rx="24"/><rect x="428" y="302" width="112" height="76" rx="24"/><rect x="368" y="330" width="64" height="12" rx="6"/></g></symbol>
-    <symbol id="accessory-veil" viewBox="0 0 800 1000"><path fill="currentColor" fill-opacity=".85" d="M215 285h370v155q-85 35-185 35t-185-35V285z"/></symbol>
-    <symbol id="accessory-mask" viewBox="0 0 800 1000"><path fill="currentColor" d="M285 390q115 55 230 0l-18 155q-97 78-194 0z"/></symbol>
-    <symbol id="accessory-hood" viewBox="0 0 800 1000"><path fill="currentColor" fill-rule="evenodd" d="M180 690q-35-420 220-605 255 185 220 605l-95 65q70-410-125-545-195 135-125 545z"/></symbol>
-    <symbol id="mark-scar" viewBox="0 0 800 1000"><path fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" d="M500 285l-72 175m42-122l54 28m-81 18l48 25"/></symbol>
+    <symbol id="eye-left-almond" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="#e8dfcf" stroke="#382920" stroke-width="5" d="M270 337q42-38 95 0-47 43-95 0z"/><ellipse fill="currentColor" cx="319" cy="338" rx="18" ry="21"/><ellipse fill="#181411" cx="319" cy="338" rx="7" ry="14"/><circle fill="#fff" fill-opacity=".74" cx="313" cy="330" r="4"/></g></symbol>
+    <symbol id="eye-right-almond" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="#e8dfcf" stroke="#382920" stroke-width="5" d="M435 337q53-38 95 0-48 43-95 0z"/><ellipse fill="currentColor" cx="481" cy="338" rx="18" ry="21"/><ellipse fill="#181411" cx="481" cy="338" rx="7" ry="14"/><circle fill="#fff" fill-opacity=".74" cx="475" cy="330" r="4"/></g></symbol>
+    <symbol id="eye-left-round" viewBox="0 0 800 1000"><g filter="url(#paint)"><ellipse fill="#e8dfcf" stroke="#382920" stroke-width="5" cx="319" cy="338" rx="34" ry="27"/><circle fill="currentColor" cx="319" cy="338" r="19"/><ellipse fill="#181411" cx="319" cy="338" rx="7" ry="14"/><circle fill="#fff" fill-opacity=".74" cx="313" cy="330" r="4"/></g></symbol>
+    <symbol id="eye-right-round" viewBox="0 0 800 1000"><g filter="url(#paint)"><ellipse fill="#e8dfcf" stroke="#382920" stroke-width="5" cx="481" cy="338" rx="34" ry="27"/><circle fill="currentColor" cx="481" cy="338" r="19"/><ellipse fill="#181411" cx="481" cy="338" rx="7" ry="14"/><circle fill="#fff" fill-opacity=".74" cx="475" cy="330" r="4"/></g></symbol>
 
-    <symbol id="face-details" viewBox="0 0 800 1000"><g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity=".72"><path d="M278 295q42-24 82-4M440 291q42-20 82 4M401 330q-18 75 3 108l-32 9M345 495q55 28 110 0M327 568q73 35 146 0"/></g></symbol>
+    <symbol id="hair-short" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#241b16" stroke-opacity=".31" stroke-width="4" d="M258 304c-13-82 2-147 40-190 32-34 68-50 108-51 82 0 135 50 148 145 5 40 2 77-9 112l-28-74-45 32-40-44-48 47-48-35-37 66z"/><path fill="#000" fill-opacity=".13" d="M400 68c85 6 132 62 143 152l-55-50-29 50-35-59-36 42-39-48-55 54c22-84 72-132 156-141z"/><path fill="none" stroke="#fff" stroke-opacity=".11" stroke-width="8" stroke-linecap="round" d="M303 190q50-70 105-83M347 214q37-75 89-100M431 111q48 45 64 110"/></g></symbol>
+    <symbol id="hair-long" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#241b16" stroke-opacity=".31" stroke-width="4" d="M253 313C231 167 274 78 399 66c130 13 173 102 149 252l41 343-111-55-78-205-78 205-111 55 42-348z"/><path fill="#000" fill-opacity=".13" d="M400 70c86 10 132 67 145 155l-59-59-33 62-40-61-38 43-43-41-65 64c26-91 80-144 133-153z"/><path fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="9" stroke-linecap="round" d="M305 164q53-63 103-72M350 199q42-72 90-91M458 119q50 74 62 188M274 277q-8 190 10 310M525 278q8 187-9 307"/></g></symbol>
+    <symbol id="hair-curly" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="currentColor" stroke="#241b16" stroke-opacity=".2" stroke-width="3"><circle cx="286" cy="190" r="56"/><circle cx="345" cy="143" r="63"/><circle cx="414" cy="138" r="67"/><circle cx="484" cy="170" r="62"/><circle cx="531" cy="231" r="54"/><circle cx="260" cy="250" r="50"/><circle cx="545" cy="291" r="44"/><circle cx="250" cy="307" r="41"/><g fill="#fff" fill-opacity=".08" stroke="none"><circle cx="326" cy="133" r="20"/><circle cx="432" cy="117" r="20"/><circle cx="498" cy="190" r="18"/></g></g></symbol>
+
+    <symbol id="garment-tunic" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#2c211b" stroke-opacity=".28" stroke-width="5" d="M111 925q44-165 218-235l71 79 71-79q174 70 218 235H111z"/><path fill="#000" fill-opacity=".18" d="M329 690l71 79 71-79-24 181h-94z"/><path fill="none" stroke="#fff" stroke-opacity=".09" stroke-width="6" d="M181 879q84-102 171-118M619 879q-84-102-171-118"/></g></symbol>
+    <symbol id="garment-cloak" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#2c211b" stroke-opacity=".28" stroke-width="5" d="M79 930q40-211 248-272l73 100 73-100q208 61 248 272H79z"/><path fill="#000" fill-opacity=".2" d="M327 658l73 100 73-100-16 257H343z"/><path fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="7" d="M139 880q92-120 205-169M661 880q-92-120-205-169"/></g></symbol>
+    <symbol id="garment-armor" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#241c17" stroke-opacity=".35" stroke-width="5" d="M108 925q52-177 222-232l70 66 70-66q170 55 222 232H108z"/><path fill="#000" fill-opacity=".2" d="M242 742l158 61 158-61-23 153-135 37-135-37z"/><g fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="7"><path d="M279 777h242M257 838h286M400 759v158"/></g></g></symbol>
+
+    <symbol id="accessory-glasses" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="none" stroke="currentColor" stroke-width="11"><rect x="264" y="305" width="106" height="70" rx="24"/><rect x="430" y="305" width="106" height="70" rx="24"/><path d="M370 335h60M264 330l-55-20M536 330l55-20"/></g></symbol>
+    <symbol id="accessory-dark-glasses" viewBox="0 0 800 1000"><g filter="url(#paint)"><rect fill="currentColor" x="260" y="302" width="112" height="76" rx="24"/><rect fill="currentColor" x="428" y="302" width="112" height="76" rx="24"/><rect fill="currentColor" x="368" y="330" width="64" height="12" rx="6"/><path fill="#fff" fill-opacity=".09" d="M276 315h76l-63 42h-19zM444 315h76l-63 42h-19z"/></g></symbol>
+    <symbol id="accessory-veil" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" fill-opacity=".88" d="M213 283h374v158q-87 36-187 36t-187-36V283z"/><path fill="#fff" fill-opacity=".06" d="M237 300h324v21H237z"/></g></symbol>
+    <symbol id="accessory-mask" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#211914" stroke-opacity=".3" stroke-width="4" d="M283 389q117 57 234 0l-19 157q-98 79-196 0z"/><path fill="#fff" fill-opacity=".07" d="M315 419q85 32 170 0l-8 32q-77 30-154 0z"/></g></symbol>
+    <symbol id="accessory-hood" viewBox="0 0 800 1000"><g filter="url(#paint)"><path fill="currentColor" stroke="#211914" stroke-opacity=".3" stroke-width="5" fill-rule="evenodd" d="M177 693Q143 271 400 82q257 189 223 611l-97 66q71-414-126-551-197 137-126 551z"/><path fill="#000" fill-opacity=".16" d="M400 111q200 178 157 510l-49 49q35-318-108-448-143 130-108 448l-49-49q-43-332 157-510z"/></g></symbol>
+    <symbol id="mark-scar" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="none" stroke="currentColor" stroke-linecap="round"><path stroke-width="8" d="M500 284l-72 176"/><path stroke-width="5" d="M470 338l54 28M443 384l49 26"/></g></symbol>
+
+    <symbol id="face-details" viewBox="0 0 800 1000"><g filter="url(#paint)" fill="none" stroke="currentColor" stroke-linecap="round" opacity=".74"><path stroke-width="8" d="M278 296q42-25 82-4M440 292q42-21 82 4"/><path stroke-width="6" d="M401 329q-18 76 3 109l-32 9M347 495q53 27 106 0M329 568q71 34 142 0"/><path stroke-width="4" opacity=".55" d="M305 424q19 14 39 7M456 431q20 7 39-7"/></g></symbol>
   </defs>
 </svg>
