@@ -52,6 +52,37 @@
     repairRpgProjectCovers();
   };
 
+  const installStickyHeader = () => {
+    const header = document.querySelector('header');
+    const brand = document.querySelector('.brand');
+    if (!header || !brand || document.getElementById('lumyriel-sticky-header-style')) return;
+
+    const style = document.createElement('style');
+    style.id = 'lumyriel-sticky-header-style';
+    style.textContent = `
+      header{position:sticky!important;top:0!important;z-index:1200!important;transform:none!important;visibility:visible!important}
+      .brand{cursor:pointer;touch-action:manipulation}
+      .brand:focus-visible{outline:1px solid var(--bronze2,#cfb785);outline-offset:7px}
+    `;
+    document.head.appendChild(style);
+
+    brand.setAttribute('role', 'button');
+    brand.setAttribute('tabindex', '0');
+    brand.setAttribute('title', 'Voltar ao topo');
+    brand.setAttribute('aria-label', 'Biblioteca Lumyrieliana, voltar ao topo');
+
+    const goTop = event => {
+      event?.preventDefault();
+      document.body.classList.remove('mobile-index-open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (history.replaceState) history.replaceState(null, '', `${location.pathname}${location.search}`);
+    };
+    brand.addEventListener('click', goTop);
+    brand.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') goTop(event);
+    });
+  };
+
   const installMobileIndex = () => {
     const toggle = document.querySelector('.menu-toggle');
     const navlinks = document.querySelector('.navlinks');
@@ -93,11 +124,12 @@
     window.addEventListener('resize', () => { if (window.innerWidth > 850) close(); });
   };
 
+  installStickyHeader();
   installMobileIndex();
   removeDuplicateRpgShelf();
   const observer = new MutationObserver(removeDuplicateRpgShelf);
   observer.observe(document.documentElement, { childList: true, subtree: true });
-  window.addEventListener('load', () => { installMobileIndex(); removeDuplicateRpgShelf(); }, { once: true });
+  window.addEventListener('load', () => { installStickyHeader(); installMobileIndex(); removeDuplicateRpgShelf(); }, { once: true });
   setTimeout(removeDuplicateRpgShelf, 0);
   setTimeout(removeDuplicateRpgShelf, 500);
   setTimeout(removeDuplicateRpgShelf, 1500);
