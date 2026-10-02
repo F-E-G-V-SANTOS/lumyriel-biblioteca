@@ -12,6 +12,10 @@
     biologia: 'assets/covers/biologia-lumyrieliana.webp',
     matematica: 'assets/covers/matematica-lumyrieliana.webp',
     rpg: 'assets/covers/lumyriel-rpg.webp',
+    rpgMestre: 'assets/covers/rpg-livro-do-mestre.jpg',
+    rpgJogador: 'assets/covers/rpg-guia-do-jogador.jpg',
+    rpgBestiario: 'assets/covers/rpg-bestiario.jpg',
+    rpgRacas: 'assets/covers/rpg-racas.jpg',
     construindo: 'assets/covers/construindo-mundos.webp',
     criador: 'assets/covers/criador-de-personagens.webp'
   };
@@ -31,7 +35,32 @@
     .creator-page-identity img{width:112px;aspect-ratio:.667;object-fit:cover;border:1px solid #62523b;box-shadow:0 16px 30px rgba(0,0,0,.34)}
     .creator-page-identity strong{display:block;color:#e7dbc5;font:400 1.08rem Georgia,"Times New Roman",serif;margin-bottom:4px}
     .creator-page-identity span{color:#b7ad9d;font-size:.84rem;line-height:1.55}
-    @media(max-width:700px){.creator-cover-strip{align-items:flex-start}.creator-cover-strip img{width:78px}.creator-page-identity{align-items:flex-start}.creator-page-identity img{width:82px}}
+
+    .rpg-book-library{grid-column:1/-1;width:100%;margin-top:42px;padding-top:34px;border-top:1px solid rgba(170,138,88,.28)}
+    .rpg-book-library-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.75fr);gap:28px;align-items:end;margin-bottom:24px}
+    .rpg-book-library-kicker{display:block;margin-bottom:8px;color:#cfb785;font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+    .rpg-book-library h3{margin:0;color:#eadfcf;font:400 clamp(1.8rem,3vw,2.7rem)/1.08 Georgia,"Times New Roman",serif}
+    .rpg-book-library-head p{margin:0;color:#a79e8f;font-size:.84rem;line-height:1.6}
+    .rpg-book-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+    .rpg-book-project{min-width:0;padding:11px 11px 15px;border:1px solid #393126;background:linear-gradient(180deg,rgba(23,20,16,.9),rgba(11,10,8,.96));box-shadow:0 14px 26px rgba(0,0,0,.18);transition:transform .18s ease,border-color .18s ease,background .18s ease}
+    .rpg-book-project:hover{transform:translateY(-2px);border-color:#6a5940;background:linear-gradient(180deg,rgba(29,25,19,.94),rgba(13,11,9,.98))}
+    .rpg-book-project img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover;border:1px solid rgba(126,105,73,.72);background:#100e0b;box-shadow:0 12px 24px rgba(0,0,0,.3)}
+    .rpg-book-project .rpg-book-state{display:inline-block;margin-top:12px;padding:4px 7px;border:1px solid #6f5941;color:#d9bd9c;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase}
+    .rpg-book-project h4{margin:9px 0 6px;color:#eadfcf;font:400 1.02rem/1.18 Georgia,"Times New Roman",serif}
+    .rpg-book-project p{margin:0;color:#9f9688;font-size:.72rem;line-height:1.48}
+
+    @media(max-width:900px){
+      .rpg-book-library-head{grid-template-columns:1fr;gap:10px}
+      .rpg-book-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:700px){
+      .creator-cover-strip{align-items:flex-start}.creator-cover-strip img{width:78px}.creator-page-identity{align-items:flex-start}.creator-page-identity img{width:82px}
+      .rpg-book-library{margin-top:30px;padding-top:26px}
+      .rpg-book-grid{gap:11px}
+      .rpg-book-project{padding:8px 8px 12px}
+      .rpg-book-project h4{font-size:.92rem}
+      .rpg-book-project p{font-size:.67rem}
+    }
   `;
   document.head.appendChild(style);
 
@@ -190,6 +219,57 @@
     copy.appendChild(wrap);
   }
 
+  function updateRpgLibrary() {
+    const preview = document.getElementById('rpg-preview');
+    if (!preview || preview.querySelector('.rpg-book-library')) return;
+
+    const host = preview.querySelector('.shell') || preview;
+    const books = [
+      {
+        key:'rpgMestre',
+        title:'Livro do Mestre',
+        description:'Ferramentas para condução de campanhas, preparação de cenas, conflitos, ritmo, improvisação e memória do mundo.'
+      },
+      {
+        key:'rpgJogador',
+        title:'Guia do Jogador',
+        description:'Referência para criação, interpretação e desenvolvimento de personagens dentro das regras e da experiência de Lumyriel RPG.'
+      },
+      {
+        key:'rpgBestiario',
+        title:'Bestiário',
+        description:'Criaturas, comportamentos, habitats, perigos e pistas para encontros, exploração e investigação em Lumyriel.'
+      },
+      {
+        key:'rpgRacas',
+        title:'Raças',
+        description:'Referência jogável sobre povos, espécies e linhagens de Lumyriel, reunindo anatomia, cultura e particularidades relevantes para personagens.'
+      }
+    ];
+
+    const library = document.createElement('div');
+    library.className = 'rpg-book-library';
+    library.id = 'rpg-livros';
+    library.innerHTML = `
+      <div class="rpg-book-library-head">
+        <div>
+          <span class="rpg-book-library-kicker">Biblioteca do sistema</span>
+          <h3>Próximos livros do Lumyriel RPG</h3>
+        </div>
+        <p>O sistema está sendo desenvolvido como uma coleção própria. Estas capas já definem quatro das próximas frentes editoriais; os livros permanecem em desenvolvimento.</p>
+      </div>
+      <div class="rpg-book-grid">
+        ${books.map(book => `
+          <article class="rpg-book-project">
+            <img src="${COVERS[book.key]}" alt="Capa de Lumyriel RPG — ${book.title}" loading="lazy" decoding="async">
+            <span class="rpg-book-state">Em desenvolvimento</span>
+            <h4>${book.title}</h4>
+            <p>${book.description}</p>
+          </article>`).join('')}
+      </div>`;
+    host.appendChild(library);
+  }
+
   function updateCreatorPage() {
     if (!document.getElementById('creatorForm')) return;
     const hero = document.querySelector('main .hero.shell');
@@ -233,6 +313,7 @@
   addAuthorCredits();
   updateCreatorCallout();
   updateRpgPreview();
+  updateRpgLibrary();
   updateCreatorPage();
   loadHeroLibraryStage();
 })();
