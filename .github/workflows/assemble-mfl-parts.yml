@@ -33,6 +33,11 @@ jobs:
 
           changed = []
           for base, items in sorted(groups.items()):
+              index = int(base[-2:])
+              target = books / f'{base}.dat'
+              # Esta automação pertence apenas à retomada s08–s13; ignora resíduos antigos.
+              if index < 8 or target.exists():
+                  continue
               items.sort()
               indexes = [i for i, _ in items]
               if indexes != list(range(len(items))):
@@ -47,7 +52,6 @@ jobs:
                   raise SystemExit(f'Schema inválido em {base}')
               if not isinstance(obj.get('chapters'), list) or not obj['chapters']:
                   raise SystemExit(f'Conteúdo vazio em {base}')
-              target = books / f'{base}.dat'
               target.write_text(payload, encoding='utf-8')
               for _, p in items:
                   p.unlink()
