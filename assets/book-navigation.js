@@ -63,8 +63,42 @@
     openCard(card);
   }, true);
 
+  /* No palco flutuante, o primeiro clique continua mostrando detalhes.
+     O segundo clique em um livro publicado agora abre o leitor, em vez de rolar a página. */
+  document.addEventListener('click', event => {
+    const card = event.target.closest?.('.lumyriel-hero-deck-item');
+    const stage = card?.closest('.lumyriel-hero-library-stage');
+    const key = card?.dataset.key;
+    if (!card || !stage || !BOOKS[key]) return;
+
+    if (stage.dataset.activeProject === key) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      open(key);
+      return;
+    }
+
+    setTimeout(() => {
+      if (stage.dataset.activeProject !== key) return;
+      const hint = stage.querySelector('.lumyriel-hero-deck-status.is-detail em');
+      if (hint) hint.textContent = 'Clique novamente na capa para abrir este livro.';
+      card.setAttribute('aria-label', `${key}. Selecionado; ativar novamente para abrir o livro.`);
+    }, 0);
+  }, true);
+
   document.addEventListener('keydown', event => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    const heroCard = event.target.closest?.('.lumyriel-hero-deck-item');
+    const heroStage = heroCard?.closest('.lumyriel-hero-library-stage');
+    const heroKey = heroCard?.dataset.key;
+    if (heroCard && heroStage && BOOKS[heroKey] && heroStage.dataset.activeProject === heroKey) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      open(heroKey);
+      return;
+    }
+
     const card = event.target.closest?.('#libraryGrid .card');
     if (!card || !routeForCard(card)) return;
     event.preventDefault();
