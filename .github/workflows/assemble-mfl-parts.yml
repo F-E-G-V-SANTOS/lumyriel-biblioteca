@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'books/lmy-mfl-s*.part'
+      - 'books/lmy-mfl-s*.ready'
       - '.github/workflows/assemble-mfl-parts.yml'
 
 permissions:
@@ -35,18 +36,13 @@ jobs:
           for base, items in sorted(groups.items()):
               index = int(base[-2:])
               target = books / f'{base}.dat'
-              # Esta automação pertence apenas à retomada s08–s13; ignora resíduos antigos.
-              if index < 8 or target.exists():
+              ready = books / f'{base}.ready'
+              if index < 8 or target.exists() or not ready.exists():
                   continue
               items.sort()
               indexes = [i for i, _ in items]
               if indexes != list(range(len(items))):
-                  continue
-              # Fragmentos intermediários têm 4.000 caracteres; o último é menor.
-              if items[-1][1].stat().st_size >= 4000:
-                  continue
-              if any(p.stat().st_size != 4000 for _, p in items[:-1]):
-                  continue
+                  raise SystemExit(f'Fragmentos incompletos em {base}: {indexes}')
               payload = ''.join(p.read_text(encoding='utf-8') for _, p in items)
               raw = base64.b64decode(payload, validate=True)
               obj = json.loads(gzip.decompress(raw).decode('utf-8'))
@@ -57,12 +53,13 @@ jobs:
               target.write_text(payload, encoding='utf-8')
               for _, p in items:
                   p.unlink()
+              ready.unlink()
               changed.append(target.name)
 
           if changed:
               print('Consolidados:', ', '.join(changed))
           else:
-              print('Nenhum bloco completo para consolidar.')
+              print('Nenhum bloco marcado como pronto para consolidar.')
           PY
 
           if git status --porcelain | grep -q .; then
