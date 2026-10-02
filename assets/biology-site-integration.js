@@ -4,7 +4,7 @@
   if (window.__LUMYRIEL_BIOLOGY_PUBLICATION__) return;
   window.__LUMYRIEL_BIOLOGY_PUBLICATION__ = true;
 
-  // O site não lê PDF. A edição pública usa o payload nativo .dat do leitor.
+  // A rota de leitura pertence exclusivamente a book-navigation.js.
   const READER_URL = 'biology-reader.html?v=0&mode=intro';
   const TITLE = 'Biologia de Lumyriel';
 
@@ -26,8 +26,6 @@
 
     card.dataset.status = 'live';
     card.classList.add('clickable-book');
-    card.setAttribute('role', 'link');
-    card.setAttribute('tabindex', '0');
     card.setAttribute('aria-label', 'Abrir Biologia de Lumyriel, Primeira Edição RC1');
 
     const status = card.querySelector('.status');
@@ -43,14 +41,6 @@
     if (bottom) bottom.innerHTML = '<span>RC1 · 6 volumes · 33 partes · 138 capítulos</span><span class="textlink">Ler agora →</span>';
 
     if (card.parentElement !== grid) grid.appendChild(card);
-    const open = () => { location.href = READER_URL; };
-    card.addEventListener('click', open);
-    card.addEventListener('keydown', event => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        open();
-      }
-    });
   }
 
   function addAvailableRead() {
