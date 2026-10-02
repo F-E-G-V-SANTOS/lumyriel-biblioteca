@@ -16,18 +16,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Sanear Base64 da abertura e normalizar QA
+      - name: Sanear marcador de truncamento e validar Base64
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
           allowed = set('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=')
+          marker = '[... ELLIPSIZATION ...]'
           for p in Path('books').glob('lmy-mfl-*.dat'):
               text = p.read_text(encoding='utf-8-sig')
+              markers = text.count(marker)
+              if markers:
+                  print(f'{p}: removendo {markers} marcador(es) de truncamento')
+                  text = text.replace(marker, '')
               clean = ''.join(ch for ch in text if ch in allowed)
-              removed = [ch for ch in text if ch not in allowed and not ch.isspace() and ch != '\ufeff']
-              if removed:
-                  print(f'{p}: removidos {len(removed)} caracteres não-Base64; códigos={sorted(set(map(ord, removed)))}')
+              bad = [ch for ch in text if ch not in allowed and not ch.isspace() and ch != '\ufeff']
+              if bad:
+                  raise SystemExit(f'{p}: caracteres não-Base64 inesperados: {sorted(set(map(ord,bad)))}')
               p.write_text(clean, encoding='utf-8')
           PY
       - name: Integrar e validar
