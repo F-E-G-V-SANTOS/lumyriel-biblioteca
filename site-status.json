@@ -21,6 +21,15 @@
       "architecture": "v0.4",
       "volumes_in_development": "I–IV",
       "public_reading": false
+    },
+    "matematica-e-fisica-de-lumyriel": {
+      "edition": "RC1 · Primeira Edição",
+      "parts": 13,
+      "chapters": 48,
+      "appendices": 8,
+      "reader_sections": 14,
+      "public_reading": true,
+      "reader_loading": "split-on-demand"
     }
   },
   "character_creator": {
@@ -50,12 +59,6 @@
       "status": "planned",
       "art": "published",
       "cover_file": "assets/covers/biologia-lumyrieliana.webp"
-    },
-    {
-      "title": "Matemática Lumyrieliana",
-      "status": "planned",
-      "art": "published",
-      "cover_file": "assets/covers/matematica-lumyrieliana.webp"
     },
     {
       "title": "Lumyriel RPG",
