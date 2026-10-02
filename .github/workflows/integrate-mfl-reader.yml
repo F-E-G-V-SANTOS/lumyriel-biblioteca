@@ -2,6 +2,7 @@ name: Integrar RC1 de Matemática e Física ao leitor
 # Gate final de QA remoto após restauração íntegra de s10 e s13.
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - '.github/workflows/integrate-mfl-reader.yml'
