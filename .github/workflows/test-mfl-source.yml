@@ -1,0 +1,35 @@
+name: Testar fonte RC1 MFL
+
+on:
+  push:
+    paths:
+      - '.github/workflows/test-mfl-source.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Testar exportação direta do Google Docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL='https://docs.google.com/document/d/1-noG_PYyiyRT8xNztEp0vCgQquPXyk3S3xVG5NlNn0w/export?format=txt'
+          curl -L --fail --silent --show-error "$URL" -o /tmp/mfl.txt
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/mfl.txt')
+          data=p.read_bytes()
+          print('bytes=',len(data))
+          text=data.decode('utf-8-sig',errors='replace')
+          print('head=',repr(text[:120]))
+          if len(data) < 400000:
+              raise SystemExit('exportação pequena demais; provável bloqueio/login')
+          if 'MATEMÁTICA E FÍSICA DE LUMYRIEL' not in text[:1000]:
+              raise SystemExit('título esperado não encontrado')
+          if 'CAPÍTULO 48' not in text or 'APÊNDICE H' not in text:
+              raise SystemExit('fim do manuscrito não encontrado')
+          print('FONTE_RC1_PASS')
+          PY
