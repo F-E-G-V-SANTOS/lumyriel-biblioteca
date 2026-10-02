@@ -202,12 +202,28 @@
     else hero.appendChild(block);
   }
 
+  function loadHeroStageOptimizer() {
+    if (document.querySelector('script[data-lumyriel-hero-stage-optimizer]')) return;
+    const optimizer = document.createElement('script');
+    optimizer.src = 'assets/hero-library-stage-optimizer.js';
+    optimizer.defer = true;
+    optimizer.dataset.lumyrielHeroStageOptimizer = '1';
+    document.head.appendChild(optimizer);
+  }
+
   function loadHeroLibraryStage() {
-    if (!document.getElementById('inicio') || document.querySelector('script[data-lumyriel-hero-library-stage]')) return;
+    if (!document.getElementById('inicio')) return;
+    const existing = document.querySelector('script[data-lumyriel-hero-library-stage]');
+    if (existing) {
+      if (window.__LUMYRIEL_HERO_LIBRARY_STAGE__) loadHeroStageOptimizer();
+      else existing.addEventListener('load', loadHeroStageOptimizer, { once:true });
+      return;
+    }
     const script = document.createElement('script');
     script.src = 'assets/hero-library-stage.js';
     script.defer = true;
     script.dataset.lumyrielHeroLibraryStage = '1';
+    script.addEventListener('load', loadHeroStageOptimizer, { once:true });
     document.head.appendChild(script);
   }
 
