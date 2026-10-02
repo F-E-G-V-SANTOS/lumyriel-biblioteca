@@ -7,6 +7,11 @@
   const rpg = document.getElementById('rpg-preview');
   if (!rpg || document.getElementById('rpg-books')) return;
 
+  /* O catálogo antigo já reservava uma biblioteca do RPG. Removemos apenas
+     essa versão para não duplicar a coleção nem manter capas provisórias. */
+  const previousLibrary = rpg.querySelector('.rpg-book-library');
+  if (previousLibrary) previousLibrary.remove();
+
   const books = [
     {
       title: 'Livro do Mestre',
