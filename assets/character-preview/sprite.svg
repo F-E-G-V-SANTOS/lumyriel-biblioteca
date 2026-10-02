@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <symbol id="base-oval" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="400" cy="330" rx="145" ry="195"/><rect x="340" y="485" width="120" height="185" rx="44"/><path d="M120 920c42-155 140-245 280-245s238 90 280 245H120z"/></g></symbol>
+    <symbol id="base-wide" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="400" cy="335" rx="170" ry="190"/><rect x="335" y="490" width="130" height="180" rx="44"/><path d="M100 920c50-160 155-245 300-245s250 85 300 245H100z"/></g></symbol>
+    <symbol id="base-narrow" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="400" cy="328" rx="126" ry="205"/><rect x="345" y="495" width="110" height="178" rx="40"/><path d="M140 920c38-150 130-240 260-240s222 90 260 240H140z"/></g></symbol>
+
+    <symbol id="ears-human" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="245" cy="345" rx="24" ry="48"/><ellipse cx="555" cy="345" rx="24" ry="48"/></g></symbol>
+    <symbol id="ears-elf" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M255 334L115 265q52 100 135 140z"/><path d="M545 334l140-69q-52 100-135 140z"/></g></symbol>
+    <symbol id="ears-feline" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M280 210l-70-120 15 176z"/><path d="M520 210l70-120-15 176z"/></g></symbol>
+    <symbol id="ears-lupine" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M290 215L205 55l8 200z"/><path d="M510 215L595 55l-8 200z"/></g></symbol>
+    <symbol id="ears-reduced" viewBox="0 0 800 1000"><g fill="currentColor"><ellipse cx="253" cy="350" rx="11" ry="31"/><ellipse cx="547" cy="350" rx="11" ry="31"/></g></symbol>
+
+    <symbol id="horns-short" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M300 205q-85-65-62-150 75 55 92 143z"/><path d="M500 205q85-65 62-150-75 55-92 143z"/></g></symbol>
+    <symbol id="horns-medium" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M305 210Q185 165 165 45q118 44 165 154z"/><path d="M495 210Q615 165 635 45q-118 44-165 154z"/></g></symbol>
+    <symbol id="horns-long" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M310 215Q155 145 118 10q156 60 214 196z"/><path d="M490 215Q645 145 682 10q-156 60-214 196z"/></g></symbol>
+    <symbol id="horns-spiral" viewBox="0 0 800 1000"><g fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round"><path d="M305 205c-100-20-135-130-60-170 68-36 124 42 82 96-29 38-78 9-58-26"/><path d="M495 205c100-20 135-130 60-170-68-36-124 42-82 96 29 38 78 9 58-26"/></g></symbol>
+
+    <symbol id="eye-left-almond" viewBox="0 0 800 1000"><path fill="currentColor" d="M270 335q40-34 92 0-46 42-92 0z"/></symbol>
+    <symbol id="eye-right-almond" viewBox="0 0 800 1000"><path fill="currentColor" d="M438 335q52-34 92 0-46 42-92 0z"/></symbol>
+    <symbol id="eye-left-round" viewBox="0 0 800 1000"><ellipse fill="currentColor" cx="318" cy="336" rx="29" ry="24"/></symbol>
+    <symbol id="eye-right-round" viewBox="0 0 800 1000"><ellipse fill="currentColor" cx="482" cy="336" rx="29" ry="24"/></symbol>
+
+    <symbol id="hair-short" viewBox="0 0 800 1000"><path fill="currentColor" d="M258 300q-22-190 142-208 171 20 145 210l-38-75-46 42-50-52-47 49-54-48z"/></symbol>
+    <symbol id="hair-long" viewBox="0 0 800 1000"><path fill="currentColor" d="M252 305Q225 95 400 82q180 18 150 235l35 320-118-74-67-170-66 170-119 74 36-332z"/></symbol>
+    <symbol id="hair-curly" viewBox="0 0 800 1000"><g fill="currentColor"><circle cx="285" cy="190" r="54"/><circle cx="345" cy="142" r="62"/><circle cx="415" cy="138" r="66"/><circle cx="485" cy="170" r="60"/><circle cx="530" cy="230" r="52"/><circle cx="260" cy="250" r="48"/><circle cx="545" cy="290" r="42"/><circle cx="250" cy="305" r="39"/></g></symbol>
+
+    <symbol id="garment-tunic" viewBox="0 0 800 1000"><path fill="currentColor" d="M120 920q42-150 215-230l65 82 65-82q173 80 215 230H120z"/><path fill="#000" fill-opacity=".18" d="M335 690l65 82 65-82-22 178h-86z"/></symbol>
+    <symbol id="garment-cloak" viewBox="0 0 800 1000"><path fill="currentColor" d="M85 925q38-205 250-266l65 102 65-102q212 61 250 266H85z"/><path fill="#000" fill-opacity=".2" d="M335 659l65 102 65-102-14 254H349z"/></symbol>
+    <symbol id="garment-armor" viewBox="0 0 800 1000"><g fill="currentColor"><path d="M112 920q50-170 220-225l68 67 68-67q170 55 220 225H112z"/><path d="M245 740l155 60 155-60-22 150-133 36-133-36z"/></g><g fill="#000" fill-opacity=".2"><path d="M270 770h260v24H270zM250 832h300v20H250z"/></g></symbol>
+
+    <symbol id="accessory-glasses" viewBox="0 0 800 1000"><g fill="none" stroke="currentColor" stroke-width="12"><rect x="265" y="305" width="105" height="70" rx="24"/><rect x="430" y="305" width="105" height="70" rx="24"/><path d="M370 335h60M265 330l-55-20M535 330l55-20"/></g></symbol>
+    <symbol id="accessory-dark-glasses" viewBox="0 0 800 1000"><g fill="currentColor"><rect x="260" y="302" width="112" height="76" rx="24"/><rect x="428" y="302" width="112" height="76" rx="24"/><rect x="368" y="330" width="64" height="12" rx="6"/></g></symbol>
+    <symbol id="accessory-veil" viewBox="0 0 800 1000"><path fill="currentColor" fill-opacity=".85" d="M215 285h370v155q-85 35-185 35t-185-35V285z"/></symbol>
+    <symbol id="accessory-mask" viewBox="0 0 800 1000"><path fill="currentColor" d="M285 390q115 55 230 0l-18 155q-97 78-194 0z"/></symbol>
+    <symbol id="accessory-hood" viewBox="0 0 800 1000"><path fill="currentColor" fill-rule="evenodd" d="M180 690q-35-420 220-605 255 185 220 605l-95 65q70-410-125-545-195 135-125 545z"/></symbol>
+    <symbol id="mark-scar" viewBox="0 0 800 1000"><path fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" d="M500 285l-72 175m42-122l54 28m-81 18l48 25"/></symbol>
+
+    <symbol id="face-details" viewBox="0 0 800 1000"><g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity=".72"><path d="M278 295q42-24 82-4M440 291q42-20 82 4M401 330q-18 75 3 108l-32 9M345 495q55 28 110 0M327 568q73 35 146 0"/></g></symbol>
+  </defs>
+</svg>
