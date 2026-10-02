@@ -7,6 +7,22 @@ var status=$('saveStatus');function clean(){if(!status)return;var t=(status.text
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot()})();
 
+/* Vocabulário fechado de gênero do Criador. */
+(function(){
+  function normalizeGender(){
+    var select=document.getElementById('gender');
+    if(!select)return setTimeout(normalizeGender,40);
+    if(select.dataset.lumyrielGenderV2==='1')return;
+    var current=select.value;
+    if(current==='Homem')current='Masculino';
+    if(current==='Mulher')current='Feminino';
+    select.innerHTML='<option value="">Selecione</option><option value="Masculino">Masculino</option><option value="Feminino">Feminino</option><option value="Outro">Outro</option><option value="Não definir">Não definir</option>';
+    if(['Masculino','Feminino','Outro','Não definir'].includes(current))select.value=current;
+    select.dataset.lumyrielGenderV2='1';
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',normalizeGender,{once:true});else normalizeGender();
+})();
+
 /* O preview visual fica em módulo separado para poder evoluir sem inflar o Criador. */
 (function(){
   function loadPreview(){
