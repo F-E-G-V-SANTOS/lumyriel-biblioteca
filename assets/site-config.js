@@ -33,6 +33,7 @@ window.LUMYRIEL_CONFIG = {
   }
 
   if (document.getElementById('visualGallery')) load('assets/gallery-viewer.js');
+  if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js');
 
   // Barra editorial do leitor: compacta no celular sem sacrificar as ações principais.
   if (document.getElementById('paper')) {
