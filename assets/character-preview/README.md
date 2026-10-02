@@ -6,6 +6,10 @@ Versão inicial: v0.1.
 
 Montar o retrato do personagem em tempo real a partir de peças visuais padronizadas, sem geração de imagem a cada escolha.
 
+## Estado atual
+
+Motor funcional ligado ao Criador. O retrato responde às escolhas da ficha e também é levado para o dossiê de impressão / salvar em PDF.
+
 ## Regra de arquitetura
 
 Todas as peças usam a mesma prancha lógica de 800 × 1000. O motor sobrepõe camadas; portanto olhos, cabelo, orelhas, chifres, roupa e acessórios permanecem alinhados entre si.
@@ -38,7 +42,8 @@ O pacote inicial usa vetores no arquivo `sprite.svg`. Essa solução serve como 
 - proteção / vestimenta;
 - itens especiais de rosto, incluindo óculos, lentes opacas, véu, máscara e capuz;
 - cicatriz facial;
-- estado de coerência biológica.
+- estado de coerência biológica;
+- dossiê impresso / PDF.
 
 ## Limites deliberados da v0.1
 
@@ -52,6 +57,7 @@ O primeiro gate é validar alinhamento, leitura visual e resposta em tempo real.
 - Lote D: orelhas, chifres e particularidades de espécie;
 - Lote E: roupas e acessórios;
 - Lote F: marcas, cicatrizes e elementos raros;
-- Lote G: integração do retrato no dossiê impresso/PDF.
+- Lote G: integração do retrato no dossiê impresso/PDF — **implementado na v0.1**;
+- Lote H: corpo parcial, mãos e equipamento visível, somente após o retrato-base estar estável.
 
 Regra editorial: `primeiro encaixe e coerência; depois variedade`.
