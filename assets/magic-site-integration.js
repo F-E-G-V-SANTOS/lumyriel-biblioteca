@@ -59,6 +59,15 @@
     });
   }
 
+  function loadBiologyPublication() {
+    if (document.querySelector('script[data-lumyriel-biology-publication]')) return;
+    const script = document.createElement('script');
+    script.src = 'assets/biology-site-integration.js?v=20261002-1';
+    script.defer = true;
+    script.dataset.lumyrielBiologyPublication = '1';
+    document.head.appendChild(script);
+  }
+
   function loadRpgProjects() {
     if (!document.getElementById('rpg-preview') || document.querySelector('script[data-lumyriel-rpg-projects]')) return;
     const script = document.createElement('script');
@@ -71,5 +80,6 @@
   publishCard();
   addAvailableRead();
   updateHeroMagicTitle();
+  loadBiologyPublication();
   loadRpgProjects();
 })();
