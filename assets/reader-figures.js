@@ -16,10 +16,8 @@
     magia: {
       root: 'assets/books/artes-magicas/',
       figures: Array.from({length:11}, (_,i) => ({
-        id: String(i + 1),
-        kind: 'Figura',
-        file: `volume-iv-figura-${String(i + 1).padStart(2,'0')}.webp`,
-        volume: 'IV'
+        id: String(i + 1), kind: 'Figura',
+        file: `volume-iv-figura-${String(i + 1).padStart(2,'0')}.webp`, volume: 'IV'
       }))
     }
   };
@@ -52,8 +50,6 @@
     const id = esc(item.id);
     const blocks = [...content.querySelectorAll('p,li,h2,h3,h4,blockquote')];
     if (book === 'magia') {
-      // O lote existente pertence ao Volume IV. Exige a palavra Figura junto do número
-      // para não confundir números comuns do texto com chamadas editoriais.
       const exact = new RegExp(`\\bFigura\\s+(?:IV[.\-–— ]*)?${id}\\b`, 'i');
       return blocks.find(el => exact.test(norm(el.textContent))) || null;
     }
@@ -81,13 +77,17 @@
       anchor.dataset.figureAnchor = key;
       const {figure,img} = makeFigure(item);
       figure.dataset.figureKey = key;
+
+      /* A figura precisa entrar no DOM antes de aguardarmos load.
+         Imagens lazy destacadas do DOM podem nunca iniciar a requisição,
+         o que criava um impasse: load aguardava inserção e inserção aguardava load. */
+      anchor.insertAdjacentElement('afterend', figure);
+
       img.addEventListener('load', () => {
-        if (!anchor.isConnected || content.querySelector(`[data-figure-key="${key}"]`)) return;
-        if (isCaptionLike(anchor,item)) anchor.replaceWith(figure);
-        else anchor.insertAdjacentElement('afterend',figure);
+        if (isCaptionLike(anchor,item) && anchor.isConnected) anchor.remove();
       }, {once:true});
       img.addEventListener('error', () => {
-        anchor.removeAttribute('data-figure-anchor');
+        if (anchor.isConnected) anchor.removeAttribute('data-figure-anchor');
         figure.remove();
       }, {once:true});
     }
