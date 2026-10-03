@@ -8,7 +8,6 @@
     filho: { names: ['o filho da montanha'], url: 'reader.html?book=filho&v=0&intro=1' },
     tempos: { names: ['os livros dos tempos'], url: 'reader.html?book=tempos&v=0&intro=1' },
     magia: { names: ['artes mágicas lumyrielianas', 'livro das artes mágicas'], url: 'reader.html?book=magia&v=0&intro=1' },
-    matematica: { names: ['matemática e física de lumyriel', 'matemática lumyrieliana'], url: 'reader.html?book=matematica&v=0&intro=1' },
     biologia: { names: ['biologia de lumyriel', 'biologia lumyrieliana'], url: 'biology-reader.html?v=0&mode=intro' }
   });
 
@@ -22,9 +21,9 @@
   };
 
   const open = keyOrUrl => {
-    const url = BOOKS[keyOrUrl]?.url || keyOrUrl;
+    const url = BOOKS[keyOrUrl]?.url || (typeof keyOrUrl === 'string' && /^(?:reader|biology-reader)\.html\?/.test(keyOrUrl) ? keyOrUrl : null);
     if (!url) return false;
-    location.assign(url);
+    window.location.assign(url);
     return true;
   };
 
@@ -45,6 +44,10 @@
       card.dataset.readerUrl = book.url;
       card.setAttribute('role', 'link');
       card.setAttribute('tabindex', '0');
+      if (card.tagName === 'A') {
+        card.href = book.url;
+        card.removeAttribute('onclick');
+      }
     });
   };
 
@@ -53,18 +56,21 @@
     return book ? open(book.key) : false;
   };
 
-  /* Uma única captura governa os cards publicados e neutraliza listeners legados. */
+  /* A navegação publicada é governada aqui, inclusive para cards <a> legados.
+     Assim não dependemos mais de onclick inline ou de listeners concorrentes. */
   document.addEventListener('click', event => {
     const card = event.target.closest?.('#libraryGrid .card');
-    if (!card || !routeForCard(card)) return;
-    if (event.target.closest('a[href],button,select,input,textarea')) return;
+    const book = routeForCard(card);
+    if (!card || !book) return;
+    const nestedInteractive = event.target.closest?.('button,select,input,textarea,a[href]');
+    if (nestedInteractive && nestedInteractive !== card) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    openCard(card);
+    open(book.key);
   }, true);
 
-  /* No palco flutuante, o primeiro clique continua mostrando detalhes.
-     O segundo clique em um livro publicado agora abre o leitor, em vez de rolar a página. */
+  /* No palco flutuante, o primeiro clique mostra detalhes e o segundo abre
+     somente obras realmente publicadas. Projetos em revisão apenas localizam o card. */
   document.addEventListener('click', event => {
     const card = event.target.closest?.('.lumyriel-hero-deck-item');
     const stage = card?.closest('.lumyriel-hero-library-stage');
