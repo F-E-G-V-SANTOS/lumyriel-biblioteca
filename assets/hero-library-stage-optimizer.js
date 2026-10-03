@@ -11,7 +11,7 @@
 
   /* O palco inicial funciona como uma vitrine de leitura, não como catálogo de projetos.
      Só permanecem aqui obras que possuem leitor publicado no site. */
-  const readableBooks = new Set(['filho','tempos','magia','biologia']);
+  const readableBooks = new Set(['filho','tempos','magia','biologia','matematica']);
   [...deck.querySelectorAll('.lumyriel-hero-deck-item')].forEach(card => {
     if (!readableBooks.has(card.dataset.key)) card.remove();
   });
@@ -25,14 +25,16 @@
     filho: 'Romance de abertura de Lumyriel e ponto de entrada para a trajetória de Helior.',
     tempos: 'História cosmológica preservada como uma grande coleção de eras, registros e tradições de Lumyriel.',
     magia: 'Coleção didática em seis volumes sobre fundamentos, Mana, Aura, runologia, investigação e artes de alto risco.',
-    biologia: 'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.'
+    biologia: 'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.',
+    matematica: 'Matemática e física usadas para explicar, medir e modelar fenômenos reais e mágicos de Lumyriel.'
   };
 
   const titles = {
     filho: 'O Filho da Montanha',
     tempos: 'Os Livros dos Tempos',
     magia: 'Artes Mágicas Lumyrielianas',
-    biologia: 'Biologia Lumyrieliana'
+    biologia: 'Biologia de Lumyriel',
+    matematica: 'Matemática e Física de Lumyriel'
   };
 
   const targetFor = key => {
@@ -155,114 +157,23 @@
   const style = document.createElement('style');
   style.id = 'lumyriel-hero-stage-optimizer-style';
   style.textContent = `
-    /* Capas reais: proporção natural em desktop e mobile. */
-    .lumyriel-hero-deck-item{
-      aspect-ratio:auto!important;
-      height:auto!important;
-      cursor:pointer;
-      transition:transform .30s cubic-bezier(.2,.85,.22,1),opacity .22s ease!important;
-      filter:none!important;
-      contain:layout style;
-    }
-    .lumyriel-hero-deck-float{
-      display:block!important;
-      width:100%!important;
-      height:auto!important;
-      animation:none!important;
-      transform:none!important;
-    }
-    .lumyriel-hero-deck-cover,
-    .lumyriel-hero-deck-image{
-      display:block!important;
-      width:100%!important;
-      height:auto!important;
-      max-width:100%!important;
-      aspect-ratio:auto!important;
-      object-fit:contain!important;
-      background:none!important;
-      box-sizing:border-box;
-      transition:box-shadow .24s ease,border-color .24s ease!important;
-    }
-
-    /* O mouse sozinho não move mais nenhum card. */
-    .lumyriel-hero-deck-item:not(.is-active):focus-visible{
-      outline:1px solid rgba(207,183,133,.72)!important;
-      outline-offset:5px;
-      filter:none!important;
-      transform:translate(-50%,-50%) translate(var(--dx),var(--dy)) rotate(var(--rot))!important;
-    }
-    .lumyriel-hero-deck-item:not(.is-active):focus-visible .lumyriel-hero-deck-cover{
-      filter:none!important;
-    }
-
-    /* Só o card explicitamente selecionado sobe. */
-    .lumyriel-hero-deck.is-engaged .lumyriel-hero-deck-item:not(.is-active){
-      filter:none!important;
-      opacity:.40!important;
-    }
+    .lumyriel-hero-deck-item{aspect-ratio:auto!important;height:auto!important;cursor:pointer;transition:transform .30s cubic-bezier(.2,.85,.22,1),opacity .22s ease!important;filter:none!important;contain:layout style}
+    .lumyriel-hero-deck-float{display:block!important;width:100%!important;height:auto!important;animation:none!important;transform:none!important}
+    .lumyriel-hero-deck-cover,.lumyriel-hero-deck-image{display:block!important;width:100%!important;height:auto!important;max-width:100%!important;aspect-ratio:auto!important;object-fit:contain!important;background:none!important;box-sizing:border-box;transition:box-shadow .24s ease,border-color .24s ease!important}
+    .lumyriel-hero-deck-item:not(.is-active):focus-visible{outline:1px solid rgba(207,183,133,.72)!important;outline-offset:5px;filter:none!important;transform:translate(-50%,-50%) translate(var(--dx),var(--dy)) rotate(var(--rot))!important}
+    .lumyriel-hero-deck-item:not(.is-active):focus-visible .lumyriel-hero-deck-cover{filter:none!important}
+    .lumyriel-hero-deck.is-engaged .lumyriel-hero-deck-item:not(.is-active){filter:none!important;opacity:.40!important}
     .lumyriel-hero-deck-item.is-active{filter:none!important}
     .lumyriel-hero-deck-item.is-last-selected:not(.is-active){z-index:28!important}
     .lumyriel-hero-deck-item.is-active .lumyriel-hero-deck-cover{filter:none!important}
-
-    /* Resumo pequeno e legível em qualquer plataforma. */
-    .lumyriel-hero-deck-status.is-detail{
-      width:min(350px,calc(100% - 24px));
-      padding:11px 13px 12px;
-      border:1px solid rgba(170,138,88,.38);
-      border-radius:5px;
-      background:rgba(14,12,9,.94);
-      box-shadow:0 16px 32px rgba(0,0,0,.34);
-      text-align:left;
-      text-shadow:none;
-      overflow:hidden;
-    }
+    .lumyriel-hero-deck-status.is-detail{width:min(350px,calc(100% - 24px));padding:11px 13px 12px;border:1px solid rgba(170,138,88,.38);border-radius:5px;background:rgba(14,12,9,.94);box-shadow:0 16px 32px rgba(0,0,0,.34);text-align:left;text-shadow:none;overflow:hidden}
     .lumyriel-hero-deck-status.is-detail strong{font-size:.98rem;color:#eadcc4}
     .lumyriel-hero-deck-status.is-detail span{margin-top:5px;color:#bdb2a2;font-size:.7rem;line-height:1.45}
     .lumyriel-hero-deck-status.is-detail em{font-size:.64rem}
-
-    /* Fundo atmosférico sem animação/recomposição permanente. */
-    .lumyriel-world-backdrop{
-      position:absolute!important;
-      top:0!important;
-      left:0!important;
-      right:0!important;
-      bottom:auto!important;
-      inset:auto!important;
-      width:100%!important;
-      height:max(100svh,820px)!important;
-      opacity:.16!important;
-      background-position:58% 28%!important;
-      filter:none!important;
-      transform:none!important;
-      animation:none!important;
-      will-change:auto!important;
-      contain:paint;
-    }
+    .lumyriel-world-backdrop{position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:auto!important;inset:auto!important;width:100%!important;height:max(100svh,820px)!important;opacity:.16!important;background-position:58% 28%!important;filter:none!important;transform:none!important;animation:none!important;will-change:auto!important;contain:paint}
     .lumyriel-hero-library-stage:before{filter:none!important;opacity:.55!important}
-
-    @media(max-width:600px), (hover:none) and (pointer:coarse){
-      .lumyriel-world-backdrop{height:100svh!important}
-      .lumyriel-hero-deck-item{transition:transform .22s ease,opacity .18s ease!important}
-      .lumyriel-hero-deck-item:not(.is-active):focus-visible{
-        transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot))!important;
-      }
-      /* No celular, mantém o painel inteiro dentro do palco e cria um respiro
-         antes do início da Biblioteca. */
-      .lumyriel-hero-deck-status.is-detail{
-        bottom:46px!important;
-        width:min(350px,calc(100% - 38px))!important;
-        padding:13px 14px 14px!important;
-        border:1px solid rgba(170,138,88,.52)!important;
-        box-shadow:0 14px 28px rgba(0,0,0,.38)!important;
-      }
-      .lumyriel-hero-library-stage.has-mobile-detail{
-        padding-bottom:28px!important;
-      }
-    }
-
-    @media(prefers-reduced-motion:reduce){
-      .lumyriel-hero-deck-item{transition:none!important}
-    }
+    @media(max-width:600px), (hover:none) and (pointer:coarse){.lumyriel-world-backdrop{height:100svh!important}.lumyriel-hero-deck-item{transition:transform .22s ease,opacity .18s ease!important}.lumyriel-hero-deck-item:not(.is-active):focus-visible{transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot))!important}.lumyriel-hero-deck-status.is-detail{bottom:46px!important;width:min(350px,calc(100% - 38px))!important;padding:13px 14px 14px!important;border:1px solid rgba(170,138,88,.52)!important;box-shadow:0 14px 28px rgba(0,0,0,.38)!important}.lumyriel-hero-library-stage.has-mobile-detail{padding-bottom:28px!important}}
+    @media(prefers-reduced-motion:reduce){.lumyriel-hero-deck-item{transition:none!important}}
   `;
   document.head.appendChild(style);
 })();
