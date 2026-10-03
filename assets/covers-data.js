@@ -9,16 +9,6 @@ window.LUMYRIEL_COVERS={
   criador:"assets/covers/criador-de-personagens.webp"
 };
 
-// Bloqueios editoriais temporários valem na home e em todos os leitores.
-(() => {
-  if (document.querySelector('script[data-math-review-lock]')) return;
-  const lock=document.createElement('script');
-  lock.src='assets/math-review-lock.js?v=20261002-1';
-  lock.defer=true;
-  lock.dataset.mathReviewLock='1';
-  document.head.appendChild(lock);
-})();
-
 // Refinamento visual e integração comum dos leitores no mobile.
 (() => {
   if (!document.getElementById('paper') || document.getElementById('reader-mobile-actions-fix')) return;
@@ -41,11 +31,16 @@ window.LUMYRIEL_COVERS={
   document.head.appendChild(style);
 
   const integration=document.createElement('script');
-  integration.src='assets/reader-integration.js?v=20261002-1';
+  integration.src='assets/reader-integration.js?v=20261003-2';
   integration.defer=true;
   document.head.appendChild(integration);
 
-  // Rede de segurança: só assume se o leitor principal permanecer preso na abertura.
+  const figures=document.createElement('script');
+  figures.src='assets/reader-figures.js?v=20261003-1';
+  figures.defer=true;
+  figures.dataset.readerFigures='1';
+  document.head.appendChild(figures);
+
   if (!document.querySelector('script[data-reader-recovery]')) {
     const recovery=document.createElement('script');
     recovery.src='assets/reader-recovery.js?v=20261002-2';
