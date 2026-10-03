@@ -13,6 +13,7 @@ O projeto reúne obras de leitura, arquivo visual, Criador de Personagens e ferr
 - **Artes Mágicas Lumyrielianas** — Beta · 6 volumes · leitor nativo
 - **Matemática e Física de Lumyriel** — RC1 · Primeira Edição · 48 capítulos · 8 apêndices
 - **Biologia de Lumyriel** — RC1 · Primeira Edição · 6 volumes · 33 partes · 138 capítulos · 514 páginas-fonte
+- **Construindo Mundos — Volume V: Vida Cotidiana** — Edição Final v1.0 · 10 partes · 56 capítulos · 732 subseções · 290 páginas
 
 ### Ferramentas
 - Criador de Personagens — versão alpha
@@ -26,6 +27,7 @@ O projeto reúne obras de leitura, arquivo visual, Criador de Personagens e ferr
 index.html                  catálogo editorial
 reader.html                 leitor principal das obras
 biology-reader.html         leitor da coleção Biologia de Lumyriel
+construindo-reader.html     leitor da coleção Construindo Mundos
 character-creator.html      Criador de Personagens
 privacy.html                privacidade e submissões
 site-status.json            estado editorial/publicável da versão estática
@@ -42,6 +44,9 @@ books/
   lmy-mfl-rc1.dat           manifesto de Matemática e Física de Lumyriel
   lmy-bio-rc1.dat           Biologia de Lumyriel · conteúdo nativo codificado
   lmy-bio-rc1.qa.json       QA estrutural e hashes da conversão de Biologia
+  lmy-cm-v05.dat            manifesto segmentado de Construindo Mundos · Volume V
+  lmy-cm-v05.00–06.dat      segmentos codificados do Volume V
+  lmy-cm-v05.qa.json        QA estrutural da publicação de Construindo Mundos
 
 apps-script/
   Code.gs                   backend de submissões
@@ -61,6 +66,12 @@ O builder valida:
 - hashes SHA-256 canônicos por volume.
 
 O QA estático da publicação é executado por `tools/check_biology_site.py`.
+
+## Construindo Mundos
+
+A coleção **Construindo Mundos** usa um leitor próprio preparado para receber novos volumes sem reconstrução da interface. A publicação inicial é o **Volume V — Vida Cotidiana**, fechado com 10 partes, 56 capítulos, 732 subseções e PDF editorial de 290 páginas.
+
+O conteúdo público é carregado por `books/lmy-cm-v05.dat`, um manifesto gzip+Base64 que referencia sete segmentos codificados (`lmy-cm-v05.00.dat` a `lmy-cm-v05.06.dat`). O leitor recompõe os segmentos no navegador e preserva a navegação por volume, partes e capítulos. O QA da edição está em `books/lmy-cm-v05.qa.json`.
 
 ## Documentação do projeto
 
