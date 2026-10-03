@@ -13,12 +13,26 @@ window.LUMYRIEL_CONFIG = {
 };
 
 (() => {
+  const SITE_VERSION = '20261003-4';
+  const versioned = src => `${src}${src.includes('?') ? '&' : '?'}v=${SITE_VERSION}`;
+
   function load(src, next) {
+    const base = src.split('?')[0];
+    const existing = Array.from(document.scripts).find(script => (script.getAttribute('src') || '').split('?')[0] === base);
+    if (existing) {
+      if (next) {
+        if (existing.dataset.loaded === '1') next();
+        else existing.addEventListener('load', next, { once: true });
+      }
+      return existing;
+    }
     const script = document.createElement('script');
-    script.src = src;
+    script.src = versioned(src);
     script.defer = true;
+    script.addEventListener('load', () => { script.dataset.loaded = '1'; }, { once: true });
     if (next) script.addEventListener('load', next, { once: true });
     document.head.appendChild(script);
+    return script;
   }
 
   function fixRpgProjectCovers() {
@@ -31,7 +45,7 @@ window.LUMYRIEL_CONFIG = {
     const apply = () => {
       Object.entries(covers).forEach(([key, path]) => {
         document.querySelectorAll(`[data-project-cover="${key}"],[data-cover="${key}"],[data-optional-cover="${key}"]`).forEach(el => {
-          el.style.setProperty('background-image', `url("${path}?v=20261002-3")`, 'important');
+          el.style.setProperty('background-image', `url("${path}?v=${SITE_VERSION}")`, 'important');
           el.style.setProperty('background-size', 'cover', 'important');
           el.style.setProperty('background-position', 'center', 'important');
           el.style.setProperty('background-repeat', 'no-repeat', 'important');
@@ -50,12 +64,12 @@ window.LUMYRIEL_CONFIG = {
   if (hasCatalog) {
     load('assets/site-catalog.js', () => {
       fixRpgProjectCovers();
-      load('assets/construindo-site-integration.js?v=20261003-1');
+      load('assets/construindo-site-integration.js');
       if (document.getElementById('libraryGrid')) load('assets/magic-site-integration.js');
-      if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js?v=20261002-3');
+      if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js');
     });
   } else if (document.getElementById('rpg-preview')) {
-    load('assets/rpg-books-showcase.js?v=20261002-3');
+    load('assets/rpg-books-showcase.js');
   }
 
   if (document.getElementById('visualGallery')) load('assets/gallery-viewer.js');
