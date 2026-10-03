@@ -8,6 +8,7 @@
     filho: { names: ['o filho da montanha'], url: 'reader.html?book=filho&v=0&intro=1' },
     tempos: { names: ['os livros dos tempos'], url: 'reader.html?book=tempos&v=0&intro=1' },
     magia: { names: ['artes mágicas lumyrielianas', 'livro das artes mágicas'], url: 'reader.html?book=magia&v=0&intro=1' },
+    matematica: { names: ['matemática e física de lumyriel', 'matemática lumyrieliana'], url: 'reader.html?book=matematica&v=0&intro=1' },
     biologia: { names: ['biologia de lumyriel', 'biologia lumyrieliana'], url: 'biology-reader.html?v=0&mode=intro' }
   });
 
@@ -28,12 +29,7 @@
   };
 
   window.LUMYRIEL_BOOKS = BOOKS;
-  window.LUMYRIEL_BOOK_NAVIGATION = Object.freeze({
-    books: BOOKS,
-    urlFor: key => BOOKS[key]?.url || null,
-    isPublished: key => Boolean(BOOKS[key]),
-    open
-  });
+  window.LUMYRIEL_BOOK_NAVIGATION = Object.freeze({ books: BOOKS, urlFor: key => BOOKS[key]?.url || null, isPublished: key => Boolean(BOOKS[key]), open });
 
   const prepare = () => {
     document.querySelectorAll('#libraryGrid .card').forEach(card => {
@@ -44,46 +40,27 @@
       card.dataset.readerUrl = book.url;
       card.setAttribute('role', 'link');
       card.setAttribute('tabindex', '0');
-      if (card.tagName === 'A') {
-        card.href = book.url;
-        card.removeAttribute('onclick');
-      }
+      if (card.tagName === 'A') { card.href = book.url; card.removeAttribute('onclick'); }
     });
   };
 
-  const openCard = card => {
-    const book = routeForCard(card);
-    return book ? open(book.key) : false;
-  };
+  const openCard = card => { const book = routeForCard(card); return book ? open(book.key) : false; };
 
-  /* A navegação publicada é governada aqui, inclusive para cards <a> legados.
-     Assim não dependemos mais de onclick inline ou de listeners concorrentes. */
   document.addEventListener('click', event => {
     const card = event.target.closest?.('#libraryGrid .card');
     const book = routeForCard(card);
     if (!card || !book) return;
     const nestedInteractive = event.target.closest?.('button,select,input,textarea,a[href]');
     if (nestedInteractive && nestedInteractive !== card) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    open(book.key);
+    event.preventDefault(); event.stopImmediatePropagation(); open(book.key);
   }, true);
 
-  /* No palco flutuante, o primeiro clique mostra detalhes e o segundo abre
-     somente obras realmente publicadas. Projetos em revisão apenas localizam o card. */
   document.addEventListener('click', event => {
     const card = event.target.closest?.('.lumyriel-hero-deck-item');
     const stage = card?.closest('.lumyriel-hero-library-stage');
     const key = card?.dataset.key;
     if (!card || !stage || !BOOKS[key]) return;
-
-    if (stage.dataset.activeProject === key) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      open(key);
-      return;
-    }
-
+    if (stage.dataset.activeProject === key) { event.preventDefault(); event.stopImmediatePropagation(); open(key); return; }
     setTimeout(() => {
       if (stage.dataset.activeProject !== key) return;
       const hint = stage.querySelector('.lumyriel-hero-deck-status.is-detail em');
@@ -94,22 +71,13 @@
 
   document.addEventListener('keydown', event => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
-
     const heroCard = event.target.closest?.('.lumyriel-hero-deck-item');
     const heroStage = heroCard?.closest('.lumyriel-hero-library-stage');
     const heroKey = heroCard?.dataset.key;
-    if (heroCard && heroStage && BOOKS[heroKey] && heroStage.dataset.activeProject === heroKey) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      open(heroKey);
-      return;
-    }
-
+    if (heroCard && heroStage && BOOKS[heroKey] && heroStage.dataset.activeProject === heroKey) { event.preventDefault(); event.stopImmediatePropagation(); open(heroKey); return; }
     const card = event.target.closest?.('#libraryGrid .card');
     if (!card || !routeForCard(card)) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    openCard(card);
+    event.preventDefault(); event.stopImmediatePropagation(); openCard(card);
   }, true);
 
   prepare();
