@@ -12,15 +12,26 @@
   "reader": "construindo-reader.html",
   "manifest": "books/lmy-cm-v05.dat",
   "reader_loading": "segmented-gzip-base64",
-  "segment_count": 7,
-  "manifest_encoded_length": 113008,
-  "source_qa": {
-    "status": "PASS",
-    "raw_json_bytes": 254654,
-    "encoded_bytes": 113040,
-    "sha256_encoded": "4bb83e31eaa0291081230db0b8000dfb81a3c6dc6c0033b2f8c522ae30f9b172"
+  "published_package": {
+    "segment_count": 7,
+    "manifest_encoded_length": 113008
   },
-  "pdf_preflight": "PASS",
-  "pdf_pages": 290,
-  "notes": "Estrutura integral validada; PDF final sem páginas vazias indevidas; leitor segmentado e card público integrados à Biblioteca Lumyrieliana."
+  "drive_reader_backup": {
+    "status": "PASS",
+    "encoded_bytes": 112980,
+    "sha256_encoded": "03700979bf955478c71207fd8d5824622640107abac683f0f62bcd868188ace0",
+    "volumes": 1,
+    "parts": 10,
+    "chapters": 56,
+    "subsections": 732,
+    "pages": 290
+  },
+  "pdf_preflight": {
+    "status": "PASS",
+    "pages": 290,
+    "page_size": "A4",
+    "encrypted": false,
+    "sha256": "e435dd0946cf07e5e2937fb539420c23490df2bf8481959799f632d6ad8be497"
+  },
+  "notes": "Estrutura integral validada; PDF final arquivado no Drive com 290 páginas; leitor segmentado e card público integrados à Biblioteca Lumyrieliana."
 }
