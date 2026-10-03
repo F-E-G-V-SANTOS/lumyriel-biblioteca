@@ -61,9 +61,18 @@
   function loadBookNavigation() {
     if (document.querySelector('script[data-lumyriel-book-navigation]')) return;
     const script = document.createElement('script');
-    script.src = 'assets/book-navigation.js?v=20261002-2';
+    script.src = 'assets/book-navigation.js?v=20261002-4';
     script.defer = true;
     script.dataset.lumyrielBookNavigation = '1';
+    document.head.appendChild(script);
+  }
+
+  function loadMathReviewState() {
+    if (document.querySelector('script[data-lumyriel-math-review]')) return;
+    const script = document.createElement('script');
+    script.src = 'assets/math-review-state.js?v=20261002-1';
+    script.defer = true;
+    script.dataset.lumyrielMathReview = '1';
     document.head.appendChild(script);
   }
 
@@ -81,5 +90,6 @@
   updateHeroMagicTitle();
   loadBiologyPublication();
   loadBookNavigation();
+  loadMathReviewState();
   loadRpgProjects();
 })();
