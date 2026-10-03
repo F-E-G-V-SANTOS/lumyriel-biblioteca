@@ -9,6 +9,16 @@ window.LUMYRIEL_COVERS={
   criador:"assets/covers/criador-de-personagens.webp"
 };
 
+// Bloqueios editoriais temporários valem na home e em todos os leitores.
+(() => {
+  if (document.querySelector('script[data-math-review-lock]')) return;
+  const lock=document.createElement('script');
+  lock.src='assets/math-review-lock.js?v=20261002-1';
+  lock.defer=true;
+  lock.dataset.mathReviewLock='1';
+  document.head.appendChild(lock);
+})();
+
 // Refinamento visual e integração comum dos leitores no mobile.
 (() => {
   if (!document.getElementById('paper') || document.getElementById('reader-mobile-actions-fix')) return;
