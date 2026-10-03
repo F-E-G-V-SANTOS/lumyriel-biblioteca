@@ -7,6 +7,7 @@
   // A rota de leitura pertence exclusivamente a book-navigation.js.
   const READER_URL = 'reader.html?book=magia&v=0&intro=1';
   const TITLE = 'Artes Mágicas Lumyrielianas';
+  const CONSTRUINDO_READER_URL = 'construindo-reader.html?v=0&intro=1';
 
   function publishCard() {
     const title = [...document.querySelectorAll('#libraryGrid .book-name')]
@@ -33,6 +34,37 @@
     if (bottom) bottom.innerHTML = '<span>Beta · 6 volumes · 392 páginas</span><span class="textlink">Ler agora →</span>';
   }
 
+  function publishConstruindoCard() {
+    const card = document.getElementById('construindo-project-card');
+    if (!card) return;
+    card.dataset.status = 'live';
+    card.classList.add('live-tool', 'clickable-book');
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Abrir Construindo Mundos, Volume V — Vida Cotidiana');
+
+    const status = card.querySelector('.status');
+    if (status) {
+      status.className = 'status live';
+      status.textContent = 'Volume disponível';
+    }
+
+    const description = card.querySelector('.meta > p');
+    if (description) description.textContent = 'Coleção metodológica sobre construção de mundos. O Volume V — Vida Cotidiana está concluído e disponível integralmente no leitor da Biblioteca Lumyrieliana.';
+
+    const bottom = card.querySelector('.bottom');
+    if (bottom) bottom.innerHTML = '<span>Volume V · 56 capítulos · 290 páginas</span><span class="textlink">Ler agora →</span>';
+
+    const open = () => { window.location.href = CONSTRUINDO_READER_URL; };
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open();
+      }
+    });
+  }
+
   function addAvailableRead() {
     const reads = document.querySelector('.available-reads');
     if (!reads || reads.querySelector('[data-magic-beta]')) return;
@@ -40,6 +72,16 @@
     link.href = READER_URL;
     link.setAttribute('data-magic-beta', 'true');
     link.innerHTML = '<b>Artes Mágicas Lumyrielianas</b><small>Beta · 6 volumes · 392 páginas</small>';
+    reads.appendChild(link);
+  }
+
+  function addConstruindoAvailableRead() {
+    const reads = document.querySelector('.available-reads');
+    if (!reads || reads.querySelector('[data-construindo-v5]')) return;
+    const link = document.createElement('a');
+    link.href = CONSTRUINDO_READER_URL;
+    link.setAttribute('data-construindo-v5', 'true');
+    link.innerHTML = '<b>Construindo Mundos — Volume V</b><small>Vida Cotidiana · 56 capítulos · 290 páginas</small>';
     reads.appendChild(link);
   }
 
@@ -86,7 +128,9 @@
   }
 
   publishCard();
+  publishConstruindoCard();
   addAvailableRead();
+  addConstruindoAvailableRead();
   updateHeroMagicTitle();
   loadBiologyPublication();
   loadBookNavigation();
