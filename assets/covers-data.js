@@ -4,6 +4,7 @@ window.LUMYRIEL_COVERS={
   magia:"assets/covers/artes-magicas-lumyrielianas.webp",
   biologia:"assets/covers/biologia-lumyrieliana.webp",
   matematica:"assets/covers/matematica-lumyrieliana.webp",
+  narrar:"assets/covers/narrar-mundos-vivos.webp",
   rpg:"assets/covers/lumyriel-rpg.webp",
   construindo:"assets/covers/construindo-mundos.webp",
   criador:"assets/covers/criador-de-personagens.webp"
@@ -31,7 +32,7 @@ window.LUMYRIEL_COVERS={
   document.head.appendChild(style);
 
   const integration=document.createElement('script');
-  integration.src='assets/reader-integration.js?v=20261003-2';
+  integration.src='assets/reader-integration.js?v=20261003-3';
   integration.defer=true;
   document.head.appendChild(integration);
 
@@ -43,7 +44,7 @@ window.LUMYRIEL_COVERS={
 
   if (!document.querySelector('script[data-reader-recovery]')) {
     const recovery=document.createElement('script');
-    recovery.src='assets/reader-recovery.js?v=20261002-2';
+    recovery.src='assets/reader-recovery.js?v=20261003-3';
     recovery.defer=true;
     recovery.dataset.readerRecovery='1';
     document.head.appendChild(recovery);
