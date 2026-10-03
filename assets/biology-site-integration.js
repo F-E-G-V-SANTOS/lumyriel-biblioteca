@@ -13,40 +13,59 @@
     return title ? title.closest('.card') : null;
   }
 
-  function enforceStandardCardLayout(card) {
-    /* Defesa contra regras editoriais antigas: Biologia deve obedecer à mesma
-       geometria vertical dos demais cards, independentemente da ordem em que
-       scripts legados sejam executados. */
-    card.style.setProperty('display', 'flex', 'important');
-    card.style.setProperty('flex-direction', 'column', 'important');
-    card.style.setProperty('width', 'auto', 'important');
-    card.style.setProperty('max-width', 'none', 'important');
-    card.style.setProperty('min-width', '0', 'important');
-    card.style.setProperty('align-self', 'stretch', 'important');
-    card.style.setProperty('margin', '0', 'important');
+  function normalizePublishedCard(card) {
+    /* Biologia nasceu no catálogo como projeto futuro. Ao ser publicada, a classe
+       future-card continuou aplicando largura de capa, espaçamentos e bordas do
+       layout antigo. Removê-la é o que realmente faz o card usar o mesmo CSS
+       editorial dos demais livros publicados. */
+    card.classList.remove('future-card');
+    card.classList.add('biology-publication-card');
+
+    card.style.removeProperty('display');
+    card.style.removeProperty('flex-direction');
+    card.style.removeProperty('width');
+    card.style.removeProperty('max-width');
+    card.style.removeProperty('min-width');
+    card.style.removeProperty('min-height');
+    card.style.removeProperty('align-self');
+    card.style.removeProperty('margin');
+    card.style.removeProperty('grid-column');
+    card.style.removeProperty('grid-row');
 
     const coverWrap = card.querySelector('.cover-wrap');
     if (coverWrap) {
-      coverWrap.style.setProperty('display', 'block', 'important');
-      coverWrap.style.setProperty('width', '100%', 'important');
-      coverWrap.style.setProperty('max-width', 'none', 'important');
-      coverWrap.style.setProperty('flex', '0 0 auto', 'important');
+      coverWrap.style.removeProperty('display');
+      coverWrap.style.removeProperty('width');
+      coverWrap.style.removeProperty('max-width');
+      coverWrap.style.removeProperty('min-width');
+      coverWrap.style.removeProperty('flex');
+      coverWrap.style.removeProperty('padding');
+    }
+
+    const cover = card.querySelector('.cover');
+    if (cover) {
+      cover.style.removeProperty('width');
+      cover.style.removeProperty('max-width');
+      cover.style.removeProperty('margin');
     }
 
     const meta = card.querySelector('.meta');
     if (meta) {
-      meta.style.setProperty('display', 'flex', 'important');
-      meta.style.setProperty('flex-direction', 'column', 'important');
-      meta.style.setProperty('width', '100%', 'important');
-      meta.style.setProperty('max-width', 'none', 'important');
-      meta.style.setProperty('min-width', '0', 'important');
-      meta.style.setProperty('flex', '1 1 auto', 'important');
+      meta.style.removeProperty('display');
+      meta.style.removeProperty('flex-direction');
+      meta.style.removeProperty('width');
+      meta.style.removeProperty('max-width');
+      meta.style.removeProperty('min-width');
+      meta.style.removeProperty('flex');
+      meta.style.removeProperty('padding');
+      meta.style.removeProperty('margin-top');
+      meta.style.removeProperty('border-top');
     }
 
     const bottom = card.querySelector('.bottom');
     if (bottom) {
-      bottom.style.setProperty('width', '100%', 'important');
-      bottom.style.setProperty('margin-top', 'auto', 'important');
+      bottom.style.removeProperty('width');
+      bottom.style.removeProperty('margin-top');
     }
   }
 
@@ -55,11 +74,7 @@
     const grid = document.getElementById('libraryGrid');
     if (!card || !grid) return;
 
-    card.classList.add('biology-publication-card');
-    card.style.removeProperty('grid-column');
-    card.style.removeProperty('grid-row');
-    card.style.removeProperty('min-height');
-    enforceStandardCardLayout(card);
+    normalizePublishedCard(card);
 
     const title = card.querySelector('.book-name');
     if (title) title.textContent = TITLE;
@@ -80,7 +95,7 @@
     if (bottom) bottom.innerHTML = '<span>RC1 · 6 volumes · 33 partes · 138 capítulos</span><span class="textlink">Ler agora →</span>';
 
     if (card.parentElement !== grid) grid.appendChild(card);
-    enforceStandardCardLayout(card);
+    normalizePublishedCard(card);
   }
 
   function addAvailableRead() {
@@ -96,18 +111,16 @@
   publishCard();
   addAvailableRead();
 
-  /* Alguns scripts da home terminam depois desta integração. Reaplica somente
-     a geometria do card de Biologia após esses ciclos, sem mover outros cards. */
   requestAnimationFrame(() => {
     const card = findBiologyCard();
-    if (card) enforceStandardCardLayout(card);
+    if (card) normalizePublishedCard(card);
   });
   window.addEventListener('load', () => {
     const card = findBiologyCard();
-    if (card) enforceStandardCardLayout(card);
+    if (card) normalizePublishedCard(card);
   }, { once: true });
   setTimeout(() => {
     const card = findBiologyCard();
-    if (card) enforceStandardCardLayout(card);
+    if (card) normalizePublishedCard(card);
   }, 1200);
 })();
