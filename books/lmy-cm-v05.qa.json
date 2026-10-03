@@ -1,0 +1,26 @@
+{
+  "schema": "lumyriel-reader-qa-v1",
+  "book": "Construindo Mundos — Volume V — Vida Cotidiana",
+  "edition": "Edição Final v1.0",
+  "status": "PASS",
+  "parts": 10,
+  "chapters": 56,
+  "subsections": 732,
+  "pages": 290,
+  "first_chapter": "COMO COMEÇA UM DIA",
+  "last_chapter": "TRÊS ESCALAS E REGRA DE PARADA",
+  "reader": "construindo-reader.html",
+  "manifest": "books/lmy-cm-v05.dat",
+  "reader_loading": "segmented-gzip-base64",
+  "segment_count": 7,
+  "manifest_encoded_length": 113008,
+  "source_qa": {
+    "status": "PASS",
+    "raw_json_bytes": 254654,
+    "encoded_bytes": 113040,
+    "sha256_encoded": "4bb83e31eaa0291081230db0b8000dfb81a3c6dc6c0033b2f8c522ae30f9b172"
+  },
+  "pdf_preflight": "PASS",
+  "pdf_pages": 290,
+  "notes": "Estrutura integral validada; PDF final sem páginas vazias indevidas; leitor segmentado e card público integrados à Biblioteca Lumyrieliana."
+}
