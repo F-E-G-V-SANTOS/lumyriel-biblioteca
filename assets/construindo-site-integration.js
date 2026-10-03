@@ -1,6 +1,19 @@
 (() => {
   'use strict';
   const READER='construindo-reader.html?intro=1';
+  const COVER='assets/covers/construindo-mundos.webp';
+
+  function applyCover(card){
+    const cover=card.querySelector('[data-project-cover="construindo"],.cover');
+    if(!cover)return;
+    cover.style.setProperty('background-image',`url("${COVER}")`,'important');
+    cover.style.setProperty('background-size','cover','important');
+    cover.style.setProperty('background-position','center','important');
+    cover.style.setProperty('background-repeat','no-repeat','important');
+    cover.classList.add('real-cover');
+    cover.classList.remove('placeholder-cover');
+  }
+
   function apply(){
     let card=document.getElementById('construindo-project-card');
     if(!card)return false;
@@ -14,6 +27,7 @@
     card.href=READER;
     card.dataset.status='live';
     card.classList.add('live-tool');
+    applyCover(card);
     const status=card.querySelector('.status');
     if(status){status.className='status live';status.textContent='Volume V disponível'}
     const desc=card.querySelector('.meta p');
@@ -26,4 +40,8 @@
     let tries=0;
     const timer=setInterval(()=>{tries++;if(apply()||tries>30)clearInterval(timer)},100);
   }
+  window.addEventListener('load',()=>{
+    const card=document.getElementById('construindo-project-card');
+    if(card)applyCover(card);
+  },{once:true});
 })();
