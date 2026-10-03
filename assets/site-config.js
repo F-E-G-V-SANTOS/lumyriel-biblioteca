@@ -50,6 +50,7 @@ window.LUMYRIEL_CONFIG = {
   if (hasCatalog) {
     load('assets/site-catalog.js', () => {
       fixRpgProjectCovers();
+      load('assets/construindo-site-integration.js?v=20261003-1');
       if (document.getElementById('libraryGrid')) load('assets/magic-site-integration.js');
       if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js?v=20261002-3');
     });
