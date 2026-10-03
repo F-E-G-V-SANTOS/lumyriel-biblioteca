@@ -11,5 +11,5 @@ window.LUMYRIEL_GALLERY=[
   {file:'catarata-espectral.webp',title:'Catarata espectral',category:'Lugares',alt:'Grande queda d\'água luminosa entre ruínas e névoa em uma paisagem sombria.'},
   {file:'dois-viajantes-em-ruinas.webp',title:'Dois viajantes nas ruínas',category:'Cenas',alt:'Dois viajantes atravessam um cenário de ruínas antigas.'},
   {file:'estudo-de-viajante.webp',title:'Estudo de viajante',category:'Personagens',alt:'Estudo visual de um viajante de Lumyriel e seu equipamento.'},
-  {file:'viajante-sob-guarda-chuva.webp',title:'Viajante sob guarda-chuva',category:'Personagens',alt:'Viajante em ambiente urbano ou de passagem sob um guarda-chuva.'}
+  {file:'oreo-jovem-final.webp',title:'Óreo jovem',category:'Personagens',alt:'Óreo jovem deitado de costas entre folhas de outono, com pelagem escura em rosetas e olhos violetas de pupila vertical marcados por símbolos luminosos.'}
 ];
