@@ -9,110 +9,22 @@
     tempos: { names:['os livros dos tempos'], url:'reader.html?book=tempos&v=0&intro=1', cover:'assets/covers/os-livros-dos-tempos.webp', title:'Os Livros dos Tempos', quote:'Uma história cosmológica preservada em livros, eras, registros e tradições.', description:'A História Cosmológica está disponível no leitor em sua organização editorial de 54 livros e 1.074 capítulos.' },
     magia: { names:['artes mágicas lumyrielianas','livro das artes mágicas'], url:'reader.html?book=magia&v=0&intro=1', cover:'assets/covers/artes-magicas-lumyrielianas.webp', title:'Artes Mágicas Lumyrielianas', quote:'Fundamentos, Mana, Aura, Runologia, investigação e artes de alto risco em uma coleção didática.', description:'A coleção em seis volumes está disponível para leitura Beta no próprio site.' },
     matematica: { names:['matemática e física de lumyriel','matemática lumyrieliana'], url:'reader.html?book=matematica&v=0&intro=1', cover:'assets/covers/matematica-lumyrieliana.webp', title:'Matemática e Física de Lumyriel', quote:'Da intuição à formalização: medir, representar, calcular, interpretar e declarar os limites do modelo.', description:'A Primeira Edição reúne 48 capítulos e 8 apêndices, com leitura progressiva de matemática, física e sua aplicação em Lumyriel.' },
-    biologia: { names:['biologia de lumyriel','biologia lumyrieliana'], url:'biology-reader.html?v=0&mode=intro', cover:'assets/covers/biologia-lumyrieliana.webp', title:'Biologia de Lumyriel', quote:'Vida, hereditariedade, evolução, fisiologia, ecologia e medicina tratadas como um sistema coerente.', description:'A Primeira Edição RC1 reúne seis volumes, 33 partes e 138 capítulos disponíveis no leitor.' }
+    biologia: { names:['biologia de lumyriel','biologia lumyrieliana'], url:'biology-reader.html?v=0&mode=intro', cover:'assets/covers/biologia-lumyrieliana.webp', title:'Biologia de Lumyriel', quote:'Vida, hereditariedade, evolução, fisiologia, ecologia e medicina tratadas como um sistema coerente.', description:'A Primeira Edição RC1 reúne seis volumes, 33 partes e 138 capítulos disponíveis no leitor.' },
+    narrar: { names:['narrar mundos vivos'], url:'narrar-reader.html?ch=0', cover:'assets/covers/narrar-mundos-vivos.webp', title:'Narrar Mundos Vivos', quote:'Fantasia sombria, formação e consequências: um método desenvolvido a partir de Lumyriel.', description:'A Primeira Edição reúne 6 partes, 26 capítulos e 4 apêndices sobre construção e revisão de narrativas de mundos vivos.' }
   });
 
   const normalize = value => (value || '').normalize('NFC').replace(/\s+/g,' ').trim().toLowerCase();
   const byName = title => Object.entries(BOOKS).find(([,book]) => book.names.some(name => normalize(name) === normalize(title)));
-  const routeForCard = card => {
-    if (!card || !card.closest('#libraryGrid')) return null;
-    const title = card.querySelector('.book-name')?.textContent || card.querySelector('h3')?.textContent;
-    const match = byName(title);
-    return match ? {key:match[0],...match[1]} : null;
-  };
-  const open = keyOrUrl => {
-    const url = BOOKS[keyOrUrl]?.url || (typeof keyOrUrl === 'string' && /^(?:reader|biology-reader)\.html\?/.test(keyOrUrl) ? keyOrUrl : null);
-    if (!url) return false;
-    window.location.assign(url); return true;
-  };
-  window.LUMYRIEL_BOOKS = BOOKS;
-  window.LUMYRIEL_BOOK_NAVIGATION = Object.freeze({books:BOOKS,urlFor:key=>BOOKS[key]?.url||null,isPublished:key=>Boolean(BOOKS[key]),open});
+  const routeForCard = card => {if (!card || !card.closest('#libraryGrid')) return null;const title = card.querySelector('.book-name')?.textContent || card.querySelector('h3')?.textContent;const match = byName(title);return match ? {key:match[0],...match[1]} : null};
+  const open = keyOrUrl => {const url = BOOKS[keyOrUrl]?.url || (typeof keyOrUrl === 'string' && /^(?:reader|biology-reader|narrar-reader)\.html\?/.test(keyOrUrl) ? keyOrUrl : null);if (!url) return false;window.location.assign(url); return true};
+  window.LUMYRIEL_BOOKS = BOOKS;window.LUMYRIEL_BOOK_NAVIGATION = Object.freeze({books:BOOKS,urlFor:key=>BOOKS[key]?.url||null,isPublished:key=>Boolean(BOOKS[key]),open});
 
-  function prepare() {
-    document.querySelectorAll('#libraryGrid .card').forEach(card => {
-      const book=routeForCard(card); if(!book)return;
-      card.classList.add('clickable-book'); card.dataset.bookKey=book.key; card.dataset.readerUrl=book.url;
-      card.setAttribute('role','link'); card.setAttribute('tabindex','0');
-      if(card.tagName==='A'){card.href=book.url;card.removeAttribute('onclick')}
-    });
-    prepareShowcase();
-  }
-
-  function showcaseElements(){
-    const section=document.getElementById('destaque');
-    const feature=section?.querySelector('.feature');
-    if(!feature)return null;
-    const visual=feature.children[0]?.querySelector('.cover');
-    const copy=feature.children[1];
-    return {section,feature,visual,copy,title:copy?.querySelector('h2'),quote:copy?.querySelector('.quote'),description:copy?.querySelector('p'),button:copy?.querySelector('.btn.primary'),reads:copy?.querySelector('.available-reads')};
-  }
-
-  function keyForRead(link){
-    const title=link?.querySelector('b')?.textContent;
-    const match=byName(title); return match?.[0] || null;
-  }
-
-  function selectShowcase(key,{focus=false}={}){
-    const book=BOOKS[key],ui=showcaseElements(); if(!book||!ui)return false;
-    if(ui.visual){
-      ui.visual.dataset.cover=key;
-      ui.visual.style.setProperty('background-image',`url("${book.cover}")`,'important');
-      ui.visual.style.setProperty('background-size','cover','important');
-      ui.visual.style.setProperty('background-position','center','important');
-      ui.visual.classList.add('real-cover');
-    }
-    if(ui.title)ui.title.textContent=book.title;
-    if(ui.quote)ui.quote.textContent=book.quote;
-    if(ui.description)ui.description.textContent=book.description;
-    if(ui.button){
-      ui.button.href=book.url; ui.button.dataset.showcaseBook=key; ui.button.removeAttribute('onclick');
-      ui.button.textContent='Abrir leitor'; ui.button.setAttribute('aria-label',`Abrir leitor de ${book.title}`);
-    }
-    ui.reads?.querySelectorAll('a').forEach(link=>{
-      const selected=keyForRead(link)===key;
-      link.classList.toggle('is-selected',selected);
-      if(selected)link.setAttribute('aria-current','true'); else link.removeAttribute('aria-current');
-    });
-    ui.section.dataset.selectedBook=key;
-    if(focus)ui.title?.focus?.({preventScroll:true});
-    return true;
-  }
-
-  function prepareShowcase(){
-    const ui=showcaseElements(); if(!ui?.reads)return;
-    /* Construindo Mundos ainda não pertence à estante de leituras publicadas. */
-    ui.reads.querySelectorAll('[data-construindo-v5]').forEach(el=>el.remove());
-    [...ui.reads.querySelectorAll('a')].forEach(link=>{
-      const key=keyForRead(link); if(!key){link.remove();return;}
-      link.href='#destaque'; link.dataset.showcaseSelect=key; link.removeAttribute('onclick');
-      link.setAttribute('role','button');
-      link.setAttribute('aria-label',`Mostrar ${BOOKS[key].title} no destaque`);
-    });
-    if(!document.getElementById('lumyriel-showcase-selection-style')){
-      const style=document.createElement('style'); style.id='lumyriel-showcase-selection-style';
-      style.textContent='.available-reads a{cursor:pointer}.available-reads a.is-selected{background:rgba(170,138,88,.08);box-shadow:inset 2px 0 0 #aa8a58}.available-reads a.is-selected b{color:#f0e2ca}'; document.head.appendChild(style);
-    }
-    selectShowcase(ui.section.dataset.selectedBook||'filho');
-  }
-
-  document.addEventListener('click',event=>{
-    const read=event.target.closest?.('.available-reads a');
-    if(read){const key=read.dataset.showcaseSelect||keyForRead(read);if(key){event.preventDefault();event.stopImmediatePropagation();selectShowcase(key);return;}}
-    const button=event.target.closest?.('#destaque .btn.primary[data-showcase-book]');
-    if(button){event.preventDefault();event.stopImmediatePropagation();open(button.dataset.showcaseBook);return;}
-    const card=event.target.closest?.('#libraryGrid .card'); const book=routeForCard(card);
-    if(card&&book){const nested=event.target.closest?.('button,select,input,textarea,a[href]');if(nested&&nested!==card)return;event.preventDefault();event.stopImmediatePropagation();open(book.key);return;}
-    const hero=event.target.closest?.('.lumyriel-hero-deck-item'); const stage=hero?.closest('.lumyriel-hero-library-stage'); const key=hero?.dataset.key;
-    if(hero&&stage&&BOOKS[key]){if(stage.dataset.activeProject===key){event.preventDefault();event.stopImmediatePropagation();open(key);return;}setTimeout(()=>{if(stage.dataset.activeProject!==key)return;const hint=stage.querySelector('.lumyriel-hero-deck-status.is-detail em');if(hint)hint.textContent='Clique novamente na capa para abrir este livro.';},0);}
-  },true);
-
-  document.addEventListener('keydown',event=>{
-    if(event.key!=='Enter'&&event.key!==' ')return;
-    const read=event.target.closest?.('.available-reads a'); if(read){const key=read.dataset.showcaseSelect||keyForRead(read);if(key){event.preventDefault();event.stopImmediatePropagation();selectShowcase(key);return;}}
-    const hero=event.target.closest?.('.lumyriel-hero-deck-item');const stage=hero?.closest('.lumyriel-hero-library-stage');const key=hero?.dataset.key;
-    if(hero&&stage&&BOOKS[key]&&stage.dataset.activeProject===key){event.preventDefault();event.stopImmediatePropagation();open(key);return;}
-    const card=event.target.closest?.('#libraryGrid .card');const book=routeForCard(card);if(!card||!book)return;event.preventDefault();event.stopImmediatePropagation();open(book.key);
-  },true);
-
+  function prepare() {document.querySelectorAll('#libraryGrid .card').forEach(card => {const book=routeForCard(card); if(!book)return;card.classList.add('clickable-book'); card.dataset.bookKey=book.key; card.dataset.readerUrl=book.url;card.setAttribute('role','link'); card.setAttribute('tabindex','0');if(card.tagName==='A'){card.href=book.url;card.removeAttribute('onclick')}});prepareShowcase()}
+  function showcaseElements(){const section=document.getElementById('destaque');const feature=section?.querySelector('.feature');if(!feature)return null;const visual=feature.children[0]?.querySelector('.cover');const copy=feature.children[1];return {section,feature,visual,copy,title:copy?.querySelector('h2'),quote:copy?.querySelector('.quote'),description:copy?.querySelector('p'),button:copy?.querySelector('.btn.primary'),reads:copy?.querySelector('.available-reads')}}
+  function keyForRead(link){const title=link?.querySelector('b')?.textContent;const match=byName(title); return match?.[0] || null}
+  function selectShowcase(key,{focus=false}={}){const book=BOOKS[key],ui=showcaseElements(); if(!book||!ui)return false;if(ui.visual){ui.visual.dataset.cover=key;ui.visual.style.setProperty('background-image',`url("${book.cover}")`,'important');ui.visual.style.setProperty('background-size','cover','important');ui.visual.style.setProperty('background-position','center','important');ui.visual.classList.add('real-cover')}if(ui.title)ui.title.textContent=book.title;if(ui.quote)ui.quote.textContent=book.quote;if(ui.description)ui.description.textContent=book.description;if(ui.button){ui.button.href=book.url; ui.button.dataset.showcaseBook=key; ui.button.removeAttribute('onclick');ui.button.textContent='Abrir leitor'; ui.button.setAttribute('aria-label',`Abrir leitor de ${book.title}`)}ui.reads?.querySelectorAll('a').forEach(link=>{const selected=keyForRead(link)===key;link.classList.toggle('is-selected',selected);if(selected)link.setAttribute('aria-current','true'); else link.removeAttribute('aria-current')});ui.section.dataset.selectedBook=key;if(focus)ui.title?.focus?.({preventScroll:true});return true}
+  function prepareShowcase(){const ui=showcaseElements(); if(!ui?.reads)return;ui.reads.querySelectorAll('[data-construindo-v5]').forEach(el=>el.remove());[...ui.reads.querySelectorAll('a')].forEach(link=>{const key=keyForRead(link); if(!key){link.remove();return;}link.href='#destaque'; link.dataset.showcaseSelect=key; link.removeAttribute('onclick');link.setAttribute('role','button');link.setAttribute('aria-label',`Mostrar ${BOOKS[key].title} no destaque`)});if(!document.getElementById('lumyriel-showcase-selection-style')){const style=document.createElement('style'); style.id='lumyriel-showcase-selection-style';style.textContent='.available-reads a{cursor:pointer}.available-reads a.is-selected{background:rgba(170,138,88,.08);box-shadow:inset 2px 0 0 #aa8a58}.available-reads a.is-selected b{color:#f0e2ca}'; document.head.appendChild(style)}selectShowcase(ui.section.dataset.selectedBook||'filho')}
+  document.addEventListener('click',event=>{const read=event.target.closest?.('.available-reads a');if(read){const key=read.dataset.showcaseSelect||keyForRead(read);if(key){event.preventDefault();event.stopImmediatePropagation();selectShowcase(key);return;}}const button=event.target.closest?.('#destaque .btn.primary[data-showcase-book]');if(button){event.preventDefault();event.stopImmediatePropagation();open(button.dataset.showcaseBook);return;}const card=event.target.closest?.('#libraryGrid .card'); const book=routeForCard(card);if(card&&book){const nested=event.target.closest?.('button,select,input,textarea,a[href]');if(nested&&nested!==card)return;event.preventDefault();event.stopImmediatePropagation();open(book.key);return;}const hero=event.target.closest?.('.lumyriel-hero-deck-item'); const stage=hero?.closest('.lumyriel-hero-library-stage'); const key=hero?.dataset.key;if(hero&&stage&&BOOKS[key]){if(stage.dataset.activeProject===key){event.preventDefault();event.stopImmediatePropagation();open(key);return;}setTimeout(()=>{if(stage.dataset.activeProject!==key)return;const hint=stage.querySelector('.lumyriel-hero-deck-status.is-detail em');if(hint)hint.textContent='Clique novamente na capa para abrir este livro.';},0);}},true);
+  document.addEventListener('keydown',event=>{if(event.key!=='Enter'&&event.key!==' ')return;const read=event.target.closest?.('.available-reads a'); if(read){const key=read.dataset.showcaseSelect||keyForRead(read);if(key){event.preventDefault();event.stopImmediatePropagation();selectShowcase(key);return;}}const hero=event.target.closest?.('.lumyriel-hero-deck-item');const stage=hero?.closest('.lumyriel-hero-library-stage');const key=hero?.dataset.key;if(hero&&stage&&BOOKS[key]&&stage.dataset.activeProject===key){event.preventDefault();event.stopImmediatePropagation();open(key);return;}const card=event.target.closest?.('#libraryGrid .card');const book=routeForCard(card);if(!card||!book)return;event.preventDefault();event.stopImmediatePropagation();open(book.key)},true);
   prepare(); window.addEventListener('load',prepare,{once:true}); setTimeout(prepare,250); setTimeout(prepare,1000); setTimeout(prepare,1600);
 })();
