@@ -36,7 +36,7 @@ window.LUMYRIEL_COVERS={
   document.head.appendChild(integration);
 
   const figures=document.createElement('script');
-  figures.src='assets/reader-figures.js?v=20261003-4';
+  figures.src='assets/reader-figures.js?v=20261003-5';
   figures.defer=true;
   figures.dataset.readerFigures='1';
   document.head.appendChild(figures);
