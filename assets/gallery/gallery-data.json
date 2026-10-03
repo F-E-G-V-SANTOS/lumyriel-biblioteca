@@ -106,5 +106,12 @@
     "height": 1605,
     "canonical_title": false,
     "note": "Título expositivo descritivo; não cria topônimo, personagem ou evento canônico."
+  },
+  {
+    "file": "assets/gallery/oreo-jovem-final.webp",
+    "title": "Óreo jovem",
+    "category": "personagens",
+    "canonical_title": true,
+    "note": "Óreo jovem — Nethra das Sombras. Representação aprovada para a galeria da Biblioteca Lumyrieliana."
   }
 ]
