@@ -42,6 +42,19 @@
       "reader_payload": "books/lmy-bio-rc1.dat",
       "reader_qa": "books/lmy-bio-rc1.qa.json",
       "pdf_web_equivalence": "PASS"
+    },
+    "construindo-mundos": {
+      "edition": "Volume V · Edição Final v1.0",
+      "published_volumes": 1,
+      "current_volume": "V — Vida Cotidiana",
+      "parts": 10,
+      "chapters": 56,
+      "subsections": 732,
+      "pages": 290,
+      "public_reading": true,
+      "reader": "construindo-reader.html",
+      "reader_payload": "books/lmy-cm-v05.dat",
+      "reader_loading": "segmented-gzip-base64"
     }
   },
   "character_creator": {
@@ -54,7 +67,7 @@
   },
   "reader": {
     "content_mode": "static",
-    "payload_format": "base64-dat",
+    "payload_format": "base64-dat; segmented-dat where required",
     "protection": "casual-copy-deterrence",
     "selection_blocked": true,
     "copy_context_drag_blocked": true,
