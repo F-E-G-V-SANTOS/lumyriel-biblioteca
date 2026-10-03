@@ -11,7 +11,7 @@
 
   /* O palco inicial funciona como uma vitrine de leitura, não como catálogo de projetos.
      Só permanecem aqui obras que possuem leitor publicado no site. */
-  const readableBooks = new Set(['filho','tempos','magia','biologia','matematica']);
+  const readableBooks = new Set(['filho','tempos','magia','biologia']);
   [...deck.querySelectorAll('.lumyriel-hero-deck-item')].forEach(card => {
     if (!readableBooks.has(card.dataset.key)) card.remove();
   });
@@ -25,16 +25,14 @@
     filho: 'Romance de abertura de Lumyriel e ponto de entrada para a trajetória de Helior.',
     tempos: 'História cosmológica preservada como uma grande coleção de eras, registros e tradições de Lumyriel.',
     magia: 'Coleção didática em seis volumes sobre fundamentos, Mana, Aura, runologia, investigação e artes de alto risco.',
-    biologia: 'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.',
-    matematica: 'Matemática e física usadas para explicar, medir e modelar fenômenos reais e mágicos de Lumyriel.'
+    biologia: 'Projeto dedicado à vida, anatomia, espécies, ecologia e coerência biológica do mundo.'
   };
 
   const titles = {
     filho: 'O Filho da Montanha',
     tempos: 'Os Livros dos Tempos',
     magia: 'Artes Mágicas Lumyrielianas',
-    biologia: 'Biologia Lumyrieliana',
-    matematica: 'Matemática Lumyrieliana'
+    biologia: 'Biologia Lumyrieliana'
   };
 
   const targetFor = key => {
@@ -216,6 +214,7 @@
       box-shadow:0 16px 32px rgba(0,0,0,.34);
       text-align:left;
       text-shadow:none;
+      overflow:hidden;
     }
     .lumyriel-hero-deck-status.is-detail strong{font-size:.98rem;color:#eadcc4}
     .lumyriel-hero-deck-status.is-detail span{margin-top:5px;color:#bdb2a2;font-size:.7rem;line-height:1.45}
@@ -246,6 +245,18 @@
       .lumyriel-hero-deck-item{transition:transform .22s ease,opacity .18s ease!important}
       .lumyriel-hero-deck-item:not(.is-active):focus-visible{
         transform:translate(-50%,-50%) translate(var(--mdx),var(--mdy)) rotate(var(--rot))!important;
+      }
+      /* No celular, mantém o painel inteiro dentro do palco e cria um respiro
+         antes do início da Biblioteca. */
+      .lumyriel-hero-deck-status.is-detail{
+        bottom:46px!important;
+        width:min(350px,calc(100% - 38px))!important;
+        padding:13px 14px 14px!important;
+        border:1px solid rgba(170,138,88,.52)!important;
+        box-shadow:0 14px 28px rgba(0,0,0,.38)!important;
+      }
+      .lumyriel-hero-library-stage.has-mobile-detail{
+        padding-bottom:28px!important;
       }
     }
 
