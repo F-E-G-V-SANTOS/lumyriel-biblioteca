@@ -54,7 +54,9 @@
       "public_reading": true,
       "reader": "construindo-reader.html",
       "reader_payload": "books/lmy-cm-v05.dat",
-      "reader_loading": "segmented-gzip-base64"
+      "reader_qa": "books/lmy-cm-v05.qa.json",
+      "reader_loading": "segmented-gzip-base64",
+      "pdf_web_equivalence": "PASS"
     }
   },
   "character_creator": {
@@ -63,7 +65,7 @@
   },
   "static_qa": {
     "status": "passed",
-    "date": "2026-10-02"
+    "date": "2026-10-03"
   },
   "reader": {
     "content_mode": "static",
