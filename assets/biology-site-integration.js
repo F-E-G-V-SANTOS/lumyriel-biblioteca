@@ -13,29 +13,23 @@
     return title ? title.closest('.card') : null;
   }
 
-  function ensureStyle(){
-    if(document.getElementById('biology-card-layout-fix'))return;
-    const style=document.createElement('style');
-    style.id='biology-card-layout-fix';
-    style.textContent=`
-      #libraryGrid .biology-publication-card{display:flex!important;flex-direction:column!important;grid-column:auto!important;grid-row:auto!important;width:auto!important;max-width:none!important;min-width:0!important;min-height:590px!important;align-items:stretch!important}
-      #libraryGrid .biology-publication-card .cover-wrap{display:block!important;width:100%!important;padding:18px 28px 0!important}
-      #libraryGrid .biology-publication-card .cover{display:flex!important;width:min(100%,260px)!important;height:auto!important;aspect-ratio:.555!important;margin-inline:auto!important}
-      #libraryGrid .biology-publication-card .meta{display:flex!important;flex-direction:column!important;width:100%!important;padding:22px 22px 24px!important;gap:12px!important;flex:1!important}
-      #libraryGrid .biology-publication-card .meta>p{max-width:none!important;width:auto!important}
-      #libraryGrid .biology-publication-card .bottom{margin-top:auto!important;width:100%!important}
-      @media(max-width:980px){#libraryGrid .biology-publication-card{min-height:0!important}}
-    `;
-    document.head.appendChild(style);
-  }
-
   function publishCard() {
     const card = findBiologyCard();
     const grid = document.getElementById('libraryGrid');
     if (!card || !grid) return;
 
-    ensureStyle();
+    /* Biologia usa exatamente o mesmo layout-base dos demais livros.
+       Não aplicar dimensões/posicionamento próprios aqui: o grid da Biblioteca
+       é a fonte única de alinhamento visual entre os cards publicados. */
     card.classList.add('biology-publication-card');
+    card.style.removeProperty('grid-column');
+    card.style.removeProperty('grid-row');
+    card.style.removeProperty('width');
+    card.style.removeProperty('max-width');
+    card.style.removeProperty('min-height');
+    card.style.removeProperty('align-self');
+    card.style.removeProperty('margin');
+
     const title = card.querySelector('.book-name');
     if (title) title.textContent = TITLE;
     const coverTitle = card.querySelector('.cover h3');
