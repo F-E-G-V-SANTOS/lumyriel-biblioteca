@@ -1,1 +1,42 @@
-<!-- test update placeholder -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Teste — Biblioteca Lumyrieliana</title><meta name="theme-color" content="#0b0a08">
+<style>
+:root{--bg:#0b0a08;--ink:#e8decd;--muted:#9b9285;--gold:#aa8a58}
+*{box-sizing:border-box}body{margin:0;overflow:hidden;background:radial-gradient(circle at 50% 45%,#18130e,#0b0a08 55%,#070605);color:var(--ink);font:15px/1.6 Inter,system-ui,sans-serif}
+body:before{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.06;background:repeating-linear-gradient(90deg,#ffffff0a 0 1px,transparent 1px 5px)}
+.top{position:fixed;z-index:40;top:0;left:0;right:0;padding:22px 30px;display:flex;justify-content:space-between;pointer-events:none;background:linear-gradient(#0b0a08dd,transparent)}
+.top>*{pointer-events:auto}.brand{font:400 .72rem Georgia,serif;letter-spacing:.22em;text-transform:uppercase}.back{color:var(--muted);text-decoration:none;font-size:.7rem}
+.stage{position:relative;width:100vw;height:100svh;overflow:hidden}.title{position:absolute;z-index:5;top:13%;left:50%;transform:translateX(-50%);width:90%;text-align:center;pointer-events:none}.eyebrow{color:var(--gold);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase}.title h1{margin:12px 0 0;font:400 clamp(2.8rem,6vw,6.2rem)/.9 Georgia,serif;letter-spacing:-.05em}.title p{color:var(--muted);font-size:.78rem;max-width:450px;margin:16px auto}
+.book{position:absolute;width:clamp(115px,15vw,215px);aspect-ratio:2/3;object-fit:cover;border:1px solid #aa8a5870;box-shadow:18px 25px 45px #0009;cursor:pointer;transition:left .8s cubic-bezier(.2,.8,.2,1),top .8s cubic-bezier(.2,.8,.2,1),width .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1),opacity .6s,filter .5s;animation:float 6s ease-in-out infinite}.book:nth-of-type(2n){animation-duration:7.2s}.book:nth-of-type(3n){animation-duration:8.1s}@keyframes float{50%{translate:0 -12px}}
+.cue{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#70685d;font-size:.55rem;letter-spacing:.25em;text-transform:uppercase}.cue:after{content:"↓";display:block;text-align:center;font-size:1rem;animation:pulse 2.4s infinite}@keyframes pulse{50%{transform:translateY(5px);opacity:1}0%,100%{opacity:.4}}
+.intro{position:absolute;z-index:25;right:9%;top:50%;width:min(460px,43vw);transform:translate(30px,-50%);opacity:0;pointer-events:none;transition:.75s}.intro .meta{color:var(--gold);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase}.intro h2{font:400 clamp(2.8rem,5vw,5.6rem)/.9 Georgia,serif;letter-spacing:-.045em;margin:12px 0 18px}.intro p{color:var(--muted);font-size:.88rem;line-height:1.8}.actions{display:flex;gap:16px;align-items:center;margin-top:25px}.open{border:1px solid #705d41;color:#dfcfb3;text-decoration:none;padding:11px 17px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}.reset{border:0;background:none;color:#70685d;font-size:.64rem;text-transform:uppercase;cursor:pointer}
+.selected .book{opacity:.1;filter:blur(1px);pointer-events:none;animation:none}.selected .book.active{opacity:1;filter:none;z-index:20;width:min(300px,28vw);left:16%!important;top:50%!important;transform:translateY(-50%) rotate(-3deg)!important;box-shadow:30px 42px 75px #000b}.selected .intro{opacity:1;transform:translate(0,-50%);pointer-events:auto}.selected .title{opacity:.12}
+@media(max-width:800px){.top{padding:17px 18px}.title{top:12%}.title h1{font-size:clamp(2.5rem,12vw,4rem)}.title p{display:none}.book{width:105px}.selected .book.active{width:min(190px,48vw);left:50%!important;top:34%!important;transform:translate(-50%,-50%) rotate(-3deg)!important}.intro{left:18px;right:18px;bottom:7%;top:auto;width:auto;text-align:center;transform:translateY(25px)}.selected .intro{transform:translateY(0)}.intro h2{font-size:clamp(2.2rem,10vw,3.5rem);margin:9px 0}.intro p{font-size:.74rem;line-height:1.55;margin:auto;max-width:430px}.actions{justify-content:center;margin-top:14px}.open{padding:10px 14px;font-size:.62rem}}
+@media(max-width:480px){.book{width:88px}.selected .book.active{width:175px;top:33%!important}.intro h2{font-size:2.15rem}.intro p{font-size:.71rem}}
+@media(prefers-reduced-motion:reduce){.book,.cue:after{animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">Lumyriel · teste</div><a class="back" href="index.html">Voltar à biblioteca</a></header>
+<section class="stage" id="stage">
+<div class="title"><div class="eyebrow">Biblioteca Lumyrieliana</div><h1>Escolha um livro.</h1><p>Os livros aguardam no espaço. Escolha aquele que deseja conhecer.</p></div>
+<div class="cue">descubra</div><div class="intro" id="intro"></div>
+</section>
+<script>
+const books=[
+['filho','O Filho da Montanha','Romance','assets/covers/o-filho-da-montanha.webp','reader.html?book=filho&v=0&intro=1','O romance de abertura de Lumyriel e ponto de entrada para a trajetória de Helior.'],
+['tempos','Os Livros dos Tempos','História cosmológica','assets/covers/os-livros-dos-tempos.webp','reader.html?book=tempos&v=0&intro=1','A história cosmológica de Lumyriel, organizada como memória de eras, povos e acontecimentos.'],
+['magia','Artes Mágicas Lumyrielianas','Livro didático','assets/covers/artes-magicas-lumyrielianas.webp','reader.html?book=magia&v=0&intro=1','O estudo das artes mágicas, seus fundamentos, limites, riscos e formas de investigação.'],
+['biologia','Biologia Lumyrieliana','Livro didático','assets/covers/biologia-lumyrieliana.webp','biology-reader.html?v=0&mode=intro','Vida, anatomia, espécies, ecologia e coerência biológica do mundo.'],
+['matematica','Matemática e Física Lumyrieliana','Livro didático','assets/covers/matematica-lumyrieliana.webp','reader.html?book=matematica&v=0&intro=1','Matemática e física usadas para compreender e modelar os fenômenos de Lumyriel.'],
+['narrar','Narrar Mundos Vivos','Guia','assets/covers/narrar-mundos-vivos.webp','narrar-reader.html?ch=0','Um método desenvolvido a partir de Lumyriel para construir narrativas de mundos vivos.']
+];
+const pos=[[9,31,-11],[27,62,5],[47,35,7],[64,62,-6],[77,29,10],[89,57,-8]],stage=document.getElementById('stage'),intro=document.getElementById('intro');
+books.forEach((b,i)=>{const x=document.createElement('img');x.className='book';x.dataset.key=b[0];x.src=b[3];x.alt=b[1];x.style.left=pos[i][0]+'%';x.style.top=pos[i][1]+'%';x.style.transform='translate(-50%,-50%) rotate('+pos[i][2]+'deg)';x.style.animationDelay=(-i*.65)+'s';x.onclick=()=>selectBook(b[0]);stage.appendChild(x)});
+function selectBook(key){const b=books.find(x=>x[0]===key),a=stage.querySelector('[data-key="'+key+'"]');stage.classList.add('selected');stage.querySelectorAll('.book').forEach(x=>x.classList.toggle('active',x===a));intro.innerHTML='<div class="meta">'+b[2]+'</div><h2>'+b[1]+'</h2><p>'+b[5]+'</p><div class="actions"><a class="open" href="'+b[4]+'">Abrir livro</a><button class="reset">Escolher outro</button></div>';intro.querySelector('.reset').onclick=reset}
+function reset(){stage.classList.remove('selected');stage.querySelectorAll('.book').forEach(x=>x.classList.remove('active'));intro.innerHTML=''}
+</script>
+</body></html>
