@@ -13,7 +13,7 @@ window.LUMYRIEL_CONFIG = {
 };
 
 (() => {
-  const SITE_VERSION = '20261003-4';
+  const SITE_VERSION = '20261007-1';
   const versioned = src => `${src}${src.includes('?') ? '&' : '?'}v=${SITE_VERSION}`;
 
   function load(src, next) {
@@ -65,7 +65,10 @@ window.LUMYRIEL_CONFIG = {
     load('assets/site-catalog.js', () => {
       fixRpgProjectCovers();
       load('assets/construindo-site-integration.js');
-      if (document.getElementById('libraryGrid')) load('assets/magic-site-integration.js');
+      if (document.getElementById('libraryGrid')) {
+        load('assets/magic-site-integration.js');
+        load('assets/narrar-site-integration.js');
+      }
       if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js');
     });
   } else if (document.getElementById('rpg-preview')) {
