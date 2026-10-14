@@ -27,6 +27,23 @@
     if(bottom)bottom.innerHTML='<span>14 volumes · edição de leitura</span><span class="textlink">Ler coleção →</span>';
     return true;
   }
+  function addAvailableRead(){
+    const reads=document.querySelector('#destaque .available-reads');
+    if(!reads)return false;
+    const existing=[...reads.querySelectorAll('a')].filter(a=>a.querySelector('b')?.textContent.trim()==='Construindo Mundos');
+    let link=existing.shift();
+    existing.forEach(a=>a.remove());
+    if(!link){link=document.createElement('a');reads.appendChild(link)}
+    link.href='construindo-reader.html?v=0&intro=1';
+    link.dataset.construindoIntegral='true';
+    link.innerHTML='<b>Construindo Mundos</b><small>Coleção Integral · 14 volumes</small>';
+    return true;
+  }
+  addAvailableRead();
+  requestAnimationFrame(addAvailableRead);
+  window.addEventListener('load',addAvailableRead,{once:true});
+  setTimeout(addAvailableRead,500);
+  setTimeout(addAvailableRead,1500);
   if(!apply()){
     let tries=0;const timer=setInterval(()=>{tries++;if(apply()||tries>30)clearInterval(timer)},100);
   }
