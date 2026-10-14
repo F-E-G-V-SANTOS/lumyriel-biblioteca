@@ -53,7 +53,7 @@
   function loadBookNavigation() {
     if (document.querySelector('script[data-lumyriel-book-navigation]')) return;
     const script = document.createElement('script');
-    script.src = 'assets/book-navigation.js?v=20261003-1';
+    script.src = 'assets/book-navigation.js?v=20261014-4';
     script.defer = true;
     script.dataset.lumyrielBookNavigation = '1';
     document.head.appendChild(script);
