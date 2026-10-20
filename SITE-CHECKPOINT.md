@@ -173,3 +173,15 @@ A auditoria vigente é `ARQUIVO-VISUAL-AUDIT.md` v1.4.
 5. classificar cada imagem como `APROVAR`, `CORRIGIR` ou `NÃO PUBLICAR COMO CÂNONE` antes de acrescentá-la à galeria.
 
 Regra de preservação: não sobrescrever originais durante a revisão; manter fonte e versão corrigida separadas até aprovação autoral.
+
+
+## 2026-10-20 — Os Livros dos Tempos v7.5
+
+- Autorização: atualizar o site com o DAT v7.5 enviado pelo autor ao GitHub.
+- Leitor principal e recuperação passam a carregar `books/Os_Livros_dos_Tempos_v7.5.dat`; arquivo antigo preservado.
+- Catálogo, navegação e status passam a informar 54 livros, 285 capítulos e edição v7.5.
+- Sete coleções e 8.054 unidades numeradas; abertura sem o exemplo da mulher.
+- SHA-256 do DAT: `a4492b976d3b067d6bb9d134f07133f60bc139ea1d778e8ce18ac058ddffeda2`.
+- Links `reader.html?book=tempos` mantidos; início pela nota editorial nas rotas do catálogo.
+- A publicação do conteúdo no Pages é verificada após o commit; os registros anteriores são históricos.
+- Corrigido também um erro de sintaxe preexistente no separador de `mathIntroText`, que impedia a inicialização do leitor principal e acionava a recuperação.

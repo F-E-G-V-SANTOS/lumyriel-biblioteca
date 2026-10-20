@@ -42,7 +42,7 @@ Confirmar também que estes ativos respondem:
 - `assets/covers/os-livros-dos-tempos.webp`
 - `assets/covers/livro-das-artes-magicas.webp`
 - `books/lmy-odm-b13.dat`
-- `books/lmy-olt-b1.dat`
+- `books/Os_Livros_dos_Tempos_v7.5.dat`
 
 ## Teste funcional
 
@@ -54,7 +54,7 @@ Confirmar também que estes ativos respondem:
 
 ### Leitor
 - Livro 1 abre com 16 capítulos;
-- Livros dos Tempos abre com 7 coleções e 54 livros;
+- Livros dos Tempos abre na edição v7.5, com 7 coleções, 54 livros e 285 capítulos;
 - troca de capítulo funciona;
 - memória de leitura funciona após fechar e reabrir;
 - `Continuar leitura` retoma a obra correta.

@@ -1,7 +1,7 @@
 /* Recuperação do leitor: entra somente se o script principal não inicializar. */
 (() => {
   'use strict';
-  const PATHS={filho:'books/lmy-odm-b13.dat',tempos:'books/lmy-olt-b1.dat',magia:'books/lmy-aml-b1.dat',matematica:'books/lmy-mfl-rc1.dat'};
+  const PATHS={filho:'books/lmy-odm-b13.dat',tempos:'books/Os_Livros_dos_Tempos_v7.5.dat',magia:'books/lmy-aml-b1.dat',matematica:'books/lmy-mfl-rc1.dat'};
   const q=new URLSearchParams(location.search),id=PATHS[q.get('book')]?q.get('book'):'filho';
   const paper=document.getElementById('paper'),inner=document.getElementById('paperInner'),list=document.getElementById('chapterList'),hierarchy=document.getElementById('hierarchy'),progress=document.getElementById('progress'),pageCount=document.getElementById('pageCount'),selector=document.getElementById('bookSelector');
   if(!paper||!inner)return;

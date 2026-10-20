@@ -11,11 +11,15 @@
       "public_reading": true
     },
     "os-livros-dos-tempos": {
-      "edition": "Beta 1 · Base Editorial v1.0",
+      "edition": "Edição Literária Integral v7.5",
       "collections": 7,
       "books": 54,
-      "chapters": 1074,
-      "public_reading": true
+      "chapters": 285,
+      "public_reading": true,
+      "paragraphs": 8054,
+      "reader_payload": "books/Os_Livros_dos_Tempos_v7.5.dat",
+      "updated_at": "2026-10-20",
+      "payload_sha256": "a4492b976d3b067d6bb9d134f07133f60bc139ea1d778e8ce18ac058ddffeda2"
     },
     "livro-das-artes-magicas": {
       "architecture": "v0.4",
