@@ -29,7 +29,7 @@ Abrir diretamente:
 
 - `index.html`
 - `reader.html?book=filho&ch=0`
-- `reader.html?book=tempos&note=1`
+- `reader.html?book=tempos&c=0&b=0&ch=0`
 - `character-creator.html`
 - `privacy.html`
 - `site-status.json`

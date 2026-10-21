@@ -185,3 +185,12 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Links `reader.html?book=tempos` mantidos; início pela nota editorial nas rotas do catálogo.
 - A publicação do conteúdo no Pages é verificada após o commit; os registros anteriores são históricos.
 - Corrigido também um erro de sintaxe preexistente no separador de `mathIntroText`, que impedia a inicialização do leitor principal e acionava a recuperação.
+
+
+## 2026-10-20 — Abertura direta de Os Livros dos Tempos
+
+- Por pedido do autor, o site deixa de exibir a página separada de Nota Editorial.
+- O slogan aparece uma vez sob “Palavras de quem entrega estas folhas”, antes do texto de entrega.
+- Catálogo e seletores apontam para o primeiro capítulo. Links antigos com `note=1` abrem o início e passam à URL normal.
+- O leitor de recuperação recebe a mesma epígrafe.
+- O DAT v7.5 permanece idêntico: a união acontece na apresentação do site, preservando a fonte e os 8.054 IDs.

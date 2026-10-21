@@ -66,7 +66,7 @@ window.LUMYRIEL_CONFIG = {
       fixRpgProjectCovers();
       load('assets/construindo-site-integration.js');
       if (document.getElementById('libraryGrid')) {
-        load('assets/magic-site-integration.js');
+        load('assets/magic-site-integration.js?v=20261020-olt-opening');
         load('assets/narrar-site-integration.js');
       }
       if (document.getElementById('rpg-preview')) load('assets/rpg-books-showcase.js');

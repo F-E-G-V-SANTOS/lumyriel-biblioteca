@@ -19,7 +19,9 @@
       "paragraphs": 8054,
       "reader_payload": "books/Os_Livros_dos_Tempos_v7.5.dat",
       "updated_at": "2026-10-20",
-      "payload_sha256": "a4492b976d3b067d6bb9d134f07133f60bc139ea1d778e8ce18ac058ddffeda2"
+      "payload_sha256": "a4492b976d3b067d6bb9d134f07133f60bc139ea1d778e8ce18ac058ddffeda2",
+      "opening": "Palavras de quem entrega estas folhas, com slogan como epígrafe",
+      "separate_editorial_page": false
     },
     "livro-das-artes-magicas": {
       "architecture": "v0.4",

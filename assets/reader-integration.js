@@ -6,7 +6,7 @@
 
   const routes={
     filho:'reader.html?book=filho&v=0&intro=1',
-    tempos:'reader.html?book=tempos&note=1',
+    tempos:'reader.html?book=tempos&c=0&b=0&ch=0',
     magia:'reader.html?book=magia&v=0&intro=1',
     matematica:'reader.html?book=matematica&v=0&intro=1',
     biologia:'biology-reader.html?v=0&mode=intro',
