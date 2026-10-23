@@ -6,9 +6,14 @@
   "build_required": false,
   "books": {
     "o-filho-da-montanha": {
-      "edition": "Beta 13 · Base v1.19",
+      "edition": "Beta 14 · Base v1.19-R2",
       "chapters": 16,
-      "public_reading": true
+      "public_reading": true,
+      "reader_payload": "books/lmy-odm-b14.dat",
+      "reader_qa": "books/lmy-odm-b14.qa.json",
+      "previous_payload": "books/lmy-odm-b13.dat",
+      "published_at": "2026-10-23",
+      "source_document_id": "1G0HiwtkrO8liJlV6iAXxjl124Ce3HeqZUJakTM-w6Tg"
     },
     "os-livros-dos-tempos": {
       "edition": "Edição Literária Integral v7.5",

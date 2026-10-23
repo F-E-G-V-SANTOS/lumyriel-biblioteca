@@ -1,0 +1,112 @@
+{
+  "schema": "lumyriel-narrative-dat-qa-v1",
+  "book_id": "filho",
+  "edition": "Beta 14 · Base v1.19-R2",
+  "source_document_id": "1G0HiwtkrO8liJlV6iAXxjl124Ce3HeqZUJakTM-w6Tg",
+  "source_revision_id": "AHj4eMRYdhzCp6WxIlXh_o55J3_hw7Cj8DKubhfLOVrTJohiwrqCiVxklaCWTq2C7EXjnEt353s_Wry6VYq2gXwTUPiZpOonlSOTcIu874s",
+  "created_at": "2026-10-23",
+  "source": "Google Docs — prova textual v1.19-R2",
+  "conversion": "UTF-8 JSON -> Base64, preserving lines and punctuation; CRLF normalized to LF, chapter delimiter line break stripped",
+  "roundtrip": "PASS",
+  "chapter_title_comparison": "PASS",
+  "chapter_body_comparison": "PASS",
+  "chapters": [
+    {
+      "number": "I",
+      "title": "O Ferreiro da Montanha",
+      "characters": 95218,
+      "lines": 996
+    },
+    {
+      "number": "II",
+      "title": "O Segundo Aviso",
+      "characters": 51544,
+      "lines": 876
+    },
+    {
+      "number": "III",
+      "title": "Um Hóspede na Montanha",
+      "characters": 43360,
+      "lines": 988
+    },
+    {
+      "number": "IV",
+      "title": "O Primeiro Passo",
+      "characters": 28479,
+      "lines": 985
+    },
+    {
+      "number": "V",
+      "title": "A Estrada de Volta",
+      "characters": 44031,
+      "lines": 1325
+    },
+    {
+      "number": "VI",
+      "title": "A Estrada para Valdren",
+      "characters": 25872,
+      "lines": 910
+    },
+    {
+      "number": "VII",
+      "title": "O Oitavo Segundo",
+      "characters": 24955,
+      "lines": 985
+    },
+    {
+      "number": "VIII",
+      "title": "A Manhã Seguinte",
+      "characters": 17395,
+      "lines": 728
+    },
+    {
+      "number": "IX",
+      "title": "O Outro Lado",
+      "characters": 17812,
+      "lines": 664
+    },
+    {
+      "number": "X",
+      "title": "O Silêncio Mudou",
+      "characters": 12964,
+      "lines": 532
+    },
+    {
+      "number": "XI",
+      "title": "Antes de Seguir",
+      "characters": 17612,
+      "lines": 649
+    },
+    {
+      "number": "XII",
+      "title": "Quando Quiser",
+      "characters": 14872,
+      "lines": 508
+    },
+    {
+      "number": "XIII",
+      "title": "O Nome",
+      "characters": 13947,
+      "lines": 521
+    },
+    {
+      "number": "XIV",
+      "title": "A Porta Que Não Abriu",
+      "characters": 10381,
+      "lines": 349
+    },
+    {
+      "number": "XV",
+      "title": "A Última Linha",
+      "characters": 12060,
+      "lines": 444
+    },
+    {
+      "number": "XVI",
+      "title": "O Som Fica Para Trás",
+      "characters": 13934,
+      "lines": 500
+    }
+  ],
+  "legacy_payload_preserved": "books/lmy-odm-b13.dat"
+}
