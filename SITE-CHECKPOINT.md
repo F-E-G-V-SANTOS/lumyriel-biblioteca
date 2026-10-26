@@ -206,3 +206,10 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Títulos expositivos derivados dos nomes fornecidos; olho sem nome identificado como estudo ocular de Rhevar. Não se cria lore nem topônimo.
 - Grade construída diretamente pelo manifesto, com carregamento preguiçoso; imagem completa só é solicitada ao abrir o visualizador existente.
 - Próximos lotes históricos e reconstruções continuam separados, aguardando seleção autoral explícita.
+
+
+## 2026-10-26 — Correção da escala das miniaturas
+
+- Relato autoral confirmado nos screenshots: miniaturas estreitas e excessivamente altas.
+- Causa: atributos de dimensão original combinados com CSS `width:100%` sem `height:auto`; `object-fit:cover` recortava as artes na caixa alta.
+- Correção: altura automática, proporção natural e `contain`; cards alinhados pelo topo da grade. Fontes, miniaturas, manifesto e visualizador completo preservados.

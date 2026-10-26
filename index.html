@@ -224,10 +224,10 @@ section+section{position:relative}
 .rpg-future-card{color:inherit;text-decoration:none}.rpg-cover{background:repeating-linear-gradient(90deg,rgba(46,39,30,.05) 0 1px,transparent 1px 6px),linear-gradient(150deg,#c8b89a,#9f8a69 58%,#6a5842)!important}
 @media(max-width:900px){.rpg-preview-panel{grid-template-columns:1fr}}
 
-.visual-gallery{margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.visual-gallery{margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
 .visual-gallery-card{display:block;border:1px solid #393126;background:#100e0c;padding:8px;text-decoration:none;transition:.18s}.visual-gallery-card:hover{border-color:#6b583d;transform:translateY(-2px)}
-.visual-gallery-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#16130f}
-.visual-gallery-card.portrait img{aspect-ratio:3/4}
+.visual-gallery-card img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#16130f}
+.visual-gallery-card.portrait img{height:auto;aspect-ratio:auto}
 .visual-gallery-meta{padding:10px 4px 5px}.visual-gallery-meta strong{display:block;font:400 1.05rem Georgia,"Times New Roman",serif;color:#e6dac7}.visual-gallery-meta small{color:#8f8679;text-transform:uppercase;letter-spacing:.11em;font-size:.59rem}
 .visual-gallery-state{margin-top:28px;border-top:1px solid #332c22;border-bottom:1px solid #332c22;padding:15px 0;color:#91887b;font-size:.88rem}
 .visual-gallery-note{margin:15px 0 0;color:#7f776d;font-size:.78rem}
