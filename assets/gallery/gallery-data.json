@@ -739,5 +739,41 @@
     "note": "Arte aprovada pelo autor para exposição. Título expositivo; detalhes visuais não estabelecem novos fatos canônicos.",
     "approved_at": "2026-10-26",
     "source_sha256": "dcfa20dba22dbeb5a06d2a5bff39ac249146ce63f07bd7d1cfe60c982a6f3b17"
+  },
+  {
+    "file": "assets/gallery/arvores-flauta/arvore-flauta-viva.webp",
+    "thumbnail": "assets/gallery/arvores-flauta/thumbs/arvore-flauta-viva.webp",
+    "title": "Árvore-Flauta de Brumamata — árvore viva",
+    "category": "flora",
+    "width": 1024,
+    "height": 1536,
+    "canonical_title": false,
+    "note": "Arte aprovada pelo autor. Identidade visual das Árvores-Flauta aprovada nesta conversa; composição expositiva sem criar localidade ou evento canônico.",
+    "approved_at": "2026-10-26",
+    "source_sha256": "4230be3d4a69caac5f55c8416d7d5ba58db3c9ba7b0db47313b5c429d597d7cc"
+  },
+  {
+    "file": "assets/gallery/arvores-flauta/estudo-das-arvores-flauta.webp",
+    "thumbnail": "assets/gallery/arvores-flauta/thumbs/estudo-das-arvores-flauta.webp",
+    "title": "Árvores-Flauta de Brumamata — pesquisa de campo",
+    "category": "flora",
+    "width": 1536,
+    "height": 1024,
+    "canonical_title": false,
+    "note": "Arte aprovada pelo autor. Identidade visual das Árvores-Flauta aprovada nesta conversa; composição expositiva sem criar localidade ou evento canônico.",
+    "approved_at": "2026-10-26",
+    "source_sha256": "8f734be475485853ac6d6e0c638b025dc28c63ca9bf55276a9b21f2419ba36c1"
+  },
+  {
+    "file": "assets/gallery/arvores-flauta/arvore-flauta-caida.webp",
+    "thumbnail": "assets/gallery/arvores-flauta/thumbs/arvore-flauta-caida.webp",
+    "title": "Árvore-Flauta caída — cerne escuro",
+    "category": "flora",
+    "width": 1672,
+    "height": 941,
+    "canonical_title": false,
+    "note": "Arte aprovada pelo autor. Identidade visual das Árvores-Flauta aprovada nesta conversa; composição expositiva sem criar localidade ou evento canônico.",
+    "approved_at": "2026-10-26",
+    "source_sha256": "792fc65a9ceaec254f98399c32c4627605f48520e8ab8d8d7b364e4bded8477c"
   }
 ]

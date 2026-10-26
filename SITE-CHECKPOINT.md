@@ -232,3 +232,12 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Legenda pública e texto alternativo passam a “Pequeno mamífero entre frutos caídos”, sem criar nome de espécie.
 - Arte aprovada preservada. Caminhos técnicos legados mantidos para evitar quebrar links; não são identificação canônica.
 - Registro restrito à exposição do site; não foi feita alteração silenciosa nas bíblias.
+
+
+## 2026-10-26 — Árvores-Flauta de Brumamata
+
+- Publicação explicitamente autorizada pelo autor: árvore viva, pesquisa de campo e árvore caída.
+- Três fontes aprovadas; originais preservados; exposição em Flora e fungos.
+- WebP sem perdas com pixels RGB verificados; miniaturas de até 640 px sem recorte.
+- Manifesto ampliado de 65 para 68 artes, preservando todas as entradas anteriores.
+- Casca clara, copa dourada, frutos negros e cavidades de tamanhos variados seguem a referência visual aprovada; não foram alteradas bíblias ou outras frentes.
