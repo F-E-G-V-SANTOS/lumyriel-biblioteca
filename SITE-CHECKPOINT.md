@@ -224,3 +224,11 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Classificação editorial não modifica cânone, títulos ou arquivos de imagem.
 
 - QA da organização: filtro Flora exibe oito artes; visualizador circula de 1/8 a 8/8 dentro da coleção; Estudos exibe uma arte; Todas restaura os oito blocos. Proporção explícita por imagem reserva altura antes do carregamento preguiçoso, evitando saltos.
+
+
+## 2026-10-26 — Identificação visual de Verdelume corrigida
+
+- Decisão autoral explícita: Verdelume é uma variação de vagalume, não o mamífero anteriormente identificado na galeria.
+- Legenda pública e texto alternativo passam a “Pequeno mamífero entre frutos caídos”, sem criar nome de espécie.
+- Arte aprovada preservada. Caminhos técnicos legados mantidos para evitar quebrar links; não são identificação canônica.
+- Registro restrito à exposição do site; não foi feita alteração silenciosa nas bíblias.
