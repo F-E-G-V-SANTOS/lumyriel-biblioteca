@@ -90,3 +90,10 @@ Cada imagem deverá terminar em uma destas classes:
 ## Regra preservada
 
 Somente tratamento e correção dos originais. Nenhuma arte nova é criada para preencher lacunas. Originais e versões corrigidas permanecem separados até aprovação autoral.
+
+
+## Atualização autoral de 26/10/2026 — Dois novos packs aprovados
+
+A instrução atual do autor autoriza incluir as 41 imagens de `imagens para o site.rar` e as 11 de `imagens aprovadas.rar`. Esta aprovação é específica desses arquivos e sucede a ordem histórica de espera para ampliação, sem aprovar as pranchas retidas nem o RAR de protótipos.
+
+Os 52 itens estão separados em diretório próprio, com SHA-256 de procedência no manifesto, títulos expositivos e cópias de exibição sem perdas. Os originais e as peças em revisão canônica permanecem preservados. A aprovação é visual/expositiva e não transforma detalhe arquitetônico ou título descritivo em regra canônica.

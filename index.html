@@ -316,19 +316,19 @@ section+section{position:relative}
 
   <section id="artes" class="art-section"><div class="shell">
     <div class="art-intro">
-      <div><div class="section-kicker"><span>05</span><div class="eyebrow">Arquivo visual</div></div><h2>Arquivo visual em desenvolvimento</h2></div>
-      <p>Esta seção permanece em desenvolvimento. Artes conceituais, cartografia e documentos só serão publicados quando houver seleção, contexto e função editorial definidos.</p>
+      <div><div class="section-kicker"><span>05</span><div class="eyebrow">Arquivo visual</div></div><h2>Paisagens e histórias de Lumyriel</h2></div>
+      <p>Explore uma seleção de artes aprovadas pelo autor: cidades, paisagens, criaturas, flora e cenas do mundo de Lumyriel.</p>
     </div>
 
     <div class="visual-archive">
       <div class="visual-archive-copy">
-        <strong>Acervo em curadoria</strong>
-        <p>Personagens, lugares, criaturas, mapas, pranchas e outros registros visuais ainda estão em curadoria. Nenhum material será publicado apenas para preencher a página; cada coleção precisa ter contexto e função editorial definidos.</p>
+        <strong>Uma janela para Lumyriel</strong>
+        <p>Das pequenas formas de vida às cidades e aos lugares mais remotos, cada imagem apresenta um recorte do mundo. Toque ou clique em uma arte para vê-la completa e percorrer a coleção.</p>
       </div>
-      <div class="visual-archive-index" aria-label="Coleções futuras do arquivo visual">
+      <div class="visual-archive-index" aria-label="Temas do arquivo visual">
         <div class="visual-archive-row"><b>Arte conceitual</b><span>Personagens, lugares, criaturas, objetos e cenas aprovadas para exibição pública.</span></div>
-        <div class="visual-archive-row"><b>Cartografia</b><span>Mapas e atlas publicados sem confundir documento técnico com ilustração.</span></div>
-        <div class="visual-archive-row"><b>Documentos</b><span>Pranchas, estudos e registros visuais com valor para compreender a construção do mundo.</span></div>
+        <div class="visual-archive-row"><b>Natureza</b><span>Fauna, flora e habitats que dão vida às paisagens de Lumyriel.</span></div>
+        <div class="visual-archive-row"><b>Lugares</b><span>Cidades, ruínas e paisagens selecionadas para conhecer o mundo pela imagem.</span></div>
       </div>
     </div>
     <div class="visual-gallery-state" id="visualGalleryState">Primeiro lote visual em preparação para publicação.</div>
@@ -401,26 +401,23 @@ async function loadVisualArchive(){
     const response=await fetch('assets/gallery/gallery-data.json',{cache:'no-store'});
     if(!response.ok)throw new Error('Índice visual indisponível');
     const items=await response.json();
-    const checks=await Promise.all(items.map(item=>new Promise(resolve=>{
-      const probe=new Image();
-      probe.onload=()=>resolve({item,ok:true,w:probe.naturalWidth,h:probe.naturalHeight});
-      probe.onerror=()=>resolve({item,ok:false});
-      probe.src=item.file;
-    })));
-    const available=checks.filter(x=>x.ok);
+    const available=items.filter(item=>item.file&&item.title);
     if(!available.length){stateEl.textContent='Primeiro lote visual em preparação para publicação.';return}
     root.innerHTML='';
-    available.forEach(x=>{
+    const fragment=document.createDocumentFragment();
+    available.forEach(item=>{
       const a=document.createElement('a');
-      a.className='visual-gallery-card'+(x.h>x.w?' portrait':'');
-      a.href=x.item.file;a.target='_blank';a.rel='noopener';
-      const img=document.createElement('img');img.src=x.item.file;img.loading='lazy';img.alt=x.item.title;
+      a.className='visual-gallery-card'+(item.height>item.width?' portrait':'');
+      a.href=item.file;a.target='_blank';a.rel='noopener';
+      const img=document.createElement('img');img.src=item.thumbnail||item.file;img.loading='lazy';img.decoding='async';img.alt=item.title;
+      if(item.width&&item.height){img.width=item.width;img.height=item.height;}
       const meta=document.createElement('div');meta.className='visual-gallery-meta';
-      const strong=document.createElement('strong');strong.textContent=x.item.title;
-      const small=document.createElement('small');small.textContent=x.item.category;
-      meta.append(strong,small);a.append(img,meta);root.appendChild(a);
+      const strong=document.createElement('strong');strong.textContent=item.title;
+      const small=document.createElement('small');small.textContent=item.category;
+      meta.append(strong,small);a.append(img,meta);fragment.appendChild(a);
     });
-    stateEl.textContent=available.length+' registro'+(available.length===1?' visual publicado.':' registros visuais publicados.');
+    root.appendChild(fragment);
+    stateEl.textContent=available.length+(available.length===1?' registro visual publicado.':' registros visuais publicados.');
   }catch(err){stateEl.textContent='Arquivo visual em preparação.'}
 }
 loadVisualArchive();

@@ -194,3 +194,15 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Catálogo e seletores apontam para o primeiro capítulo. Links antigos com `note=1` abrem o início e passam à URL normal.
 - O leitor de recuperação recebe a mesma epígrafe.
 - O DAT v7.5 permanece idêntico: a união acontece na apresentação do site, preservando a fonte e os 8.054 IDs.
+
+
+## 2026-10-26 — Ampliação do Arquivo Visual aprovada pelo autor
+
+- Frente: SITE-ARQUIVO-VISUAL; inclusão explicitamente autorizada nesta conversa.
+- Fontes: `imagens para o site.rar` (41 imagens) e `imagens aprovadas.rar` (11 imagens).
+- 52 fontes únicas por SHA-256; nenhum protótipo do RAR histórico foi incluído por inferência.
+- 13 registros anteriores preservados; manifesto passa a 65 registros.
+- Novas artes em `assets/gallery/aprovadas-2026-10/`, WebP sem perdas, dimensões e pixels RGB conferidos contra as fontes. Miniaturas separadas de até 640 px para a grade móvel.
+- Títulos expositivos derivados dos nomes fornecidos; olho sem nome identificado como estudo ocular de Rhevar. Não se cria lore nem topônimo.
+- Grade construída diretamente pelo manifesto, com carregamento preguiçoso; imagem completa só é solicitada ao abrir o visualizador existente.
+- Próximos lotes históricos e reconstruções continuam separados, aguardando seleção autoral explícita.
