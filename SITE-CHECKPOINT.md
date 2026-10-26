@@ -213,3 +213,12 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Relato autoral confirmado nos screenshots: miniaturas estreitas e excessivamente altas.
 - Causa: atributos de dimensão original combinados com CSS `width:100%` sem `height:auto`; `object-fit:cover` recortava as artes na caixa alta.
 - Correção: altura automática, proporção natural e `contain`; cards alinhados pelo topo da grade. Fontes, miniaturas, manifesto e visualizador completo preservados.
+
+
+## 2026-10-26 — Curadoria por coleções
+
+- Pedido autoral: organizar a exposição por tipo, evitando uma pasta de fotos misturadas.
+- 65 artes preservadas em oito coleções expositivas: Paisagens; Cidades e cotidiano; Ruínas e mistérios; Criaturas; Flora e fungos; Personagens; Cenas e aventuras; Estudos visuais.
+- Visão Todas apresenta blocos com título e descrição; botões filtram uma coleção com contagem e estado acessível.
+- Visualizador percorre somente as artes da coleção visível. Proporção natural e miniaturas sob demanda preservadas.
+- Classificação editorial não modifica cânone, títulos ou arquivos de imagem.

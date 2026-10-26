@@ -224,15 +224,22 @@ section+section{position:relative}
 .rpg-future-card{color:inherit;text-decoration:none}.rpg-cover{background:repeating-linear-gradient(90deg,rgba(46,39,30,.05) 0 1px,transparent 1px 6px),linear-gradient(150deg,#c8b89a,#9f8a69 58%,#6a5842)!important}
 @media(max-width:900px){.rpg-preview-panel{grid-template-columns:1fr}}
 
-.visual-gallery{margin-top:32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.visual-gallery{margin-top:28px}
+.visual-collection{margin:0 0 42px}.visual-collection[hidden]{display:none!important}
+.visual-collection-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid #393126;margin-bottom:10px;padding-bottom:10px}
+.visual-collection-head h3{font:400 1.65rem Georgia,"Times New Roman",serif;color:#e6dac7;margin:0}
+.visual-collection-count{font-size:.75rem;color:#a69781}.visual-collection-description{color:#a69a88;font-size:.9rem;margin:0 0 18px}
+.visual-collection-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.visual-filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.visual-filter{font:inherit;font-size:.85rem;border:1px solid #51432f;border-radius:3px;background:#15120e;color:#c8bca8;padding:10px 14px;cursor:pointer;min-height:44px}
+.visual-filter:hover,.visual-filter:focus-visible{border-color:#c4a76f;color:#f3e5cd}.visual-filter[aria-pressed="true"]{background:#c4a76f;border-color:#c4a76f;color:#15120e}.visual-filter span{margin-left:6px;font-size:.75rem;opacity:.75}
 .visual-gallery-card{display:block;border:1px solid #393126;background:#100e0c;padding:8px;text-decoration:none;transition:.18s}.visual-gallery-card:hover{border-color:#6b583d;transform:translateY(-2px)}
 .visual-gallery-card img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#16130f}
 .visual-gallery-card.portrait img{height:auto;aspect-ratio:auto}
 .visual-gallery-meta{padding:10px 4px 5px}.visual-gallery-meta strong{display:block;font:400 1.05rem Georgia,"Times New Roman",serif;color:#e6dac7}.visual-gallery-meta small{color:#8f8679;text-transform:uppercase;letter-spacing:.11em;font-size:.59rem}
 .visual-gallery-state{margin-top:28px;border-top:1px solid #332c22;border-bottom:1px solid #332c22;padding:15px 0;color:#91887b;font-size:.88rem}
 .visual-gallery-note{margin:15px 0 0;color:#7f776d;font-size:.78rem}
-@media(max-width:900px){.visual-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){.visual-gallery{grid-template-columns:1fr}}
+@media(max-width:900px){.visual-collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.visual-collection-grid{grid-template-columns:1fr}.visual-filter{padding:10px 12px}.visual-collection-head h3{font-size:1.4rem}}
 </style>
   <link rel="stylesheet" href="assets/support-widget.css" />
 </head>
@@ -331,7 +338,8 @@ section+section{position:relative}
         <div class="visual-archive-row"><b>Lugares</b><span>Cidades, ruínas e paisagens selecionadas para conhecer o mundo pela imagem.</span></div>
       </div>
     </div>
-    <div class="visual-gallery-state" id="visualGalleryState">Primeiro lote visual em preparação para publicação.</div>
+    <div class="visual-filters" id="visualGalleryFilters" role="group" aria-label="Filtrar artes por coleção"></div>
+    <div class="visual-gallery-state" id="visualGalleryState" role="status" aria-live="polite">Primeiro lote visual em preparação para publicação.</div>
     <div class="visual-gallery" id="visualGallery" aria-label="Galeria visual de Lumyriel"></div>
     <p class="visual-gallery-note">Os títulos desta galeria são descrições expositivas e não criam nomes canônicos para lugares, personagens ou acontecimentos.</p>
   </div></section>
@@ -403,21 +411,57 @@ async function loadVisualArchive(){
     const items=await response.json();
     const available=items.filter(item=>item.file&&item.title);
     if(!available.length){stateEl.textContent='Primeiro lote visual em preparação para publicação.';return}
+    const collections=[
+      {id:'paisagens',name:'Paisagens',description:'Biomas, águas, montanhas e horizontes do mundo.'},
+      {id:'cidades',name:'Cidades e cotidiano',description:'Arquitetura, povoamentos e a vida nos lugares habitados.'},
+      {id:'ruinas',name:'Ruínas e mistérios',description:'Vestígios antigos, passagens monumentais e lugares inquietantes.'},
+      {id:'criaturas',name:'Criaturas',description:'Fauna, grandes seres e entidades em seus ambientes.'},
+      {id:'flora',name:'Flora e fungos',description:'Plantas, frutos e a pequena escala da vida vegetal e fúngica.'},
+      {id:'personagens',name:'Personagens',description:'Retratos e estudos de presença, aparência e identidade.'},
+      {id:'cenas',name:'Cenas e aventuras',description:'Encontros, viagens, exploração e momentos narrativos.'},
+      {id:'estudos',name:'Estudos visuais',description:'Detalhes e referências para a construção da linguagem visual.'}
+    ];
     root.innerHTML='';
-    const fragment=document.createDocumentFragment();
-    available.forEach(item=>{
-      const a=document.createElement('a');
-      a.className='visual-gallery-card'+(item.height>item.width?' portrait':'');
-      a.href=item.file;a.target='_blank';a.rel='noopener';
-      const img=document.createElement('img');img.src=item.thumbnail||item.file;img.loading='lazy';img.decoding='async';img.alt=item.title;
-      if(item.width&&item.height){img.width=item.width;img.height=item.height;}
-      const meta=document.createElement('div');meta.className='visual-gallery-meta';
-      const strong=document.createElement('strong');strong.textContent=item.title;
-      const small=document.createElement('small');small.textContent=item.category;
-      meta.append(strong,small);a.append(img,meta);fragment.appendChild(a);
+    const filters=document.getElementById('visualGalleryFilters');filters.innerHTML='';
+    const sections=[];
+    collections.forEach(collection=>{
+      const members=available.filter(item=>item.category===collection.id);
+      if(!members.length)return;
+      const section=document.createElement('div');section.className='visual-collection';section.dataset.collection=collection.id;
+      section.setAttribute('role','region');section.setAttribute('aria-labelledby','visual-collection-'+collection.id);
+      const head=document.createElement('div');head.className='visual-collection-head';
+      const heading=document.createElement('h3');heading.id='visual-collection-'+collection.id;heading.textContent=collection.name;
+      const count=document.createElement('span');count.className='visual-collection-count';count.textContent=members.length+(members.length===1?' arte':' artes');
+      head.append(heading,count);
+      const description=document.createElement('p');description.className='visual-collection-description';description.textContent=collection.description;
+      const grid=document.createElement('div');grid.className='visual-collection-grid';
+      members.forEach(item=>{
+        const a=document.createElement('a');a.className='visual-gallery-card'+(item.height>item.width?' portrait':'');
+        a.href=item.file;a.target='_blank';a.rel='noopener';
+        const img=document.createElement('img');img.src=item.thumbnail||item.file;img.loading='lazy';img.decoding='async';img.alt=item.title;
+        if(item.width&&item.height){img.width=item.width;img.height=item.height;}
+        const meta=document.createElement('div');meta.className='visual-gallery-meta';
+        const strong=document.createElement('strong');strong.textContent=item.title;
+        const small=document.createElement('small');small.textContent=collection.name;
+        meta.append(strong,small);a.append(img,meta);grid.appendChild(a);
+      });
+      section.append(head,description,grid);root.appendChild(section);sections.push({collection,section,count:members.length});
     });
-    root.appendChild(fragment);
-    stateEl.textContent=available.length+(available.length===1?' registro visual publicado.':' registros visuais publicados.');
+    let activeCollection='all';
+    function selectCollection(id){
+      activeCollection=id;
+      sections.forEach(x=>{x.section.hidden=id!=='all'&&x.collection.id!==id;});
+      filters.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.collection===id)));
+      const selected=sections.find(x=>x.collection.id===id);
+      stateEl.textContent=selected?selected.collection.name+' · '+selected.count+(selected.count===1?' arte':' artes'):available.length+' artes em '+sections.length+' coleções';
+    }
+    [{id:'all',name:'Todas',count:available.length},...sections.map(x=>({id:x.collection.id,name:x.collection.name,count:x.count}))].forEach(option=>{
+      const button=document.createElement('button');button.type='button';button.className='visual-filter';button.dataset.collection=option.id;
+      button.setAttribute('aria-pressed',String(option.id===activeCollection));button.setAttribute('aria-controls','visualGallery');
+      button.append(document.createTextNode(option.name));const count=document.createElement('span');count.textContent=option.count;count.setAttribute('aria-hidden','true');button.appendChild(count);
+      button.addEventListener('click',()=>selectCollection(option.id));filters.appendChild(button);
+    });
+    selectCollection('all');
   }catch(err){stateEl.textContent='Arquivo visual em preparação.'}
 }
 loadVisualArchive();
