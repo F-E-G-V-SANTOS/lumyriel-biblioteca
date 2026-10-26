@@ -222,3 +222,5 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - Visão Todas apresenta blocos com título e descrição; botões filtram uma coleção com contagem e estado acessível.
 - Visualizador percorre somente as artes da coleção visível. Proporção natural e miniaturas sob demanda preservadas.
 - Classificação editorial não modifica cânone, títulos ou arquivos de imagem.
+
+- QA da organização: filtro Flora exibe oito artes; visualizador circula de 1/8 a 8/8 dentro da coleção; Estudos exibe uma arte; Todas restaura os oito blocos. Proporção explícita por imagem reserva altura antes do carregamento preguiçoso, evitando saltos.
