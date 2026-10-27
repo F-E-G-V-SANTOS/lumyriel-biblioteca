@@ -241,3 +241,15 @@ Regra de preservação: não sobrescrever originais durante a revisão; manter f
 - WebP sem perdas com pixels RGB verificados; miniaturas de até 640 px sem recorte.
 - Manifesto ampliado de 65 para 68 artes, preservando todas as entradas anteriores.
 - Casca clara, copa dourada, frutos negros e cavidades de tamanhos variados seguem a referência visual aprovada; não foram alteradas bíblias ou outras frentes.
+
+
+## 2026-10-27 — Olhos e manifestações aprovados
+
+- Pedido autoral nesta conversa: salvar no site as imagens aprovadas dos estudos oculares.
+- Incluídas 19 imagens: quatro fases do Véu de Vigília, Pupila Radial de Raio, Selo do Véu, Olhos de Sangue, onze estudos humanos adicionais (incluindo roda astral) e o Rhevar de íris em pétalas.
+- Coleção própria “Olhos e manifestações”; 18 imagens humanas e um estudo de Rhevar.
+- Fontes originais preservadas; WebP completos sem perdas, mesmas dimensões e igualdade de pixels RGB verificada; miniaturas independentes até 640 px sem recorte.
+- Manifesto anterior preservado integralmente; nomes, hashes SHA-256 das fontes e aprovação registrados nas novas entradas.
+- Fases 1–4 ordenadas; Roda astral segue EOL-DESP-01. Aprovação visual não atribui novas funções aos demais padrões.
+- Trabalho preparado a partir de main dc61948c6e23bdff76c43f47d3a2a1ee0e11080a em worktree separado, preservando alterações locais anteriores.
+- Não foram publicadas imagens de SOB A PEDRA, estudos sem aprovação identificada ou variantes rejeitadas.

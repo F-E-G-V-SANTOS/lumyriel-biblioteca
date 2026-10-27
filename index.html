@@ -419,6 +419,7 @@ async function loadVisualArchive(){
       {id:'flora',name:'Flora e fungos',description:'Plantas, frutos e a pequena escala da vida vegetal e fúngica.'},
       {id:'personagens',name:'Personagens',description:'Retratos e estudos de presença, aparência e identidade.'},
       {id:'cenas',name:'Cenas e aventuras',description:'Encontros, viagens, exploração e momentos narrativos.'},
+      {id:'olhos',name:'Olhos e manifestações',description:'Fenótipos oculares e fases do Véu de Vigília em estudos aprovados.'},
       {id:'estudos',name:'Estudos visuais',description:'Detalhes e referências para a construção da linguagem visual.'}
     ];
     root.innerHTML='';
@@ -438,7 +439,7 @@ async function loadVisualArchive(){
       members.forEach(item=>{
         const a=document.createElement('a');a.className='visual-gallery-card'+(item.height>item.width?' portrait':'');
         a.href=item.file;a.target='_blank';a.rel='noopener';
-        const img=document.createElement('img');img.src=item.thumbnail||item.file;img.loading='lazy';img.decoding='async';img.alt=item.title;
+        const img=document.createElement('img');img.src=item.thumbnail||item.file;img.loading='lazy';img.decoding='async';img.alt=item.alt||item.title;
         if(item.width&&item.height){img.width=item.width;img.height=item.height;img.style.aspectRatio=item.width+'/'+item.height;}
         const meta=document.createElement('div');meta.className='visual-gallery-meta';
         const strong=document.createElement('strong');strong.textContent=item.title;
