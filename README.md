@@ -8,7 +8,7 @@ O projeto reúne obras de leitura, arquivo visual, Criador de Personagens e ferr
 ## Estado atual
 
 ### Leitura disponível
-- **O Filho da Montanha** — Beta 14 · Base v1.19-R2 · 16 capítulos
+- **O Filho da Montanha** — Beta 15 (teste beta) · Base v1.19-R2 · 16 capítulos
 - **Os Livros dos Tempos** — Beta 1 · Base Editorial v1.0 · 54 livros · 1.074 capítulos
 - **Artes Mágicas Lumyrielianas** — Beta · 6 volumes · leitor nativo
 - **Matemática e Física de Lumyriel** — RC1 · Primeira Edição · 48 capítulos · 8 apêndices
@@ -38,8 +38,10 @@ assets/
   site-config.js            configuração de serviços externos
 
 books/
-  lmy-odm-b14.dat           O Filho da Montanha · Beta 14 · Base v1.19-R2 (edição pública)
-  lmy-odm-b14.qa.json       verificação da conversão dos 16 capítulos
+  lmy-odm-b15.dat           O Filho da Montanha · Beta 15 · versão beta de testes (edição pública)
+  lmy-odm-b15.qa.json       verificação da Beta 15 e dos três ajustes editoriais
+  lmy-odm-b14.dat           Beta 14 anterior · preservada para reversão
+  lmy-odm-b14.qa.json       QA histórico da Beta 14
   lmy-odm-b13.dat           Beta 13 histórica · preservada para reversão
   lmy-olt-b1.dat            Os Livros dos Tempos · conteúdo estático codificado
   lmy-aml-b1.dat            Artes Mágicas Lumyrielianas · conteúdo estático codificado
