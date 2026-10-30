@@ -37,13 +37,13 @@
     }
   } catch { /* Storage unavailable: normal reading links remain available. */ }
 
-  if ($('bookSearch')) {
+  if ($('bookResults')) {
     const cards = [...document.querySelectorAll('[data-book]')];
     const buttons = [...document.querySelectorAll('[data-book-filter]')];
     const wanted = new URLSearchParams(location.search).get('category');
     let category = ['canon','derived'].includes(wanted) ? wanted : 'all';
     function filterBooks() {
-      const query = normalize($('bookSearch').value), status = $('bookStatus').value;
+      const query = '', status = $('bookStatus').value;
       let count = 0;
       for (const card of cards) {
         const show = (category === 'all' || category === card.dataset.category) && (status === 'all' || status === card.dataset.status) && normalize(card.dataset.search).includes(query);
@@ -54,7 +54,7 @@
       $('bookCount').textContent = count + (count === 1 ? ' obra encontrada' : ' obras encontradas');
       $('bookEmpty').hidden = count !== 0;
     }
-    $('bookSearch').addEventListener('input',filterBooks);
+
     $('bookStatus').addEventListener('change',filterBooks);
     buttons.forEach(button => button.addEventListener('click', () => {
       category = button.dataset.bookFilter;
@@ -68,22 +68,6 @@
   if ($('visualGallery')) {
     const cards = [...document.querySelectorAll('[data-art]')], dialog = $('artDialog');
     let filtered = cards, limit = 24, index = 0, trigger = null;
-    const category = $('artCategory'), search = $('artSearch');
-    const queryCategory = new URLSearchParams(location.search).get('category');
-    if([...category.options].some(o => o.value === queryCategory)) category.value = queryCategory;
-    function filterArt(reset = true) {
-      if(reset) limit = 24;
-      const query = normalize(search.value);
-      filtered = cards.filter(card => (category.value === 'all' || card.dataset.category === category.value) && normalize(card.dataset.title).includes(query));
-      const visible = new Set(filtered.slice(0,limit));
-      cards.forEach(card => {card.hidden = !visible.has(card);});
-      $('artCount').textContent = filtered.length ? `${Math.min(limit,filtered.length)} de ${filtered.length} artes` : 'Nenhuma arte encontrada';
-      $('artEmpty').hidden = filtered.length !== 0;
-      $('artMore').hidden = limit >= filtered.length;
-    }
-    search.addEventListener('input',()=>filterArt());
-    category.addEventListener('change',()=>filterArt());
-    $('artMore').addEventListener('click',()=>{limit += 24; filterArt(false);});
     function showArt(next) {
       index = (next + filtered.length) % filtered.length;
       const card = filtered[index];
@@ -102,6 +86,6 @@
     $('artClose').addEventListener('click',()=>dialog.close());
     dialog.addEventListener('keydown',event=>{if(event.key === 'ArrowLeft') showArt(index-1); if(event.key === 'ArrowRight') showArt(index+1);});
     dialog.addEventListener('close',()=>{document.body.style.overflow = ''; $('artFull').removeAttribute('src'); trigger?.focus();});
-    filterArt();
+
   }
 })();
