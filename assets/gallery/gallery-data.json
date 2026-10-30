@@ -1449,5 +1449,18 @@
     "approved_at": "2026-10-27",
     "source_filename": "Olho-jade do Rhevar.png",
     "source_sha256": "b8145321e86b6c9a2230dbd31992568fa5c92391dc3acf39253d746af9f1fad2"
+  },
+  {
+    "file": "assets/gallery/aprovadas-2026-10-30/besouro-agarrador-na-manga.png",
+    "title": "Besouro-agarrador — na manga",
+    "category": "criaturas",
+    "alt": "Pequeno besouro verde com carapaça sulcada e garras firmemente apoiadas na manga de linho, em pintura texturizada.",
+    "width": 1402,
+    "height": 1122,
+    "canonical_title": false,
+    "note": "Referência visual PF-03 aprovada pelo autor. PF-02 rege a especialização aurática; Nerume permanece nome provisório. A imagem não define anatomia ocluída, força quantitativa ou distribuição.",
+    "approved_at": "2026-10-30",
+    "source_filename": "image(3).png",
+    "source_sha256": "4751107700bbc9da2a06db9f1ed2a67dcd7a8ea2c8568230fb4e05cf4ea17b24"
   }
 ]
