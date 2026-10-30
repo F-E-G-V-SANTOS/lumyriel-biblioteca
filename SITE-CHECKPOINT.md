@@ -1,3 +1,26 @@
+# Checkpoint — Modernização da Biblioteca — 30/10/2026
+
+WORKSTREAM_ID: LUMY-SITE-MODERNIZACAO
+CHECKPOINT_ID: CP-LUMY-SITE-MODERNIZACAO-20261030-R1
+OP_KEY: SITE-V3-20261030
+Estado: PREPARED_VERIFIED_LOCAL. Verificar commit e publicação remotos antes de repetir.
+
+Autorização: Filipe aprovou a análise e as sugestões nesta conversa e pediu “vamos fazer isso”. É uma exceção explícita à pausa geral para o site; não altera os ponteiros nem o trabalho do acervo, Atlas ou Livro.
+
+Implementado: catálogo central data/catalog.json e geração estática; home selecionada; biblioteca com busca e categorias; galeria de 122 artes com filtro, lotes de 24 e visualizador; Atlas com link ao visualizador existente (acesso restrito preservado); ferramentas e sobre; imagens responsivas; preferências comuns aos leitores; continuidade de Narrar; cache normal de arquivos estáticos; recuperação sem corrida e sem Beta 13; Construindo Mundos por volume.
+
+Validação: scripts/check-library.py; sete obras abertas no navegador local; volumes I e XIV de Construindo; igualdade profunda dos 14 volumes / 808 capítulos; busca e filtros; galeria e navegação entre artes; preferências de leitura e retorno à home; menu e biblioteca em iframe de 390 px sem overflow horizontal.
+
+Comparação observada da home no desktop: 14 → 4 scripts externos; 135 → 13 imagens; aproximadamente 28.102 → 3.171 px de altura. Estes são indicadores estruturais, não tempos de carregamento. Construindo: manifesto + volume I 94.499 bytes, antes 1.120.588 bytes em segmentos completos; redução aproximada de 91,6%. Capas responsivas adicionadas sem substituir originais.
+
+Fonte anterior para reversão: commit 4ff672c08636795ef445f6029c72a2c4ca379b6a. Nenhum payload anterior removido e nenhum texto de livro alterado. A geração pode ser repetida com python scripts/build-library.py. Conferir python scripts/check-library.py antes de publicar.
+
+Limites: não foi executado Lighthouse, não há dados de campo de Core Web Vitals e o layout móvel não foi validado em aparelho físico. Próximo gate: observar a versão publicada, conferir em celular real e refinar apenas falhas ou escolhas visuais observadas. Não migrar o site para outra hospedagem nem publicar o Atlas como público.
+
+---
+
+## Histórico anterior (pode conter estados superados)
+
 # Lumyriel Site — Checkpoint
 
 Estado consolidado em 02/10/2026 após a migração nativa de Artes Mágicas, evolução do Criador de Personagens, revisão do leitor, nova interface viva da home e publicação de **Matemática e Física de Lumyriel — RC1**.

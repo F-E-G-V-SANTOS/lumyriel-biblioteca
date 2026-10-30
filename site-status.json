@@ -1,7 +1,7 @@
 {
   "site": "Biblioteca Lumyrieliana",
   "release": "alpha",
-  "release_id": "alpha-2026-10-02",
+  "release_id": "alpha-2026-10-30-library-v3",
   "static_site": true,
   "build_required": false,
   "books": {
@@ -16,7 +16,10 @@
       "source_document_id": "1hrrehcfvebVxfm1pbgw_L3lfpJnpK_vyIHYFv_JGJVk",
       "source_revision_id": "AHj4eMQgangFHEVAFRFPRsUV_NQ77ijGUHvON-WmPVkOrS3T5nsYrSQ8FJyWu0JKEbzuiCC0vNTCQpY_cVCgHa3qxnd4azuJ8bs4VzM2slo",
       "release_stage": "beta-test",
-      "editorial_status": "Versão beta de testes; não é edição definitiva"
+      "editorial_status": "Versão beta de testes; não é edição definitiva",
+      "catalog_id": "filho",
+      "category": "canon",
+      "current_site_edition": "Beta 15"
     },
     "os-livros-dos-tempos": {
       "edition": "Edição Literária Integral v7.5",
@@ -29,12 +32,19 @@
       "updated_at": "2026-10-20",
       "payload_sha256": "a4492b976d3b067d6bb9d134f07133f60bc139ea1d778e8ce18ac058ddffeda2",
       "opening": "Palavras de quem entrega estas folhas, com slogan como epígrafe",
-      "separate_editorial_page": false
+      "separate_editorial_page": false,
+      "catalog_id": "tempos",
+      "category": "canon",
+      "current_site_edition": "Edição v7.5"
     },
     "livro-das-artes-magicas": {
       "architecture": "v0.4",
       "volumes_in_development": "I–IV",
-      "public_reading": false
+      "public_reading": true,
+      "catalog_id": "magia",
+      "reader_payload": "books/lmy-aml-b1.dat",
+      "category": "canon",
+      "current_site_edition": "Beta · RC1"
     },
     "matematica-e-fisica-de-lumyriel": {
       "edition": "RC1 · Primeira Edição",
@@ -43,7 +53,11 @@
       "appendices": 8,
       "reader_sections": 14,
       "public_reading": true,
-      "reader_loading": "split-on-demand"
+      "reader_loading": "split-on-demand",
+      "catalog_id": "matematica",
+      "reader_payload": "books/lmy-mfl-rc1.dat",
+      "category": "canon",
+      "current_site_edition": "Primeira Edição · RC1"
     },
     "biologia-de-lumyriel": {
       "edition": "RC1 · Primeira Edição",
@@ -55,10 +69,13 @@
       "reader": "biology-reader.html",
       "reader_payload": "books/lmy-bio-rc1.dat",
       "reader_qa": "books/lmy-bio-rc1.qa.json",
-      "pdf_web_equivalence": "PASS"
+      "pdf_web_equivalence": "PASS",
+      "catalog_id": "biologia",
+      "category": "canon",
+      "current_site_edition": "Primeira Edição · RC1"
     },
     "construindo-mundos": {
-      "edition": "Volume V · Edição Final v1.0",
+      "edition": "Coleção Integral · edição de leitura online v1.0",
       "published_volumes": 1,
       "current_volume": "V — Vida Cotidiana",
       "parts": 10,
@@ -67,10 +84,20 @@
       "pages": 290,
       "public_reading": true,
       "reader": "construindo-reader.html",
-      "reader_payload": "books/lmy-cm-v05.dat",
+      "reader_payload": "books/cm-volumes/manifest.json",
       "reader_qa": "books/lmy-cm-v05.qa.json",
       "reader_loading": "segmented-gzip-base64",
-      "pdf_web_equivalence": "PASS"
+      "pdf_web_equivalence": "PASS",
+      "catalog_id": "construindo",
+      "category": "derived",
+      "current_site_edition": "Coleção Integral"
+    },
+    "narrar-mundos-vivos": {
+      "catalog_id": "narrar",
+      "public_reading": true,
+      "reader_payload": "books/lmy-nmv-b1.dat",
+      "category": "derived",
+      "current_site_edition": "Primeira Edição"
     }
   },
   "character_creator": {
@@ -152,5 +179,23 @@
     "collections": 8,
     "organization": "grouped collections with filters",
     "viewer_navigation": "visible collection only"
+  },
+  "catalog_source": "data/catalog.json",
+  "source_generation": "python scripts/build-library.py",
+  "modernization": {
+    "date": "2026-10-30",
+    "workstream": "LUMY-SITE-MODERNIZACAO",
+    "pages": [
+      "index.html",
+      "biblioteca.html",
+      "galeria.html",
+      "atlas.html",
+      "ferramentas.html",
+      "sobre.html"
+    ],
+    "readers": "7 works verified in local browser",
+    "cm_integrity": "14 volumes / 808 chapters equal to original",
+    "performance_scope": "structural and file-size checks; no Lighthouse or field Core Web Vitals",
+    "mobile_scope": "390px iframe layout; not a physical-device test"
   }
 }

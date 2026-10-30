@@ -4,16 +4,9 @@
   const selector=document.getElementById('bookSelector');
   if(!selector)return;
 
-  const routes={
-    filho:'reader.html?book=filho&v=0&intro=1',
-    tempos:'reader.html?book=tempos&c=0&b=0&ch=0',
-    magia:'reader.html?book=magia&v=0&intro=1',
-    matematica:'reader.html?book=matematica&v=0&intro=1',
-    biologia:'biology-reader.html?v=0&mode=intro',
-    narrar:'narrar-reader.html?ch=0'
-  };
+  const routes=Object.fromEntries((window.LUMYRIEL_CATALOG?.books||[]).map(book=>[book.id,book.url]));
 
-  const options={biologia:'Biologia de Lumyriel',matematica:'Matemática e Física de Lumyriel',narrar:'Narrar Mundos Vivos'};
+  const options={construindo:'Construindo Mundos',biologia:'Biologia de Lumyriel',matematica:'Matemática e Física de Lumyriel',narrar:'Narrar Mundos Vivos'};
   Object.entries(options).forEach(([value,label])=>{
     if(selector.querySelector(`option[value="${value}"]`))return;
     const option=document.createElement('option');option.value=value;option.textContent=label;selector.appendChild(option);

@@ -13,6 +13,7 @@ window.LUMYRIEL_CONFIG = {
 };
 
 (() => {
+  if (document.body.hasAttribute('data-library-v3')) return;
   const SITE_VERSION = '20261007-1';
   const versioned = src => `${src}${src.includes('?') ? '&' : '?'}v=${SITE_VERSION}`;
 
