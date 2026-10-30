@@ -12,7 +12,7 @@
     const option=document.createElement('option');option.value=value;option.textContent=label;selector.appendChild(option);
   });
 
-  const currentBook=location.pathname.endsWith('biology-reader.html')?'biologia':location.pathname.endsWith('narrar-reader.html')?'narrar':(new URLSearchParams(location.search).get('book')||'filho');
+  const currentBook=location.pathname.endsWith('construindo-reader.html')?'construindo':location.pathname.endsWith('biology-reader.html')?'biologia':location.pathname.endsWith('narrar-reader.html')?'narrar':(new URLSearchParams(location.search).get('book')||'filho');
   const cover=(window.LUMYRIEL_COVERS||{})[currentBook];
   const sideCover=document.getElementById('sideCover');
   if(sideCover&&cover){sideCover.style.setProperty('background-image',`url("${cover}?v=20261003-2")`,'important');sideCover.style.setProperty('background-size','cover','important');sideCover.style.setProperty('background-position','center','important');sideCover.style.setProperty('background-repeat','no-repeat','important')}
